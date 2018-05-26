@@ -1,0 +1,676 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JAVA," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="java GCGC需要考虑的三个问题：  哪些内存需要回收 何时回收  如何回收  对这三个问题的解决，也是本文的叙述顺序  1、哪些内存需要回收–可达分析算法来判断：   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java垃圾收集">
+<meta property="og:url" content="http://www.appleieye.com/2018/01/05/java GC/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="java GCGC需要考虑的三个问题：  哪些内存需要回收 何时回收  如何回收  对这三个问题的解决，也是本文的叙述顺序  1、哪些内存需要回收–可达分析算法来判断：   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2018-01-05T07:38:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java垃圾收集">
+<meta name="twitter:description" content="java GCGC需要考虑的三个问题：  哪些内存需要回收 何时回收  如何回收  对这三个问题的解决，也是本文的叙述顺序  1、哪些内存需要回收–可达分析算法来判断：   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2018/01/05/java GC/"/>
+
+  <title> java垃圾收集 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                java垃圾收集
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-01-05T15:38:58+08:00" content="2018-01-05">
+              2018-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>GC需要考虑的三个问题：</p>
+<ol>
+<li>哪些内存需要回收</li>
+<li>何时回收 </li>
+<li>如何回收</li>
+</ol>
+<p>对这三个问题的解决，也是本文的叙述顺序</p>
+<hr>
+<p>1、哪些内存需要回收–可达分析算法来判断：<br>   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。<br>   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径称为引用链。当一个对象到GC Roots没有任何引用链，也就是从GC Roots到这个对象不可达，则证明此对象时不可用的，由此判定这些对象是可回收的对象。<br>   可作为GC Roots的对象包括下面几种：</p>
+<blockquote>
+<ul>
+<li>虚拟机栈中（本地变量表）引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中引用的对象</li>
+</ul>
+</blockquote>
+<p>2、何时回收–安全点、安全区域才进行GC：<br>   程序执行时并非在所有的地方都能停下来开始GC，只有到达安全点时才能暂停。<br>3、如何回收：回收算法（理论）+垃圾收集器（实现）：<br>     <strong><em>回收算法</em></strong>：<br>     &gt; <em> 标记清除：<br>     算法分为两个阶段：标记（可达分析算法）和清除。它有两个不足：一个是效率问题，标记和清除这两个过程效率都不高；第二个是空间问题，会产生空间碎片。空间碎片太多可能会导致以后分配大对象时，无法找到足够内存而不得不提前触发另一次垃圾收集动作。<br>     &gt; </em> 复制：将内存一分为二，每次只使用其中一块。当一块用完后，就将上面还存活的对象复制到另一块上，然后将使用过的内存一次性的回收。<br>     优点：实现简单，运行高效<br>     缺点：内存缩小为原来的一半，代价高昂<br>     用于回收新生代对象<br>     &gt; <em> 标记整理：标记阶段与‘标记-清除’方法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都移动到一端，然后直接清理掉端边界以外的内存。<br>     &gt; </em> 分代收集算法：将java堆分为新生代和老年代，新生代采用复制算法，而老年代采用标记-清除或标记整理算法。</p>
+<p><strong><em>垃圾收集器</em></strong>:</p>
+<blockquote>
+<ul>
+<li>Serial收集器：<br>  最基本的、发展历史最悠久的<strong>新生代</strong>收集器；单线程，工作时会暂停其他所有的工作线程；虚拟机运行在client模式下的默认新生代收集器</li>
+<li>ParNew收集器：<br>   Serial收集器的多线程版本；运行在server模式下虚拟机首选的新生代收集器；除Serial外，唯一的能与CMS收集器配合工作的收集器</li>
+<li>Parallel Scavenge收集器：<br>  新生代收集器；并行多线程；与其他收集器关注用户线程停顿时间不一样，Parallel收集器关注的是吞吐量，吞吐量优先的收集器；Parallel Scavenage收集器提供了两个参数用于精确控制吞吐量，分别是控制最大停顿时间-XX:MaxGCPauseMillis参数以及设置吞吐量大小的-XX:GCTimeRatio；此外，还有一个参数-XX:+UseAdaptiveSizePolicy,这是一个开关参数，当这个参数打开后，就不需要手动指定新生代的大小（-Xmn），Eden与Survivor的比例(-XSS:SurvvivorRatio)、晋升老年代对象大小（-XX：PretenureSizeThreshold）等细节参数了，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大吞吐量，这种调节方式称为GC自适应的调节策略。</li>
+<li>Serial Old收集器：Serial收集器的老年代版本；使用标记-整理算法；clint模式下的虚拟机使用</li>
+<li>Parallel Old收集器：Parallel Scavenage收集器的老年代版本。</li>
+<li>CMS（Concurrent Mark Sweep）收集器:并发标记、低停顿，以获取最短停顿时间为目标，采用标记-清除算法；服务端；老年代。<br>运行过程：</li>
+<li>初始标记：仅标记GC Roots能直接关联到的对象，暂停用户线程</li>
+<li>并发标记：从GC Roots开始对堆中对象进行可达性分析，找出存活的对象，此过程时间较长，但可与用户线程并发执行</li>
+<li>重新标记：修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录。</li>
+<li>并发清除：与用户线程并发执行<br>三个缺点：</li>
+<li>CMS收集器对CPU资源非常敏感</li>
+<li>CMS收集器无法处理浮动的垃圾</li>
+<li>基于标记-清除，会产生空间碎片</li>
+<li>G1收集器：面向服务端；并发与并行；分代收集；空间整合（使用标记-整理）；可预测的停顿，除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不超过N毫秒；<pre><code>使用G1收集器时，Java堆的内存布局就与其他收集器有很大差别，它将整个java堆划分为多个大小相等的独立区域（Region）,虽然还保存着新生代与老年代，但他们不再是物理隔离的了，他们都是一部分Region的集合。
+G1收集器之所以能建立可预测的停顿时间模型，是因为它可以跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region
+过程：前三个过程与CMS收集器过程基本类似
+初始标记
+并发标记
+最终标记
+筛选回收：对各个Region的回收价值和成本进行排序，根据用户制定的GC停顿时间来制定回收计划。
+</code></pre></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag">#JAVA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/05/javaMemory/" rel="next" title="java内存布局">
+                <i class="fa fa-chevron-left"></i> java内存布局
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/05/javaMemory2/" rel="prev" title="java内存分配与回收策略">
+                java内存分配与回收策略 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java-GC"><span class="nav-number">1.</span> <span class="nav-text">java GC</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

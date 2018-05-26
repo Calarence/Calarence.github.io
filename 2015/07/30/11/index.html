@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="响应式设计," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原文出处&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 译文出处:Cola Chain &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 转自伯乐头条    响应式设计方法对开发者非常有用，因为它使我们的内容在各种设备上广为传播。不用保留几个独立版本的网站，也可以摒除诸如缩放和流式布局这些方法的弊端。 本文重点讨论设计师遇到最多的3个响应式设计问题，也会提供一些规避错误的策略。 ##缩放、流式布">
+<meta name="keywords" content="响应式设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="避免3种响应式设计灾祸">
+<meta property="og:url" content="http://www.appleieye.com/2015/07/30/11/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="原文出处&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 译文出处:Cola Chain &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 转自伯乐头条    响应式设计方法对开发者非常有用，因为它使我们的内容在各种设备上广为传播。不用保留几个独立版本的网站，也可以摒除诸如缩放和流式布局这些方法的弊端。 本文重点讨论设计师遇到最多的3个响应式设计问题，也会提供一些规避错误的策略。 ##缩放、流式布">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/001.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/002.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/003.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/004.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/005.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/006.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/007.jpg">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/008.jpg">
+<meta property="og:updated_time" content="2015-07-30T06:38:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="避免3种响应式设计灾祸">
+<meta name="twitter:description" content="原文出处&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 译文出处:Cola Chain &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 转自伯乐头条    响应式设计方法对开发者非常有用，因为它使我们的内容在各种设备上广为传播。不用保留几个独立版本的网站，也可以摒除诸如缩放和流式布局这些方法的弊端。 本文重点讨论设计师遇到最多的3个响应式设计问题，也会提供一些规避错误的策略。 ##缩放、流式布">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2015/07/30/11/"/>
+
+  <title> 避免3种响应式设计灾祸 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                避免3种响应式设计灾祸
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-30T14:38:06+08:00" content="2015-07-30">
+              2015-07-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂文</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://www.webdesignerdepot.com/2015/04/3-responsive-design-disasters-and-how-to-avoid-them/" target="_blank" rel="noopener">原文出处</a>&nbsp;&nbsp;&nbsp;&nbsp; 译文出处:<a href="http://colachan.com/post/3436" target="_blank" rel="noopener">Cola Chain</a> &nbsp;&nbsp;&nbsp;&nbsp; 转自<a href="http://www.jobbole.com/" target="_blank" rel="noopener">伯乐头条</a></p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/001.jpg" alt="此处输入图片的描述"></p>
+<p>  响应式设计方法对开发者非常有用，因为它使我们的内容在各种设备上广为传播。不用保留几个独立版本的网站，也可以摒除诸如缩放和流式布局这些方法的弊端。</p>
+<p>本文重点讨论设计师遇到最多的3个响应式设计问题，也会提供一些规避错误的策略。</p>
+<p>##缩放、流式布局与响应式<br>这些术语容易造成混淆，设计师常常错误地交替互用。实际上，每个都是布局技巧的显著进化过程，像技术演进那样逐一显现。</p>
+<p>缩放布局，旨在相对缩放每一个元素。它们会随着窗口大小变化动态缩放内容，就这方面而言，它们是响应式的。布局本身保持静止，通过改变每一个元素来保持一致的表现。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/002.jpg" alt="不同分辨率下缩放布局"><br><strong>上图：不同分辨率下缩放布局的例子，这种设计为了统一牺牲了易读性。</strong></p>
+<p>流式布局就不一样，因为它们随着窗口尺寸缩放容器元素。通过em这类相对单位可以做到这点，克服了缩小文字的问题。用户主动缩放时，设计就被破坏了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/003.jpg" alt="不同分辨率下流式布局"><br><strong>上图：不同分辨率下流式布局的例子，这种设计为了易读性牺牲了统一。</strong></p>
+<p>响应式设计不会缩放任何东西。相反，它会根据窗口尺寸决定显示哪些内容<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/004.jpg" alt="不同分辨率下响应式布局"><br><strong>上图：不同分辨率下响应式布局的例子</strong></p>
+<p>##灾祸1：菜单折行<br>如果在页面顶部使用了导航栏，当页面展现在小屏幕上时，响应式设计通常会把它“掰”成更紧凑的格式，但这并非总是有效，如果显示区域比断点更宽，又不足以在一行显示所有菜单项的话。结果会导致菜单的折行</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/005.jpg" alt="此处输入图片的描述"></p>
+<p>有些方法可以解决这个问题。其一，减少导航栏中横排菜单项的数量，将它们分门别类。然后选中某类时，你可以通过下拉菜单来显示子类。</p>
+<p>其二，减少断点的数值。应该以导航栏开始出问题的实际数值为准，而非具体设备尺寸。</p>
+<p>其三，不同设备使用不同方式，例如滑动抽屉。</p>
+<p>##灾祸2：使用固定宽度图片<br>内容区域通常都随窗口尺寸变化。所以当固定宽度图片超出显示区域时，图片就被裁剪了。</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/006.jpg" alt="此处输入图片的描述"><br><strong>上图：糟糕的固定宽度图片例子，它太大了。于是出现了滚动条，内容被推到屏幕之外。</strong></p>
+<p>通过给图片设定相对单位，可以避免这个问题。或者使用支持响应式的框架（比如Bootstrap），使用响应式图片class名来控制（例如class=”img-responsive”）。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/007.jpg" alt="此处输入图片的描述"><br><strong>上图：同样的元素，用响应式图片class名的方式，滚动条就不见了</strong></p>
+<p>##灾祸3：元素的扭曲<br>这有点晦涩难懂，但本质上，布局显示在小窗口上的时候，所有未经处理的列都会以行的形式呈现。这是个问题，因为内容的扭曲会不经意地改变设计的层级。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/008.jpg" alt="此处输入图片的描述"><br><strong>上图：列变成了行，扭曲了内容。</strong></p>
+<p>解决方法显而易见，但令人惊奇的是，仍有很多人在纠结它：只要明确地设定元素的宽度、高度、内边距。如果它移出所处位置，盖住了其他元素，可以通过将它包裹在div容器中，设置外边距，迫使它回到原本的地方。</p>
+<p>规划有助于避免问题<br>本文只讨论了3种最普遍遇到的响应式设计灾祸，还有很多其他途径会毁了一个好的设计。预防错误并不难。现代浏览器都有内置的响应式布局测试，好好规划设计，多做测试。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/响应式设计/" rel="tag">#响应式设计</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/29/nodeCode/" rel="next" title="node编码规范">
+                <i class="fa fa-chevron-left"></i> node编码规范
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/30/noname/" rel="prev" title="MYSQL中replace into的用法">
+                MYSQL中replace into的用法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

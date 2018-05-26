@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JAVA," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="#java内存大概分为以下几个区域：   程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。     虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java内存布局">
+<meta property="og:url" content="http://www.appleieye.com/2018/01/05/javaMemory/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="#java内存大概分为以下几个区域：   程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。     虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png">
+<meta property="og:updated_time" content="2018-01-05T02:41:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java内存布局">
+<meta name="twitter:description" content="#java内存大概分为以下几个区域：   程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。     虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2018/01/05/javaMemory/"/>
+
+  <title> java内存布局 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                java内存布局
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-01-05T10:41:42+08:00" content="2018-01-05">
+              2018-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#java内存大概分为以下几个区域：</p>
+<blockquote>
+<ul>
+<li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li>
+<li>堆：用于存储对象实例以及数组。线程共享</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol>
+<li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li>
+</ol>
+<pre><code>    import java.util.ArrayList;
+    import java.util.List;
+    public class HeapOOM {
+    static class OOMObject{
+
+    }
+    public static void main(String[] args) {
+     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();
+    while(true){
+        list.add(new OOMObject());
+    }
+     }
+   } }
+
+运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError
+运行结果：java.lang.OutOfMemoryError: Java heap space
+          Dumping heap to java_pid2644.hprof ...
+          Hep dump file created [28079521  bytes in 0.104 secs]
+</code></pre><ol start="2">
+<li>虚拟机栈和本地方法栈溢出<br>原理：<pre><code>&gt; * 使用-Xss减少栈内存容量
+&gt; * 定义大量的本地变量，增大此方法帧中本地变量表的长度
+</code></pre></li>
+</ol>
+<p>代码如下：</p>
+<pre><code>public class JavaVMStackSOF {
+
+private int statckLength = 1;
+
+public void stackLeak() {
+    statckLength++;
+    stackLeak();
+}
+
+public static void main(String[] args) throws Throwable {
+    JavaVMStackSOF oom = new JavaVMStackSOF();
+    try {
+        oom.stackLeak();
+    } catch (Throwable e) {
+        System.out.println(&quot;statck length:&quot; + oom.statckLength);
+        throw e;
+    }
+
+}
+
+}
+</code></pre><p>运行方式：java -Xss128k JavaVMStackSOF<br>输出结果：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png" alt="此处输入图片的描述"><br>实验结果：在单线程情况下，无论是栈空间太小还是栈帧太大，当内存无法分配的时候，得到的错误都是StackOverflowError异常。<br>多线程下不断地创建线程可引发OutOfMemoryError</p>
+<ol start="3">
+<li><p>方法区和运行时常量池溢出<br><strong>对常量池的测试</strong><br>原理：String.intern()是一个nanative方法，如果字符串常量池中已经包含一个等于此字符串对象的字符串，则返回代表池中这个字符串的Strig对象；否则，将String对象包含的字符串添加到常量池中，并且返回此Strig对象的引用。<br><strong><em>JDK1.6下</em></strong>：<br>示例代码：</p>
+<p> import java.util.ArrayList;<br> import java.util.List;<br> public class RuntimeConstantPoolOOM {<br> public static void main(String[] args) {</p>
+<pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+int i = 0;
+while (true) {
+    list.add(String.valueOf(i++).intern());
+}
+</code></pre><p> }<br> }<br>运行方式：java -XX:PermSize=10M -XX:MaxPermSize=10M<br>输出结果：Exception in thread “main” java.lang.OutOfMemoryError：PermGen space</p>
+<pre><code>at java.lang.String.intern(Native Method)
+</code></pre></li>
+</ol>
+<p>注意：在JDK1.7下，该程序将一直进行下去。原因是intern方法在JDK1.7中发生了改变。intern方法不再复制实例，只是在常量池中记录首次出现的实例引用。</p>
+<p> <strong><em>对方法区的测试</em></strong><br>    原理：方法区用于存放Class的相关信息，如类名，访问修饰符、方法、接口、字段。基本思路是运行时产生大量的类去填满方法区，直到溢出。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag">#JAVA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/04/jvm/" rel="next" title="java内存布局">
+                <i class="fa fa-chevron-left"></i> java内存布局
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/05/java GC/" rel="prev" title="java垃圾收集">
+                java垃圾收集 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OutOfMemeoryError实战"><span class="nav-number">1.</span> <span class="nav-text">OutOfMemeoryError实战</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

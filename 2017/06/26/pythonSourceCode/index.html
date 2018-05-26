@@ -1,0 +1,664 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="###python总体架构：如图python整体架构可分为三部分：   最左边包括python提供的Modules、Library以及用户自定义的模块； 右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python源码剖析读书笔记一--python源码剖析">
+<meta property="og:url" content="http://www.appleieye.com/2017/06/26/pythonSourceCode/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="###python总体架构：如图python整体架构可分为三部分：   最左边包括python提供的Modules、Library以及用户自定义的模块； 右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/python%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png">
+<meta property="og:updated_time" content="2017-06-26T08:33:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python源码剖析读书笔记一--python源码剖析">
+<meta name="twitter:description" content="###python总体架构：如图python整体架构可分为三部分：   最左边包括python提供的Modules、Library以及用户自定义的模块； 右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/python%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2017/06/26/pythonSourceCode/"/>
+
+  <title> python源码剖析读书笔记一--python源码剖析 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python源码剖析读书笔记一--python源码剖析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-06-26T16:33:42+08:00" content="2017-06-26">
+              2017-06-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>###python总体架构：<br>如图python整体架构可分为三部分：</p>
+<blockquote>
+<ul>
+<li>最左边包括python提供的Modules、Library以及用户自定义的模块；</li>
+<li>右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包括了python中的各种内建对象，比如整数、list、dict，以及用户自定义的类型和对象</li>
+<li>中间部分是python核心。Scanner对应词法分析，将文件输入的Python源代码或从命令行输入的一行行python代码切分为一个个的token；parser对应语法分析，在scanner的分析结果上进行语法分析，建立抽象语法树；compiler根据建立的AST生成指令集合–python字节码；最后由Code Evaluator来执行这些字节码。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png" alt="此处输入图片的描述"></li>
+</ul>
+</blockquote>
+<hr>
+<p>###python源码结构（以python2.5为例）<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png" alt="此处输入图片的描述"></p>
+<blockquote>
+<ul>
+<li>Include：该目录下包含了python提供的所有头文件，如果用户需要自己用C或C++来编写自定义模块拓展python，那么就需要用到这里提供的头文件。</li>
+<li>Lib: 该目录下包好了python自带的所有标准库，Lib中的库都是用Python语言编写的。</li>
+<li>Modules:该目录中包含了所有用C语言编写的模块，如random、cStringIO等。Modules中的模块都是那些对速度要求非常严格的模块，而有一些对速度没有太严格要求的模块，如os，就用python编写，放在Lib目录下</li>
+<li>Parser: 该目录包括了python解释器中的Scanner和Parser，即对Python源代码进行词法分析和语法分析的部分。除此之外，Parser目录下还包含了一些有用的工具，这些工具能根据python语言的语法自动生成python语言的词法和语法分析器</li>
+<li>Objects: 该目录中包含了所有python的内建对象，如整数、list、dict等。同时，该目录还包含了python在运行时需要的所有的内部使用对象的实现。</li>
+<li>python：该目录下包含了python解释器中的Compiler和执行引擎部分，是python运行的核心所在</li>
+</ul>
+</blockquote>
+<hr>
+<p>关于编译器与解释b性语言器：<br>将编程语言编译成机器码有两种传统方法：使用编译器（compiler）预先编译，或者使用解释器（interpreter）一边编译一边运行。</p>
+<blockquote>
+<ul>
+<li>编译器的工作方式是，通过编译程序直接将我们的源代码翻译成当前系统环境下CPU可执行的机器码，下次只需要执行这些翻译完成后的机器代码即可。<br>这种方式的好处是执行效率非常高，因为我们最终生成的程序与直接用0、 1写的程序并没有 太大的区别。但是这种方式的缺点就是可移植性很差， 很显然不能把在 Windows 系统下编译 连接成的EXE文件拿到Linux系统中去执行，Xcode编译的 App也只能在iOS和OSX系统中运行。</li>
+<li>解释器的工作方式是将代码一句一句解释给CPU执行。解释器不会一次把整个程序翻译出来，而只像一位“中间人”，每次运行程序时都需要先转成另一种语言再运行，因此解释器的程序运行速度比较缓慢。它每翻译一行程序叙述就立刻运行，然后再翻译下 一行，再运行，如此不停地进行下去。这种方式的一种好处就是平台无关性， 我们只要写出 程序代码， 那么它在任何操作系统、任何环境中都可以执行， 当然代价就是极低的效率。 第二个优点是， 这个“编辑-解释-除错”的循环通常比“编辑-编译-运行-除错”的循环省时许多。</li>
+</ul>
+</blockquote>
+<p>摘自–余果. Web全栈工程师的自我修养 (Kindle 位置 2057-2059). 人民邮电出版社. Kindle 版本. </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/24/PythonFunctin1/" rel="next" title="Python类常用的内置方法">
+                <i class="fa fa-chevron-left"></i> Python类常用的内置方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/28/python6/" rel="prev" title="python源码剖析读书笔记二--python对象初探(下)">
+                python源码剖析读书笔记二--python对象初探(下) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

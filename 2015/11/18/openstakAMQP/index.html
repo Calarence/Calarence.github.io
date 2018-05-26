@@ -1,0 +1,671 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="openstack," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是RabbitMQ？它能做什么？RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮">
+<meta name="keywords" content="openstack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openstack采用的消息协议机制--AMQP(一)">
+<meta property="og:url" content="http://www.appleieye.com/2015/11/18/openstakAMQP/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="什么是RabbitMQ？它能做什么？RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig1.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig2.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig3.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig4.png">
+<meta property="og:updated_time" content="2015-11-18T11:24:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openstack采用的消息协议机制--AMQP(一)">
+<meta name="twitter:description" content="什么是RabbitMQ？它能做什么？RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2015/11/18/openstakAMQP/"/>
+
+  <title> openstack采用的消息协议机制--AMQP(一) | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                openstack采用的消息协议机制--AMQP(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-18T19:24:40+08:00" content="2015-11-18">
+              2015-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li>什么是RabbitMQ？它能做什么？<br>RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮局最大的不同是RabbitMQ处理的不是纸张，而是接收、存储和转发二进制的数据–message</li>
+</ol>
+<hr>
+<p>一般来说，RabbitMQ运行在所有主流的操作系统上，比如windows、Unix、Linux等等，非常容易使用。它也支持大量的开发平台如 Erlang, Java/JVM, Ruby ,Python, Perl , PHP等等</p>
+<hr>
+<p>RabbitMQ建立在高级消息队列协议AMQP之上</p>
+<hr>
+<p>AMQP用来处理publisher和consumer的问题。publisher发布消息，consumer“拾取”消息并对其进行处理。broker（比如RabbitMQ）的工作是确保消息能从publisher到达正确得consumer。exchange和queue者两个组件保证上述目标的实现。下面的例图展示了exchange、queue如何连接publisher和consumer</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig1.png" alt="此处输入图片的描述"><br><strong><em>注意：因为AMQP是一个网络协议，所以publisher、consumer和broker不一定在同一台机器上；绝大多数情况下不需要</em></strong></p>
+<hr>
+<p>queue是邮箱的别名。它存在于RabbitMQ之中。虽然message在RabbitMQ和应用之间流动，但是可以存储在queue中。queue没有被赋予任何的限制，它可以存储你喜欢的任何数量的message–本质上来讲，它是一个无穷缓冲。多个publisher可以发送message，然后进入到一个queue中，多个consumer可以从一个queue中获取消息</p>
+<hr>
+<p>RabbitMQ消息模型的核心点是producer从不会直接发送任何message到queue中。事实上，publisher都不知道message会发送到queue中去</p>
+<hr>
+<p>事实上，publisher只能将message发送到exchange。然后exchange将message copies发送到queue。那么message如何经exchange路由到queue中呢？这是一个好问题。第一，queue必须“拴”到一个给定的exchange。通常来说，consumer创建一个queue，然后同时将其拴到一个exchange上。第二，exchange接收到的message必须与queue相匹配。exchange和queue的关系是binding–绑定</p>
+<hr>
+<p>exchange必须清楚的知道如何处理它所接收到的message。message应该添加到特定的queue中去吗？还是应该添加到多个queue中去？或者message应该被丢弃？exchange type决定了处理message的规则</p>
+<hr>
+<p>有三种exchange type：direct、topic、headers、fanout</p>
+<p>Direct Exchange:direct exchange 根据message routing key将message发送到相应的queue中去。direct exchange是理想化的message单播路由机制</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig2.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>Fanout Exchange:忽略routing key，然后将message发送到绑定到它上面的所有queue。如果N个queue绑定到一个fanout exchange上，当有新的message经过exchange时，message副本会被发送到N个queue中。Fanout exchange是理想化的message广播机制</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig3.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>Topic Exchange：根据queue和exchange之间的绑定的routing key和pattern来讲message路由到一个或多个queue。topic exchange经常被用来实现各种各样的publisher/subscribe模式。Topic exchange被广泛用与message的多播</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig4.png" alt="此处输入图片的描述"></p>
+<ul>
+<li>‘*’可以代替一个单词</li>
+<li>‘#’可以代替零个或多个单词</li>
+</ul>
+<hr>
+<p>Headers Exchange：A headers exchange is designed to for routing on multiple attributes that are more easily expressed as message headers than a routing key. Headers exchanges ignore the routing key attribute. Instead, the attributes used for routing are taken from the headers attribute. A message is considered matching if the value of the header equals the value specified upon binding.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/openstack/" rel="tag">#openstack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/24/jvmMemory/" rel="next" title="5分钟快速入门JVM内存">
+                <i class="fa fa-chevron-left"></i> 5分钟快速入门JVM内存
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/22/gc/" rel="prev" title="垃圾回收算法">
+                垃圾回收算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

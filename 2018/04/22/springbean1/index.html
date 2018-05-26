@@ -1,0 +1,706 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="spring bean装配的三种方式写在前面在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质。 bean装配的三种方式：  在xml中进行显示配置 在java中进行显示配置 隐式的bean发现和自动装配   推荐顺序：优先使用自动配置，显式配置越">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring bean装配的三种方式之自动装配">
+<meta property="og:url" content="http://www.appleieye.com/2018/04/22/springbean1/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="spring bean装配的三种方式写在前面在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质。 bean装配的三种方式：  在xml中进行显示配置 在java中进行显示配置 隐式的bean发现和自动装配   推荐顺序：优先使用自动配置，显式配置越">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2018-04-25T13:12:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring bean装配的三种方式之自动装配">
+<meta name="twitter:description" content="spring bean装配的三种方式写在前面在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质。 bean装配的三种方式：  在xml中进行显示配置 在java中进行显示配置 隐式的bean发现和自动装配   推荐顺序：优先使用自动配置，显式配置越">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2018/04/22/springbean1/"/>
+
+  <title> spring bean装配的三种方式之自动装配 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                spring bean装配的三种方式之自动装配
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T14:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="spring-bean装配的三种方式"><a href="#spring-bean装配的三种方式" class="headerlink" title="spring bean装配的三种方式"></a>spring bean装配的三种方式</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。<strong><em>创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质</em></strong>。</p>
+<h3 id="bean装配的三种方式："><a href="#bean装配的三种方式：" class="headerlink" title="bean装配的三种方式："></a>bean装配的三种方式：</h3><blockquote>
+<ul>
+<li>在xml中进行显示配置</li>
+<li>在java中进行显示配置</li>
+<li>隐式的bean发现和自动装配</li>
+</ul>
+</blockquote>
+<p>推荐顺序：优先使用自动配置，显式配置越少越好；如果非用显示配置，java代码配置要优先于xml配置；最后是xml配置</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个音箱系统(播放古老cd),由两部分组成：播放器(CDPlayer)和CD(compact Disc)。首先，要创建CompactDisc类，然后创建一个CDPlayer类，让spring发现它，并将CompactDisc bean注入进来。</p>
+<h3 id="两个接口"><a href="#两个接口" class="headerlink" title="两个接口"></a>两个接口</h3><pre><code>package com.appleieye.service;
+public interface CompactDisc {
+void play();
+}
+
+package com.appleieye.service;
+public interface MediaPlayer {
+void play();
+}
+</code></pre><h3 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h3><p>spring从两个角度来实现自动装配：<br>    &gt; <em> 组件扫描：spring会自动发现应用上下文中所创建的bean<br>    &gt; </em> 自动装配：spring自动满足bean之间的依赖</p>
+<ol>
+<li><p>组件扫描</p>
+<blockquote>
+<ul>
+<li>创建bean</li>
+<li>启动组件扫描</li>
+</ul>
+</blockquote>
+<p>代码如下：</p>
+<pre><code>//创建bean
+package com.appleieye.maya.api.impl;
+
+import com.appleieye.maya.api.service.CompasticDisc;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SgtPeppers implements CompasticDisc {
+
+private String title = &quot;Sgt. Pepper&apos; s Lonely Hearts Club Band&quot;;
+private String artist = &quot;The Beatles&quot;;
+
+public void play() {
+System.out.println(&quot;Playing &quot; + title +&quot; by &quot; + artist);
+}
+}
+</code></pre><p><strong><em>Component表明该类会作为组件类，并告知spring为该类创建bean</em></strong></p>
+<p>   <strong><em>组件扫描默认是不启用的，需要显式配置spring，从而命令它去寻找带有@Component的类，并为它创建bean</em></strong></p>
+<pre><code>//启动组件扫描
+package com.appleieye.maya.api;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+@Configuration
+@ComponentScan
+public class CDPlayerConfig {
+ }
+</code></pre><p> @ComponentScan注解用于启动组件扫描；如果没有特殊配置的话，@ComponentScan默认会扫描与配置类相同的包，因为CDPlayerConfig位于api这个包下，所以@ComponentScan会扫描API包以及它的子包，这样就能发现SgtPeppers，并为其创建bean。</p>
+</li>
+<li><p>自动装配<br>自动装配就是让Spring自动满足bean依赖的一种方法，在满足依赖的 过程中，会在Spring应用上下文中寻找匹配某个bean需求的其他bean。为了 声明要进行自动装配，我们可以借助Spring的@Autowired 注解。</p>
+</li>
+</ol>
+<p>代码如下：</p>
+<pre><code>package com.appleieye.maya.api.impl;
+
+@Component
+public class CDPlayer implements MediaPlayer {
+
+@Autowired
+private CompasticDisc cd;
+
+public void play() {
+    cd.play();
+}
+}
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/22/springbean2/" rel="next" title="spring bean装配的三种方式之Java代码配置">
+                <i class="fa fa-chevron-left"></i> spring bean装配的三种方式之Java代码配置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/22/springbean3/" rel="prev" title="spring bean装配的三种方式之xml配置">
+                spring bean装配的三种方式之xml配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-bean装配的三种方式"><span class="nav-number">1.</span> <span class="nav-text">spring bean装配的三种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面"><span class="nav-number">2.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bean装配的三种方式："><span class="nav-number">3.</span> <span class="nav-text">bean装配的三种方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">4.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两个接口"><span class="nav-number">5.</span> <span class="nav-text">两个接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动化装配bean"><span class="nav-number">6.</span> <span class="nav-text">自动化装配bean</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

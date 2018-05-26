@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="读书笔记之the-hacker-guide-python一二章," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。  python版本&amp;amp;项目结构&amp;amp;版本号&amp;am">
+<meta name="keywords" content="读书笔记之the-hacker-guide-python一二章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the-hacker-guide-python 一二章读书笔记">
+<meta property="og:url" content="http://www.appleieye.com/2015/11/22/the-hacker-to-python12/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。  python版本&amp;amp;项目结构&amp;amp;版本号&amp;am">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%871.png">
+<meta property="og:updated_time" content="2015-11-22T11:42:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the-hacker-guide-python 一二章读书笔记">
+<meta name="twitter:description" content="听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。  python版本&amp;amp;项目结构&amp;amp;版本号&amp;am">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%871.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2015/11/22/the-hacker-to-python12/"/>
+
+  <title> the-hacker-guide-python 一二章读书笔记 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                the-hacker-guide-python 一二章读书笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T19:42:46+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。</p>
+<hr>
+<p><strong><em>python版本&amp;项目结构&amp;版本号&amp;代码风格和自动检查</em></strong></p>
+<ul>
+<li>版本选择:3.3及以上。2.x与3.x兼容性不是很好，如果想要使用将来的新特性，建议选择3.3版本及以上</li>
+<li><p>项目布局：<img src="http://7pn53u.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%871.png" alt="此处输入图片的描述"></p>
+<ol>
+<li>setup.py:标准python安装脚本，运行时，安装所需的依赖包</li>
+<li>requirements.txt:描述了所需的依赖包，可用pip进行安装</li>
+<li>test-requirements.txt:描述了测试时所依赖的包</li>
+<li>docs:文档，手册</li>
+<li>注意tests目录的位置，不要放到与setup.py同目录下</li>
+<li>etc:配置文件</li>
+<li>tools: shell脚本或相关工具</li>
+<li>bin:二进制脚本，通过setup.py安装,程序启动入口</li>
+</ol>
+</li>
+<li><p>编码规范 and 自动检查工具:pep8、flake8,会对代码进行检测，找出不符合编码规范的行</p>
+</li>
+</ul>
+<hr>
+<p><strong><em>import系统&amp;标准库&amp;扩展库&amp;框架&amp;API变化管理</em></strong></p>
+<ul>
+<li>与import系统相关的模块–sys。可通过sys.modules获取当前已导入的模块。它是一个字典形式，键名为模块名称，值为模块对象；sys.path描述了模块加载路径</li>
+<li><p>标准库：python提供了大量的标准库，当我们在尝试自己写函数来处理简单任务时，首先要检查一下是否已经有相关的库。</p>
+<ul>
+<li><strong>atexit</strong> allows you to register functions to call when your program exits</li>
+<li><strong>argparse</strong> provides functions for parsing command line arguments</li>
+<li><strong>bisect</strong> provides bisection algorithms for sorting lists</li>
+<li><strong>calendar</strong> provides a number of date-related functions</li>
+<li><strong>codecs</strong> provides functions for encoding and decoding data</li>
+<li><strong>collections</strong> provides a variety of useful data structures.</li>
+<li><strong>copy</strong> provides functions for copying data</li>
+<li><strong>csv</strong> provides functions for reading and writing CSV files.</li>
+<li><strong>datetime</strong> provides classes for handling dates and times.</li>
+<li><strong>fnmatch</strong> provides functions for matching Unix-style filename patterns</li>
+<li><strong>glob</strong> provides functions for matching Unix-style path patterns</li>
+<li><strong>io</strong> provides functions for handling I/O streams. In Python 􀇖, it also contains StringIO<br>(which is in the module of the same name in P⁴thon 􀇕), which allows you to treat strings as files</li>
+<li><strong>json</strong> provides functions for reading and writing data in JSON format</li>
+<li><strong>logging</strong> provides access to Python’s own built-in logging functionality</li>
+<li><strong>multiprocessing</strong> allows you to run multiple subprocesses from your application,while providing an API that makes them look like threads.</li>
+<li><strong>operator</strong> provides functions implementing the basic Python operators which you can use instead of having to write your own lambda expressions</li>
+<li><strong>os</strong> provides access to basic OS functions</li>
+<li><strong>random</strong> provides functions for generating pseudo-random numbers</li>
+<li><strong>re</strong> provides regular expression functionality</li>
+<li><strong>select</strong> provides access to the select() and poll() functions for creating event loops</li>
+<li><strong>shutil</strong> provides access to high-level file functions</li>
+<li><strong>signal</strong> provides functions for handling POSIX signals</li>
+<li><strong>tempfile</strong> provides functions for creating temporary files and directories</li>
+<li><strong>threading</strong> provides access to high-level threading functionalit⁴</li>
+<li><strong>urllib</strong>(and urllib2 and urlparse in python 2.x)provides functions for handling and parsing URLs</li>
+<li><strong>uuid</strong> allows you to generate UUIDs (Universally Unique Identifiers).</li>
+</ul>
+</li>
+<li><p>扩展库：作者对使用扩展库的态度是谨慎的，毕竟它不像标准库那么稳定。在书中，作者提出了check list来决定是否使用一个扩展库</p>
+<ul>
+<li>python3 compatibility.Even if you’re not targeting python 3 right now,odds are good that you will somewhere down the line,so it’s a good idea to check that your chosen library is already Python3 -compatible and committed to staying that way</li>
+<li>Active development. GitHub and Ohloh usually provide enough information to determine whether a given library is still being worked on by its maintainers</li>
+<li>Active maintenance. Even if a library is “finished” (i.e. feature-complete), the maintainers should still be working on ensuring it remains bug-free. Check the project’s tracking system to see how quickl⁴ the maintainers respond to bugs</li>
+<li>Packaged with OS distributions. If a library is packaged with major Linux distributions,that means other projects are depending on it – so if something goes wrong, you won’t be the only one complaining. It’s also a good idea to check this if you plan to release your sotware to the public: it’ll be easier to distribute if its dependencies are already installed on the end user’s machine</li>
+<li>API compatibility commitment. Nothing’s worse than having your sotware suddenly break because a librar⁴ it depends on changed its entire API. You might want to check whether your chosen library has had an⁴thing like this happen in the past</li>
+</ul>
+</li>
+<li>对于API的改变，作者提到了模块<strong>warnings</strong>可以提示开发者他们正在使用老的接口，他们应该采取相应措施</li>
+<li>对于框架的选择标准，check list同扩展库</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读书笔记之the-hacker-guide-python一二章/" rel="tag">#读书笔记之the-hacker-guide-python一二章</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/22/openstackAMQP2/" rel="next" title="openstack采用的消息协议机制--AMQP(二)">
+                <i class="fa fa-chevron-left"></i> openstack采用的消息协议机制--AMQP(二)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/22/network/" rel="prev" title="网络部分基本概念">
+                网络部分基本概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

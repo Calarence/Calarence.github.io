@@ -1,0 +1,736 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="###python源码中的PyCodeObject源码如下： 各字段定义如下：    参数 意义      co_argcount 位置参数的个数    co_nlocals 局部变量的个数    co_stacksize 所需要的栈空间    co_flags N/A    co_code 字节码指令序列    co_consts 保存所有常量    co_names     co_varnam">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）">
+<meta property="og:url" content="http://www.appleieye.com/2017/07/26/python2/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="###python源码中的PyCodeObject源码如下： 各字段定义如下：    参数 意义      co_argcount 位置参数的个数    co_nlocals 局部变量的个数    co_stacksize 所需要的栈空间    co_flags N/A    co_code 字节码指令序列    co_consts 保存所有常量    co_names     co_varnam">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/pycwriteobject.png">
+<meta property="og:updated_time" content="2017-07-26T01:13:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）">
+<meta name="twitter:description" content="###python源码中的PyCodeObject源码如下： 各字段定义如下：    参数 意义      co_argcount 位置参数的个数    co_nlocals 局部变量的个数    co_stacksize 所需要的栈空间    co_flags N/A    co_code 字节码指令序列    co_consts 保存所有常量    co_names     co_varnam">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2017/07/26/python2/"/>
+
+  <title> python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上） | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-26T09:13:38+08:00" content="2017-07-26">
+              2017-07-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>###python源码中的PyCodeObject<br>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png" alt="此处输入图片的描述"></p>
+<p>各字段定义如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:right">意义</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>co_argcount</td>
+<td style="text-align:right">位置参数的个数</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_nlocals</td>
+<td style="text-align:right">局部变量的个数</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_stacksize</td>
+<td style="text-align:right">所需要的栈空间</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_flags</td>
+<td style="text-align:right">N/A</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_code</td>
+<td style="text-align:right">字节码指令序列</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_consts</td>
+<td style="text-align:right">保存所有常量</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_names</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_varnames</td>
+<td style="text-align:right">局部变量名集合</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_freevars</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_cellvars</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_filename</td>
+<td style="text-align:right">.py文件的完整路径</td>
+</tr>
+<tr>
+<td>co_name</td>
+<td style="text-align:right">函数名或类名</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_firs</td>
+<td style="text-align:right">tlineno</td>
+<td style="text-align:center">Code Block 在对应的.py文件中起始行</td>
+</tr>
+<tr>
+<td>co_lnotab</td>
+<td style="text-align:right">字节码指令与.pywenj文件中source code行号的对应关系</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>###pyc文件：<br>PyCodeObject对象中都包含了每一个Code Block中所有python源代码经过编译后得到的byte code序列，python会将这些字节码序列和PyCodeObject对象一起存储在pyc文件中。但是并不是每次都会生成pyc文件。</p>
+<blockquote>
+<ul>
+<li>不会生成pyc的情况：某些python程序只是临时完成一些琐碎的工作，可能仅仅运行一次，然后就再也没有用了，所以没必要保存其对应的pyc文件</li>
+<li>需要生成pyc文件的情况：若某个程序需要被重用，比如通过import语句被加载，这时候就需要存储其对应的PyCodeObject对象，生成pyc文件，这样下次python就不会再次进行编译了。这意味着Python的import机制会触发pyc文件的生成，实际上，在python运行过程中，如果碰到import  abc这样的语句，python将到设定好的path中寻找abc.pyc或abc.dll文件，如果没有这些文件，而只是发现了abc.py文件，那么python会首先将abc.py编译成相应的PyCodeObject的中间结果，然后创建abc.pyc文件，并将中间结果写入该文件。jiaxial接下来，python会对abc.pyc进行import的动作。实际上也就是将abc.pyc文件中的PyCodeObject重新在内存中复制出来。</li>
+</ul>
+</blockquote>
+<p>###pyc文件生成过程</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycwriteobject.png" alt="此处输入图片的描述"></p>
+<p> 从write_compiled_module中可以发现，一个pyc文件中实际上包含了三部分独立的信息：magic number、pyc文件创建的时间信息，以及PyCodeObject对象。<br> 过程如下：</p>
+<blockquote>
+<ul>
+<li>首先，python会将pyc_magic这个值写入文件开头。实际上，pyc_magic是python所定义的这个整数值，一般来说，不同版本的Python实现都会定义不同的magic number，用来保证python兼容性。比如说要要防止python2.5的环境加载由python1.5产生的pyc文件，那么只需要将python2.5和python1.5的magic number设为不同的值就可以了，因为python在加载pyc文件时会首先检查这个magic number，如果发现python自身的magic number与待加载的pyc文件中记录的magic number不同，则会拒绝加载不兼容的pyc文件</li>
+<li>写入pyc文件创建的时间信息。在pyc文件中包含时间信息可以使python自动将pyc文件与最新的py文件进行同步。在加载pyc文件中，如果python发现pyc文件的时间早于py文件，会重新编译py文件，生成新的pyc。</li>
+<li>将内存中的PyCodeObject对象写入pyc文件。</li>
+</ul>
+</blockquote>
+<p>在调用PyMarshl_WriteLongToFile时，会直接调用w_long,w_long会将需要写入的数据一个字节一个字节地写入到文件中。而在调用PyMarshal_WriteObjectToFile时，python会借助于另一个辅助的函数w_object来完成将PyCodeObject对象写入到pyc文件中的操作。PyMarshal_WriteObjectToFile的第一个参数是python编译出来的PyCodeObject对象。w_object对应不同的对象，比如string、int、list、dict等，会有不同的写操作，最终是通过基本的w_long、w_string将整个PyCodeObject写入到pyc文件中去的。</p>
+<p>举个例子，python在向pyc写入list对象时，只是将list中所包含的数值或字符串写入pyc文件。同时也意味着，python在加载pyc文件时，必须基于这些数值或字符串重新构造出list对象。这就要求在w_object写入对象之前，先写入TYPE_LIST、TYPE_CODE或者TYPE_INT这样的标识。这些标识对于pyc文件的再次加载具有至关重要的作用。<br>在前面说过，python最终仅仅会将数值和字符串写入到pyc文件中。当PyCodeObject对象写入到pyc文件之后，所有的数据都变成了字节流，类型信息都丢失了。如果没有类型信息，python再次加载pyc文件时，就再也没有办法知道这些字节流隐藏的结构和蕴含的信息了，所以Python必须将对象的类型信息也写入到pyc文件中，这些标识正是python定义的类型信息，如果python在pyc文件中发现 这样的标识，则预示着上一个对象结束，新的对象开始，而且也知道了新对象是什么类型的对象。只有这样，当python加载pyc文件时，加载器才能知道在什么时候应该进行什么样的加载操作。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/20/python1/" rel="next" title="python源码剖析读书笔记--Python程序的执行过程">
+                <i class="fa fa-chevron-left"></i> python源码剖析读书笔记--Python程序的执行过程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/27/python3/" rel="prev" title="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）">
+                python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

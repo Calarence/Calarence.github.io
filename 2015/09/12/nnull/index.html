@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JAVA," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="null 对于Java程序员来说，null是令人头痛的东西。时常会受到空指针异常（NPE）的骚扰。连Java的发明者都承认这是他的一项巨大失误。Java为什么要保留null呢？null出现有一段时间了，并且我认为Java发明者知道null与它解决的问题相比带来了更多的麻烦，但是null仍然陪伴着Java。我越发感到惊奇，因为java的设计原理是为了简化事情，那就是为什么没有浪费时间在指针、操作符重">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有关null的九件事">
+<meta property="og:url" content="http://www.appleieye.com/2015/09/12/nnull/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="null 对于Java程序员来说，null是令人头痛的东西。时常会受到空指针异常（NPE）的骚扰。连Java的发明者都承认这是他的一项巨大失误。Java为什么要保留null呢？null出现有一段时间了，并且我认为Java发明者知道null与它解决的问题相比带来了更多的麻烦，但是null仍然陪伴着Java。我越发感到惊奇，因为java的设计原理是为了简化事情，那就是为什么没有浪费时间在指针、操作符重">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2015-09-12T14:25:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="有关null的九件事">
+<meta name="twitter:description" content="null 对于Java程序员来说，null是令人头痛的东西。时常会受到空指针异常（NPE）的骚扰。连Java的发明者都承认这是他的一项巨大失误。Java为什么要保留null呢？null出现有一段时间了，并且我认为Java发明者知道null与它解决的问题相比带来了更多的麻烦，但是null仍然陪伴着Java。我越发感到惊奇，因为java的设计原理是为了简化事情，那就是为什么没有浪费时间在指针、操作符重">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2015/09/12/nnull/"/>
+
+  <title> 有关null的九件事 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                有关null的九件事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-09-12T22:25:00+08:00" content="2015-09-12">
+              2015-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>null</p>
+<p>对于Java程序员来说，null是令人头痛的东西。时常会受到空指针异常（NPE）的骚扰。连Java的发明者都承认这是他的一项巨大失误。Java为什么要保留null呢？null出现有一段时间了，并且我认为Java发明者知道null与它解决的问题相比带来了更多的麻烦，但是null仍然陪伴着Java。我越发感到惊奇，因为java的设计原理是为了简化事情，那就是为什么没有浪费时间在指针、操作符重载、多继承实现的原因，null却与此正好相反。好吧，我真的不知道这个问题的答案，我知道的是不管null被Java开发者和开源社区如何批评，我们必须与null共同存在。与其为null的存在感到后悔，我们倒不如更好的学习null，确保正确使用null。为什么在Java中需要学习null？因为如果你对null不注意，Java将使你遭受空指针异常的痛苦，并且你也会得到一个沉痛的教训。精力充沛的编程是一门艺术，你的团队、客户和用户将会更加欣赏你。以我的经验来看，导致空指针异常的一个最主要的原因是对Java中null的知识还不够。你们当中的很多已经对null很熟悉了，但是对那些不是很熟悉的来说，可以学到一些关于null老的和新的知识。让我们一起重新学习Java中null的一些重要知识吧！<br>Java中的Null是什么？</p>
+<p>正如我说过的那样，null是Java中一个很重要的概念。null设计初衷是为了表示一些缺失的东西，例如缺失的用户、资源或其他东西。但是，一年后，令人头疼的空指针异常给Java程序员带来不少的骚扰。在这份材料中，我们将学习到Java中null关键字的基本细节，并且探索一些技术来尽可能的减少null的检查以及如何避免恶心的空指针异常。</p>
+<p>1）首先，null是Java中的关键字，像public、static、final。它是大小写敏感的，你不能将null写成Null或NULL，编译器将不能识别他们然后报错</p>
+<p> Object obj = NULL; // Not Ok<br> Object obj1 = null  //Ok</p>
+<p>使用其他语言的程序员可能会有这个问题，但是现在IDE的使用已经使得这个问题变得微不足道。现在，当你敲代码的时候，IDE像Eclipse、Netbeans可以纠正这个错误。但是其他工具像notepad、Vim、Emacs，这个问题却会浪费你宝贵时间的。</p>
+<p>2）就像每种原始类型都有默认值一样，如int默认值为0，boolean的默认值为false，null是任何引用类型的默认值，不严格的说是所有object类型的默认值。就像你创建了一个布尔类型的变量，它将false作为自己的默认值，Java中的任何引用变量将null作为默认值。对所有变量都是适用的，如成员变量、局部变量、实例变量、静态变量（但当你使用一个没有初始化的局部变量，编译器会警告你）。为了证明这个事实，你可以通过创建一个变量然后打印它的值来观察这个引用变量，如下图代码所示：</p>
+<p>private static Object myObj;<br>public static void main(String args[]){<br>System.out.println(“What is value of myObjc : “ + myObj);<br>}</p>
+<p> What is value of myObjc : null</p>
+<p>这对静态和非静态的object来说都是正确的。就像你在这里看到的这样，我将myObj定义为静态引用，所以我可以在主方法里直接使用它。注意主方法是静态方法，不可使用非静态变量</p>
+<p>3）与普通的误解不同，null既不是Object也不是其他的类型。它仅仅是一个特殊的值，可以分配给任何引用类型。你可以将null强制转换成任何类型，如下所示：</p>
+<p>  String str = null; // null can be assigned to String<br>  Integer itr = null; // you can assign null to Integer also<br> Double dbl = null;  // null can also be assigned to Double</p>
+<p> String myStr = (String) null; // null can be type cast to String<br>Integer myItr = (Integer) null; // it can also be type casted to Integer<br> Double myDbl = (Double) null; // yes it’s possible, no error</p>
+<p>你可以看到在编译和运行时期，将null强制转换成任何引用类型都是可行的，在运行时期都不会抛出空指针异常</p>
+<p>4）null可以赋值给引用变量，你不能将null赋给基本类型变量，例如int、double、float、boolean。如果你那样做了，编译器将会报错，如下所示：</p>
+<p>int i = null; // type mismatch : cannot convert from null to int<br>short s = null; //  type mismatch : cannot convert from null to short<br>byte b = null: // type mismatch : cannot convert from null to byte<br>double d = null; //type mismatch : cannot convert from null to double</p>
+<p>Integer itr = null; // this is ok<br>int j = itr; // this is also ok, but NullPointerException at runtime</p>
+<p>正如你看到的那样，当你直接将null赋值给基本类型，会出现编译错误。但是如果将null赋值给包装类object，然后将object赋给各自的基本类型，编译器不会报，但是你将会在运行时期遇到空指针异常。这是Java中的自动拆箱导致的，我们将在下一个要点看到它</p>
+<p>5)任何含有null值的包装类在Java拆箱生成基本数据类型时候都会抛出一个空指针异常。一些程序员犯这样的错误， 他们认为自动装箱会将null转换成各自基本类型的默认值，例如对于int转换成0，布尔类型转换成false，但是那是不正确的，如下面所示<br>Integer iAmNull = null;<br>int i = iAmNull; // Remember - No Compilation Error</p>
+<p>但是当你运行上面的代码片段的时候，你会在控制台上看到主线程抛出空指针异常。在使用HashMap和Integer键值的时候会发生很多这样的错误。当你运行下面代码的时候就会出现错误</p>
+<p>import java.util.HashMap;<br>import java.util.Map;<br> /**</p>
+<ul>
+<li>An example of Autoboxing and NullPointerExcpetion<br>*</li>
+<li>@author WINDOWS 8<br>*/</li>
+</ul>
+<p>public class Test {</p>
+<p>public static void main(String args[]) throws InterruptedException {</p>
+<p>  Map numberAndCount = new HashMap&lt;&gt;();</p>
+<p>  int[] numbers = {3, 5, 7,9, 11, 13, 17, 19, 2, 3, 5, 33, 12, 5};</p>
+<p>  for(int i : numbers){<br>     int count = numberAndCount.get(i);<br>     numberAndCount.put(i, count++); // NullPointerException here<br>  }<br>}</p>
+<p> }</p>
+<p> Output:<br>Exception in thread “main” java.lang.NullPointerException  at Test.main(Test.java:25)</p>
+<p>这段代码看起来非常简单并且没有错误。你所做的一切是找到一个数字在数组中出现了多少次，这是Java数组中典型的寻找重复的技术。开发者首先得到以前的数值，然后在加一，最后把值放回Map里。程序员可能会以为，调用put方法时，自动装箱会自己处理好将int装箱成Interger。但是他忘记了当一个数字没有计数值的时候，get()方法将会返回null，而不是0，因为Integer的默认值是null而不是0。当把null值传递给一个int型变量的时候自动装箱将会返回空指针异常。设想一下，如果这段代码在一个if嵌套里，没有在QA环境下运行，但是你一旦放在生产环境里，BOOM</p>
+<p>6)如果使用了带有null值的引用类型变量，instanceof操作将会返回false</p>
+<p>Integer iAmNull = null;<br>if(iAmNull instanceof Integer){<br> System.out.println(“iAmNull is instance of Integer”);                            </p>
+<p>}else{<br> System.out.println(“iAmNull is NOT an instance of Integer”);<br>}</p>
+<p>这是instanceof操作一个很重要的特性，使得对类型强制转换检查很有用。</p>
+<p>7)你可能知道不能调用非静态方法来使用一个值为null的引用类型变量。它将会抛出空指针异常，但是你可能不知道，你可以使用静态方法来使用一个值为null的引用类型变量。因为静态方法使用静态绑定，不会抛出空指针异常。下面是一个例子</p>
+<p>public class Testing {<br> public static void main(String args[]){<br>  Testing myObject = null;<br>  myObject.iAmStaticMethod();<br>  myObject.iAmNonStaticMethod();<br>}</p>
+<p>private static void iAmStaticMethod(){<br>    System.out.println(“I am static method, can be called by null reference”);<br> }</p>
+<p> private void iAmNonStaticMethod(){<br>System.out.println(“I am NON static method, don’t date to call me by null”);<br> }</p>
+<p>Output:<br> I am static method, can be called by null reference<br>  Exception in thread “main” java.lang.NullPointerException at Testing.main(Testing.java:11)</p>
+<p>8)你可以将null传递给方法使用，这时方法可以接收任何引用类型，例如public void print(Object obj)可以这样调用print(null).从编译角度来看这是可以的，但结果完全取决于方法。Null安全的方法，在这个例子中不会抛出空指针异常，只是优雅的退出。如果业务逻辑允许的话 推荐null安全的方法</p>
+<p>9）你可以使用==或者!=操作来比较null值，但是不能使用其他算法或者逻辑操作，例如小于或者大于。跟SQL不一样，在Java中null==null将返回true</p>
+<p>public class Test {</p>
+<p>public static void main(String args[]) throws InterruptedException {</p>
+<p>   String abc = null;<br>   String cde = null;</p>
+<p>   if(abc == cde){<br>       System.out.println(“null == null is true in Java”);<br>   }</p>
+<p>   if(null != null){<br>       System.out.println(“null != null is false in Java”);<br>   }</p>
+<p>   // classical null check<br>   if(abc == null){<br>       // do something<br>   }</p>
+<p>   // not ok, compile time error<br>   if(abc &gt; null){</p>
+<p>   }<br>}<br> }</p>
+<p>Output：</p>
+<p>null == null is true in Java</p>
+<p>这是关与Java中null的全部。通过Java编程的一些经历和使用简单的技巧来避免空指针异常，你可以是你的代码变得null安全。因为null经常作为空或者未初始化的值，它是困惑的源头，那也是对文档行为来说，规定一个方法的null值输入的重要原因。总而言之，记住，null是任何一个引用类型变量的默认值，在java中你不能调用null引用来调用任何的instance方法或者接收一个instance变量<br>Share</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag">#JAVA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/12/javaclass/" rel="next" title="java类的生命详解">
+                <i class="fa fa-chevron-left"></i> java类的生命详解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/23/cinder-python-sdk1/" rel="prev" title="python sdk编写--cinder相关">
+                python sdk编写--cinder相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

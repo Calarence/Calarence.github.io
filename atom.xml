@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Clarence&#39;s blog</title>
+  <icon>https://www.gravatar.com/avatar/82789e99d7b296a4a46eb14306539a4c</icon>
+  <subtitle>Have the courage to listen to your heart</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.appleieye.com/"/>
+  <updated>2018-05-26T07:52:42.000Z</updated>
+  <id>http://www.appleieye.com/</id>
+  
+  <author>
+    <name>Clarence</name>
+    <email>749826557@qq.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RabbitMQ常用命令</title>
+    <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
+    <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T07:52:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote><ul><li>启动节点：rabbitmq-server</li><li>后台守护进程的方式启动：rabbitmq-server -detached</li><li>停止节点：rabbitmqctl stop</li><li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li><li>停止应用程序 rabbitmqctl stop_app </li><li>启动应用程序 rabbitmqctl start_app</li><li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li><li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li><li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li><li>列出绑定：rabbitmqctl list_bindings</li><li>添加用户: rabbitmqctl add_user username password</li><li>删除用户：rabbitmqctl delete_user </li><li>列出所有用户：rabbitmqctl list_users</li><li>修改密码 rabbitmqctl change_password username newpassword</li><li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li><li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li><li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;RabbitMQ常用命令&quot;&gt;&lt;a href=&quot;#RabbitMQ常用命令&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ常用命令&quot;&gt;&lt;/a&gt;RabbitMQ常用命令&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;启动节点：rabbit
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
+    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T07:50:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springMVC示例之hello world</title>
+    <link href="http://www.appleieye.com/2018/04/30/springMVChello%20world/"/>
+    <id>http://www.appleieye.com/2018/04/30/springMVChello world/</id>
+    <published>2018-04-30T05:58:10.000Z</published>
+    <updated>2018-04-30T03:36:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="springMVC示例之hello-world"><a href="#springMVC示例之hello-world" class="headerlink" title="springMVC示例之hello world"></a>springMVC示例之hello world</h3><h3 id="Spring-MVC对请求的处理流程"><a href="#Spring-MVC对请求的处理流程" class="headerlink" title="Spring MVC对请求的处理流程"></a>Spring MVC对请求的处理流程</h3><p>流程图如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png" alt="springMVC请求处理流程"></p><ol><li>DispatcherServlet称为前端控制器，它根据处理器映射将请求发送给对应的控制器</li><li>处理器映射：记录请求和它对应的控制器</li><li>请求的实际处理者。它将业务逻辑委托给一个或多个服务对象进行处理，产生信息(model)和视图(view), </li><li>控制器将模型数据打包，标注视图名，然后将请求连同模型和数据发送回DispatcherServlet.</li><li>视图解析器将视图名匹配为一个真正的视图，可能是jsp或html</li><li>将模型数据渲染到视图</li><li>返回响应</li></ol><p><strong><em>MVC的核心思想是业务数据抽取与业务数据呈现相分离</em></strong></p><h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC.png" alt="此处输入图片的描述"></h2><h3 id="springMVC-hello-world实现"><a href="#springMVC-hello-world实现" class="headerlink" title="springMVC hello world实现"></a>springMVC hello world实现</h3><ol><li>新建maven spring webapp工程，命名为springMVC</li><li>在pom中添加相关spring依赖</li><li>在web.xml中配置DispatcherServlet</li></ol><pre><code> &lt;!DOCTYPE web-app PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot; &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt; &lt;web-app&gt;    &lt;context-param&gt;        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;        &lt;param-value&gt;classpath:application-context.xml&lt;/param-value&gt;    &lt;/context-param&gt;&lt;listener&gt;     &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;&lt;/listener&gt;&lt;servlet&gt;    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;    &lt;servlet-class&gt;    org.springframework.web.servlet.DispatcherServlet    &lt;/servlet-class&gt;    &lt;init-param&gt;    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;    &lt;param-value&gt;classpath:springMVC-context.xml&lt;/param-value&gt;&lt;/init-param&gt;&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;&lt;/servlet&gt;&lt;servlet-mapping&gt;    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;    &lt;url-pattern&gt;/&lt;/url-pattern&gt;&lt;/servlet-mapping&gt;&lt;/web-app&gt;</code></pre><p>  简单理解该配置文件：</p><blockquote><ul><li>servlet:load-on-startup元素标记容器是否在启动的时候就加载这个servlet，正数值越小，该servlet优先级越高，在容器启动时，就应该越先加载</li><li>servlet映射的是“/”，这表示它会是应用的默认Servlet。 它会处理进入 应用的所有请求</li><li>Spring context:由DispatcherServlet创建，用于加载web组件，如控制器、视图解析器和处理器映射。</li><li>Application context:由ContextLoaderListener创建，用来控制spring全局的特性,它是执行的是spring的上下文，用户加载bean，service，dao，数据库等配置信息</li></ul></blockquote><ol start="4"><li><p>springMVC-context.xml配置</p><blockquote><ul><li>启用spring</li><li>启用组件扫描</li><li>配置视图解析器</li><li>静态资源的处理</li></ul></blockquote><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsdhttp://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsdhttp://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;&lt;!--启用Spring基于annotation的D，使用户可以在spring中使用Spring的强大功能激活@Required @Autowired @PostConstruct @PreDestroy @Resource等标注--&gt;&lt;context:annotation-config /&gt;&lt;!--启用注解--&gt;&lt;mvc:annotation-driven /&gt; &lt;!--组件扫描--&gt;&lt;context:component-scan base-package=&quot;com.appleieye.maya.web.controller&quot; /&gt; &lt;!--视图解析器--&gt; &lt;bean id=&quot;defaultViewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;&lt;property name=&quot;viewClass&quot; value=&quot;org.springframework.web.servlet.view.JstlView&quot;/&gt;&lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;&lt;!--设置JSP文件的目录位置--&gt;&lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt; &lt;/bean&gt;&lt;!--静态资源映射--&gt;&lt;!--项目一般是前后端分离,所以不需要关心这部分--&gt;&lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/WEB-INF/statics/css/&quot;/&gt;&lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/WEB-INF/statics/js/&quot;/&gt;&lt;mvc:resources mapping=&quot;/image/**&quot; location=&quot;/WEB-INF/statics/image/&quot;/&gt;&lt;/beans&gt;</code></pre></li><li><p>application-context.xml配置</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beanshttp://www.springframework.org/schema/beans/spring-beans-3.0.xsdhttp://www.springframework.org/schema/contexthttp://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;&lt;context:annotation-config/&gt;&lt;context:component-scan base-package=&quot;com.appleieye.maya&quot; &gt;&lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot; /&gt;&lt;/context:component-scan&gt;&lt;/beans&gt;</code></pre></li></ol><ol start="5"><li><p>编写控制器</p><pre><code>package com.appleieye.maya.web.controller;import org.springframework.stereotype.Controller;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RequestMethod;import org.springframework.web.bind.annotation.ResponseBody;        @Controllerpublic class HelloWorldController {@RequestMapping(value = &quot;helloWorld&quot;,method = RequestMethod.GET)@ResponseBodypublic String hello(){    return &quot;helloWorld&quot;;    }}</code></pre><p>@Controller注解基于@Component,在组件扫描时，会将其声明为Spring应用上下文中的一个bean；<br>@RequestMapping注解，它的value属性指定了这个方法要处理的请求路径，method指定了它所处理的http方法。当收到对“/helloWorld”的http get请求时，会调用hello方法，方法返回名为helloWorld的视图</p></li><li><p>建立视图:在WEB-INF/views下新建helloWorld.jsp</p><pre><code> &lt;html&gt;     &lt;body&gt;       &lt;h2&gt;Hello World!&lt;/h2&gt;     &lt;/body&gt;&lt;/html&gt;</code></pre></li><li><p>部署及访问：访问路径为“springMVC/helloWorld”</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;springMVC示例之hello-world&quot;&gt;&lt;a href=&quot;#springMVC示例之hello-world&quot; class=&quot;headerlink&quot; title=&quot;springMVC示例之hello world&quot;&gt;&lt;/a&gt;springMVC示例之hello
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring面向切面编程示例之打印日志</title>
+    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
+    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-22T03:57:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/" target="_blank" rel="noopener">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring bean装配的三种方式之xml配置</title>
+    <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
+    <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-25T13:13:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建xml规范，并声明xml模式(xsd)文件</li><li>声明bean</li><li>注入bean依赖</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>创建xml文件</li></ol><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;&lt;/beans&gt;</code></pre><ol start="2"><li><p>声明bean</p><pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;</code></pre></li><li><p>注入bean依赖</p></li></ol><pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;&lt;/bean&gt;</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring bean装配的三种方式之自动装配</title>
+    <link href="http://www.appleieye.com/2018/04/22/springbean1/"/>
+    <id>http://www.appleieye.com/2018/04/22/springbean1/</id>
+    <published>2018-04-22T06:58:10.000Z</published>
+    <updated>2018-04-25T13:12:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式"><a href="#spring-bean装配的三种方式" class="headerlink" title="spring bean装配的三种方式"></a>spring bean装配的三种方式</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。<strong><em>创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质</em></strong>。</p><h3 id="bean装配的三种方式："><a href="#bean装配的三种方式：" class="headerlink" title="bean装配的三种方式："></a>bean装配的三种方式：</h3><blockquote><ul><li>在xml中进行显示配置</li><li>在java中进行显示配置</li><li>隐式的bean发现和自动装配</li></ul></blockquote><p>推荐顺序：优先使用自动配置，显式配置越少越好；如果非用显示配置，java代码配置要优先于xml配置；最后是xml配置</p><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个音箱系统(播放古老cd),由两部分组成：播放器(CDPlayer)和CD(compact Disc)。首先，要创建CompactDisc类，然后创建一个CDPlayer类，让spring发现它，并将CompactDisc bean注入进来。</p><h3 id="两个接口"><a href="#两个接口" class="headerlink" title="两个接口"></a>两个接口</h3><pre><code>package com.appleieye.service;public interface CompactDisc {void play();}package com.appleieye.service;public interface MediaPlayer {void play();}</code></pre><h3 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h3><p>spring从两个角度来实现自动装配：<br>    &gt; <em> 组件扫描：spring会自动发现应用上下文中所创建的bean<br>    &gt; </em> 自动装配：spring自动满足bean之间的依赖</p><ol><li><p>组件扫描</p><blockquote><ul><li>创建bean</li><li>启动组件扫描</li></ul></blockquote><p>代码如下：</p><pre><code>//创建beanpackage com.appleieye.maya.api.impl;import com.appleieye.maya.api.service.CompasticDisc;import org.springframework.stereotype.Component;@Componentpublic class SgtPeppers implements CompasticDisc {private String title = &quot;Sgt. Pepper&apos; s Lonely Hearts Club Band&quot;;private String artist = &quot;The Beatles&quot;;public void play() {System.out.println(&quot;Playing &quot; + title +&quot; by &quot; + artist);}}</code></pre><p><strong><em>Component表明该类会作为组件类，并告知spring为该类创建bean</em></strong></p><p>   <strong><em>组件扫描默认是不启用的，需要显式配置spring，从而命令它去寻找带有@Component的类，并为它创建bean</em></strong></p><pre><code>//启动组件扫描package com.appleieye.maya.api;import org.springframework.context.annotation.ComponentScan;import org.springframework.context.annotation.Configuration;@Configuration@ComponentScanpublic class CDPlayerConfig { }</code></pre><p> @ComponentScan注解用于启动组件扫描；如果没有特殊配置的话，@ComponentScan默认会扫描与配置类相同的包，因为CDPlayerConfig位于api这个包下，所以@ComponentScan会扫描API包以及它的子包，这样就能发现SgtPeppers，并为其创建bean。</p></li><li><p>自动装配<br>自动装配就是让Spring自动满足bean依赖的一种方法，在满足依赖的 过程中，会在Spring应用上下文中寻找匹配某个bean需求的其他bean。为了 声明要进行自动装配，我们可以借助Spring的@Autowired 注解。</p></li></ol><p>代码如下：</p><pre><code>package com.appleieye.maya.api.impl;@Componentpublic class CDPlayer implements MediaPlayer {@Autowiredprivate CompasticDisc cd;public void play() {    cd.play();}}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring-bean装配的三种方式&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式&quot;&gt;&lt;/a&gt;spring bean装配的三种方式&lt;/h3&gt;&lt;h3 id=&quot;写
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring bean装配的三种方式之Java代码配置</title>
+    <link href="http://www.appleieye.com/2018/04/22/springbean2/"/>
+    <id>http://www.appleieye.com/2018/04/22/springbean2/</id>
+    <published>2018-04-22T05:58:10.000Z</published>
+    <updated>2018-04-25T13:13:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之Java代码配置"><a href="#spring-bean装配的三种方式之Java代码配置" class="headerlink" title="spring bean装配的三种方式之Java代码配置"></a>spring bean装配的三种方式之Java代码配置</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>尽管自动化转配能够满足大部分的需求，但是有一种情况却无能为力：比如说， 你想 要将 想将第三方库中的组件装配到应用中，在这种情况下，是没有 办法在它的类上添加@Component和@Autowired注解的。这个时候，可以使用java代码或xml配置的方式。</p><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建配置类</li><li>声明简单的bean</li><li>实现注入</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>配置类,注意该类与自动装配的区别</li></ol><pre><code>package com.appleieye.maya.api;@Configurationpublic class CDPlayerConfig {}</code></pre><ol start="2"><li>声明bean:要在 JavaConfig 中 声明 bean，我们需要编写一个方法， 这个方法会创建所需类型的实例，然后给这个方法添加@Bean注解。</li></ol><pre><code>@Beanpublic CompasticDisc sgtPeppers(){   return new SgtPeppers();}</code></pre><ol start="3"><li><p>实现注入：将cd注入到player中去</p><pre><code>@Bean public CDPlayer cdPlayer( CompactDisc compactDisc) {return new CDPlayer( compactDisc); }</code></pre><p><strong><em>这是引用其他bean到最佳选择。</em></strong> cdPlayer()方法请求一个CompactDisc作为参数。当Spring调用cdPlayer()创建CDPlayerbean的时候，它会自动装配一个CompactDisc到配置方法之中。然后，方法体就可以按照合适的方式来使用它。</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring-bean装配的三种方式之Java代码配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之Java代码配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之Java代码配置&quot;&gt;&lt;/a&gt;sprin
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring依赖注入示例之hello world</title>
+    <link href="http://www.appleieye.com/2018/04/17/sprigworld/"/>
+    <id>http://www.appleieye.com/2018/04/17/sprigworld/</id>
+    <published>2018-04-17T07:58:10.000Z</published>
+    <updated>2018-04-17T13:50:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring依赖注入示例之hello-world"><a href="#spring依赖注入示例之hello-world" class="headerlink" title="spring依赖注入示例之hello world"></a>spring依赖注入示例之hello world</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>任何一个应用都会有两个或两个以上的类组成，这些类相互协作以完成特定的逻辑，这期间会出现高度耦合的代码。而依赖注入的出现，可以让我们比较容易的实现松耦合。通过依赖注入，对象的依赖关系由系统中负责协调各对象的第三方组件在创建对象的时候进行设定。对象无需创建或管理它们的依赖关系，而依赖关系会自动被注入到需要它们的对象当中去。</p><h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3><ul><li>情景：有一个类，它负责根据时间来输出hello world，如早上输出“hello world in morning”,晚上输出“hello world at night”。</li><li>设计：Interface–HelloWorldService定义一个接口sayHelloWorld(),而HelloWorldA和HelloWorldB负责具体的实现；类OutPutHelper实现具体的“业务”。</li><li>步骤：<ul><li>新建maven工程，用来管理Spring jar包依赖</li><li>在pom文件中引入spring依赖</li><li>代码实现如下：</li></ul></li></ul><pre><code>        //HelloWorldService接口定义        public interface HelloWorldService {        String sayHelloWorld();        }        //HelloWorldA的实现        public class HelloWorldA implements HelloWorldService {        public String sayHelloWorld() {        return &quot;Hello World in  morning&quot;;        }        }        //HelloWorldB的实现        public class HelloWorldB implements HelloWorldService {        public String sayHelloWorld() {        return &quot;Hello World in night&quot;;        }        }        //输出类实现        public class OutPutHelper {        private HelloWorldService helloWorldService;         public OutPutHelper(HelloWorldService  helloWorldService){        this.helloWorldService = helloWorldService;        }         public void outPut(){         System.out.println(helloWorldService.sayHelloWorld());        }        }* spring配置文件        &lt;bean id=&quot;helloWorldA&quot; class=&quot;com.appleieye.service.impl.HelloWorldA&quot; /&gt;         &lt;bean id=&quot;helloWorldB&quot;  class=&quot;com.appleieye.service.impl.HelloWorldB&quot; /&gt;        &lt;bean id=&quot;outPutHelper&quot; class=&quot;com.appleieye.outputer.OutPutHelper&quot; &gt;        &lt;constructor-arg ref=&quot;helloWorldA&quot; /&gt;        &lt;/bean&gt;* 测试           public class Main {           public static void main(String[] args) {           ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;spring.xml&quot;);            OutPutHelper outPutHelper = (OutPutHelper) context.getBean(&quot;outPutHelper&quot;);           outPutHelper.outPut();             }          }</code></pre><hr><p>最后：Spring通过xml配置的方式实现了bean类的依赖注入。只是一种注入方式，其他方式在以后的文章中也会介绍。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring依赖注入示例之hello-world&quot;&gt;&lt;a href=&quot;#spring依赖注入示例之hello-world&quot; class=&quot;headerlink&quot; title=&quot;spring依赖注入示例之hello world&quot;&gt;&lt;/a&gt;spring依赖注入示例之h
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>maven学习笔记</title>
+    <link href="http://www.appleieye.com/2018/04/15/maven/"/>
+    <id>http://www.appleieye.com/2018/04/15/maven/</id>
+    <published>2018-04-15T07:58:10.000Z</published>
+    <updated>2018-04-15T13:15:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><ul><li>环境搭建</li><li>maven工程的目录结构</li><li>构建命令<ul><li>mvn -v</li><li>mvn compile：编译项目</li><li>mvn test:运行测试案例，并生成测试报告</li><li>mvn package：将项目进行打包，如jar包或war包</li><li>mvn clean：删除target</li><li>mvn install：安装jar包到本地仓库中</li></ul></li><li>maven自动建立目录骨架：mvn archetype:generate 命令</li><li>maven坐标和仓库：<ul><li>坐标，即gropuId/artifactId/version</li><li>仓库：本地仓库、远程仓库、镜像仓库</li></ul></li><li>maven的生命周期</li><li>pom的常用元素：<ul><li>modelVesion:指定了当前pom的版本</li><li>groupId:反写的公司网址+项目名</li><li>artifactId:项目名+模块名</li><li>version:第一个0表示大版本号；第二个0表示分支版本号；第三个0表示小版本号;0.01 snapshot快照；alpha内部测试；beta公测；Release稳定版；GA正式发布</li><li>packaging：打包方式，如jar/war/zip</li><li>name：项目名</li><li>url：项目url</li><li>description：姓名描述</li></ul></li><li>dependencies:<ul><li>scope:maven提供了三种classpath，有编译/运行/测试，scope用来指定依赖与这三种classpath的关系，如test只存在与test。</li><li>exclusions</li></ul></li><li>build:<ul><li>plugins:插件列表</li></ul></li><li>parent:</li><li>modules:</li><li>传递依赖：A依赖B,B依赖C,则A间接依赖于C。如果A想排除C的dependicy，可以使用exclusions标签</li><li>依赖冲突：A，B可能同时依赖与C,但是如果两者所声明的依赖版本不一致，则会造成依赖冲突。这时候有两个情况：第一个是短路优先；第二个是相同路径的情况下，谁先声明，谁优先</li><li>聚合和继承：modules；properties</li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;环境搭建&lt;/li&gt;
+&lt;li&gt;maven工程的目录结构&lt;/li&gt;
+&lt;li&gt;构建命令&lt;ul&gt;
+&lt;li&gt;mvn -v&lt;/li&gt;
+&lt;li&gt;mvn compile：编译项目&lt;/li&gt;
+&lt;li&gt;mvn test:运行测试案例，并生成测试报告&lt;/li
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="maven" scheme="http://www.appleieye.com/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何正确的重写equals方法</title>
+    <link href="http://www.appleieye.com/2018/04/14/equals/"/>
+    <id>http://www.appleieye.com/2018/04/14/equals/</id>
+    <published>2018-04-14T07:17:26.000Z</published>
+    <updated>2018-04-14T07:17:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="如何正确的重写equals方法"><a href="#如何正确的重写equals方法" class="headerlink" title="如何正确的重写equals方法"></a>如何正确的重写equals方法</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>Object类是Java中所有类的始祖。Object类的设计是为了扩展，其中它所有的非final方法(如equal/hashcode/toString/clone/finalize)都是可以被覆盖的。本文将介绍如何以正确的姿势覆盖equals和hashcode方法。</p><hr><h3 id="为什么要重写equals方法？"><a href="#为什么要重写equals方法？" class="headerlink" title="为什么要重写equals方法？"></a>为什么要重写equals方法？</h3><p>先来看一下equals方法在Object类中的实现：</p><pre><code>public boolean equals(Object obj) {        return (this == obj);    }</code></pre><p>可见，equals方法的默认实现是判断两个引用是否相等。这种方式是判断两个对象的引用。如果引用相同，则认为两个对象是相等的，这一点毋庸置疑。但是它欠缺了一点：如果两个对象的引用不同，但是对象的各种状态相同，也认为这两个对象相等。举个例子，把引用比作为家庭住址，住的人可能因搬家导致家庭住址发生变化，但是人的各种信息，如姓名/性别/外貌/手机号/生份证号等，如果相同，则认为是两个人是相等的。</p><hr><p>如何正确的重写equals方法：<br>假设有一个person类，它所拥有的属性有name、sex、age，那么该如何重写它的equals方法呢？<br>过程如下：</p><blockquote><ul><li>判断this与ohterObject的引用是否相同</li><li>判断otherObject是否为null</li><li>判断this与otherObject是否属于同一个类</li><li>将otherObject转换为相应的类类型变量</li><li>对所有属性进行比对，使用==比较基本类型，使用equals比较对象类型，若所有的属性都匹配，则返回true，否则返回false。</li></ul></blockquote><p>代码如下：</p><pre><code>import java.util.Objects;public class Person {private String name;private String sex;private String address;private int age;public Person(String name, String sex, String address, int age) {    this.name = name;    this.sex = sex;    this.address = address;    this.age = age;}@Overridepublic boolean equals(Object obj) {    if (this == obj) return true;    if (obj == null) return false;    if (getClass()!=obj.getClass()) return false;    Person other = (Person) obj;    return Objects.equals(name,other.name)&amp;&amp;Objects.equals(sex,other.sex)            &amp;&amp;Objects.equals(address,other.address)&amp;&amp;age == other.age;}}</code></pre><hr><h3 id="重写hashCode方法"><a href="#重写hashCode方法" class="headerlink" title="重写hashCode方法"></a>重写hashCode方法</h3><p>在重新定义equal方法后，必须重新定义hashCode方法。因为equals方法与hashCode的定义必须一致：如果x.equals(y)返回true，则x和y必须有相同的hashcode值，这是因为hashtable的原因，具体可去看hashtable的实现。<br>hashCode方法重写如下：</p><pre><code>@Override    public int hashCode() {        return Objects.hash(name,sex,address,age);    }</code></pre><hr><h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><p>Commons Lang EqualsBuilder组件可以帮助我们只需要一行代码即可实现equals和hashCode方法的重写，具体参考<a href="https://www.ibm.com/developerworks/cn/education/java/j-lessismore/j-lessismore.html" target="_blank" rel="noopener">编写更少的代码</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;如何正确的重写equals方法&quot;&gt;&lt;a href=&quot;#如何正确的重写equals方法&quot; class=&quot;headerlink&quot; title=&quot;如何正确的重写equals方法&quot;&gt;&lt;/a&gt;如何正确的重写equals方法&lt;/h3&gt;&lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中锁的实现原理</title>
+    <link href="http://www.appleieye.com/2018/03/06/JavaLock3/"/>
+    <id>http://www.appleieye.com/2018/03/06/JavaLock3/</id>
+    <published>2018-03-06T13:02:08.000Z</published>
+    <updated>2018-03-06T13:02:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Java中锁的实现原理"><a href="#Java中锁的实现原理" class="headerlink" title="Java中锁的实现原理"></a>Java中锁的实现原理</h3><blockquote><ul><li>原理<br>Lock接口的实现是通过聚合了一个队列同步器，利用同步器实现锁的语义。或者可以理解为Lock接口是通过队列同步器实现的。</li></ul></blockquote><blockquote><ul><li>队列同步器的使用方式<br>同步器的主要使用方式是继承，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器的模版方法，而这些模版方法将会调用使用者重写的方法。</li></ul></blockquote><blockquote><ul><li>队列同步器的API或模版方法</li><li>队列同步器的实现分析<ul><li>同步队列：同步器依赖内部的同步队列，FIFO双向队列来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成为一个节点，将其加入队列尾部，并阻塞当前线程；当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</li><li>入队：当一个线程成功获取了同步状态后，其他线程无法获取到同步状态，转而被构造成为节点，添加到尾部，然而加入到队列的过程必须要<strong>保证线程安全</strong>，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Node uodate),它需要传递当前线程认为的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。</li><li>出队：首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设为首节点，因为只有一个线程能够获取到同步状态，因此不需要CAS来设置。</li><li>独占式同步状态获取与释放<ul><li>获取流程如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/system.png" alt="此处输入图片的描述"></li><li>释放：释放同步状态，并唤醒下一个节点    </li></ul></li><li>共享式同步状态获取与释放<ul><li>获取：与独占式的区别：共享式创建的Node的nextWaiter是一个SHARED常量来标志，而独占式标志是一个NULL节点；在队列等待时，独占式如果改变Status成功则就直接设置为头结点就返回了，但是共享式会进行判断，如果是SHARED并且Status&gt;=0则会设置头结点并且直接将下一个节点也unpark唤醒以便传递下去；</li><li>释放：因为释放同步状态的操作会同时来自多个线程，所以一般通过循环和CAS来保证释放。</li></ul></li></ul></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Java中锁的实现原理&quot;&gt;&lt;a href=&quot;#Java中锁的实现原理&quot; class=&quot;headerlink&quot; title=&quot;Java中锁的实现原理&quot;&gt;&lt;/a&gt;Java中锁的实现原理&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原理&lt;br&gt;Lock接口的实现
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java继承</title>
+    <link href="http://www.appleieye.com/2018/03/06/extends/"/>
+    <id>http://www.appleieye.com/2018/03/06/extends/</id>
+    <published>2018-03-06T11:49:32.000Z</published>
+    <updated>2018-03-06T11:49:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h3><h3 id="子类构造器："><a href="#子类构造器：" class="headerlink" title="子类构造器："></a>子类构造器：</h3><p>使用super调用构造器的语句必须是子类构造器的第一条语句。</p><blockquote><ul><li>this的作用：一是引用隐式参数；二是调用该类其他的构造器</li><li>super的作用:一是调用超类的方法；二是调用超类的构造器</li></ul></blockquote><h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>程序中出现超类对象的任何地方都可以用子类对象替换。一个变量既可以引用自己类的对象，也可以引用其任何一个子类的对象。<br><strong>不能将超类的引用赋给子类变量</strong></p><h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><h3 id="强制类型转换："><a href="#强制类型转换：" class="headerlink" title="强制类型转换："></a>强制类型转换：</h3><p>将一个子类的引用赋给一个超类变量，编译器是允许的；但将一个超类的引用赋给一个子类变量，必须进行类型转换。<br>在进行类型转换时，需要注意以下两点：</p><blockquote><ul><li>只能在继承层次内进行类型转换</li><li>在将超类转换成子类之前，应该使用instancef进行检查</li></ul></blockquote><h3 id="抽象类："><a href="#抽象类：" class="headerlink" title="抽象类："></a>抽象类：</h3><blockquote><ul><li>包含一个或多个抽象方法</li><li>可以包含具体数据和具体方法</li><li>抽象类不能被实例化，但可以定义一个抽象类的对象变量，只能引用非抽象子类的对象</li></ul></blockquote><h3 id="4个访问修饰符"><a href="#4个访问修饰符" class="headerlink" title="4个访问修饰符"></a>4个访问修饰符</h3><blockquote><ul><li>private：仅本类可见</li><li>public：对所有类可见</li><li>protected:对本包和所有子类可见</li><li>default：对本包可见</li></ul></blockquote><h3 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h3><p>1、equals方法：在Object类中，equals用于判断两个对象是否有相同的引用；如果两个对象具有相同的引用，则两者一定是相同的。然而，经常需要检测两个对象状态的相等性，如果两个对象的状态相同，则认为两个对象是相等的</p><p>  编写合格的equals方法：</p><blockquote><ul><li>参数命名为otherObject，稍后将其转换成另一个叫做other的变量</li><li>检测this与otherObject是否引用同一个对象<pre><code>if(this==otherObject) return true</code></pre></li><li>检测otherObject是否为null<pre><code>if(otherObject==null) return false</code></pre></li><li>比较this与otherObject是否属于同一个类。如果equals的语义在每个子类中有所改变，就使用getClass检测：<br>   if(getClass()!=otherObject.getClass()) return false;</li><li>如果所有子类拥有统一的语义，则使用instanceof检测：<br>   if(!(otherObject instanceof ClassName)) return false;</li><li>如果在子类中重新定义了equals，就要在其中包含调用super.equals(otherObject)</li><li>将ohterObject转换为相应的类的类型变量<br>  ClassName other = (ClassName)otherObject;</li><li>对所有需要比较的域进行比较。使用==比较基本类型域，使用equals比较对象域；如果所有的域都匹配，就返回true；否则返回false<br>  return field1 == other.field1 &amp;&amp; Objects.equals(field2,other.field2)</li></ul></blockquote><p>2、hashCode方法<br>hash code是由对象导出的一个整形值。散列码是没有规律的，如果x和y是不同的对象，x.hashCode()与y.hashCode()基本不会相同。<br>Equals方法与hashCode的定义必须保持一致。如果x.equals(y)返回true，那么x.hashCode()与y.hashCode()必须具有相同的值。例如，如果在equals方法中用name这个属性去做判断，那么hashCode方法就需要散列name，而不是其他属性。</p><p>3、toString方法：用于返回标识对象的字符串值，形式:类的名字，随后是一对方括号括起来的域值</p><p>接下来是一个demo，实现了equals、hashCode、toString方法。</p><p>父类:Employee</p><pre><code>import java.util.Objects;public class Employee {private String name;private double salary;public Employee(String name, double salary) {    this.name = name;    this.salary = salary;}public String getName(){    return name;}public double getSalary(){    return salary;}public void raiseSalry(double byPercent){    double raise = salary * byPercent / 100;    salary += raise;}public boolean equals(Object otherObject){    if(this == otherObject) return true;    if(otherObject == null) return  false;    if(getClass()!=otherObject.getClass()) return false;    Employee other = (Employee) otherObject;    return Objects.equals(name, other.name) &amp;&amp; salary == other.salary;}public int hashCode(){    return Objects.hash(name,salary);}public String toString(){    return getClass().getName()+&quot;[name=&quot;+name+&quot;,salary=&quot;+salary+&quot;]&quot;;}}</code></pre><p>子类Manager</p><pre><code>public class Manager extends Employee {private  double bouns;public Manager(String name,double salary){    super(name,salary);//调用父类构造方法必须写在第一行    bouns =  0;}public double getSalary(){    double salary = super.getSalary();//使用super.getSalary()访问继承自父类的成员变量    return salary + bouns;}public void setBouns(double bouns){    this.bouns = bouns;}public boolean equals(Object otherObject){    if(!super.equals(otherObject)) return false;    Manager other = (Manager) otherObject;    return bouns == other.bouns;}public int hashCode(){    return super.hashCode()+17 * new Double(bouns).hashCode();}public String toString(){    return super.toString()+&quot;[bouns=&quot;+bouns+&quot;]&quot;;}}</code></pre><h3 id="参数数量可变的方法"><a href="#参数数量可变的方法" class="headerlink" title="参数数量可变的方法"></a>参数数量可变的方法</h3><pre><code>示例如下：public static double max(double... values){double largest = Double.NEGATIVE_INFINITY;for(double d:values)    if(d&gt;largest)        largest = v;return v;}</code></pre><p>上面代码中“…”表示可接收任意数量的参数，values是一个double类型的数组，存储着所有参数。可将double换为其他类型。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;类、超类和子类&quot;&gt;&lt;a href=&quot;#类、超类和子类&quot; class=&quot;headerlink&quot; title=&quot;类、超类和子类&quot;&gt;&lt;/a&gt;类、超类和子类&lt;/h3&gt;&lt;h3 id=&quot;子类构造器：&quot;&gt;&lt;a href=&quot;#子类构造器：&quot; class=&quot;headerlink&quot; 
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中锁的基本概念</title>
+    <link href="http://www.appleieye.com/2018/03/06/javaLock2/"/>
+    <id>http://www.appleieye.com/2018/03/06/javaLock2/</id>
+    <published>2018-03-06T07:58:10.000Z</published>
+    <updated>2018-03-06T11:45:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="java中锁的基本知识"><a href="#java中锁的基本知识" class="headerlink" title="java中锁的基本知识"></a>java中锁的基本知识</h3><blockquote><ul><li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li></ul></blockquote><hr><blockquote><ul><li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li></ul></blockquote><hr><blockquote><ul><li>Lock的使用方式（代码如下）</li></ul></blockquote><pre><code>/**注意获取锁与释放锁的位置*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。**/Lock lock = new ReentrantLock();lock.lock();try{}finally{lock.unlock();}</code></pre><h3 id="在synchronized与Lock之间进行选择"><a href="#在synchronized与Lock之间进行选择" class="headerlink" title="在synchronized与Lock之间进行选择"></a>在synchronized与Lock之间进行选择</h3><p>   Lock接口在锁操作上提供的语义与synchronized相同，不过除此之外，Lock接口还提供了其他特性：可中断获取锁，非阻塞获取锁，超时获取锁等；但在使用Lock接口时会有很大的风险，如忘记在finally块中调用unlock，虽然代码表面上可以运行，但实际上已经埋下了一颗定时炸弹，并且很有可能伤及其他代码。仅当synchronized不能满足需求时，才考虑使用Lock。这些场景包括可定时的、可轮询的与可中断的锁获取操作、公平队列、以及非机构的锁。否则，应该是优先使用synchronized。</p><hr><p>参考《Java并发编程的艺术》《Java并发编程实践》</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;java中锁的基本知识&quot;&gt;&lt;a href=&quot;#java中锁的基本知识&quot; class=&quot;headerlink&quot; title=&quot;java中锁的基本知识&quot;&gt;&lt;/a&gt;java中锁的基本知识&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;为什么有了synchroniz
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中锁的基本概念</title>
+    <link href="http://www.appleieye.com/2018/02/27/javaLock1/"/>
+    <id>http://www.appleieye.com/2018/02/27/javaLock1/</id>
+    <published>2018-02-27T07:58:10.000Z</published>
+    <updated>2018-02-27T02:29:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h3><blockquote><ul><li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li></ul></blockquote><hr><blockquote><ul><li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li></ul></blockquote><hr><blockquote><ul><li>Lock的使用方式（代码如下）</li></ul></blockquote><pre><code>/**注意获取锁与释放锁的位置*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。**/Lock lock = new ReentrantLock();lock.lock();try{}finally{lock.unlock();}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;java中的锁&quot;&gt;&lt;a href=&quot;#java中的锁&quot; class=&quot;headerlink&quot; title=&quot;java中的锁&quot;&gt;&lt;/a&gt;java中的锁&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;为什么有了synchronized还需要Lock&lt;br&gt;Loc
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java内存分配与回收策略</title>
+    <link href="http://www.appleieye.com/2018/01/05/javaMemory2/"/>
+    <id>http://www.appleieye.com/2018/01/05/javaMemory2/</id>
+    <published>2018-01-05T09:12:50.000Z</published>
+    <updated>2018-01-05T09:12:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="java内存分配与回收策略"><a href="#java内存分配与回收策略" class="headerlink" title="java内存分配与回收策略"></a>java内存分配与回收策略</h1><ol><li>对象优先在Eden分配：大多数情况下，对象在新生代Eden区中分配。当Eden区没有足够的空间时，虚拟机将发起一次Minor GC。如果GC时发现已有对象无法放入Survivor空间，则通过分配担保机制提前转移到老年代中去。</li><li>大对象直接进入老年代。大对象是指需要大量连续内存空间的java对象，最典型的大对象如很长的字符串以及数组。虚拟机提供了一个-XX：PretenureSizeThresold参数，令大于该值的对象直接才老年代分配</li><li>长期存活的对象进入老年代：虚拟机给每个对象定义了一个对象年龄计数器。通过该计数器来判断是否需要进入老年代。如果对象在Eden出生并且经过第一次Minor GC仍然能够存活下来，并且能被survivor容纳，将被移动到survivor空间中，并且年龄设为1。对象在Survivor区中每熬过一次Minor GC，年龄就增长一岁。当它的年龄增加到一定程度，默认为15岁，就会被移动到老年代中。对象晋升老年代的年龄阀值，可以通过参数-XX：MaxTenuringThresold来设置。</li><li>动态对象年龄判定：为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThresold才能晋升老年代。如果在Survivor空间中，相同年龄所有对象的大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入到老年代中，无须等到MaxTenuringThresold所要求的年龄。</li><li>空间分配担保：在Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则查看HandlePromotionFailure设置是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则会尝试进行Minor GC；如果小于或者不允许担保失败，则进行一次Full GC。大部分情况下会打开HandlePromotionFailure，以避免Full GC过于频繁。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;java内存分配与回收策略&quot;&gt;&lt;a href=&quot;#java内存分配与回收策略&quot; class=&quot;headerlink&quot; title=&quot;java内存分配与回收策略&quot;&gt;&lt;/a&gt;java内存分配与回收策略&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;对象优先在Eden分配：大多数情况下，对
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java垃圾收集</title>
+    <link href="http://www.appleieye.com/2018/01/05/java%20GC/"/>
+    <id>http://www.appleieye.com/2018/01/05/java GC/</id>
+    <published>2018-01-05T07:38:58.000Z</published>
+    <updated>2018-01-05T07:38:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>GC需要考虑的三个问题：</p><ol><li>哪些内存需要回收</li><li>何时回收 </li><li>如何回收</li></ol><p>对这三个问题的解决，也是本文的叙述顺序</p><hr><p>1、哪些内存需要回收–可达分析算法来判断：<br>   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。<br>   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径称为引用链。当一个对象到GC Roots没有任何引用链，也就是从GC Roots到这个对象不可达，则证明此对象时不可用的，由此判定这些对象是可回收的对象。<br>   可作为GC Roots的对象包括下面几种：</p><blockquote><ul><li>虚拟机栈中（本地变量表）引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中引用的对象</li></ul></blockquote><p>2、何时回收–安全点、安全区域才进行GC：<br>   程序执行时并非在所有的地方都能停下来开始GC，只有到达安全点时才能暂停。<br>3、如何回收：回收算法（理论）+垃圾收集器（实现）：<br>     <strong><em>回收算法</em></strong>：<br>     &gt; <em> 标记清除：<br>     算法分为两个阶段：标记（可达分析算法）和清除。它有两个不足：一个是效率问题，标记和清除这两个过程效率都不高；第二个是空间问题，会产生空间碎片。空间碎片太多可能会导致以后分配大对象时，无法找到足够内存而不得不提前触发另一次垃圾收集动作。<br>     &gt; </em> 复制：将内存一分为二，每次只使用其中一块。当一块用完后，就将上面还存活的对象复制到另一块上，然后将使用过的内存一次性的回收。<br>     优点：实现简单，运行高效<br>     缺点：内存缩小为原来的一半，代价高昂<br>     用于回收新生代对象<br>     &gt; <em> 标记整理：标记阶段与‘标记-清除’方法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都移动到一端，然后直接清理掉端边界以外的内存。<br>     &gt; </em> 分代收集算法：将java堆分为新生代和老年代，新生代采用复制算法，而老年代采用标记-清除或标记整理算法。</p><p><strong><em>垃圾收集器</em></strong>:</p><blockquote><ul><li>Serial收集器：<br>  最基本的、发展历史最悠久的<strong>新生代</strong>收集器；单线程，工作时会暂停其他所有的工作线程；虚拟机运行在client模式下的默认新生代收集器</li><li>ParNew收集器：<br>   Serial收集器的多线程版本；运行在server模式下虚拟机首选的新生代收集器；除Serial外，唯一的能与CMS收集器配合工作的收集器</li><li>Parallel Scavenge收集器：<br>  新生代收集器；并行多线程；与其他收集器关注用户线程停顿时间不一样，Parallel收集器关注的是吞吐量，吞吐量优先的收集器；Parallel Scavenage收集器提供了两个参数用于精确控制吞吐量，分别是控制最大停顿时间-XX:MaxGCPauseMillis参数以及设置吞吐量大小的-XX:GCTimeRatio；此外，还有一个参数-XX:+UseAdaptiveSizePolicy,这是一个开关参数，当这个参数打开后，就不需要手动指定新生代的大小（-Xmn），Eden与Survivor的比例(-XSS:SurvvivorRatio)、晋升老年代对象大小（-XX：PretenureSizeThreshold）等细节参数了，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大吞吐量，这种调节方式称为GC自适应的调节策略。</li><li>Serial Old收集器：Serial收集器的老年代版本；使用标记-整理算法；clint模式下的虚拟机使用</li><li>Parallel Old收集器：Parallel Scavenage收集器的老年代版本。</li><li>CMS（Concurrent Mark Sweep）收集器:并发标记、低停顿，以获取最短停顿时间为目标，采用标记-清除算法；服务端；老年代。<br>运行过程：</li><li>初始标记：仅标记GC Roots能直接关联到的对象，暂停用户线程</li><li>并发标记：从GC Roots开始对堆中对象进行可达性分析，找出存活的对象，此过程时间较长，但可与用户线程并发执行</li><li>重新标记：修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录。</li><li>并发清除：与用户线程并发执行<br>三个缺点：</li><li>CMS收集器对CPU资源非常敏感</li><li>CMS收集器无法处理浮动的垃圾</li><li>基于标记-清除，会产生空间碎片</li><li>G1收集器：面向服务端；并发与并行；分代收集；空间整合（使用标记-整理）；可预测的停顿，除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不超过N毫秒；<pre><code>使用G1收集器时，Java堆的内存布局就与其他收集器有很大差别，它将整个java堆划分为多个大小相等的独立区域（Region）,虽然还保存着新生代与老年代，但他们不再是物理隔离的了，他们都是一部分Region的集合。G1收集器之所以能建立可预测的停顿时间模型，是因为它可以跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region过程：前三个过程与CMS收集器过程基本类似初始标记并发标记最终标记筛选回收：对各个Region的回收价值和成本进行排序，根据用户制定的GC停顿时间来制定回收计划。</code></pre></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;java-GC&quot;&gt;&lt;a href=&quot;#java-GC&quot; class=&quot;headerlink&quot; title=&quot;java GC&quot;&gt;&lt;/a&gt;java GC&lt;/h1&gt;&lt;p&gt;GC需要考虑的三个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;哪些内存需要回收&lt;/li&gt;
+&lt;li&gt;何时回收 &lt;
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java内存布局</title>
+    <link href="http://www.appleieye.com/2018/01/05/javaMemory/"/>
+    <id>http://www.appleieye.com/2018/01/05/javaMemory/</id>
+    <published>2018-01-05T02:41:42.000Z</published>
+    <updated>2018-01-05T02:41:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>#java内存大概分为以下几个区域：</p><blockquote><ul><li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li></ul></blockquote><blockquote><ul><li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li></ul></blockquote><blockquote><ul><li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li></ul></blockquote><blockquote><ul><li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li></ul></blockquote><blockquote><ul><li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li><li>堆：用于存储对象实例以及数组。线程共享</li></ul></blockquote><hr><h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol><li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li></ol><pre><code>    import java.util.ArrayList;    import java.util.List;    public class HeapOOM {    static class OOMObject{    }    public static void main(String[] args) {     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();    while(true){        list.add(new OOMObject());    }     }   } }运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError运行结果：java.lang.OutOfMemoryError: Java heap space          Dumping heap to java_pid2644.hprof ...          Hep dump file created [28079521  bytes in 0.104 secs]</code></pre><ol start="2"><li>虚拟机栈和本地方法栈溢出<br>原理：<pre><code>&gt; * 使用-Xss减少栈内存容量&gt; * 定义大量的本地变量，增大此方法帧中本地变量表的长度</code></pre></li></ol><p>代码如下：</p><pre><code>public class JavaVMStackSOF {private int statckLength = 1;public void stackLeak() {    statckLength++;    stackLeak();}public static void main(String[] args) throws Throwable {    JavaVMStackSOF oom = new JavaVMStackSOF();    try {        oom.stackLeak();    } catch (Throwable e) {        System.out.println(&quot;statck length:&quot; + oom.statckLength);        throw e;    }}}</code></pre><p>运行方式：java -Xss128k JavaVMStackSOF<br>输出结果：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png" alt="此处输入图片的描述"><br>实验结果：在单线程情况下，无论是栈空间太小还是栈帧太大，当内存无法分配的时候，得到的错误都是StackOverflowError异常。<br>多线程下不断地创建线程可引发OutOfMemoryError</p><ol start="3"><li><p>方法区和运行时常量池溢出<br><strong>对常量池的测试</strong><br>原理：String.intern()是一个nanative方法，如果字符串常量池中已经包含一个等于此字符串对象的字符串，则返回代表池中这个字符串的Strig对象；否则，将String对象包含的字符串添加到常量池中，并且返回此Strig对象的引用。<br><strong><em>JDK1.6下</em></strong>：<br>示例代码：</p><p> import java.util.ArrayList;<br> import java.util.List;<br> public class RuntimeConstantPoolOOM {<br> public static void main(String[] args) {</p><pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();int i = 0;while (true) {    list.add(String.valueOf(i++).intern());}</code></pre><p> }<br> }<br>运行方式：java -XX:PermSize=10M -XX:MaxPermSize=10M<br>输出结果：Exception in thread “main” java.lang.OutOfMemoryError：PermGen space</p><pre><code>at java.lang.String.intern(Native Method)</code></pre></li></ol><p>注意：在JDK1.7下，该程序将一直进行下去。原因是intern方法在JDK1.7中发生了改变。intern方法不再复制实例，只是在常量池中记录首次出现的实例引用。</p><p> <strong><em>对方法区的测试</em></strong><br>    原理：方法区用于存放Class的相关信息，如类名，访问修饰符、方法、接口、字段。基本思路是运行时产生大量的类去填满方法区，直到溢出。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#java内存大概分为以下几个区域：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（un
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java内存布局</title>
+    <link href="http://www.appleieye.com/2018/01/04/jvm/"/>
+    <id>http://www.appleieye.com/2018/01/04/jvm/</id>
+    <published>2018-01-04T14:24:24.000Z</published>
+    <updated>2018-01-04T14:24:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>#java内存大概分为以下几个区域：</p><blockquote><ul><li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li></ul></blockquote><blockquote><ul><li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li></ul></blockquote><blockquote><ul><li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li></ul></blockquote><blockquote><ul><li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li></ul></blockquote><blockquote><ul><li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li><li>堆：用于存储对象实例以及数组。线程共享</li></ul></blockquote><hr><h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol><li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li></ol><pre><code>    import java.util.ArrayList;    import java.util.List;    public class HeapOOM {    static class OOMObject{    }    public static void main(String[] args) {     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();    while(true){        list.add(new OOMObject());    }     }   } }运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError运行结果：java.lang.OutOfMemoryError: Java heap space          Dumping heap to java_pid2644.hprof ...          Hep dump file created [28079521  bytes in 0.104 secs]</code></pre><ol start="2"><li>虚拟机栈和本地方法栈溢出</li><li>方法区和运行时常量池溢出</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#java内存大概分为以下几个区域：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（un
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java基础</title>
+    <link href="http://www.appleieye.com/2017/11/28/JavaBase/"/>
+    <id>http://www.appleieye.com/2017/11/28/JavaBase/</id>
+    <published>2017-11-28T12:53:32.000Z</published>
+    <updated>2017-11-28T12:53:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Java基础回顾"><a href="#Java基础回顾" class="headerlink" title="Java基础回顾"></a>Java基础回顾</h2><blockquote><ul><li>大小写敏感</li><li>4个访问修饰符及范围</li><li>类的命名规范：类名是以大写字母开头。驼峰命名</li><li>源代码的文件名必须与public类的名字相同，并以.java作为扩展名</li><li>使用javac xxx.java编译程序，使用java xxx来运行程序。xxx这里值类名</li><li>注释：有三种<ul><li>行注释:  //something</li><li>段注释： /<em> something </em>/</li><li>可自动生成文档的注释：  /*<em>  something </em>/</li></ul></li><li>基本数据类型：共8种：4种整型，2种浮点型，1种字符型，1种布尔型<ul><li>整型：范围从小到大依次为：byte、short、int、long，所需要的存储空间依次为1字节、2字节、4字节、8字节。java中所有数值类型所占据的字节数量与平台无关</li><li>浮点型：float、double，double的精度是float类型的两倍，也称为双精度。所需存储空间以此为4字节、8字节</li><li>字符类型：char。<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431664106267f12e9bef7ee14cf6a8776a479bdec9b9000" target="_blank" rel="noopener">编码格式的相关内容</a></li><li>布尔类型：boolean。整数值和布尔值之间不能进行相互转换</li></ul></li><li>引用类型：数组、类、接口    </li><li>变量：变量的声明以及命名规范；变量的初始化；<strong>在java中，变量的声明尽可能地靠近变量第一次使用的地方，这是一种良好的程序编写风格</strong></li><li>常量：用关键字final修饰常量，表示该变量智能被赋值一次。一旦被赋值之后，就不能被修改了。常量名使用全大写。如果希望某个常量可以在一个类中的多个方法中使用，通常将这些变量称为类常量，使用static final来设置一个类常量。类常量的定义位于main方法外部</li><li>运算符：+，-，*，/。当参与/运算的两个操作数都是整数时，表示整数除法，否则表示浮点除法。整数被0整除会产生一个异常，而浮点数被0整除将会得到无穷大或NaN结果</li><li>数值类型之间的转换：实心箭头表示无信息丢失的转换；虚箭头表示可能有精度损失的转换。<br>  <img src="http://7pn53u.com1.z0.glb.clouddn.com/property%20.png" alt="此处输入图片的描述"><br>n+f,n是整数，f是浮点数，需要将两个操作数转换为同一种类型，再进行运算。<ul><li>如果两个操作数中有一个是double类型，另一个操作数就会转换为double类型</li><li>如果一个操作数是float类型，另一个操作数机就会转换为float类型</li><li>如果一个操作数是long类型，另一个操作数就会转换为long类型</li><li>否则，两个操作数都将转换为int类型。</li></ul></li></ul></blockquote><blockquote><ul><li>强制类型转换</li><li>流程控制<ul><li>块作用域：块决定了变量的作用域；不能在嵌套的两个块中声明同名的变量</li><li>if else</li><li>while、do…while</li><li>for循环：</li><li>switch case:case标签可以是char/byte/short/int的常量表达式；或枚举常量；从java SE7开始，case标签还可以是字符串字面量</li><li>中断控制流程语句：break，continue</li></ul></li><li>字符串</li><li>大数值：BigInteger和BigDecimal：这两个类可以处理包含任意长度数字序列的数值</li><li>数组<ul><li>数组拷贝：使用Arrays类的copyOf方法会将一个数组的所有值copy到一个新的数组中去，这时候对新数组的修改将不会影响到原先数组。</li></ul></li></ul></blockquote><p>参考《Java核心技术卷一》</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Java基础回顾&quot;&gt;&lt;a href=&quot;#Java基础回顾&quot; class=&quot;headerlink&quot; title=&quot;Java基础回顾&quot;&gt;&lt;/a&gt;Java基础回顾&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;大小写敏感&lt;/li&gt;
+&lt;li&gt;4个访问修饰符及范围&lt;/
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java接口</title>
+    <link href="http://www.appleieye.com/2017/11/27/interface/"/>
+    <id>http://www.appleieye.com/2017/11/27/interface/</id>
+    <published>2017-11-27T13:07:38.000Z</published>
+    <updated>2017-11-27T13:07:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="接口基本特性"><a href="#接口基本特性" class="headerlink" title="接口基本特性"></a>接口基本特性</h3><blockquote><ul><li>接口中所有的方法默认为public</li><li>接口中可以定义常量，自动设为public static final</li><li>接口中不能含有实例域，因为接口没有实例</li><li>java8之前，接口中不能定义简单方法</li><li>在实现接口时，必须把方法声明为public，否则，编译器会认为这个方法的访问属性是包可见性，即类的默认访问属性，之后编译器就会给出试图提供更严格的访问权限的警告信息。</li><li>不能使用new来构造接口的对象，但可以声明接口的变量，接口变量必须引用实现了接口的类对象</li><li>可以使用instanceof来检查一个对象是否实现了某个特定的接口</li><li>每个类只能继承一个超类，但可以实现多个接口</li><li>java8中，允许在接口中增加静态方法。之前都是将静态方法放在伴随类中，出现接口和使用工具类，如Collection/Collections,现在可以在接口中定义静态方法了</li><li>默认方法：可以为接口方法提供一个默认实现，必须用default修饰符 标记这样一个方法；默认方法可以调用任何其他方法</li></ul></blockquote><h3 id="接口与抽象类"><a href="#接口与抽象类" class="headerlink" title="接口与抽象类"></a>接口与抽象类</h3><blockquote><ul><li>在java中，每个类只能继承一个类，即不支持多重继承，其主要原因是多重继承会让语言本身变得非常复杂（如同C++），效率也会降低（如同Eiffel）</li><li>接口可以提供多重继承的大多数好处，同时还能避免多重继承的复杂性和低效性</li></ul></blockquote><h3 id="解决默认方法冲突"><a href="#解决默认方法冲突" class="headerlink" title="解决默认方法冲突"></a>解决默认方法冲突</h3><p>如果现在一个接口中将一个方法定义为默认方法，然后又在超类或另一个接口中定义了同样的方法，那么子类会如何出现这种二义性的冲突。</p><blockquote><ul><li>超类优先。如果超类提供了一个具体方法，同名而且有相同参数类型的默认方法会被忽略</li><li>接口冲突：如果一个接口提供了一个默认方法，另一个接口提供了一个同名而且参数类型（不论是否是默认参数）相同的方法，必须覆盖这个方法来解决冲突</li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;接口基本特性&quot;&gt;&lt;a href=&quot;#接口基本特性&quot; class=&quot;headerlink&quot; title=&quot;接口基本特性&quot;&gt;&lt;/a&gt;接口基本特性&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;接口中所有的方法默认为public&lt;/li&gt;
+&lt;li&gt;接口中可以定义常
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
+  
+</feed>

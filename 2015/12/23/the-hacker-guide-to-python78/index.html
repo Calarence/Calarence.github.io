@@ -1,0 +1,663 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="读书笔记之the-hacker-guide-python第七八章," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="方法和装饰器  创建装饰器  装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数 经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 `@functools.wraps(f) #f为原函数` 使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式   类方法、静态方法以及抽象方法的混合使用">
+<meta name="keywords" content="读书笔记之the-hacker-guide-python第七八章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the-hacker-guide-python 第七、八章读书笔记">
+<meta property="og:url" content="http://www.appleieye.com/2015/12/23/the-hacker-guide-to-python78/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="方法和装饰器  创建装饰器  装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数 经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 `@functools.wraps(f) #f为原函数` 使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式   类方法、静态方法以及抽象方法的混合使用">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2015-12-23T06:32:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="the-hacker-guide-python 第七、八章读书笔记">
+<meta name="twitter:description" content="方法和装饰器  创建装饰器  装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数 经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 `@functools.wraps(f) #f为原函数` 使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式   类方法、静态方法以及抽象方法的混合使用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2015/12/23/the-hacker-guide-to-python78/"/>
+
+  <title> the-hacker-guide-python 第七、八章读书笔记 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                the-hacker-guide-python 第七、八章读书笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-23T14:32:44+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><em>方法和装饰器</em></strong></p>
+<hr>
+<p><strong><em>创建装饰器</em></strong></p>
+<ol>
+<li>装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数</li>
+<li>经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 <a href="mailto:`@functools.wraps" target="_blank" rel="noopener">`@functools.wraps</a>(f) #f为原函数`</li>
+<li>使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式</li>
+</ol>
+<hr>
+<p><strong><em>类方法、静态方法以及抽象方法的混合使用</em></strong></p>
+<hr>
+<ol>
+<li>抽象方法的属性并不是一成不变的，我们可以根据需要扩展属性列表，甚至我们可以按我们自己喜欢的方式对其重新定义，只要符合在超类中定义的方法。例如可以将其实现为类方法或静态方法。从Python3开始，允许将@staticmethod、@classmethod放置在@abstractmethod之上</li>
+</ol>
+<hr>
+<p><strong><em>super的真相</em></strong><br>通过使用super()函数调用父类中的方法，但实际上super()是一个构造器，当每次调用它时都会实例化一个super对象。它可以接受一个或两个参数，第一个参数是一个类，第二个参数是子类或第一个参数的一个实例</p>
+<hr>
+<p><strong>生成器</strong>：每次调用next()时返回一个值，直到引发StopIteration异常。写一个生成器就是在所写的函数中包含yield语句。Python将检测到yield的使用，并将函数标记为生成器。当函数执行到yield语句时，通过return语句返回一个值，编译器将会保存一个栈上下文环境，在下一次next被调用时重新使用。可以使用inspect来检查是不是一个生成器。Python3提供了另一个有用的函数，inspect.getgeneratorstate,这个函数可以让我们了解到生成器的状态，如是否等待第一次运行(GEN_CREATED)，是否正在执行（GEN_RUNNING）,是否等待重新使用（GEN_SUSPENDED）,是否完成运行（GEN_CLOSED）.生成器可以帮助我们使用少量的内存消耗来处理大的数据结构。当需要处理大量数据时，生成器可以确保高效的处理.yield有一个不常用的特性，它可以像函数调用一样返回一个值。这样就可以通过调用它的send()方法向生成器传递值</p>
+<hr>
+<p><strong><em>列表推导式</em></strong>：在声明列表的同时定义列表内容 <code>x = [i for i in (1, 2, 3)]</code> 与for循环相比，使用列表推导式是一种更方便迅速地方式</p>
+<hr>
+<p>Python包含了大量工具来支持函数式编程，列举如下：</p>
+<ol>
+<li>map(function, iterable) applies function to each item in iterable and returns either a list in Python or an iterable map object in Python </li>
+<li>filter(function or None, iterable) filters the items in iterable based on the result returned by function, and returns either a list in Python , or better, an iterable filter object in Python</li>
+<li>enumerate(iterable[, start]) returns an iterable enumerate object that yields a sequence of tuples, each consisting of an integer index (starting with start, if provided) and the corresponding item in iterable. It’s useful when you need to write code that refers to array indexes.</li>
+<li>sorted(iterable, key=None, reverse=False) returns a sorted version of iterable. The key argument allows you to provide a function that returns the value to sort on.</li>
+<li>any(iterable) and all(iterable) both return a boolean depending on the values returned by iterable.</li>
+<li>zip(iter1 [,iter2 […]]) takes multiple sequences and combines them into tuples. It’s useful when you need to combine a list of keys and a list of values into a dict. Like the other functions described above, it returns a list in Python and an iterable in Python</li>
+<li>The <strong><em>itertools</em></strong> module in the Python Standard Library also provides a bunch of useful functions that you’ll want to keep in mind.</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读书笔记之the-hacker-guide-python第七八章/" rel="tag">#读书笔记之the-hacker-guide-python第七八章</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/22/devstack/" rel="next" title="使用devstack安装openstack">
+                <i class="fa fa-chevron-left"></i> 使用devstack安装openstack
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/24/the-hacker-guide-to-python9/" rel="prev" title="the-hacker-guide-to-python 第九章读书笔记">
+                the-hacker-guide-to-python 第九章读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

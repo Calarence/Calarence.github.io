@@ -1,0 +1,667 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="###向pyc文件写入字符串的过程 写入一个字符串时，可能发生3种情况：  写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。 intern字符串（与普通字符串有什么区别）的首次写入： 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从py">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）">
+<meta property="og:url" content="http://www.appleieye.com/2017/07/27/python3/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="###向pyc文件写入字符串的过程 写入一个字符串时，可能发生3种情况：  写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。 intern字符串（与普通字符串有什么区别）的首次写入： 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从py">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/WFILE.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/python&ruby.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/TYPE_STRINGREF.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/WFILERead.png">
+<meta property="og:updated_time" content="2017-07-27T03:32:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）">
+<meta name="twitter:description" content="###向pyc文件写入字符串的过程 写入一个字符串时，可能发生3种情况：  写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。 intern字符串（与普通字符串有什么区别）的首次写入： 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从py">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2017/07/27/python3/"/>
+
+  <title> python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下） | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'Ae4tubbLZLmXnCEeHqzv','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-27T11:32:28+08:00" content="2017-07-27">
+              2017-07-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>###向pyc文件写入字符串的过程<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png" alt="此处输入图片的描述"></p>
+<p>写入一个字符串时，可能发生3种情况：</p>
+<ol>
+<li>写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。</li>
+<li>intern字符串（与普通字符串有什么区别）的首次写入：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILE.png" alt="此处输入图片的描述"><br> 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从pyc中读出时，strings会指向一个PyListObject对象。PyDictObject对象实际上维护着（PyStringObject,PyIntObeject）这样的映射关系，PyIntObject的值表示PyStringObject对象是第几个被加入到WFILE.strings中的字符串。更准确地说，是第几个被写入到pyc文件中的intern字符串。那么，记录这个信息有什么用呢?看下面的一个例子。<br>假设需要写入3个字符串:”python”,”ruby”,”python”,写入前两个后pyc文件的情况如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python&amp;ruby.png" alt="此处输入图片的描述"><br>当写入第二个”python”时，PyDictObject不允许出现重复的键值。于是，python给了TYPE_STRINGREF这个东西，这个标志标明后面的一个数值表示了一个索引值，根据这索引值到WFILE.strings中去查找，就能找到对应的string了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/TYPE_STRINGREF.png" alt="此处输入图片的描述"></li>
+<li><p>总结inter字符串的写入机制：当写入一个字符串时，会首先在strings中查找其中是否记录了该字符串，这个查找动作会导致两个结果：</p>
+<blockquote>
+<ul>
+<li>查找失败，进行intern字符的首次写入：<ul>
+<li>将（字符串，序号）添加到strings中</li>
+<li>将类型标识TYPE_INTERND和字符串本身写入到pyc文件中</li>
+</ul>
+</li>
+<li>查找成功，进行intern字符串的非首次写入：</li>
+<li>将类型标识TYPE_STRINGREF和查找得到的序号写入pyc文件中。</li>
+</ul>
+</blockquote>
+<p>在加载pyc文件时，WFILE里面的strings会转换成PyListObject对象，在读入前两个字符串后，WFILE.strings的情况如下图所示：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILERead.png" alt="此处输入图片的描述"><br>当读到（R，0）时，解析到Type_STRINGREF标志，所以直接以标志后面的数值0位索引访问WFILE.strings，立刻得到字符串“python”</p>
+</li>
+</ol>
+<h3 id="写入多个PyCodeObject"><a href="#写入多个PyCodeObject" class="headerlink" title="写入多个PyCodeObject"></a>写入多个PyCodeObject</h3><p>有demo.py文件，代码如下：</p>
+<pre><code>class A：
+    pass
+def Func():
+    pass
+a = A()
+Func()
+</code></pre><p>这段代码在编译时，会生成3个pycodeobject（在python中，类、函数、module都对应着一个独立的命名空间，都会有一个pycodeobject对象与之对应）。而在write_compiled_module中，python运行环境只对一个PyCodeObject对象调用PyMarshal_WriteObjectToFile操作，另外两个PyCodeObject对象包含在另一个PyCodeObject中。与Fun和A对应的PyCodeObject对象包含在与demo.py对应的PyCodeObject对象中，其中的co_consts域就是两个pycodeObject对象的藏身之处.</p>
+<p>在对一个PyCodeObject对象进行写入到pyc文件的操作时，如果碰到它包含的另一个pycodeobject对象，那么就会递归地执行写入PyCodeObject对象的操作。如此下去，最终所有的PyCodeObject对象都会被写入到pyc文件中去。所以，pyc文件中的pycodeobject对象也是以一种嵌套的关系联系在一起的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/26/python2/" rel="next" title="python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）">
+                <i class="fa fa-chevron-left"></i> python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/18/pythonMultithread/" rel="prev" title="python多线程基础知识">
+                python多线程基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">95</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写入多个PyCodeObject"><span class="nav-number">1.</span> <span class="nav-text">写入多个PyCodeObject</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
