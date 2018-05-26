@@ -1017,7 +1017,7 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
        if (elementData.getClass() != Object[].class)
            elementData = Arrays.copyOf(elementData, size, Object[].class);
    }
-</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/" target="_blank" rel="noopener">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
+</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
 <pre><code>public boolean add(E e) {
         ensureCapacityInternal(size + 1);  // Increments modCount!!
         elementData[size++] = e;
@@ -1523,7 +1523,7 @@ private void ensureExplicitCapacity(int minCapacity) {
 </ul>
 </blockquote>
 <p>这里访问hello-clarence.com,即可看到hello world字样<br><img src="http://upload-images.jianshu.io/upload_images/139498-3ec14749cca4dce5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="此处输入图片的描述"></p>
-<p><a href="http://www.appleieye.com/2017/10/29/IP%E4%B8%8E%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E5%8E%86%E5%8F%B2/" target="_blank" rel="noopener">DNS解析过程</a></p>
+<p><a href="http://www.appleieye.com/2017/10/29/IP%E4%B8%8E%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E5%8E%86%E5%8F%B2/">DNS解析过程</a></p>
 
           
         

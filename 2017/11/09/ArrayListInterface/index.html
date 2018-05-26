@@ -365,7 +365,7 @@
        if (elementData.getClass() != Object[].class)
            elementData = Arrays.copyOf(elementData, size, Object[].class);
    }
-</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/" target="_blank" rel="noopener">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
+</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
 <pre><code>public boolean add(E e) {
         ensureCapacityInternal(size + 1);  // Increments modCount!!
         elementData[size++] = e;

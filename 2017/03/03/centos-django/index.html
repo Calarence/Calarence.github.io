@@ -313,7 +313,7 @@
         <p><strong><em>生产环境搭建：</em></strong></p>
 <ol>
 <li><strong>nginx安装</strong>：<code>yum install -y nginx</code>,启动nginx：<code>nginx</code>,访问本机ip地址即可看到nginx欢迎界面</li>
-<li><strong>mysql的安装和配置</strong>: <a href="http://www.appleieye.com/2017/02/11/centos7%E4%B8%8Bmysql%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">链接</a></li>
+<li><strong>mysql的安装和配置</strong>: <a href="http://www.appleieye.com/2017/02/11/centos7%E4%B8%8Bmysql%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">链接</a></li>
 <li><strong>virtualenv安装和使用</strong>：<br> <code>pip install virtualenv</code><br> 创建虚拟环境testEnv（在当前目录创建，也可指定其他目录） <code>virtualenv testEnv</code><br> 进入虚机环境 <code>source testEnv/bin/activate</code><br> 退出虚拟环境 <code>deactivate</code></li>
 <li><strong>导出项目依赖项</strong>：<code>pip freeze &gt; requirements.txt</code></li>
 <li><strong>虚拟环境中安装依赖项</strong>（将第四步导出的txt导入centos中）:<code>pip install -r requirements.txt</code>若某些依赖项安装较慢，可使用源<br>  pip源设置： <code>vi ~/.pip/pip.conf</code> 内容：<br>  <code>[global]
