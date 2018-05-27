@@ -343,7 +343,7 @@
 <li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li>
 <li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li>
 </ol>
-<h3 id="消息投递流程补充"><a href="#消息投递流程补充" class="headerlink" title="消息投递流程补充"></a>消息投递流程补充</h3><p><img src="/Users/clarence/Downloads/rabbitmq消息投递流程.png" alt="rabbitmq消息投递流程"></p>
+<h3 id="消息投递流程补充"><a href="#消息投递流程补充" class="headerlink" title="消息投递流程补充"></a>消息投递流程补充</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png" alt="rabbitmq消息投递流程"></p>
 
           
         
