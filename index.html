@@ -315,7 +315,7 @@
       
         
           
-            <p>title: RabbitMQ通信过程分析<br>date: 2018-04-30 13:58:10<br>categories: blog<br>tags: [rabbitmq]</p>
+            <p>title: RabbitMQ通信过程分析<br>date: 2018-05-27 13:58:10<br>categories: blog<br>tags: [rabbitmq]</p>
 <h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
 <h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol>
 <li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li>
@@ -900,146 +900,6 @@ public String hello(){
             
               
                 
-                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
-                  spring bean装配的三种方式之xml配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
-<ul>
-<li>创建xml规范，并声明xml模式(xsd)文件</li>
-<li>声明bean</li>
-<li>注入bean依赖</li>
-</ul>
-</blockquote>
-<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
-<li>创建xml文件</li>
-</ol>
-<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
- &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
- xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
- xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
- http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
-
-&lt;/beans&gt;
-</code></pre><ol start="2">
-<li><p>声明bean</p>
-<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
-</code></pre></li>
-<li><p>注入bean依赖</p>
-</li>
-</ol>
-<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
-&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
-&lt;/bean&gt;
-</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
                   spring面向切面编程示例之打印日志
                 </a>
@@ -1143,6 +1003,146 @@ public void sayAfter(){
 </code></pre></li>
 </ul>
 <p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
+                  spring bean装配的三种方式之xml配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
+<ul>
+<li>创建xml规范，并声明xml模式(xsd)文件</li>
+<li>声明bean</li>
+<li>注入bean依赖</li>
+</ul>
+</blockquote>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
+<li>创建xml文件</li>
+</ol>
+<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+&lt;/beans&gt;
+</code></pre><ol start="2">
+<li><p>声明bean</p>
+<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
+</code></pre></li>
+<li><p>注入bean依赖</p>
+</li>
+</ol>
+<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
+&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
 
           
         
