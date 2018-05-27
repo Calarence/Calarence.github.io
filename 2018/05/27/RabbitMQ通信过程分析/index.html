@@ -86,17 +86,17 @@
 
 
 
-<meta name="description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
+<meta name="description" content="title: RabbitMQ通信过程分析date: 2018-04-30 13:58:10categories: blogtags: [rabbitmq] RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Clarence&#39;s blog">
 <meta property="og:url" content="http://www.appleieye.com/2018/05/27/RabbitMQ通信过程分析/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
+<meta property="og:description" content="title: RabbitMQ通信过程分析date: 2018-04-30 13:58:10categories: blogtags: [rabbitmq] RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:updated_time" content="2018-05-27T14:22:34.674Z">
+<meta property="og:updated_time" content="2018-05-27T14:28:46.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Clarence&#39;s blog">
-<meta name="twitter:description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
+<meta name="twitter:description" content="title: RabbitMQ通信过程分析date: 2018-04-30 13:58:10categories: blogtags: [rabbitmq] RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),">
 
 
 
@@ -309,7 +309,8 @@
       
 
       
-        <h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
+        <p>title: RabbitMQ通信过程分析<br>date: 2018-04-30 13:58:10<br>categories: blog<br>tags: [rabbitmq]</p>
+<h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
 <h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol>
 <li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li>
 <li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li>
@@ -343,8 +344,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/26/springandamqp/" rel="next" title="spring与amqp">
-                <i class="fa fa-chevron-left"></i> spring与amqp
+              <a href="/2018/05/26/rabbitmq/" rel="next" title="RabbitMQ常用命令">
+                <i class="fa fa-chevron-left"></i> RabbitMQ常用命令
               </a>
             
           </div>

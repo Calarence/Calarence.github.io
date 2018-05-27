@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-05-27T14:22:34.674Z</updated>
+  <updated>2018-05-27T14:28:46.287Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -21,45 +21,20 @@
     <link href="http://www.appleieye.com/2018/05/27/RabbitMQ%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/"/>
     <id>http://www.appleieye.com/2018/05/27/RabbitMQ通信过程分析/</id>
     <published>2018-05-27T14:22:34.674Z</published>
-    <updated>2018-05-27T14:22:34.674Z</updated>
+    <updated>2018-05-27T14:28:46.287Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p><h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol><li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li><li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li><li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li><li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li><li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li><li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;a href=&quot;#RabbitMQ通信过程分析&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;/a&gt;RabbitMQ通信过程分析&lt;/h3&gt;&lt;h3 id=&quot;总体流程概述：&quot;&gt;&lt;a href=
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>spring与amqp</title>
-    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
-    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
-    <published>2018-05-26T05:58:10.000Z</published>
-    <updated>2018-05-26T09:50:12.845Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
+    <content type="html"><![CDATA[<p>title: RabbitMQ通信过程分析<br>date: 2018-04-30 13:58:10<br>categories: blog<br>tags: [rabbitmq]</p><h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p><h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol><li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li><li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li><li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li><li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li><li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li><li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
+        &lt;p&gt;title: RabbitMQ通信过程分析&lt;br&gt;date: 2018-04-30 13:58:10&lt;br&gt;categories: blog&lt;br&gt;tags: [rabbitmq]&lt;/p&gt;
+&lt;h3 id=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;a href=&quot;#RabbitMQ
       
     
     </summary>
     
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
     
   </entry>
   
@@ -87,6 +62,32 @@
     
     
       <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring与amqp</title>
+    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
+    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T09:50:12.845Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
     
   </entry>
   
