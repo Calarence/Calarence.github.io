@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-05-26T07:52:42.000Z</updated>
+  <updated>2018-05-27T14:22:34.674Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -17,29 +17,23 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>RabbitMQ常用命令</title>
-    <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
-    <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
-    <published>2018-05-26T05:58:10.000Z</published>
-    <updated>2018-05-26T07:52:42.000Z</updated>
+    <title></title>
+    <link href="http://www.appleieye.com/2018/05/27/RabbitMQ%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/"/>
+    <id>http://www.appleieye.com/2018/05/27/RabbitMQ通信过程分析/</id>
+    <published>2018-05-27T14:22:34.674Z</published>
+    <updated>2018-05-27T14:22:34.674Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote><ul><li>启动节点：rabbitmq-server</li><li>后台守护进程的方式启动：rabbitmq-server -detached</li><li>停止节点：rabbitmqctl stop</li><li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li><li>停止应用程序 rabbitmqctl stop_app </li><li>启动应用程序 rabbitmqctl start_app</li><li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li><li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li><li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li><li>列出绑定：rabbitmqctl list_bindings</li><li>添加用户: rabbitmqctl add_user username password</li><li>删除用户：rabbitmqctl delete_user </li><li>列出所有用户：rabbitmqctl list_users</li><li>修改密码 rabbitmqctl change_password username newpassword</li><li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li><li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li><li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li></ul></blockquote>]]></content>
+    <content type="html"><![CDATA[<h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p><h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol><li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li><li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li><li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li><li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li><li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li><li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;RabbitMQ常用命令&quot;&gt;&lt;a href=&quot;#RabbitMQ常用命令&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ常用命令&quot;&gt;&lt;/a&gt;RabbitMQ常用命令&lt;/h3&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;启动节点：rabbit
+        &lt;h3 id=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;a href=&quot;#RabbitMQ通信过程分析&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;/a&gt;RabbitMQ通信过程分析&lt;/h3&gt;&lt;h3 id=&quot;总体流程概述：&quot;&gt;&lt;a href=
       
     
     </summary>
     
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
     
   </entry>
   
@@ -70,6 +64,33 @@
   </entry>
   
   <entry>
+    <title>RabbitMQ常用命令</title>
+    <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
+    <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T07:52:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote><ul><li>启动节点：rabbitmq-server</li><li>后台守护进程的方式启动：rabbitmq-server -detached</li><li>停止节点：rabbitmqctl stop</li><li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li><li>停止应用程序 rabbitmqctl stop_app </li><li>启动应用程序 rabbitmqctl start_app</li><li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li><li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li><li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li><li>列出绑定：rabbitmqctl list_bindings</li><li>添加用户: rabbitmqctl add_user username password</li><li>删除用户：rabbitmqctl delete_user </li><li>列出所有用户：rabbitmqctl list_users</li><li>修改密码 rabbitmqctl change_password username newpassword</li><li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li><li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li><li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;RabbitMQ常用命令&quot;&gt;&lt;a href=&quot;#RabbitMQ常用命令&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ常用命令&quot;&gt;&lt;/a&gt;RabbitMQ常用命令&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;启动节点：rabbit
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springMVC示例之hello world</title>
     <link href="http://www.appleieye.com/2018/04/30/springMVChello%20world/"/>
     <id>http://www.appleieye.com/2018/04/30/springMVChello world/</id>
@@ -95,31 +116,6 @@
   </entry>
   
   <entry>
-    <title>spring面向切面编程示例之打印日志</title>
-    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
-    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-22T03:57:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spring bean装配的三种方式之xml配置</title>
     <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
     <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
@@ -133,6 +129,31 @@
       
       
         &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring面向切面编程示例之打印日志</title>
+    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
+    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-22T03:57:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
       
     
     </summary>
@@ -509,34 +530,6 @@
 &lt;ul&gt;
 &lt;li&gt;大小写敏感&lt;/li&gt;
 &lt;li&gt;4个访问修饰符及范围&lt;/
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java接口</title>
-    <link href="http://www.appleieye.com/2017/11/27/interface/"/>
-    <id>http://www.appleieye.com/2017/11/27/interface/</id>
-    <published>2017-11-27T13:07:38.000Z</published>
-    <updated>2017-11-27T13:07:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="接口基本特性"><a href="#接口基本特性" class="headerlink" title="接口基本特性"></a>接口基本特性</h3><blockquote><ul><li>接口中所有的方法默认为public</li><li>接口中可以定义常量，自动设为public static final</li><li>接口中不能含有实例域，因为接口没有实例</li><li>java8之前，接口中不能定义简单方法</li><li>在实现接口时，必须把方法声明为public，否则，编译器会认为这个方法的访问属性是包可见性，即类的默认访问属性，之后编译器就会给出试图提供更严格的访问权限的警告信息。</li><li>不能使用new来构造接口的对象，但可以声明接口的变量，接口变量必须引用实现了接口的类对象</li><li>可以使用instanceof来检查一个对象是否实现了某个特定的接口</li><li>每个类只能继承一个超类，但可以实现多个接口</li><li>java8中，允许在接口中增加静态方法。之前都是将静态方法放在伴随类中，出现接口和使用工具类，如Collection/Collections,现在可以在接口中定义静态方法了</li><li>默认方法：可以为接口方法提供一个默认实现，必须用default修饰符 标记这样一个方法；默认方法可以调用任何其他方法</li></ul></blockquote><h3 id="接口与抽象类"><a href="#接口与抽象类" class="headerlink" title="接口与抽象类"></a>接口与抽象类</h3><blockquote><ul><li>在java中，每个类只能继承一个类，即不支持多重继承，其主要原因是多重继承会让语言本身变得非常复杂（如同C++），效率也会降低（如同Eiffel）</li><li>接口可以提供多重继承的大多数好处，同时还能避免多重继承的复杂性和低效性</li></ul></blockquote><h3 id="解决默认方法冲突"><a href="#解决默认方法冲突" class="headerlink" title="解决默认方法冲突"></a>解决默认方法冲突</h3><p>如果现在一个接口中将一个方法定义为默认方法，然后又在超类或另一个接口中定义了同样的方法，那么子类会如何出现这种二义性的冲突。</p><blockquote><ul><li>超类优先。如果超类提供了一个具体方法，同名而且有相同参数类型的默认方法会被忽略</li><li>接口冲突：如果一个接口提供了一个默认方法，另一个接口提供了一个同名而且参数类型（不论是否是默认参数）相同的方法，必须覆盖这个方法来解决冲突</li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;接口基本特性&quot;&gt;&lt;a href=&quot;#接口基本特性&quot; class=&quot;headerlink&quot; title=&quot;接口基本特性&quot;&gt;&lt;/a&gt;接口基本特性&lt;/h3&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;接口中所有的方法默认为public&lt;/li&gt;
-&lt;li&gt;接口中可以定义常
       
     
     </summary>
