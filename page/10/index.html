@@ -271,6 +271,261 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/29/nodeCode/" itemprop="url">
+                  node编码规范
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-29T21:14:16+08:00" content="2015-07-29">
+              2015-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">MEAN框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>缩进: 采用2个空格缩进，而不是tab缩进</li>
+<li>变量声明：使用var声明变量，不加var时会将其变成全局变量，这样可能会污染上下文，或是被意外污染。*<em>需要说明的是，每行声明都该带上var，而不是只有一个var，实例代码如下：<br><code>var assert = require(&#39;assert&#39;);
+var fork = require(&#39;child_process&#39;).fork;
+var net = require(&#39;net&#39;);
+var EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>错误示例如下：<br><code>var assert = require(&#39;assert&#39;)
+, fork = require(&#39;child_process&#39;).fork
+, net = require(&#39;net&#39;)
+, EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>3.空格<br>在操作符前后需要加空格，比如+、-、</em>、%、=等操作符前后都应该存在一个空格，示例如下：<br><code>var foo = &#39;bar&#39; + baz</code>;<br>错误的示例如下所示：<br><code>var foo=&#39;bar&#39;+baz</code>;<br>此外，在小括号前后应该存在空格，如<br><code>if (true) {
+// some code
+}</code><br>错误的示例如下所示：<br><code>if(true){
+// some code
+}</code><br>4.单双引号的使用<br>由于双引号在别的场景下使用较多，在Node中使用字符串时尽量使用单引号，这样无需转义，如<br><code>var html = &#39;&lt;a href=&quot;http://cnodejs.org&quot;&gt;CNode&lt;/a&gt;&#39;;</code><br>5.大括号的位置:一般情况下，大括号无需另起一行，如<br><code>if (true) {
+//some code
+}</code><br>错误的示例如下：<br><code>if (true)
+{ 
+//some code
+}</code></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/29/nodename/" itemprop="url">
+                  node命名规范
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-29T21:14:08+08:00" content="2015-07-29">
+              2015-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">MEAN框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>变量命名:变量名都采用小驼峰式名，即除了第一个单词的首字母不大写外，每个单词的首字母都大写，词与词之间没有任何符号，如<code>var adminUser = {}</code>;</li>
+<li>方法命名与变量命名一样，采用小驼峰式命名。与变量不同的是，方法名尽量采用动词或判断行词汇，如<code>var getUser = function () {};
+var isAdmin = function () {};
+User.prototype.getInfo = function () {};</code><ol start="3">
+<li>类命名：类命名采用大驼峰式命名，即所有单词的首字母都大写，如<code>function User {
+}</code></li>
+<li>常量命名，作为常量时，单词的所有字母都大写，并用下划线分割，如<code>var PINK_COLOR = &quot;pink&quot;</code></li>
+<li>文件命名：尽量采用下划线分割单词，比如child_process.js和string_decode.js</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/16/nodejs1/" itemprop="url">
                   node学习笔记:学习Node.js的6个步骤
                 </a>
@@ -1053,7 +1308,7 @@ open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib.request.urlopen(&#39;http:/
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-count">98</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1070,7 +1325,7 @@ open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib.request.urlopen(&#39;http:/
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

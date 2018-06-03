@@ -271,6 +271,337 @@
             
               
                 
+                <a class="post-title-link" href="/2015/09/23/cinder-python-sdk1/" itemprop="url">
+                  python sdk编写--cinder相关
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-09-23T21:30:50+08:00" content="2015-09-23">
+              2015-09-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在学习openstack，需要使用python编写测试脚本，查看了一下<a href="http://docs.openstack.org/user-guide/sdk.html" target="_blank" rel="noopener">python sdk</a>，发现没有cinder部分相关的。在github上找<a href="https://github.com/openstack/python-cinderclient" target="_blank" rel="noopener">cinder client</a>时，发现了这么一句话<strong>There’s also a complete Python API, but it has not yet been documented.</strong>。于是，自己尝试仿照示例代码和其他部分的代码，编写cinder部分相关的操作。</p>
+<hr>
+<p> 1.创建volume</p>
+<pre><code>#!/usr/bin/env python
+from cinderclient.v1 import client
+OS_USERNAME = &apos;admin&apos;
+OS_PASSWORD = &apos;...&apos;
+OS_TENANT_NAME = &apos;admin&apos;
+OS_AUTH_URL = &apos;...&apos;
+cinder = client.Client(&apos;1&apos;,OS_USER_NAME,OS_PASSWORD,OS_TENANT_NAME,OS_AUTH_URL)
+myVolume = cinder.volumes.create(display_name=&quot;test-vol&quot;, size=1)
+&apos;&apos;&apos;创建一个名为test-vol,大小为1g的volume
+还可以指定其他参数如volume_type、snapshot_id等等
+ &apos;&apos;&apos;
+</code></pre><ol start="2">
+<li><p>更新volume(更新卷名称或卷描述)</p>
+<pre><code>#!/usr/bin/env python
+from cinderclient.v1 import client
+OS_USERNAME = &apos;admin&apos;
+OS_PASSWORD = &apos;...&apos;
+OS_TENANT_NAME = &apos;admin&apos;
+OS_AUTH_URL = &apos;...&apos;
+cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME,       OS_AUTH_URL)
+&apos;&apos;&apos;
+def update(self, volume, **kwargs),这是api中的定义
+&apos;&apos;&apos;
+ cinder.volumes.up
+date(&apos;这里写volume的id&apos;,display_name=&apos;新名称&apos;,display_description=&apos;新的描述&apos;)
+</code></pre></li>
+<li><p>获取volume列表</p>
+<pre><code>#!/usr/bin/env python
+ from cinderclient.v1 import client
+OS_USERNAME = &apos;admin&apos;
+OS_PASSWORD = &apos;...&apos;
+OS_TENANT_NAME = &apos;admin&apos;
+OS_AUTH_URL = &apos;...&apos;
+cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME, OS_AUTH_URL)
+list = cinder.volumes.list()
+print(list)`
+</code></pre><p>4.删除volume</p>
+<pre><code>#!/usr/bin/env python
+from cinderclient.v1 import client
+OS_USERNAME = &apos;admin&apos;
+OS_PASSWORD = &apos;...&apos;
+OS_TENANT_NAME = &apos;admin&apos;
+OS_AUTH_URL = &apos;...&apos;
+cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME, OS_AUTH_URL)
+cinde.volumes.delete(&apos;这里写volumeid&apos;)`
+</code></pre></li>
+</ol>
+<hr>
+<p>以上几个方法中都用到了clint，可以单独写一个方法用来获取client<br>未完待续。。。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/12/nnull/" itemprop="url">
+                  有关null的九件事
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-09-12T22:25:00+08:00" content="2015-09-12">
+              2015-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>null</p>
+<p>对于Java程序员来说，null是令人头痛的东西。时常会受到空指针异常（NPE）的骚扰。连Java的发明者都承认这是他的一项巨大失误。Java为什么要保留null呢？null出现有一段时间了，并且我认为Java发明者知道null与它解决的问题相比带来了更多的麻烦，但是null仍然陪伴着Java。我越发感到惊奇，因为java的设计原理是为了简化事情，那就是为什么没有浪费时间在指针、操作符重载、多继承实现的原因，null却与此正好相反。好吧，我真的不知道这个问题的答案，我知道的是不管null被Java开发者和开源社区如何批评，我们必须与null共同存在。与其为null的存在感到后悔，我们倒不如更好的学习null，确保正确使用null。为什么在Java中需要学习null？因为如果你对null不注意，Java将使你遭受空指针异常的痛苦，并且你也会得到一个沉痛的教训。精力充沛的编程是一门艺术，你的团队、客户和用户将会更加欣赏你。以我的经验来看，导致空指针异常的一个最主要的原因是对Java中null的知识还不够。你们当中的很多已经对null很熟悉了，但是对那些不是很熟悉的来说，可以学到一些关于null老的和新的知识。让我们一起重新学习Java中null的一些重要知识吧！<br>Java中的Null是什么？</p>
+<p>正如我说过的那样，null是Java中一个很重要的概念。null设计初衷是为了表示一些缺失的东西，例如缺失的用户、资源或其他东西。但是，一年后，令人头疼的空指针异常给Java程序员带来不少的骚扰。在这份材料中，我们将学习到Java中null关键字的基本细节，并且探索一些技术来尽可能的减少null的检查以及如何避免恶心的空指针异常。</p>
+<p>1）首先，null是Java中的关键字，像public、static、final。它是大小写敏感的，你不能将null写成Null或NULL，编译器将不能识别他们然后报错</p>
+<p> Object obj = NULL; // Not Ok<br> Object obj1 = null  //Ok</p>
+<p>使用其他语言的程序员可能会有这个问题，但是现在IDE的使用已经使得这个问题变得微不足道。现在，当你敲代码的时候，IDE像Eclipse、Netbeans可以纠正这个错误。但是其他工具像notepad、Vim、Emacs，这个问题却会浪费你宝贵时间的。</p>
+<p>2）就像每种原始类型都有默认值一样，如int默认值为0，boolean的默认值为false，null是任何引用类型的默认值，不严格的说是所有object类型的默认值。就像你创建了一个布尔类型的变量，它将false作为自己的默认值，Java中的任何引用变量将null作为默认值。对所有变量都是适用的，如成员变量、局部变量、实例变量、静态变量（但当你使用一个没有初始化的局部变量，编译器会警告你）。为了证明这个事实，你可以通过创建一个变量然后打印它的值来观察这个引用变量，如下图代码所示：</p>
+<p>private static Object myObj;<br>public static void main(String args[]){<br>System.out.println(“What is value of myObjc : “ + myObj);<br>}</p>
+<p> What is value of myObjc : null</p>
+<p>这对静态和非静态的object来说都是正确的。就像你在这里看到的这样，我将myObj定义为静态引用，所以我可以在主方法里直接使用它。注意主方法是静态方法，不可使用非静态变量</p>
+<p>3）与普通的误解不同，null既不是Object也不是其他的类型。它仅仅是一个特殊的值，可以分配给任何引用类型。你可以将null强制转换成任何类型，如下所示：</p>
+<p>  String str = null; // null can be assigned to String<br>  Integer itr = null; // you can assign null to Integer also<br> Double dbl = null;  // null can also be assigned to Double</p>
+<p> String myStr = (String) null; // null can be type cast to String<br>Integer myItr = (Integer) null; // it can also be type casted to Integer<br> Double myDbl = (Double) null; // yes it’s possible, no error</p>
+<p>你可以看到在编译和运行时期，将null强制转换成任何引用类型都是可行的，在运行时期都不会抛出空指针异常</p>
+<p>4）null可以赋值给引用变量，你不能将null赋给基本类型变量，例如int、double、float、boolean。如果你那样做了，编译器将会报错，如下所示：</p>
+<p>int i = null; // type mismatch : cannot convert from null to int<br>short s = null; //  type mismatch : cannot convert from null to short<br>byte b = null: // type mismatch : cannot convert from null to byte<br>double d = null; //type mismatch : cannot convert from null to double</p>
+<p>Integer itr = null; // this is ok<br>int j = itr; // this is also ok, but NullPointerException at runtime</p>
+<p>正如你看到的那样，当你直接将null赋值给基本类型，会出现编译错误。但是如果将null赋值给包装类object，然后将object赋给各自的基本类型，编译器不会报，但是你将会在运行时期遇到空指针异常。这是Java中的自动拆箱导致的，我们将在下一个要点看到它</p>
+<p>5)任何含有null值的包装类在Java拆箱生成基本数据类型时候都会抛出一个空指针异常。一些程序员犯这样的错误， 他们认为自动装箱会将null转换成各自基本类型的默认值，例如对于int转换成0，布尔类型转换成false，但是那是不正确的，如下面所示<br>Integer iAmNull = null;<br>int i = iAmNull; // Remember - No Compilation Error</p>
+<p>但是当你运行上面的代码片段的时候，你会在控制台上看到主线程抛出空指针异常。在使用HashMap和Integer键值的时候会发生很多这样的错误。当你运行下面代码的时候就会出现错误</p>
+<p>import java.util.HashMap;<br>import java.util.Map;<br> /**</p>
+<ul>
+<li>An example of Autoboxing and NullPointerExcpetion<br>*</li>
+<li>@author WINDOWS 8<br>*/</li>
+</ul>
+<p>public class Test {</p>
+<p>public static void main(String args[]) throws InterruptedException {</p>
+<p>  Map numberAndCount = new HashMap&lt;&gt;();</p>
+<p>  int[] numbers = {3, 5, 7,9, 11, 13, 17, 19, 2, 3, 5, 33, 12, 5};</p>
+<p>  for(int i : numbers){<br>     int count = numberAndCount.get(i);<br>     numberAndCount.put(i, count++); // NullPointerException here<br>  }<br>}</p>
+<p> }</p>
+<p> Output:<br>Exception in thread “main” java.lang.NullPointerException  at Test.main(Test.java:25)</p>
+<p>这段代码看起来非常简单并且没有错误。你所做的一切是找到一个数字在数组中出现了多少次，这是Java数组中典型的寻找重复的技术。开发者首先得到以前的数值，然后在加一，最后把值放回Map里。程序员可能会以为，调用put方法时，自动装箱会自己处理好将int装箱成Interger。但是他忘记了当一个数字没有计数值的时候，get()方法将会返回null，而不是0，因为Integer的默认值是null而不是0。当把null值传递给一个int型变量的时候自动装箱将会返回空指针异常。设想一下，如果这段代码在一个if嵌套里，没有在QA环境下运行，但是你一旦放在生产环境里，BOOM</p>
+<p>6)如果使用了带有null值的引用类型变量，instanceof操作将会返回false</p>
+<p>Integer iAmNull = null;<br>if(iAmNull instanceof Integer){<br> System.out.println(“iAmNull is instance of Integer”);                            </p>
+<p>}else{<br> System.out.println(“iAmNull is NOT an instance of Integer”);<br>}</p>
+<p>这是instanceof操作一个很重要的特性，使得对类型强制转换检查很有用。</p>
+<p>7)你可能知道不能调用非静态方法来使用一个值为null的引用类型变量。它将会抛出空指针异常，但是你可能不知道，你可以使用静态方法来使用一个值为null的引用类型变量。因为静态方法使用静态绑定，不会抛出空指针异常。下面是一个例子</p>
+<p>public class Testing {<br> public static void main(String args[]){<br>  Testing myObject = null;<br>  myObject.iAmStaticMethod();<br>  myObject.iAmNonStaticMethod();<br>}</p>
+<p>private static void iAmStaticMethod(){<br>    System.out.println(“I am static method, can be called by null reference”);<br> }</p>
+<p> private void iAmNonStaticMethod(){<br>System.out.println(“I am NON static method, don’t date to call me by null”);<br> }</p>
+<p>Output:<br> I am static method, can be called by null reference<br>  Exception in thread “main” java.lang.NullPointerException at Testing.main(Testing.java:11)</p>
+<p>8)你可以将null传递给方法使用，这时方法可以接收任何引用类型，例如public void print(Object obj)可以这样调用print(null).从编译角度来看这是可以的，但结果完全取决于方法。Null安全的方法，在这个例子中不会抛出空指针异常，只是优雅的退出。如果业务逻辑允许的话 推荐null安全的方法</p>
+<p>9）你可以使用==或者!=操作来比较null值，但是不能使用其他算法或者逻辑操作，例如小于或者大于。跟SQL不一样，在Java中null==null将返回true</p>
+<p>public class Test {</p>
+<p>public static void main(String args[]) throws InterruptedException {</p>
+<p>   String abc = null;<br>   String cde = null;</p>
+<p>   if(abc == cde){<br>       System.out.println(“null == null is true in Java”);<br>   }</p>
+<p>   if(null != null){<br>       System.out.println(“null != null is false in Java”);<br>   }</p>
+<p>   // classical null check<br>   if(abc == null){<br>       // do something<br>   }</p>
+<p>   // not ok, compile time error<br>   if(abc &gt; null){</p>
+<p>   }<br>}<br> }</p>
+<p>Output：</p>
+<p>null == null is true in Java</p>
+<p>这是关与Java中null的全部。通过Java编程的一些经历和使用简单的技巧来避免空指针异常，你可以是你的代码变得null安全。因为null经常作为空或者未初始化的值，它是困惑的源头，那也是对文档行为来说，规定一个方法的null值输入的重要原因。总而言之，记住，null是任何一个引用类型变量的默认值，在java中你不能调用null引用来调用任何的instance方法或者接收一个instance变量<br>Share</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/09/12/javaclass/" itemprop="url">
                   java类的生命详解
                 </a>
@@ -1423,261 +1754,6 @@ update t set updata_time = getDate where id = 1</code><br>如果使用replace in
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/29/nodeCode/" itemprop="url">
-                  node编码规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-07-29T21:14:16+08:00" content="2015-07-29">
-              2015-07-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
-                    <span itemprop="name">MEAN框架学习</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>缩进: 采用2个空格缩进，而不是tab缩进</li>
-<li>变量声明：使用var声明变量，不加var时会将其变成全局变量，这样可能会污染上下文，或是被意外污染。*<em>需要说明的是，每行声明都该带上var，而不是只有一个var，实例代码如下：<br><code>var assert = require(&#39;assert&#39;);
-var fork = require(&#39;child_process&#39;).fork;
-var net = require(&#39;net&#39;);
-var EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>错误示例如下：<br><code>var assert = require(&#39;assert&#39;)
-, fork = require(&#39;child_process&#39;).fork
-, net = require(&#39;net&#39;)
-, EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>3.空格<br>在操作符前后需要加空格，比如+、-、</em>、%、=等操作符前后都应该存在一个空格，示例如下：<br><code>var foo = &#39;bar&#39; + baz</code>;<br>错误的示例如下所示：<br><code>var foo=&#39;bar&#39;+baz</code>;<br>此外，在小括号前后应该存在空格，如<br><code>if (true) {
-// some code
-}</code><br>错误的示例如下所示：<br><code>if(true){
-// some code
-}</code><br>4.单双引号的使用<br>由于双引号在别的场景下使用较多，在Node中使用字符串时尽量使用单引号，这样无需转义，如<br><code>var html = &#39;&lt;a href=&quot;http://cnodejs.org&quot;&gt;CNode&lt;/a&gt;&#39;;</code><br>5.大括号的位置:一般情况下，大括号无需另起一行，如<br><code>if (true) {
-//some code
-}</code><br>错误的示例如下：<br><code>if (true)
-{ 
-//some code
-}</code></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/29/nodename/" itemprop="url">
-                  node命名规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-07-29T21:14:08+08:00" content="2015-07-29">
-              2015-07-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
-                    <span itemprop="name">MEAN框架学习</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>变量命名:变量名都采用小驼峰式名，即除了第一个单词的首字母不大写外，每个单词的首字母都大写，词与词之间没有任何符号，如<code>var adminUser = {}</code>;</li>
-<li>方法命名与变量命名一样，采用小驼峰式命名。与变量不同的是，方法名尽量采用动词或判断行词汇，如<code>var getUser = function () {};
-var isAdmin = function () {};
-User.prototype.getInfo = function () {};</code><ol start="3">
-<li>类命名：类命名采用大驼峰式命名，即所有单词的首字母都大写，如<code>function User {
-}</code></li>
-<li>常量命名，作为常量时，单词的所有字母都大写，并用下划线分割，如<code>var PINK_COLOR = &quot;pink&quot;</code></li>
-<li>文件命名：尽量采用下划线分割单词，比如child_process.js和string_decode.js</li>
-</ol>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1723,7 +1799,7 @@ User.prototype.getInfo = function () {};</code><ol start="3">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">96</span>
+              <span class="site-state-item-count">98</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1740,7 +1816,7 @@ User.prototype.getInfo = function () {};</code><ol start="3">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

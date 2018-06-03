@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-05-27T23:03:27.675Z</updated>
+  <updated>2018-06-03T23:53:05.096Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql的几种日志</title>
+    <link href="http://www.appleieye.com/2018/06/04/Mysql%E7%9A%84%E5%87%A0%E7%A7%8D%E6%97%A5%E5%BF%97/"/>
+    <id>http://www.appleieye.com/2018/06/04/Mysql的几种日志/</id>
+    <published>2018-06-04T05:58:10.000Z</published>
+    <updated>2018-06-03T23:53:05.096Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Mysql的几种日志"><a href="#Mysql的几种日志" class="headerlink" title="Mysql的几种日志"></a>Mysql的几种日志</h3><ul><li>错误日志</li><li>慢查询日志</li><li>查询日志</li><li>二进制日志</li></ul><h3 id="错误日志："><a href="#错误日志：" class="headerlink" title="错误日志："></a>错误日志：</h3><p>对mysql的启动、运行、关闭过程进行了记录；不仅记录了所有错误信息，也记录一些警告信息或正确的信息。通过<em>show variables like ‘log_error’ \G</em> 命令来定位错误日志</p><h3 id="慢查询日志："><a href="#慢查询日志：" class="headerlink" title="慢查询日志："></a>慢查询日志：</h3><p>可以为mysql设定一个阀值，将运行时间超过该值的所有sql语句都记录到慢查询日志。</p><ol><li>开启慢查询日志。慢查询日志默认是关闭的，其状态可以通过<em>show variables like ‘slow_query_log’;</em> 将其打开<em>set global slow_query_log=1;</em>，1代表打开，0代表关闭；使用set global slow_query_log=1开启了慢查询日志只对当前数据库生效，如果MySQL重启后则会失效。如果要永久生效，就必须修改配置文件my.cnf（其它系统变量也是如此）；</li><li>设置阀值。使用<em>show variables like ‘long_query_time’;</em>,查看当前阀值，默认是10秒；设置阀值<em>set global long_query_time=4;</em></li><li>mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。log_out参数指定了慢查询输出的格式，默认为FILE,可以将它设为TABLE,就可以查询slow_log这张表了。命令如下：<em>show variables like ‘log_output’ \G; set global log_out=’TABLE’</em> 。(日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，又需要能够获得更高的系统性能，那么建议优先记录到文件)</li><li>测试慢查询。执行select sleep(10);</li><li>查询慢查询日志。mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。</li><li>优化：slow_log表默认的存储引擎是CVS引擎，对大数据量下的查询效率可能不高，可以将其转换为MyISAM。<ul><li>停用慢查询 <em>set global slow_query_log = off;</em></li><li>更改引擎：alter table slow_log engine = MyISAM;</li><li>启用慢查询： set global slow_query_log = on;</li></ul></li><li>在配置文件中修改参数</li><li>其他：<ul><li>log_queries_not_using_indexes:</li><li>Log_throttle_queries_not_using_indexes:</li></ul></li></ol><h3 id="查询日志"><a href="#查询日志" class="headerlink" title="查询日志"></a>查询日志</h3><p>查询日志记录了所有对mysql数据库请求对信息，无论这些请求是否得到了执行。通过查询mysql.general_log来获取这些记录。general_log默认也是关闭的，需要设置为开启状态。</p><h3 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h3><p>二进制日志记录了对mysql数据库执行更改的所有操作。</p><h4 id="二进制日志的作用："><a href="#二进制日志的作用：" class="headerlink" title="二进制日志的作用："></a>二进制日志的作用：</h4><ul><li>恢复：某些数据的恢复需要二进制文件</li><li>复制：通过复制和执行二进制日志使一台从数据库与一台主数据库进行实时同步</li><li>审计：通过二进制日志中的信息来进行审计，判断是否有对数据库执行注入的攻击</li></ul><h4 id="开启二进制日志："><a href="#开启二进制日志：" class="headerlink" title="开启二进制日志："></a>开启二进制日志：</h4><p>二进制日志默认情况下是关闭的，需要通过修改配置文件并重启服务的方式，开启二进制日志。</p><h4 id="几个参数："><a href="#几个参数：" class="headerlink" title="几个参数："></a>几个参数：</h4><ul><li>max_binglog_size:指定了单个二进制日志文件的最大值，如果超过该值，则产生新的二进制日志文件，后缀名+1，并记录到.index文件。</li><li>Bingo_cache_size:当使用事务时，所有未提交的二进制日志会被记录到一个缓存中去，等该事务提交时直接将缓冲的中的二进制日志写入二进制日志文件，而该缓冲的大小由binlog_cache_size决定，默认大小为32k；</li><li>Bingo_do_db和binlog_ignore_db表示需要写入或忽略写入哪些库的日志。默认为空，表示需哟啊同步所有库的日志到二进制日志。</li><li>log_slave_update:设置从库从master取得并执行二进制日志到自己的二进制日志文件中去</li><li>binlog_format:记录二进制日志的格式。通常将其设置为row格式，在这种情况下，二进制日志记录的不再是简单的sql语句，而是记录表的行更改情况。这可以为数据库的恢复和复制带来更好的可靠性。</li><li>sync_binlog:二进制日志是否同步写磁盘。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Mysql的几种日志&quot;&gt;&lt;a href=&quot;#Mysql的几种日志&quot; class=&quot;headerlink&quot; title=&quot;Mysql的几种日志&quot;&gt;&lt;/a&gt;Mysql的几种日志&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;错误日志&lt;/li&gt;
+&lt;li&gt;慢查询日志&lt;/li&gt;
+&lt;li&gt;查询日
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="mysql" scheme="http://www.appleieye.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ高可用方案</title>
+    <link href="http://www.appleieye.com/2018/05/28/RabbitMQ%E9%AB%98%E5%8F%AF%E7%94%A8%E6%96%B9%E6%A1%88/"/>
+    <id>http://www.appleieye.com/2018/05/28/RabbitMQ高可用方案/</id>
+    <published>2018-05-28T05:58:10.000Z</published>
+    <updated>2018-05-27T23:06:39.022Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="搭建RabbitMQ内建集群"><a href="#搭建RabbitMQ内建集群" class="headerlink" title="搭建RabbitMQ内建集群"></a>搭建RabbitMQ内建集群</h3><h3 id="为什么需要集群？"><a href="#为什么需要集群？" class="headerlink" title="为什么需要集群？"></a>为什么需要集群？</h3><ul><li>高可用：保证生产者和消费者在某个节点故障后，仍然可以连上其他节点</li><li>高性能：通过添加更高节点来线性扩展消息通信吞吐量</li></ul><h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><ul><li>停止Rabbit运行：rabbitmqctl stop</li><li>停止RabbitMQ插件：rabbitmq-plugins disable rabbitmq_management，避免其他节点启动时冲突</li><li>添加第二、三个节点，并分别命名为rabbit_1、rabbit_2,端口号依次监听5673、5674<ul><li></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;a href=&quot;#搭建RabbitMQ内建集群&quot; class=&quot;headerlink&quot; title=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;/a&gt;搭建RabbitMQ内建集群&lt;/h3&gt;&lt;h3 id=&quot;为什么需要集群？&quot;&gt;&lt;a href
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
   
   <entry>
     <title>RabbitMQ通信过程分析</title>
@@ -30,33 +83,6 @@
       
       
         &lt;h3 id=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;a href=&quot;#RabbitMQ通信过程分析&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ通信过程分析&quot;&gt;&lt;/a&gt;RabbitMQ通信过程分析&lt;/h3&gt;&lt;h3 id=&quot;总体流程概述：&quot;&gt;&lt;a href=
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RabbitMQ常用命令</title>
-    <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
-    <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
-    <published>2018-05-26T05:58:10.000Z</published>
-    <updated>2018-05-26T07:52:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote><ul><li>启动节点：rabbitmq-server</li><li>后台守护进程的方式启动：rabbitmq-server -detached</li><li>停止节点：rabbitmqctl stop</li><li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li><li>停止应用程序 rabbitmqctl stop_app </li><li>启动应用程序 rabbitmqctl start_app</li><li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li><li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li><li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li><li>列出绑定：rabbitmqctl list_bindings</li><li>添加用户: rabbitmqctl add_user username password</li><li>删除用户：rabbitmqctl delete_user </li><li>列出所有用户：rabbitmqctl list_users</li><li>修改密码 rabbitmqctl change_password username newpassword</li><li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li><li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li><li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;RabbitMQ常用命令&quot;&gt;&lt;a href=&quot;#RabbitMQ常用命令&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ常用命令&quot;&gt;&lt;/a&gt;RabbitMQ常用命令&lt;/h3&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;启动节点：rabbit
       
     
     </summary>
@@ -95,6 +121,33 @@
   </entry>
   
   <entry>
+    <title>RabbitMQ常用命令</title>
+    <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
+    <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T07:52:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote><ul><li>启动节点：rabbitmq-server</li><li>后台守护进程的方式启动：rabbitmq-server -detached</li><li>停止节点：rabbitmqctl stop</li><li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li><li>停止应用程序 rabbitmqctl stop_app </li><li>启动应用程序 rabbitmqctl start_app</li><li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li><li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li><li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li><li>列出绑定：rabbitmqctl list_bindings</li><li>添加用户: rabbitmqctl add_user username password</li><li>删除用户：rabbitmqctl delete_user </li><li>列出所有用户：rabbitmqctl list_users</li><li>修改密码 rabbitmqctl change_password username newpassword</li><li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li><li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li><li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;RabbitMQ常用命令&quot;&gt;&lt;a href=&quot;#RabbitMQ常用命令&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ常用命令&quot;&gt;&lt;/a&gt;RabbitMQ常用命令&lt;/h3&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;启动节点：rabbit
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springMVC示例之hello world</title>
     <link href="http://www.appleieye.com/2018/04/30/springMVChello%20world/"/>
     <id>http://www.appleieye.com/2018/04/30/springMVChello world/</id>
@@ -120,31 +173,6 @@
   </entry>
   
   <entry>
-    <title>spring面向切面编程示例之打印日志</title>
-    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
-    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-22T03:57:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spring bean装配的三种方式之xml配置</title>
     <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
     <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
@@ -158,6 +186,31 @@
       
       
         &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring面向切面编程示例之打印日志</title>
+    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
+    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-22T03:57:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
       
     
     </summary>
@@ -478,62 +531,6 @@
 &lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（un
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java内存布局</title>
-    <link href="http://www.appleieye.com/2018/01/04/jvm/"/>
-    <id>http://www.appleieye.com/2018/01/04/jvm/</id>
-    <published>2018-01-04T14:24:24.000Z</published>
-    <updated>2018-01-04T14:24:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#java内存大概分为以下几个区域：</p><blockquote><ul><li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li></ul></blockquote><blockquote><ul><li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li></ul></blockquote><blockquote><ul><li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li></ul></blockquote><blockquote><ul><li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li></ul></blockquote><blockquote><ul><li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li><li>堆：用于存储对象实例以及数组。线程共享</li></ul></blockquote><hr><h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol><li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li></ol><pre><code>    import java.util.ArrayList;    import java.util.List;    public class HeapOOM {    static class OOMObject{    }    public static void main(String[] args) {     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();    while(true){        list.add(new OOMObject());    }     }   } }运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError运行结果：java.lang.OutOfMemoryError: Java heap space          Dumping heap to java_pid2644.hprof ...          Hep dump file created [28079521  bytes in 0.104 secs]</code></pre><ol start="2"><li>虚拟机栈和本地方法栈溢出</li><li>方法区和运行时常量池溢出</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#java内存大概分为以下几个区域：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（un
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java基础</title>
-    <link href="http://www.appleieye.com/2017/11/28/JavaBase/"/>
-    <id>http://www.appleieye.com/2017/11/28/JavaBase/</id>
-    <published>2017-11-28T12:53:32.000Z</published>
-    <updated>2017-11-28T12:53:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Java基础回顾"><a href="#Java基础回顾" class="headerlink" title="Java基础回顾"></a>Java基础回顾</h2><blockquote><ul><li>大小写敏感</li><li>4个访问修饰符及范围</li><li>类的命名规范：类名是以大写字母开头。驼峰命名</li><li>源代码的文件名必须与public类的名字相同，并以.java作为扩展名</li><li>使用javac xxx.java编译程序，使用java xxx来运行程序。xxx这里值类名</li><li>注释：有三种<ul><li>行注释:  //something</li><li>段注释： /<em> something </em>/</li><li>可自动生成文档的注释：  /*<em>  something </em>/</li></ul></li><li>基本数据类型：共8种：4种整型，2种浮点型，1种字符型，1种布尔型<ul><li>整型：范围从小到大依次为：byte、short、int、long，所需要的存储空间依次为1字节、2字节、4字节、8字节。java中所有数值类型所占据的字节数量与平台无关</li><li>浮点型：float、double，double的精度是float类型的两倍，也称为双精度。所需存储空间以此为4字节、8字节</li><li>字符类型：char。<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431664106267f12e9bef7ee14cf6a8776a479bdec9b9000" target="_blank" rel="noopener">编码格式的相关内容</a></li><li>布尔类型：boolean。整数值和布尔值之间不能进行相互转换</li></ul></li><li>引用类型：数组、类、接口    </li><li>变量：变量的声明以及命名规范；变量的初始化；<strong>在java中，变量的声明尽可能地靠近变量第一次使用的地方，这是一种良好的程序编写风格</strong></li><li>常量：用关键字final修饰常量，表示该变量智能被赋值一次。一旦被赋值之后，就不能被修改了。常量名使用全大写。如果希望某个常量可以在一个类中的多个方法中使用，通常将这些变量称为类常量，使用static final来设置一个类常量。类常量的定义位于main方法外部</li><li>运算符：+，-，*，/。当参与/运算的两个操作数都是整数时，表示整数除法，否则表示浮点除法。整数被0整除会产生一个异常，而浮点数被0整除将会得到无穷大或NaN结果</li><li>数值类型之间的转换：实心箭头表示无信息丢失的转换；虚箭头表示可能有精度损失的转换。<br>  <img src="http://7pn53u.com1.z0.glb.clouddn.com/property%20.png" alt="此处输入图片的描述"><br>n+f,n是整数，f是浮点数，需要将两个操作数转换为同一种类型，再进行运算。<ul><li>如果两个操作数中有一个是double类型，另一个操作数就会转换为double类型</li><li>如果一个操作数是float类型，另一个操作数机就会转换为float类型</li><li>如果一个操作数是long类型，另一个操作数就会转换为long类型</li><li>否则，两个操作数都将转换为int类型。</li></ul></li></ul></blockquote><blockquote><ul><li>强制类型转换</li><li>流程控制<ul><li>块作用域：块决定了变量的作用域；不能在嵌套的两个块中声明同名的变量</li><li>if else</li><li>while、do…while</li><li>for循环：</li><li>switch case:case标签可以是char/byte/short/int的常量表达式；或枚举常量；从java SE7开始，case标签还可以是字符串字面量</li><li>中断控制流程语句：break，continue</li></ul></li><li>字符串</li><li>大数值：BigInteger和BigDecimal：这两个类可以处理包含任意长度数字序列的数值</li><li>数组<ul><li>数组拷贝：使用Arrays类的copyOf方法会将一个数组的所有值copy到一个新的数组中去，这时候对新数组的修改将不会影响到原先数组。</li></ul></li></ul></blockquote><p>参考《Java核心技术卷一》</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;Java基础回顾&quot;&gt;&lt;a href=&quot;#Java基础回顾&quot; class=&quot;headerlink&quot; title=&quot;Java基础回顾&quot;&gt;&lt;/a&gt;Java基础回顾&lt;/h2&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;大小写敏感&lt;/li&gt;
-&lt;li&gt;4个访问修饰符及范围&lt;/
       
     
     </summary>
