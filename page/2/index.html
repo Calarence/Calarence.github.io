@@ -271,6 +271,150 @@
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/springbean2/" itemprop="url">
+                  spring bean装配的三种方式之Java代码配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T13:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring-bean装配的三种方式之Java代码配置"><a href="#spring-bean装配的三种方式之Java代码配置" class="headerlink" title="spring bean装配的三种方式之Java代码配置"></a>spring bean装配的三种方式之Java代码配置</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>尽管自动化转配能够满足大部分的需求，但是有一种情况却无能为力：比如说， 你想 要将 想将第三方库中的组件装配到应用中，在这种情况下，是没有 办法在它的类上添加@Component和@Autowired注解的。这个时候，可以使用java代码或xml配置的方式。</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
+<ul>
+<li>创建配置类</li>
+<li>声明简单的bean</li>
+<li>实现注入</li>
+</ul>
+</blockquote>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
+<li>配置类,注意该类与自动装配的区别</li>
+</ol>
+<pre><code>package com.appleieye.maya.api;
+
+@Configuration
+public class CDPlayerConfig {
+
+}
+</code></pre><ol start="2">
+<li>声明bean:要在 JavaConfig 中 声明 bean，我们需要编写一个方法， 这个方法会创建所需类型的实例，然后给这个方法添加@Bean注解。</li>
+</ol>
+<pre><code>@Bean
+public CompasticDisc sgtPeppers(){
+   return new SgtPeppers();
+}
+</code></pre><ol start="3">
+<li><p>实现注入：将cd注入到player中去</p>
+<pre><code>@Bean public CDPlayer cdPlayer( CompactDisc compactDisc) {
+return new CDPlayer( compactDisc); 
+}
+</code></pre><p><strong><em>这是引用其他bean到最佳选择。</em></strong> cdPlayer()方法请求一个CompactDisc作为参数。当Spring调用cdPlayer()创建CDPlayerbean的时候，它会自动装配一个CompactDisc到配置方法之中。然后，方法体就可以按照合适的方式来使用它。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/17/sprigworld/" itemprop="url">
                   spring依赖注入示例之hello world
                 </a>
@@ -1697,209 +1841,6 @@ G1收集器之所以能建立可预测的停顿时间模型，是因为它可以
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/05/javaMemory/" itemprop="url">
-                  java内存布局
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-01-05T10:41:42+08:00" content="2018-01-05">
-              2018-01-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#java内存大概分为以下几个区域：</p>
-<blockquote>
-<ul>
-<li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li>
-<li>堆：用于存储对象实例以及数组。线程共享</li>
-</ul>
-</blockquote>
-<hr>
-<h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol>
-<li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li>
-</ol>
-<pre><code>    import java.util.ArrayList;
-    import java.util.List;
-    public class HeapOOM {
-    static class OOMObject{
-
-    }
-    public static void main(String[] args) {
-     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();
-    while(true){
-        list.add(new OOMObject());
-    }
-     }
-   } }
-
-运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError
-运行结果：java.lang.OutOfMemoryError: Java heap space
-          Dumping heap to java_pid2644.hprof ...
-          Hep dump file created [28079521  bytes in 0.104 secs]
-</code></pre><ol start="2">
-<li>虚拟机栈和本地方法栈溢出<br>原理：<pre><code>&gt; * 使用-Xss减少栈内存容量
-&gt; * 定义大量的本地变量，增大此方法帧中本地变量表的长度
-</code></pre></li>
-</ol>
-<p>代码如下：</p>
-<pre><code>public class JavaVMStackSOF {
-
-private int statckLength = 1;
-
-public void stackLeak() {
-    statckLength++;
-    stackLeak();
-}
-
-public static void main(String[] args) throws Throwable {
-    JavaVMStackSOF oom = new JavaVMStackSOF();
-    try {
-        oom.stackLeak();
-    } catch (Throwable e) {
-        System.out.println(&quot;statck length:&quot; + oom.statckLength);
-        throw e;
-    }
-
-}
-
-}
-</code></pre><p>运行方式：java -Xss128k JavaVMStackSOF<br>输出结果：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png" alt="此处输入图片的描述"><br>实验结果：在单线程情况下，无论是栈空间太小还是栈帧太大，当内存无法分配的时候，得到的错误都是StackOverflowError异常。<br>多线程下不断地创建线程可引发OutOfMemoryError</p>
-<ol start="3">
-<li><p>方法区和运行时常量池溢出<br><strong>对常量池的测试</strong><br>原理：String.intern()是一个nanative方法，如果字符串常量池中已经包含一个等于此字符串对象的字符串，则返回代表池中这个字符串的Strig对象；否则，将String对象包含的字符串添加到常量池中，并且返回此Strig对象的引用。<br><strong><em>JDK1.6下</em></strong>：<br>示例代码：</p>
-<p> import java.util.ArrayList;<br> import java.util.List;<br> public class RuntimeConstantPoolOOM {<br> public static void main(String[] args) {</p>
-<pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
-int i = 0;
-while (true) {
-    list.add(String.valueOf(i++).intern());
-}
-</code></pre><p> }<br> }<br>运行方式：java -XX:PermSize=10M -XX:MaxPermSize=10M<br>输出结果：Exception in thread “main” java.lang.OutOfMemoryError：PermGen space</p>
-<pre><code>at java.lang.String.intern(Native Method)
-</code></pre></li>
-</ol>
-<p>注意：在JDK1.7下，该程序将一直进行下去。原因是intern方法在JDK1.7中发生了改变。intern方法不再复制实例，只是在常量池中记录首次出现的实例引用。</p>
-<p> <strong><em>对方法区的测试</em></strong><br>    原理：方法区用于存放Class的相关信息，如类名，访问修饰符、方法、接口、字段。基本思路是运行时产生大量的类去填满方法区，直到溢出。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1945,7 +1886,7 @@ while (true) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">98</span>
+              <span class="site-state-item-count">99</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-06-03T23:53:05.096Z</updated>
+  <updated>2018-06-09T08:59:58.224Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java 线程池</title>
+    <link href="http://www.appleieye.com/2018/06/09/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+    <id>http://www.appleieye.com/2018/06/09/Java线程池/</id>
+    <published>2018-06-09T05:58:10.000Z</published>
+    <updated>2018-06-09T08:59:58.224Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="为什么需要线程池"><a href="#为什么需要线程池" class="headerlink" title="为什么需要线程池"></a>为什么需要线程池</h4><p>线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？</p><ol><li>降低资源消耗：通过反复使用创建过的线程降低线程创建和销毁的消耗</li><li>提高响应速度：当任务到达时，可以不需要等待线程创建就可以立即执行</li></ol><h4 id="线程池的工作原理："><a href="#线程池的工作原理：" class="headerlink" title="线程池的工作原理："></a>线程池的工作原理：</h4><p>当提交一个任务到线程池时，处理流程如下：</p><ol><li>判断核心线程池是否已满。如果不是，则创建线程，执行任务；否则，进入下个流程。</li><li>判断工作队列是否已满。如果不是，则将任务存储在任务队列里；否则，进入下个流程</li><li>判断线程池是否已满。如果不是，则创建线程，执行任务；否则，交给饱和策略来处理这个任务。</li></ol><h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><p>可以通过ThreadPoolExecutor来创建一个线程池：</p><p>new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,milliseconds,runnableTaskQueue,handler),</p><p>参数说明：</p><ul><li>corePoolSize:线程池基本大小，当提交一个任务到线程池时，线程池会创建一个线程来执行任务，即使其他空闲的基本线程能够执行任务也会创建新线程；等到需要执行的任务数等于线程池基本大小就不再创建。</li><li>runnableTaskQueue：任务队列，用于保存待执行的任务的阻塞队列。有以下几种队列：<ul><li>ArrayBockingQueue:基于数组结构的有界阻塞队列，按照FIFO原则处理任务</li><li>LinkedBlockingQueue:基于链表结构的阻塞队列，按照FIFO原则处理任务，吞吐量高于ArrayBockingQueue。静态工厂方法Executors.newFixedThreadPool()使用了这个队列</li><li>SynchronousQueue:一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了该队列</li><li>PriorityBlockingQueue:一个具有优先级的无限阻塞队列</li></ul></li><li>maximumPoolSize：线程池所允许创建的最大线程数。如果队列满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程任务。如果使用了无界的任务队列，这个参数就没有效果</li><li>keepAliveTime：线程池的工作线程空闲后，保持存活的时间</li><li>milliseconds：线程活动的时间单位：如天、小时、秒、毫秒等。</li><li>RejectedExecutionHandler:饱和策略，当队列和线程池都满了，说明线程池处于饱和状态，必须采取一种策略处理提交的新任务。默认是AbortPolicy。四种策略如下<ul><li>AbortPolicy:直接抛出异常</li><li>CallerRunsPolicy:使用调用者所在线程来运行任务</li><li>DiscardOldestPolicy:丢弃队列里最老的一个任务，执行当前的一个任务</li><li>DiscardPolicy:不处理，丢弃掉</li></ul></li></ul><h4 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h4><p>可以通过execute()和submit()方法向线程池提交任务。</p><ul><li>execute()方法用于提交不需要返回值的任务。输入的参数是Runnable类的实例</li><li>submit()方法用于提交需要返回值的任务。线程池会返回一个future类型的对象，通过该对象判断任务是否执行成功；通过get方法来获取返回值，get()方法会阻塞当前线程直到任务执行成功；get(long timeunit,TimeUnit unit)方法会阻塞当前线程一段时间后返回，这时候任务可能没有执行完</li></ul><h4 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h4><p>通过shutdown或shutdownNow方法来关闭线程池。</p><h4 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h4><ul><li><p>CPU密集型任务应该配置尽可能性小的线程，如配置Ncpu+1个线程的线程池</p></li><li><p>IO密集型则配置尽可能多的线程，如2*Ncpu</p><p>通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;为什么需要线程池&quot;&gt;&lt;a href=&quot;#为什么需要线程池&quot; class=&quot;headerlink&quot; title=&quot;为什么需要线程池&quot;&gt;&lt;/a&gt;为什么需要线程池&lt;/h4&gt;&lt;p&gt;线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？&lt;/p&gt;
+&lt;ol
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql的几种日志</title>
@@ -49,15 +75,15 @@
     <link href="http://www.appleieye.com/2018/05/28/RabbitMQ%E9%AB%98%E5%8F%AF%E7%94%A8%E6%96%B9%E6%A1%88/"/>
     <id>http://www.appleieye.com/2018/05/28/RabbitMQ高可用方案/</id>
     <published>2018-05-28T05:58:10.000Z</published>
-    <updated>2018-05-27T23:06:39.022Z</updated>
+    <updated>2018-06-05T00:06:52.162Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="搭建RabbitMQ内建集群"><a href="#搭建RabbitMQ内建集群" class="headerlink" title="搭建RabbitMQ内建集群"></a>搭建RabbitMQ内建集群</h3><h3 id="为什么需要集群？"><a href="#为什么需要集群？" class="headerlink" title="为什么需要集群？"></a>为什么需要集群？</h3><ul><li>高可用：保证生产者和消费者在某个节点故障后，仍然可以连上其他节点</li><li>高性能：通过添加更高节点来线性扩展消息通信吞吐量</li></ul><h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><ul><li>停止Rabbit运行：rabbitmqctl stop</li><li>停止RabbitMQ插件：rabbitmq-plugins disable rabbitmq_management，避免其他节点启动时冲突</li><li>添加第二、三个节点，并分别命名为rabbit_1、rabbit_2,端口号依次监听5673、5674<ul><li></li></ul></li></ul>]]></content>
+    <content type="html"><![CDATA[<h3 id="搭建RabbitMQ内建集群"><a href="#搭建RabbitMQ内建集群" class="headerlink" title="搭建RabbitMQ内建集群"></a>搭建RabbitMQ内建集群</h3><h4 id="为什么需要集群？"><a href="#为什么需要集群？" class="headerlink" title="为什么需要集群？"></a>为什么需要集群？</h4><ul><li>高可用：保证生产者和消费者在某个节点故障后，仍然可以连上其他节点</li><li>高性能：通过添加更高节点来线性扩展消息通信吞吐量</li></ul><h4 id="分布交换器"><a href="#分布交换器" class="headerlink" title="分布交换器"></a>分布交换器</h4><p>当某节点故障后，需要保证连接该节点的消费者能重新连接集群并重新创建队列。要做到这一点，就要分布交换器，即每个节点都拥有其他节点上的交换器信息</p><h4 id="镜像队列"><a href="#镜像队列" class="headerlink" title="镜像队列"></a>镜像队列</h4><p>在有了分布交换器机制的后，可以解决节点故障时，消费者重连集群并创建队列的问题。但是，故障节点上队列中的消息在恢复前是不可用的。在2.6.0版本之前，上述情况是存在的，因为队列只存活于集群的一个节点上。但是现在，有了双活的选择：镜像队列。镜像队列的主拷贝仅存在于一个节点(主队列)上，镜像节点在集群中的其他节点上拥有从队列(slave)拷贝。一旦队列节点不可用，最老的从队列将被选举为新的主队列。</p><h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><ul><li>停止Rabbit运行：rabbitmqctl stop</li><li>停止RabbitMQ插件：rabbitmq-plugins disable rabbitmq_management，避免其他节点启动时冲突</li><li>添加第二、三个节点，并分别命名为rabbit_1、rabbit_2,端口号依次监听5673、5674<ul><li></li></ul></li></ul>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;a href=&quot;#搭建RabbitMQ内建集群&quot; class=&quot;headerlink&quot; title=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;/a&gt;搭建RabbitMQ内建集群&lt;/h3&gt;&lt;h3 id=&quot;为什么需要集群？&quot;&gt;&lt;a href
+        &lt;h3 id=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;a href=&quot;#搭建RabbitMQ内建集群&quot; class=&quot;headerlink&quot; title=&quot;搭建RabbitMQ内建集群&quot;&gt;&lt;/a&gt;搭建RabbitMQ内建集群&lt;/h3&gt;&lt;h4 id=&quot;为什么需要集群？&quot;&gt;&lt;a href
       
     
     </summary>
@@ -173,31 +199,6 @@
   </entry>
   
   <entry>
-    <title>spring bean装配的三种方式之xml配置</title>
-    <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
-    <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-25T13:13:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建xml规范，并声明xml模式(xsd)文件</li><li>声明bean</li><li>注入bean依赖</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>创建xml文件</li></ol><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;&lt;/beans&gt;</code></pre><ol start="2"><li><p>声明bean</p><pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;</code></pre></li><li><p>注入bean依赖</p></li></ol><pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;&lt;/bean&gt;</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spring面向切面编程示例之打印日志</title>
     <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
     <id>http://www.appleieye.com/2018/04/22/springaop/</id>
@@ -211,6 +212,31 @@
       
       
         &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring bean装配的三种方式之xml配置</title>
+    <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
+    <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-25T13:13:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建xml规范，并声明xml模式(xsd)文件</li><li>声明bean</li><li>注入bean依赖</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>创建xml文件</li></ol><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;&lt;/beans&gt;</code></pre><ol start="2"><li><p>声明bean</p><pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;</code></pre></li><li><p>注入bean依赖</p></li></ol><pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;&lt;/bean&gt;</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
       
     
     </summary>
@@ -503,34 +529,6 @@
 &lt;ol&gt;
 &lt;li&gt;哪些内存需要回收&lt;/li&gt;
 &lt;li&gt;何时回收 &lt;
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java内存布局</title>
-    <link href="http://www.appleieye.com/2018/01/05/javaMemory/"/>
-    <id>http://www.appleieye.com/2018/01/05/javaMemory/</id>
-    <published>2018-01-05T02:41:42.000Z</published>
-    <updated>2018-01-05T02:41:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>#java内存大概分为以下几个区域：</p><blockquote><ul><li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li></ul></blockquote><blockquote><ul><li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li></ul></blockquote><blockquote><ul><li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li></ul></blockquote><blockquote><ul><li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li></ul></blockquote><blockquote><ul><li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li><li>堆：用于存储对象实例以及数组。线程共享</li></ul></blockquote><hr><h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol><li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li></ol><pre><code>    import java.util.ArrayList;    import java.util.List;    public class HeapOOM {    static class OOMObject{    }    public static void main(String[] args) {     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();    while(true){        list.add(new OOMObject());    }     }   } }运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError运行结果：java.lang.OutOfMemoryError: Java heap space          Dumping heap to java_pid2644.hprof ...          Hep dump file created [28079521  bytes in 0.104 secs]</code></pre><ol start="2"><li>虚拟机栈和本地方法栈溢出<br>原理：<pre><code>&gt; * 使用-Xss减少栈内存容量&gt; * 定义大量的本地变量，增大此方法帧中本地变量表的长度</code></pre></li></ol><p>代码如下：</p><pre><code>public class JavaVMStackSOF {private int statckLength = 1;public void stackLeak() {    statckLength++;    stackLeak();}public static void main(String[] args) throws Throwable {    JavaVMStackSOF oom = new JavaVMStackSOF();    try {        oom.stackLeak();    } catch (Throwable e) {        System.out.println(&quot;statck length:&quot; + oom.statckLength);        throw e;    }}}</code></pre><p>运行方式：java -Xss128k JavaVMStackSOF<br>输出结果：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png" alt="此处输入图片的描述"><br>实验结果：在单线程情况下，无论是栈空间太小还是栈帧太大，当内存无法分配的时候，得到的错误都是StackOverflowError异常。<br>多线程下不断地创建线程可引发OutOfMemoryError</p><ol start="3"><li><p>方法区和运行时常量池溢出<br><strong>对常量池的测试</strong><br>原理：String.intern()是一个nanative方法，如果字符串常量池中已经包含一个等于此字符串对象的字符串，则返回代表池中这个字符串的Strig对象；否则，将String对象包含的字符串添加到常量池中，并且返回此Strig对象的引用。<br><strong><em>JDK1.6下</em></strong>：<br>示例代码：</p><p> import java.util.ArrayList;<br> import java.util.List;<br> public class RuntimeConstantPoolOOM {<br> public static void main(String[] args) {</p><pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();int i = 0;while (true) {    list.add(String.valueOf(i++).intern());}</code></pre><p> }<br> }<br>运行方式：java -XX:PermSize=10M -XX:MaxPermSize=10M<br>输出结果：Exception in thread “main” java.lang.OutOfMemoryError：PermGen space</p><pre><code>at java.lang.String.intern(Native Method)</code></pre></li></ol><p>注意：在JDK1.7下，该程序将一直进行下去。原因是intern方法在JDK1.7中发生了改变。intern方法不再复制实例，只是在常量池中记录首次出现的实例引用。</p><p> <strong><em>对方法区的测试</em></strong><br>    原理：方法区用于存放Class的相关信息，如类名，访问修饰符、方法、接口、字段。基本思路是运行时产生大量的类去填满方法区，直到溢出。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#java内存大概分为以下几个区域：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（un
       
     
     </summary>
