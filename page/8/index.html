@@ -271,6 +271,156 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/24/the-hacker-guide-to-python34/" itemprop="url">
+                  the-hacker-guide-python 三四章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-24T19:52:22+08:00" content="2015-11-24">
+              2015-11-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>Documentation  文档</em></strong></p>
+<hr>
+<ol>
+<li>python文档的标准格式是reStructuredText或简称reST.reST是轻量级的markup语言。<a href="http://sphinx-doc.org/" target="_blank" rel="noopener"><strong>Sphinx</strong></a>是处理这个格式的常用工具：它可以读取reST格式的内容并将其输出成其他格式的文档</li>
+<li><p>项目文档应该包含的内容：</p>
+<ul>
+<li>The problem your project is intended to solve, in one or two sentences.</li>
+<li>The license your project is distributed under. If your sotware is open source, you should also include this information in a header in each code file: just because you’ve uploaded your code to the Internet doesn’t mean that people will know what they’re allowed to do with it]</li>
+<li>A small example of how it works</li>
+<li>Installation instructions</li>
+<li>Links to community support, mailing list, IRC, forums, etc</li>
+<li>A link to your bug tracker system</li>
+<li>A link to your source code so that developers can download and start delving into it right away</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li>Sphinx的具体使用，见<a href="http://sphinx-doc.org/" target="_blank" rel="noopener">http://sphinx-doc.org/</a> </li>
+</ol>
+<hr>
+<p><strong>Distribution</strong>发布</p>
+<ol>
+<li><p>打包：准备发布程序时，需要将其打包，这一节介绍了一些打包工具：</p>
+<ul>
+<li><strong>distutils</strong>：python标准库，可以处理简单的包安装</li>
+<li><strong><em>setuptools</em></strong> ：高级包安装标准，现在正在使用中，</li>
+<li>distribute：在0,.7版本中已经merged到setuptools</li>
+<li>distutils2已经被抛弃</li>
+<li><strong><em>distlib</em></strong>：在将来可替代<em>distutils</em></li>
+<li><strong><em>pbr</em></strong>：在openstack项目中跟setuptools工具一起使用辅助安装过程进行。使用setup.cfg 文件来描述包的内容</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li>发布格式–Wheel format：<a href="https://www.python.org/dev/peps/pep-0427/" target="_blank" rel="noopener">PEP427</a>定义了python发布程序包的标准，称为Whee</li>
+<li>包安装–pip：pip项目提供了一种更好的方式处理包的安装</li>
+<li>source tarball形式发布：使用sdist命令</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/23/piaojinhui/" itemprop="url">
                   朴槿惠自传《绝望锻炼了我》读后感
                 </a>
@@ -1529,152 +1679,6 @@ return math.add(val,1);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/18/openstakAMQP/" itemprop="url">
-                  openstack采用的消息协议机制--AMQP(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-18T19:24:40+08:00" content="2015-11-18">
-              2015-11-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index">
-                    <span itemprop="name">openstack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>什么是RabbitMQ？它能做什么？<br>RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮局最大的不同是RabbitMQ处理的不是纸张，而是接收、存储和转发二进制的数据–message</li>
-</ol>
-<hr>
-<p>一般来说，RabbitMQ运行在所有主流的操作系统上，比如windows、Unix、Linux等等，非常容易使用。它也支持大量的开发平台如 Erlang, Java/JVM, Ruby ,Python, Perl , PHP等等</p>
-<hr>
-<p>RabbitMQ建立在高级消息队列协议AMQP之上</p>
-<hr>
-<p>AMQP用来处理publisher和consumer的问题。publisher发布消息，consumer“拾取”消息并对其进行处理。broker（比如RabbitMQ）的工作是确保消息能从publisher到达正确得consumer。exchange和queue者两个组件保证上述目标的实现。下面的例图展示了exchange、queue如何连接publisher和consumer</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig1.png" alt="此处输入图片的描述"><br><strong><em>注意：因为AMQP是一个网络协议，所以publisher、consumer和broker不一定在同一台机器上；绝大多数情况下不需要</em></strong></p>
-<hr>
-<p>queue是邮箱的别名。它存在于RabbitMQ之中。虽然message在RabbitMQ和应用之间流动，但是可以存储在queue中。queue没有被赋予任何的限制，它可以存储你喜欢的任何数量的message–本质上来讲，它是一个无穷缓冲。多个publisher可以发送message，然后进入到一个queue中，多个consumer可以从一个queue中获取消息</p>
-<hr>
-<p>RabbitMQ消息模型的核心点是producer从不会直接发送任何message到queue中。事实上，publisher都不知道message会发送到queue中去</p>
-<hr>
-<p>事实上，publisher只能将message发送到exchange。然后exchange将message copies发送到queue。那么message如何经exchange路由到queue中呢？这是一个好问题。第一，queue必须“拴”到一个给定的exchange。通常来说，consumer创建一个queue，然后同时将其拴到一个exchange上。第二，exchange接收到的message必须与queue相匹配。exchange和queue的关系是binding–绑定</p>
-<hr>
-<p>exchange必须清楚的知道如何处理它所接收到的message。message应该添加到特定的queue中去吗？还是应该添加到多个queue中去？或者message应该被丢弃？exchange type决定了处理message的规则</p>
-<hr>
-<p>有三种exchange type：direct、topic、headers、fanout</p>
-<p>Direct Exchange:direct exchange 根据message routing key将message发送到相应的queue中去。direct exchange是理想化的message单播路由机制</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig2.png" alt="此处输入图片的描述"></p>
-<hr>
-<p>Fanout Exchange:忽略routing key，然后将message发送到绑定到它上面的所有queue。如果N个queue绑定到一个fanout exchange上，当有新的message经过exchange时，message副本会被发送到N个queue中。Fanout exchange是理想化的message广播机制</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig3.png" alt="此处输入图片的描述"></p>
-<hr>
-<p>Topic Exchange：根据queue和exchange之间的绑定的routing key和pattern来讲message路由到一个或多个queue。topic exchange经常被用来实现各种各样的publisher/subscribe模式。Topic exchange被广泛用与message的多播</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig4.png" alt="此处输入图片的描述"></p>
-<ul>
-<li>‘*’可以代替一个单词</li>
-<li>‘#’可以代替零个或多个单词</li>
-</ul>
-<hr>
-<p>Headers Exchange：A headers exchange is designed to for routing on multiple attributes that are more easily expressed as message headers than a routing key. Headers exchanges ignore the routing key attribute. Instead, the attributes used for routing are taken from the headers attribute. A message is considered matching if the value of the header equals the value specified upon binding.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1720,7 +1724,7 @@ return math.add(val,1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

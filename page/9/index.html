@@ -271,6 +271,152 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/18/openstakAMQP/" itemprop="url">
+                  openstack采用的消息协议机制--AMQP(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-18T19:24:40+08:00" content="2015-11-18">
+              2015-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>什么是RabbitMQ？它能做什么？<br>RabbitMQ是一个消息代理，特点：轻量、可靠、可扩展、轻便。对应用来说，它是一个健壮的消息机制。它给应用提供了一个公共平台来发送和接收消息，也给消息提供了一个安全的场所来“居住”，直到消息被接收。你可以将其理解为邮局：当你向邮箱塞信的时候，你非常确定邮差最后肯定会将你的信送到收信人手里。将RabbitMQ比喻成邮箱、邮局和邮差的组合体。RabbitMQ和邮局最大的不同是RabbitMQ处理的不是纸张，而是接收、存储和转发二进制的数据–message</li>
+</ol>
+<hr>
+<p>一般来说，RabbitMQ运行在所有主流的操作系统上，比如windows、Unix、Linux等等，非常容易使用。它也支持大量的开发平台如 Erlang, Java/JVM, Ruby ,Python, Perl , PHP等等</p>
+<hr>
+<p>RabbitMQ建立在高级消息队列协议AMQP之上</p>
+<hr>
+<p>AMQP用来处理publisher和consumer的问题。publisher发布消息，consumer“拾取”消息并对其进行处理。broker（比如RabbitMQ）的工作是确保消息能从publisher到达正确得consumer。exchange和queue者两个组件保证上述目标的实现。下面的例图展示了exchange、queue如何连接publisher和consumer</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig1.png" alt="此处输入图片的描述"><br><strong><em>注意：因为AMQP是一个网络协议，所以publisher、consumer和broker不一定在同一台机器上；绝大多数情况下不需要</em></strong></p>
+<hr>
+<p>queue是邮箱的别名。它存在于RabbitMQ之中。虽然message在RabbitMQ和应用之间流动，但是可以存储在queue中。queue没有被赋予任何的限制，它可以存储你喜欢的任何数量的message–本质上来讲，它是一个无穷缓冲。多个publisher可以发送message，然后进入到一个queue中，多个consumer可以从一个queue中获取消息</p>
+<hr>
+<p>RabbitMQ消息模型的核心点是producer从不会直接发送任何message到queue中。事实上，publisher都不知道message会发送到queue中去</p>
+<hr>
+<p>事实上，publisher只能将message发送到exchange。然后exchange将message copies发送到queue。那么message如何经exchange路由到queue中呢？这是一个好问题。第一，queue必须“拴”到一个给定的exchange。通常来说，consumer创建一个queue，然后同时将其拴到一个exchange上。第二，exchange接收到的message必须与queue相匹配。exchange和queue的关系是binding–绑定</p>
+<hr>
+<p>exchange必须清楚的知道如何处理它所接收到的message。message应该添加到特定的queue中去吗？还是应该添加到多个queue中去？或者message应该被丢弃？exchange type决定了处理message的规则</p>
+<hr>
+<p>有三种exchange type：direct、topic、headers、fanout</p>
+<p>Direct Exchange:direct exchange 根据message routing key将message发送到相应的queue中去。direct exchange是理想化的message单播路由机制</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig2.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>Fanout Exchange:忽略routing key，然后将message发送到绑定到它上面的所有queue。如果N个queue绑定到一个fanout exchange上，当有新的message经过exchange时，message副本会被发送到N个queue中。Fanout exchange是理想化的message广播机制</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig3.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>Topic Exchange：根据queue和exchange之间的绑定的routing key和pattern来讲message路由到一个或多个queue。topic exchange经常被用来实现各种各样的publisher/subscribe模式。Topic exchange被广泛用与message的多播</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmqfig4.png" alt="此处输入图片的描述"></p>
+<ul>
+<li>‘*’可以代替一个单词</li>
+<li>‘#’可以代替零个或多个单词</li>
+</ul>
+<hr>
+<p>Headers Exchange：A headers exchange is designed to for routing on multiple attributes that are more easily expressed as message headers than a routing key. Headers exchanges ignore the routing key attribute. Instead, the attributes used for routing are taken from the headers attribute. A message is considered matching if the value of the header equals the value specified upon binding.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/09/24/jvmMemory/" itemprop="url">
                   5分钟快速入门JVM内存
                 </a>
@@ -1636,129 +1782,6 @@ helloWorld.print();
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/30/noname/" itemprop="url">
-                  MYSQL中replace into的用法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-07-30T14:40:52+08:00" content="2015-07-30">
-              2015-07-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
-                    <span itemprop="name">技术杂文</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>replace into 是insert into的加强版。有时候我们会有这样的需要：向表中插入数据时，首先判断数据是否存在，如果不存在则插入；如果存在，则更新。<br>或许，我们会这样判断： <code>if not exists(select 1 from where id = 1) 
-insert into(id,update_time) values(1,getDate())
-else
-update t set updata_time = getDate where id = 1</code><br>如果使用replace into的显得比较简单：<br><code>replace into t(id,update_time) values (1,now())</code><br>或<code>replace into t(id,update_time) select 1,now()</code></p>
-<p>replace into 跟 insert 功能类似，不同点在于：replace into 首先尝试插入数据到表中， 1.如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则，直接插入新数据</p>
-<p>Mysql replace into 有三种形式：</p>
-<ol>
-<li><code>replace into table_name(col_name,..)values(...)</code>这种形式类似于insert into的用法</li>
-<li><code>replace into table_name(col_name) select...</code>第二种用法类似 与insert …select。可以使用 replace select从表二将数据导入表一</li>
-<li><code>replace into table_name set col_name=value</code>,该方法类似于update set用法</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1804,7 +1827,7 @@ update t set updata_time = getDate where id = 1</code><br>如果使用replace in
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

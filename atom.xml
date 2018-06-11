@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-06-09T08:59:58.224Z</updated>
+  <updated>2018-06-11T23:43:50.685Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql索引</title>
+    <link href="http://www.appleieye.com/2018/06/12/mysql%E7%B4%A2%E5%BC%95/"/>
+    <id>http://www.appleieye.com/2018/06/12/mysql索引/</id>
+    <published>2018-06-12T05:58:10.000Z</published>
+    <updated>2018-06-11T23:43:50.685Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="索引概述"><a href="#索引概述" class="headerlink" title="索引概述"></a>索引概述</h4><p>索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。</p><h4 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h4><ul><li>普通索引(index):对索引值没有限制</li><li>唯一索引(unique index):索引列的值必须唯一，但允许有空值</li><li>主键索引(primary key):是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般是在建表的时候同时创建主键索引。</li><li>组合索引:指多个字段上创建的索引。只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。使用组合索引时遵循最左前缀集合</li><li>全文索引</li></ul><p>PRIMARY KEY 与UNIQUE的区别： </p><ul><li>每个数据表只能有一个PRIMARY KEY</li><li>PRIMARY KEY不可以包含NULL值，而UNIQUE索引可以.而且，如果你允许某个UNIQUE索引包含NULL值，那它将可以包含多个NULL值。因为mysql无法判断两个NULL值是否代表同样的东西，索引里的多个NULL值将被认为代表多个不同的东西</li><li>除PRIAMRY KEY以外，其他类型的索引几乎都可以用CREAET INDEX语句来添加。</li></ul><h4 id="设计索引的原则"><a href="#设计索引的原则" class="headerlink" title="设计索引的原则"></a>设计索引的原则</h4><ul><li>尽量为用来搜索、分类或分组的数据列编制索引，不要作为输出显示的数据列编制索引。换句话说，最适合有索引的数据列是那些在WHERE子句中出现的数据列、在联结子句中给出的数据列，或者是在ORDER BY或GROUP BY子句中出现的数据列。根据SELECT关键字仅出现在输出列清单里的数据列最好不要有索引。</li><li>为字符串值的前缀编索引。假如要为字符串数据列编索引，应当尽可能给出前缀长度。例如，假定你有一个CHAR（200）的数据列，大多数的值前10或20个字符是唯一的，那么就不用为整个数据列编索引。仅为前面的20或30个字符编索引可以节省索引中的大量空间，而且会使查询进行得更快。为较小的值编索引可以减少磁盘输入、输出，加快比较速度。</li><li>不要过多索引</li><li>对短小的值进行索引。应尽量选用比较“小”的数据类型。比如说，如果一个MEDIUMINT数据列已足以容纳需要存储的数据，就不要选用BIGINT；如果你的数据没有一个比25个字符更长，就不要选用CHAR(100)。比较短小的值可以在以以下几个方面提高索引的处理性能。 <ul><li>短小的值可以让比较操作更快地完成，加快索引查找速度</li><li>短小的值可以让索引的“体积”更小，减少磁盘I/O活动</li><li>短小的值意味着键缓存块里可以容纳更多的键值，让MYSQL在内存里同时容纳更多的键，而这将加大在不需要从磁盘读取更多索引块的前提下在内存里找到键值的概率。<br>对InnoDB存储引擎而言，因为它使用的是<strong>聚集索引</strong>，所以让主键尽量短小将更有好处。所谓聚集索引是把数据行和主键值集中保存在一起的情况。其他的索引都是些二级索引–它们保存着主键值和二级索引值。现在二级索引里找到一个主键值，再通过它找到相应的数据行。这意味着主键值在每一个二级索引里都会重复出现，如果主键值比较长的话，就会导致每一个二级索引都将占用更多的存储空间。</li></ul></li></ul><h4 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h4><ul><li>创建索引：<ul><li>普通索引：<code>CREATE INDEX indexName ON mytable(username(length))</code>或<code>ALTER table tableName ADD INDEX indexName(columnName)</code></li><li>唯一索引：<code>CREATE UNIQUE INDEX indexName ON mytable(username(length))</code></li><li>主键：<code>ALTER TABLE tbl_name ADD PRIMARY KEY (column_list)</code>该语句添加一个主键，这意味着索引值必须是唯一的，且不能为NULL</li></ul></li><li>查询索引：SHOW INDEX<code>或</code>SHOW CREATE TABLE</li><li>删除索引：DROP INDEX index_name ON tbl_name</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;索引概述&quot;&gt;&lt;a href=&quot;#索引概述&quot; class=&quot;headerlink&quot; title=&quot;索引概述&quot;&gt;&lt;/a&gt;索引概述&lt;/h4&gt;&lt;p&gt;索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="mysql" scheme="http://www.appleieye.com/tags/mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>Java 线程池</title>
@@ -121,32 +146,6 @@
   </entry>
   
   <entry>
-    <title>spring与amqp</title>
-    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
-    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
-    <published>2018-05-26T05:58:10.000Z</published>
-    <updated>2018-05-26T09:50:12.845Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>RabbitMQ常用命令</title>
     <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
     <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
@@ -170,6 +169,32 @@
     
     
       <category term="rabbitmq" scheme="http://www.appleieye.com/tags/rabbitmq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring与amqp</title>
+    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
+    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T09:50:12.845Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
     
   </entry>
   
@@ -199,31 +224,6 @@
   </entry>
   
   <entry>
-    <title>spring面向切面编程示例之打印日志</title>
-    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
-    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-22T03:57:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spring bean装配的三种方式之xml配置</title>
     <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
     <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
@@ -237,6 +237,31 @@
       
       
         &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring面向切面编程示例之打印日志</title>
+    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
+    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-22T03:57:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
       
     
     </summary>
@@ -501,34 +526,6 @@
       
         &lt;h1 id=&quot;java内存分配与回收策略&quot;&gt;&lt;a href=&quot;#java内存分配与回收策略&quot; class=&quot;headerlink&quot; title=&quot;java内存分配与回收策略&quot;&gt;&lt;/a&gt;java内存分配与回收策略&lt;/h1&gt;&lt;ol&gt;
 &lt;li&gt;对象优先在Eden分配：大多数情况下，对
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java垃圾收集</title>
-    <link href="http://www.appleieye.com/2018/01/05/java%20GC/"/>
-    <id>http://www.appleieye.com/2018/01/05/java GC/</id>
-    <published>2018-01-05T07:38:58.000Z</published>
-    <updated>2018-01-05T07:38:58.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>GC需要考虑的三个问题：</p><ol><li>哪些内存需要回收</li><li>何时回收 </li><li>如何回收</li></ol><p>对这三个问题的解决，也是本文的叙述顺序</p><hr><p>1、哪些内存需要回收–可达分析算法来判断：<br>   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。<br>   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径称为引用链。当一个对象到GC Roots没有任何引用链，也就是从GC Roots到这个对象不可达，则证明此对象时不可用的，由此判定这些对象是可回收的对象。<br>   可作为GC Roots的对象包括下面几种：</p><blockquote><ul><li>虚拟机栈中（本地变量表）引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中引用的对象</li></ul></blockquote><p>2、何时回收–安全点、安全区域才进行GC：<br>   程序执行时并非在所有的地方都能停下来开始GC，只有到达安全点时才能暂停。<br>3、如何回收：回收算法（理论）+垃圾收集器（实现）：<br>     <strong><em>回收算法</em></strong>：<br>     &gt; <em> 标记清除：<br>     算法分为两个阶段：标记（可达分析算法）和清除。它有两个不足：一个是效率问题，标记和清除这两个过程效率都不高；第二个是空间问题，会产生空间碎片。空间碎片太多可能会导致以后分配大对象时，无法找到足够内存而不得不提前触发另一次垃圾收集动作。<br>     &gt; </em> 复制：将内存一分为二，每次只使用其中一块。当一块用完后，就将上面还存活的对象复制到另一块上，然后将使用过的内存一次性的回收。<br>     优点：实现简单，运行高效<br>     缺点：内存缩小为原来的一半，代价高昂<br>     用于回收新生代对象<br>     &gt; <em> 标记整理：标记阶段与‘标记-清除’方法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都移动到一端，然后直接清理掉端边界以外的内存。<br>     &gt; </em> 分代收集算法：将java堆分为新生代和老年代，新生代采用复制算法，而老年代采用标记-清除或标记整理算法。</p><p><strong><em>垃圾收集器</em></strong>:</p><blockquote><ul><li>Serial收集器：<br>  最基本的、发展历史最悠久的<strong>新生代</strong>收集器；单线程，工作时会暂停其他所有的工作线程；虚拟机运行在client模式下的默认新生代收集器</li><li>ParNew收集器：<br>   Serial收集器的多线程版本；运行在server模式下虚拟机首选的新生代收集器；除Serial外，唯一的能与CMS收集器配合工作的收集器</li><li>Parallel Scavenge收集器：<br>  新生代收集器；并行多线程；与其他收集器关注用户线程停顿时间不一样，Parallel收集器关注的是吞吐量，吞吐量优先的收集器；Parallel Scavenage收集器提供了两个参数用于精确控制吞吐量，分别是控制最大停顿时间-XX:MaxGCPauseMillis参数以及设置吞吐量大小的-XX:GCTimeRatio；此外，还有一个参数-XX:+UseAdaptiveSizePolicy,这是一个开关参数，当这个参数打开后，就不需要手动指定新生代的大小（-Xmn），Eden与Survivor的比例(-XSS:SurvvivorRatio)、晋升老年代对象大小（-XX：PretenureSizeThreshold）等细节参数了，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大吞吐量，这种调节方式称为GC自适应的调节策略。</li><li>Serial Old收集器：Serial收集器的老年代版本；使用标记-整理算法；clint模式下的虚拟机使用</li><li>Parallel Old收集器：Parallel Scavenage收集器的老年代版本。</li><li>CMS（Concurrent Mark Sweep）收集器:并发标记、低停顿，以获取最短停顿时间为目标，采用标记-清除算法；服务端；老年代。<br>运行过程：</li><li>初始标记：仅标记GC Roots能直接关联到的对象，暂停用户线程</li><li>并发标记：从GC Roots开始对堆中对象进行可达性分析，找出存活的对象，此过程时间较长，但可与用户线程并发执行</li><li>重新标记：修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录。</li><li>并发清除：与用户线程并发执行<br>三个缺点：</li><li>CMS收集器对CPU资源非常敏感</li><li>CMS收集器无法处理浮动的垃圾</li><li>基于标记-清除，会产生空间碎片</li><li>G1收集器：面向服务端；并发与并行；分代收集；空间整合（使用标记-整理）；可预测的停顿，除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不超过N毫秒；<pre><code>使用G1收集器时，Java堆的内存布局就与其他收集器有很大差别，它将整个java堆划分为多个大小相等的独立区域（Region）,虽然还保存着新生代与老年代，但他们不再是物理隔离的了，他们都是一部分Region的集合。G1收集器之所以能建立可预测的停顿时间模型，是因为它可以跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region过程：前三个过程与CMS收集器过程基本类似初始标记并发标记最终标记筛选回收：对各个Region的回收价值和成本进行排序，根据用户制定的GC停顿时间来制定回收计划。</code></pre></li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;java-GC&quot;&gt;&lt;a href=&quot;#java-GC&quot; class=&quot;headerlink&quot; title=&quot;java GC&quot;&gt;&lt;/a&gt;java GC&lt;/h1&gt;&lt;p&gt;GC需要考虑的三个问题：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;哪些内存需要回收&lt;/li&gt;
-&lt;li&gt;何时回收 &lt;
       
     
     </summary>

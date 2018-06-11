@@ -1,0 +1,674 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mysql," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="索引概述索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。 索引的分类 普通索引(index):对索引值没有限制 唯一索引(unique index):索引列的值必须唯一，但允许有空值 主键索引(primary key):">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql索引">
+<meta property="og:url" content="http://www.appleieye.com/2018/06/12/mysql索引/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="索引概述索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。 索引的分类 普通索引(index):对索引值没有限制 唯一索引(unique index):索引列的值必须唯一，但允许有空值 主键索引(primary key):">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2018-06-11T23:43:50.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql索引">
+<meta name="twitter:description" content="索引概述索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。 索引的分类 普通索引(index):对索引值没有限制 唯一索引(unique index):索引列的值必须唯一，但允许有空值 主键索引(primary key):">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2018/06/12/mysql索引/"/>
+
+  <title> Mysql索引 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mysql索引
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-06-12T13:58:10+08:00" content="2018-06-12">
+              2018-06-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="索引概述"><a href="#索引概述" class="headerlink" title="索引概述"></a>索引概述</h4><p>索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。</p>
+<h4 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h4><ul>
+<li>普通索引(index):对索引值没有限制</li>
+<li>唯一索引(unique index):索引列的值必须唯一，但允许有空值</li>
+<li>主键索引(primary key):是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般是在建表的时候同时创建主键索引。</li>
+<li>组合索引:指多个字段上创建的索引。只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。使用组合索引时遵循最左前缀集合</li>
+<li>全文索引</li>
+</ul>
+<p>PRIMARY KEY 与UNIQUE的区别： </p>
+<ul>
+<li>每个数据表只能有一个PRIMARY KEY</li>
+<li>PRIMARY KEY不可以包含NULL值，而UNIQUE索引可以.而且，如果你允许某个UNIQUE索引包含NULL值，那它将可以包含多个NULL值。因为mysql无法判断两个NULL值是否代表同样的东西，索引里的多个NULL值将被认为代表多个不同的东西</li>
+<li>除PRIAMRY KEY以外，其他类型的索引几乎都可以用CREAET INDEX语句来添加。</li>
+</ul>
+<h4 id="设计索引的原则"><a href="#设计索引的原则" class="headerlink" title="设计索引的原则"></a>设计索引的原则</h4><ul>
+<li>尽量为用来搜索、分类或分组的数据列编制索引，不要作为输出显示的数据列编制索引。换句话说，最适合有索引的数据列是那些在WHERE子句中出现的数据列、在联结子句中给出的数据列，或者是在ORDER BY或GROUP BY子句中出现的数据列。根据SELECT关键字仅出现在输出列清单里的数据列最好不要有索引。</li>
+<li>为字符串值的前缀编索引。假如要为字符串数据列编索引，应当尽可能给出前缀长度。例如，假定你有一个CHAR（200）的数据列，大多数的值前10或20个字符是唯一的，那么就不用为整个数据列编索引。仅为前面的20或30个字符编索引可以节省索引中的大量空间，而且会使查询进行得更快。为较小的值编索引可以减少磁盘输入、输出，加快比较速度。</li>
+<li>不要过多索引</li>
+<li>对短小的值进行索引。应尽量选用比较“小”的数据类型。比如说，如果一个MEDIUMINT数据列已足以容纳需要存储的数据，就不要选用BIGINT；如果你的数据没有一个比25个字符更长，就不要选用CHAR(100)。比较短小的值可以在以以下几个方面提高索引的处理性能。 <ul>
+<li>短小的值可以让比较操作更快地完成，加快索引查找速度</li>
+<li>短小的值可以让索引的“体积”更小，减少磁盘I/O活动</li>
+<li>短小的值意味着键缓存块里可以容纳更多的键值，让MYSQL在内存里同时容纳更多的键，而这将加大在不需要从磁盘读取更多索引块的前提下在内存里找到键值的概率。<br>对InnoDB存储引擎而言，因为它使用的是<strong>聚集索引</strong>，所以让主键尽量短小将更有好处。所谓聚集索引是把数据行和主键值集中保存在一起的情况。其他的索引都是些二级索引–它们保存着主键值和二级索引值。现在二级索引里找到一个主键值，再通过它找到相应的数据行。这意味着主键值在每一个二级索引里都会重复出现，如果主键值比较长的话，就会导致每一个二级索引都将占用更多的存储空间。</li>
+</ul>
+</li>
+</ul>
+<h4 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h4><ul>
+<li>创建索引：<ul>
+<li>普通索引：<code>CREATE INDEX indexName ON mytable(username(length))</code>或<code>ALTER table tableName ADD INDEX indexName(columnName)</code></li>
+<li>唯一索引：<code>CREATE UNIQUE INDEX indexName ON mytable(username(length))</code></li>
+<li>主键：<code>ALTER TABLE tbl_name ADD PRIMARY KEY (column_list)</code>该语句添加一个主键，这意味着索引值必须是唯一的，且不能为NULL</li>
+</ul>
+</li>
+<li>查询索引：SHOW INDEX<code>或</code>SHOW CREATE TABLE</li>
+<li>删除索引：DROP INDEX index_name ON tbl_name</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag">#mysql</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/09/Java线程池/" rel="next" title="Java 线程池">
+                <i class="fa fa-chevron-left"></i> Java 线程池
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">100</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#索引概述"><span class="nav-number">1.</span> <span class="nav-text">索引概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引的分类"><span class="nav-number">2.</span> <span class="nav-text">索引的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计索引的原则"><span class="nav-number">3.</span> <span class="nav-text">设计索引的原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引操作"><span class="nav-number">4.</span> <span class="nav-text">索引操作</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

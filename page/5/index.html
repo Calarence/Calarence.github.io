@@ -271,6 +271,176 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/14/python5/" itemprop="url">
+                  python源码剖析读书笔记--Python中的List对象
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-14T10:21:58+08:00" content="2017-07-14">
+              2017-07-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###特点：不定长、可变<br>PyListObject是一个变长对象，因为不同的list中存储的元素个是不同的。此外，PyListObject对象还支持插入删除等操作，可以在运行时动态地调整其所维护的内存和元素，所以，它还是一个可变对象。</p>
+<h3 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobject.png" alt="此处输入图片的描述"></p>
+<blockquote>
+<ul>
+<li>PyObject_VAR_HEAD:维护变长对象，其中的ob_size指定元素的个数</li>
+<li>**ob_item指向list维护的元素列表</li>
+<li>allocated维护了当前列表中的可容纳的元素的总数</li>
+<li>ob_size和allocated的区别：ob_size和allocated都和PyListObject对象的内存管理有关，PyListObject并不是存了多少东西就申请对应大小的内存，这样的内存管理策略显然是低效的，因为用户选用列表正是为了频繁地插入或删除元素。所以，在每一次需要申请内存的时候，PyListObject总会申请一大块内存，这时申请的总内存的大小记录在allocated中，而其中实际被使用了的内存的数量则记录在了ob_size中。假如有一个能容纳10个元素的PyListObject对象已经装入了5个元素，那么对于这个PyListObject对象，其ob_size为5，而allocated则为10</li>
+</ul>
+</blockquote>
+<p>###PyListObject对象的创建</p>
+<p>创建过程的代码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectNew.png" alt="此处输入图片的描述"></p>
+<p>流程如下：</p>
+<blockquote>
+<ul>
+<li>PyList_New方法接收size参数</li>
+<li>对size进行检查：如果size小于0，则引发PyErr_BadInternalCall异常；如果size大到使所需内存数量产生溢出的程度，则产生溢出，引发PyErr_NoMemeory()</li>
+<li>接下来检查free_lists中是否有可用的对象，如果有的话，则直接使用该对象。并将free_lists中的listobject数量减一（python2.5默认情况下，free_lists中最多维护80个PyListObject对象）</li>
+<li>如果free_lists不可用，则通过PyObject_GC_new申请内存，创建新的PyListObject对象</li>
+<li>在创建新的PyListObject对象之后，会调用PyList_New时传递的size参数创建PyListObject对象所维护的元素列表。在这里创建的PyListObject * 列表，其中的每一个元素都会被初始化为null值</li>
+<li>完成了PyListObject对象以及维护的列表的创建之后，Python会调整PyListObject对象，用于维护元素列表中元素数量的ob_size和allocated两个变量</li>
+</ul>
+</blockquote>
+<h3 id="设置元素"><a href="#设置元素" class="headerlink" title="设置元素"></a>设置元素</h3><p>假设创建一个大小为6的list，其内存图如下（真实情况下元素列表中的元素不可能是NULL）：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectset.png" alt="此处输入图片的描述"></p>
+<p>将list的第四个元素设置为100，其过程源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectsetItem.png" alt="此处输入图片的描述"></p>
+<p>过程如下：</p>
+<blockquote>
+<ul>
+<li>类型检查</li>
+<li>索引有效性检查</li>
+<li>将待加入的PyObject*指针放到指定位置，然后调整引用计数，将这个位置原来存放的对象的引用计数减1.</li>
+</ul>
+</blockquote>
+<h3 id="插入元素"><a href="#插入元素" class="headerlink" title="插入元素"></a>插入元素</h3><p>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectinser.png" alt="此处输入图片的描述"></p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectins1.png" alt="此处输入图片的描述"></p>
+<p>过程如下：</p>
+<blockquote>
+<ul>
+<li>首先进行类型检查</li>
+<li>然后调用insl方法</li>
+<li>insl方法会调用list_resize方法调整内存大小：<ul>
+<li>当newsize与allocated的关系满足newsize&lt;allocated/2 &amp;&amp; newsize &gt; allocated/2,将ob_size值设为newsize</li>
+<li>当newsize&lt; allocated/2的时候，通过realloc来收缩列表的内存空间</li>
+<li>接下来是调整内存空间</li>
+<li>然后确定元素的插入点，开始搬动元素</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h3><p>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/listobjectdelete.png" alt="此处输入图片的描述"></p>
+<blockquote>
+<ul>
+<li>在进行list.remove（3）操作时，会调用PyListObject中的lsitremove</li>
+<li>python对整个列表进行遍历，将待删除的元素与PyListObject中的每个元素一一比较，比较是通过PyObject_RichCompareBool完成的，如果返回值大于0，则表示列表中的某个元素与待删除的元素匹配。一旦在列表中发现匹配的元素，python将调用list_ass_slice删除元素。</li>
+<li>list_ass_slice操作：<code>del a[ilow:ihigh] if v == NULL</code>,然后进行内存搬移。过程如下：<br>以删除元素100为例<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E5%86%85%E5%AD%98%E6%90%AC%E7%A7%BB.png" alt="此处输入图片的描述"></li>
+</ul>
+</blockquote>
+<p>###PyListObject对象缓冲池<br>free_lists中所缓冲的PyListObject对象是从哪里获得的，是在何时创建的？答案是在一个PyListObject被销毁的过程中。<br>在创建一个新的list时，创建过程实际分两步，首先创建PyListObject对象，然后创建PyListObject对象所维护的元素列表。与之对应，在销毁一个list时，销毁过程也是分离的。首先Python会销毁PyListObject对象所维护的元素列表，然后释放PyListObject对象本身。<br>在删除PyListObject对象自身时，Python会检查缓冲池free_lists,查看其中缓存的PyListObject的数量是否已经满了。如果没有，就将该待删除的PyListObject对象放到缓冲池中，以备后用。<br>在创建PyListObject的时候，python会先从free_lists中寻找可用的PyListObject。这里缓冲的仅仅是PyListObject对象，而没有这个对象曾经拥有的PyObject * 元素列表。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/10/python10/" itemprop="url">
                   python源码剖析读书笔记四--python中的字符串对象
                 </a>
@@ -1713,130 +1883,6 @@ X-RateLimit-Reset: 当前时间段剩余的秒数
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/13/pythonCode/" itemprop="url">
-                  python编码与解码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-03-13T10:30:28+08:00" content="2017-03-13">
-              2017-03-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="python编码："><a href="#python编码：" class="headerlink" title="python编码："></a>python编码：</h3><p>计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.<br>美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。<br>由于中文用一字节（128）表示不了，<code>UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe4 in position 0: ordinal not in range(128)</code> 所以会报这个错误。后来中文有了自己的编码–GB2312。<br>为了将所有语言统一编码，Unicode应运而生。<br>Unicode编码用两个字节表示一个字符，这样就会造成一定的浪费：像A完全可以用一个字节表示，第二个字节就浪费掉了。如果表示全英文，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。<br>为了节省空间，UTF-8编码出现了–它是可变长的Unicode编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。<br>ASCII编码实际上可以被看成是UTF-8编码的一部分，所以，大量只支持ASCII编码的历史遗留软件可以在UTF-8编码下继续工作。</p>
-<hr>
-<p>在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码.<br>由于Python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。<br>以Unicode表示的str通过encode()方法可以编码为指定的bytes</p>
-<pre><code>&gt;&gt;&gt; &apos;ABC&apos;.encode(&apos;ascii&apos;)
-b&apos;ABC&apos;
-&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;utf-8&apos;)
-b&apos;\xe4\xb8\xad\xe6\x96\x87&apos;
-&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;ascii&apos;)
-Traceback (most recent call last):
-  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 0-1: ordinal not in range(128)
-</code></pre><p>纯英文的str可以用ASCII编码为bytes，内容是一样的，含有中文的str可以用UTF-8编码为bytes。含有中文的str无法用ASCII编码，因为中文编码的范围超过了ASCII编码的范围，Python会报错<br>    如果我们从网络或磁盘上读取了字节流，那么读到的数据就是bytes。要把bytes变为str，就需要用decode()方法<br>    str和bytes互相转换时，需要指定编码。最常用的编码是UTF-8</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1882,7 +1928,7 @@ UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in posi
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-count">100</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
