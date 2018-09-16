@@ -1,0 +1,693 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Spring容器启动流程Spring一些背景知识：我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。 Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring容器启动流程">
+<meta property="og:url" content="http://www.appleieye.com/2018/09/16/Spring容器启动流程/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="Spring容器启动流程Spring一些背景知识：我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。 Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/SpringIOC%E4%BB%A3%E7%A0%81%E5%85%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/ApplicationContext%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/refreshBeanFactory.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/beanDefinitionReader.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/AbstractBeanDefinitionReader.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/getResources.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/getResource.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/doLoadBeanDefinitions.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/document.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/registerBeanDefinitions.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/parseBeanDefinitions.png">
+<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/bnholder.png">
+<meta property="og:updated_time" content="2018-09-16T09:19:19.137Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring容器启动流程">
+<meta name="twitter:description" content="Spring容器启动流程Spring一些背景知识：我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。 Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级">
+<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/SpringIOC%E4%BB%A3%E7%A0%81%E5%85%A5%E5%8F%A3.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2018/09/16/Spring容器启动流程/"/>
+
+  <title> Spring容器启动流程 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring容器启动流程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-09-16T13:58:10+08:00" content="2018-09-16">
+              2018-09-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring容器启动流程"><a href="#Spring容器启动流程" class="headerlink" title="Spring容器启动流程"></a>Spring容器启动流程</h1><h2 id="Spring一些背景知识："><a href="#Spring一些背景知识：" class="headerlink" title="Spring一些背景知识："></a>Spring一些背景知识：</h2><p>我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。</p>
+<p>Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级别的容器。通常ApplicationContext要优于bean工厂，但它唯一缺点是内存消耗比BeanFactory大，出现这种情况是由于补充的服务。如果你的程序对于内存的使用要求非常严苛，请考虑更多使用bean factory。否则，在更多标准的应用程序中，应该使用ApplicationContext。</p>
+<p>BeanDefinition:抽象了对Bean的定义(各个属性，类名，类型，是否单例)，是对依赖关系的抽象，也是实现实现依赖注入的核心数据结构。</p>
+<h3 id="Spring容器原理"><a href="#Spring容器原理" class="headerlink" title="Spring容器原理"></a>Spring容器原理</h3><p>Spring容器的原理就是反射。我们在配置文件里配置类名称，然后Spring容器根据类名称，反射生成类的实例，并调用set方法进行依赖注入。所以Spring的启动流程，其实也就是配置文件或者说BeanDefinition的定位、加载、解析、注册的过程。</p>
+<h3 id="Spring容器启动流程大致分为以下三个过程："><a href="#Spring容器启动流程大致分为以下三个过程：" class="headerlink" title="Spring容器启动流程大致分为以下三个过程："></a>Spring容器启动流程大致分为以下三个过程：</h3><ol>
+<li>定位BeanDefinition</li>
+<li>载入BeanDefinition</li>
+<li>注册BeanDefinition</li>
+</ol>
+<h3 id="观察容器启动流程的姿势：代码-debug，代码入口下图"><a href="#观察容器启动流程的姿势：代码-debug，代码入口下图" class="headerlink" title="观察容器启动流程的姿势：代码+debug，代码入口下图"></a>观察容器启动流程的姿势：代码+debug，代码入口下图</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/SpringIOC%E4%BB%A3%E7%A0%81%E5%85%A5%E5%8F%A3.png" alt=""></p>
+<h2 id="一、定位BeanDefinition"><a href="#一、定位BeanDefinition" class="headerlink" title="一、定位BeanDefinition"></a>一、定位BeanDefinition</h2><p>与BeanDefinition操作相关的两个类：BeanDefinitionReader和Resource。</p>
+<ul>
+<li><p>Resource是Spring用来封装I/O操作的类，用来处理使用xml方式定义的BeanDefinition</p>
+</li>
+<li><p>BeanDefinitionReader:Resource不能由factory直接使用，而使用BeanDefinitionReader来对这些信息进行处理</p>
+</li>
+</ul>
+<p> <strong>FileSystemXmlApplicationContext</strong>构造方法：a.创建新的FileSystemXmlApplicationContext b.从指定的xml中加载definitions c.创建所有的单例。从注释中也可以看出，loading all bean definitions放在refresh函数中，所以，重点关注refresh()</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/ApplicationContext%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95.png" alt=""></p>
+<p>refresh的主要实现：关闭之前的beanFactory;创建beanFactory，默认是DefaultListableBeanFactory;加载beanDefinitions;我们继续关注loadBeanDefinitions方法</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/refreshBeanFactory.png" alt="">  </p>
+<p>通过<em>XmlBeanDefinitionReader</em>来loadBeanDefinitions；代码如下：</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/beanDefinitionReader.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractBeanDefinitionReader中loadBeanDefinitions的实现</span><br></pre></td></tr></table></figure>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/AbstractBeanDefinitionReader.png" alt=""></p>
+<p>我们来看一下是如何获得Resources:不同locationPattern,如classpath:*、class:，分别对应不同的获得方式</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResources.png" alt=""></p>
+<p>locationPattern为classPath:的处理方式：</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResource.png" alt=""></p>
+<h2 id="二、载入BeanDefinition："><a href="#二、载入BeanDefinition：" class="headerlink" title="二、载入BeanDefinition："></a>二、载入BeanDefinition：</h2><p>把定义的BeanDefinition转换成Spring内部表示的数据结构。</p>
+<p>具体的载入过程如下：将xml解析为document对象；将document对象解析为bean</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/doLoadBeanDefinitions.png" alt=""></p>
+<p>这个document对象究竟是什么呢？它是HTML或XML树，用来表示HTML或XML文档，并可以管理、访问节点、元素、属性等</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/document.png" alt=""></p>
+<p>接下来是将Document里的bean definition解析、注册；解析的结果是生成BeanDefinitionHolder。BeanDefinition是BeanDefinition对象的封装类，封装了BeanDefinition,Bean的名字和别名，用它来向IoC容器注册</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/registerBeanDefinitions.png" alt=""></p>
+<p>对import、alias、bean标签解析。</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/parseBeanDefinitions.png" alt=""></p>
+<p>最后生成的beanHolder,如下：</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/bnholder.png" alt=""></p>
+<h2 id="三、注册BeanDefinition"><a href="#三、注册BeanDefinition" class="headerlink" title="三、注册BeanDefinition"></a>三、注册BeanDefinition</h2><p>经过上面两步，已经将xml配置文件进行了定位、解析，并转换为容器内部的数据结构。但是，这些数据结构，现在还不能直接使用，需要进行注册。所谓注册，其实就是将beanDefinition放到hashMap中去，以便进行检索和使用。容器的作用就是对这些信息进行处理和维护。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/12/mysql索引/" rel="next" title="Mysql索引">
+                <i class="fa fa-chevron-left"></i> Mysql索引
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring容器启动流程"><span class="nav-number">1.</span> <span class="nav-text">Spring容器启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring一些背景知识："><span class="nav-number">1.1.</span> <span class="nav-text">Spring一些背景知识：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring容器原理"><span class="nav-number">1.1.1.</span> <span class="nav-text">Spring容器原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring容器启动流程大致分为以下三个过程："><span class="nav-number">1.1.2.</span> <span class="nav-text">Spring容器启动流程大致分为以下三个过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察容器启动流程的姿势：代码-debug，代码入口下图"><span class="nav-number">1.1.3.</span> <span class="nav-text">观察容器启动流程的姿势：代码+debug，代码入口下图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、定位BeanDefinition"><span class="nav-number">1.2.</span> <span class="nav-text">一、定位BeanDefinition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、载入BeanDefinition："><span class="nav-number">1.3.</span> <span class="nav-text">二、载入BeanDefinition：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、注册BeanDefinition"><span class="nav-number">1.4.</span> <span class="nav-text">三、注册BeanDefinition</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

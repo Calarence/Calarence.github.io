@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-06-11T23:43:50.685Z</updated>
+  <updated>2018-09-16T09:19:19.137Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring容器启动流程</title>
+    <link href="http://www.appleieye.com/2018/09/16/Spring%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/"/>
+    <id>http://www.appleieye.com/2018/09/16/Spring容器启动流程/</id>
+    <published>2018-09-16T05:58:10.000Z</published>
+    <updated>2018-09-16T09:19:19.137Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Spring容器启动流程"><a href="#Spring容器启动流程" class="headerlink" title="Spring容器启动流程"></a>Spring容器启动流程</h1><h2 id="Spring一些背景知识："><a href="#Spring一些背景知识：" class="headerlink" title="Spring一些背景知识："></a>Spring一些背景知识：</h2><p>我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。</p><p>Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级别的容器。通常ApplicationContext要优于bean工厂，但它唯一缺点是内存消耗比BeanFactory大，出现这种情况是由于补充的服务。如果你的程序对于内存的使用要求非常严苛，请考虑更多使用bean factory。否则，在更多标准的应用程序中，应该使用ApplicationContext。</p><p>BeanDefinition:抽象了对Bean的定义(各个属性，类名，类型，是否单例)，是对依赖关系的抽象，也是实现实现依赖注入的核心数据结构。</p><h3 id="Spring容器原理"><a href="#Spring容器原理" class="headerlink" title="Spring容器原理"></a>Spring容器原理</h3><p>Spring容器的原理就是反射。我们在配置文件里配置类名称，然后Spring容器根据类名称，反射生成类的实例，并调用set方法进行依赖注入。所以Spring的启动流程，其实也就是配置文件或者说BeanDefinition的定位、加载、解析、注册的过程。</p><h3 id="Spring容器启动流程大致分为以下三个过程："><a href="#Spring容器启动流程大致分为以下三个过程：" class="headerlink" title="Spring容器启动流程大致分为以下三个过程："></a>Spring容器启动流程大致分为以下三个过程：</h3><ol><li>定位BeanDefinition</li><li>载入BeanDefinition</li><li>注册BeanDefinition</li></ol><h3 id="观察容器启动流程的姿势：代码-debug，代码入口下图"><a href="#观察容器启动流程的姿势：代码-debug，代码入口下图" class="headerlink" title="观察容器启动流程的姿势：代码+debug，代码入口下图"></a>观察容器启动流程的姿势：代码+debug，代码入口下图</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/SpringIOC%E4%BB%A3%E7%A0%81%E5%85%A5%E5%8F%A3.png" alt=""></p><h2 id="一、定位BeanDefinition"><a href="#一、定位BeanDefinition" class="headerlink" title="一、定位BeanDefinition"></a>一、定位BeanDefinition</h2><p>与BeanDefinition操作相关的两个类：BeanDefinitionReader和Resource。</p><ul><li><p>Resource是Spring用来封装I/O操作的类，用来处理使用xml方式定义的BeanDefinition</p></li><li><p>BeanDefinitionReader:Resource不能由factory直接使用，而使用BeanDefinitionReader来对这些信息进行处理</p></li></ul><p> <strong>FileSystemXmlApplicationContext</strong>构造方法：a.创建新的FileSystemXmlApplicationContext b.从指定的xml中加载definitions c.创建所有的单例。从注释中也可以看出，loading all bean definitions放在refresh函数中，所以，重点关注refresh()</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/ApplicationContext%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95.png" alt=""></p><p>refresh的主要实现：关闭之前的beanFactory;创建beanFactory，默认是DefaultListableBeanFactory;加载beanDefinitions;我们继续关注loadBeanDefinitions方法</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/refreshBeanFactory.png" alt="">  </p><p>通过<em>XmlBeanDefinitionReader</em>来loadBeanDefinitions；代码如下：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/beanDefinitionReader.png" alt=""></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractBeanDefinitionReader中loadBeanDefinitions的实现</span><br></pre></td></tr></table></figure><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/AbstractBeanDefinitionReader.png" alt=""></p><p>我们来看一下是如何获得Resources:不同locationPattern,如classpath:*、class:，分别对应不同的获得方式</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResources.png" alt=""></p><p>locationPattern为classPath:的处理方式：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResource.png" alt=""></p><h2 id="二、载入BeanDefinition："><a href="#二、载入BeanDefinition：" class="headerlink" title="二、载入BeanDefinition："></a>二、载入BeanDefinition：</h2><p>把定义的BeanDefinition转换成Spring内部表示的数据结构。</p><p>具体的载入过程如下：将xml解析为document对象；将document对象解析为bean</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/doLoadBeanDefinitions.png" alt=""></p><p>这个document对象究竟是什么呢？它是HTML或XML树，用来表示HTML或XML文档，并可以管理、访问节点、元素、属性等</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/document.png" alt=""></p><p>接下来是将Document里的bean definition解析、注册；解析的结果是生成BeanDefinitionHolder。BeanDefinition是BeanDefinition对象的封装类，封装了BeanDefinition,Bean的名字和别名，用它来向IoC容器注册</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/registerBeanDefinitions.png" alt=""></p><p>对import、alias、bean标签解析。</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/parseBeanDefinitions.png" alt=""></p><p>最后生成的beanHolder,如下：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/bnholder.png" alt=""></p><h2 id="三、注册BeanDefinition"><a href="#三、注册BeanDefinition" class="headerlink" title="三、注册BeanDefinition"></a>三、注册BeanDefinition</h2><p>经过上面两步，已经将xml配置文件进行了定位、解析，并转换为容器内部的数据结构。但是，这些数据结构，现在还不能直接使用，需要进行注册。所谓注册，其实就是将beanDefinition放到hashMap中去，以便进行检索和使用。容器的作用就是对这些信息进行处理和维护。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Spring容器启动流程&quot;&gt;&lt;a href=&quot;#Spring容器启动流程&quot; class=&quot;headerlink&quot; title=&quot;Spring容器启动流程&quot;&gt;&lt;/a&gt;Spring容器启动流程&lt;/h1&gt;&lt;h2 id=&quot;Spring一些背景知识：&quot;&gt;&lt;a href=&quot;#
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql索引</title>
@@ -224,31 +249,6 @@
   </entry>
   
   <entry>
-    <title>spring bean装配的三种方式之xml配置</title>
-    <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
-    <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-25T13:13:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建xml规范，并声明xml模式(xsd)文件</li><li>声明bean</li><li>注入bean依赖</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>创建xml文件</li></ol><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;&lt;/beans&gt;</code></pre><ol start="2"><li><p>声明bean</p><pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;</code></pre></li><li><p>注入bean依赖</p></li></ol><pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;&lt;/bean&gt;</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>spring面向切面编程示例之打印日志</title>
     <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
     <id>http://www.appleieye.com/2018/04/22/springaop/</id>
@@ -262,6 +262,31 @@
       
       
         &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring bean装配的三种方式之xml配置</title>
+    <link href="http://www.appleieye.com/2018/04/22/springbean3/"/>
+    <id>http://www.appleieye.com/2018/04/22/springbean3/</id>
+    <published>2018-04-22T07:58:10.000Z</published>
+    <updated>2018-04-25T13:13:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote><ul><li>创建xml规范，并声明xml模式(xsd)文件</li><li>声明bean</li><li>注入bean依赖</li></ul></blockquote><h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol><li>创建xml文件</li></ol><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;&lt;/beans&gt;</code></pre><ol start="2"><li><p>声明bean</p><pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;</code></pre></li><li><p>注入bean依赖</p></li></ol><pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;&lt;/bean&gt;</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;spring-bean装配的三种方式之xml配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之xml配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之xml配置&quot;&gt;&lt;/a&gt;spring bean装配的
       
     
     </summary>
@@ -500,32 +525,6 @@
         &lt;h3 id=&quot;java中的锁&quot;&gt;&lt;a href=&quot;#java中的锁&quot; class=&quot;headerlink&quot; title=&quot;java中的锁&quot;&gt;&lt;/a&gt;java中的锁&lt;/h3&gt;&lt;blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;为什么有了synchronized还需要Lock&lt;br&gt;Loc
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java内存分配与回收策略</title>
-    <link href="http://www.appleieye.com/2018/01/05/javaMemory2/"/>
-    <id>http://www.appleieye.com/2018/01/05/javaMemory2/</id>
-    <published>2018-01-05T09:12:50.000Z</published>
-    <updated>2018-01-05T09:12:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="java内存分配与回收策略"><a href="#java内存分配与回收策略" class="headerlink" title="java内存分配与回收策略"></a>java内存分配与回收策略</h1><ol><li>对象优先在Eden分配：大多数情况下，对象在新生代Eden区中分配。当Eden区没有足够的空间时，虚拟机将发起一次Minor GC。如果GC时发现已有对象无法放入Survivor空间，则通过分配担保机制提前转移到老年代中去。</li><li>大对象直接进入老年代。大对象是指需要大量连续内存空间的java对象，最典型的大对象如很长的字符串以及数组。虚拟机提供了一个-XX：PretenureSizeThresold参数，令大于该值的对象直接才老年代分配</li><li>长期存活的对象进入老年代：虚拟机给每个对象定义了一个对象年龄计数器。通过该计数器来判断是否需要进入老年代。如果对象在Eden出生并且经过第一次Minor GC仍然能够存活下来，并且能被survivor容纳，将被移动到survivor空间中，并且年龄设为1。对象在Survivor区中每熬过一次Minor GC，年龄就增长一岁。当它的年龄增加到一定程度，默认为15岁，就会被移动到老年代中。对象晋升老年代的年龄阀值，可以通过参数-XX：MaxTenuringThresold来设置。</li><li>动态对象年龄判定：为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThresold才能晋升老年代。如果在Survivor空间中，相同年龄所有对象的大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入到老年代中，无须等到MaxTenuringThresold所要求的年龄。</li><li>空间分配担保：在Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则查看HandlePromotionFailure设置是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则会尝试进行Minor GC；如果小于或者不允许担保失败，则进行一次Full GC。大部分情况下会打开HandlePromotionFailure，以避免Full GC过于频繁。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;java内存分配与回收策略&quot;&gt;&lt;a href=&quot;#java内存分配与回收策略&quot; class=&quot;headerlink&quot; title=&quot;java内存分配与回收策略&quot;&gt;&lt;/a&gt;java内存分配与回收策略&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;对象优先在Eden分配：大多数情况下，对
       
     
     </summary>
