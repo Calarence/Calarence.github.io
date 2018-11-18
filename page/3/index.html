@@ -271,6 +271,681 @@
             
               
                 
+                <a class="post-title-link" href="/2018/03/06/JavaLock3/" itemprop="url">
+                  Java中锁的实现原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T21:02:08+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Java中锁的实现原理"><a href="#Java中锁的实现原理" class="headerlink" title="Java中锁的实现原理"></a>Java中锁的实现原理</h3><blockquote>
+<ul>
+<li>原理<br>Lock接口的实现是通过聚合了一个队列同步器，利用同步器实现锁的语义。或者可以理解为Lock接口是通过队列同步器实现的。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>队列同步器的使用方式<br>同步器的主要使用方式是继承，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器的模版方法，而这些模版方法将会调用使用者重写的方法。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>队列同步器的API或模版方法</li>
+<li>队列同步器的实现分析<ul>
+<li>同步队列：同步器依赖内部的同步队列，FIFO双向队列来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成为一个节点，将其加入队列尾部，并阻塞当前线程；当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</li>
+<li>入队：当一个线程成功获取了同步状态后，其他线程无法获取到同步状态，转而被构造成为节点，添加到尾部，然而加入到队列的过程必须要<strong>保证线程安全</strong>，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Node uodate),它需要传递当前线程认为的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。</li>
+<li>出队：首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设为首节点，因为只有一个线程能够获取到同步状态，因此不需要CAS来设置。</li>
+<li>独占式同步状态获取与释放<ul>
+<li>获取流程如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/system.png" alt="此处输入图片的描述"></li>
+<li>释放：释放同步状态，并唤醒下一个节点    </li>
+</ul>
+</li>
+<li>共享式同步状态获取与释放<ul>
+<li>获取：与独占式的区别：共享式创建的Node的nextWaiter是一个SHARED常量来标志，而独占式标志是一个NULL节点；在队列等待时，独占式如果改变Status成功则就直接设置为头结点就返回了，但是共享式会进行判断，如果是SHARED并且Status&gt;=0则会设置头结点并且直接将下一个节点也unpark唤醒以便传递下去；</li>
+<li>释放：因为释放同步状态的操作会同时来自多个线程，所以一般通过循环和CAS来保证释放。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/03/06/extends/" itemprop="url">
+                  Java继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T19:49:32+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h3><h3 id="子类构造器："><a href="#子类构造器：" class="headerlink" title="子类构造器："></a>子类构造器：</h3><p>使用super调用构造器的语句必须是子类构造器的第一条语句。</p>
+<blockquote>
+<ul>
+<li>this的作用：一是引用隐式参数；二是调用该类其他的构造器</li>
+<li>super的作用:一是调用超类的方法；二是调用超类的构造器</li>
+</ul>
+</blockquote>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>程序中出现超类对象的任何地方都可以用子类对象替换。一个变量既可以引用自己类的对象，也可以引用其任何一个子类的对象。<br><strong>不能将超类的引用赋给子类变量</strong></p>
+<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><h3 id="强制类型转换："><a href="#强制类型转换：" class="headerlink" title="强制类型转换："></a>强制类型转换：</h3><p>将一个子类的引用赋给一个超类变量，编译器是允许的；但将一个超类的引用赋给一个子类变量，必须进行类型转换。<br>在进行类型转换时，需要注意以下两点：</p>
+<blockquote>
+<ul>
+<li>只能在继承层次内进行类型转换</li>
+<li>在将超类转换成子类之前，应该使用instancef进行检查</li>
+</ul>
+</blockquote>
+<h3 id="抽象类："><a href="#抽象类：" class="headerlink" title="抽象类："></a>抽象类：</h3><blockquote>
+<ul>
+<li>包含一个或多个抽象方法</li>
+<li>可以包含具体数据和具体方法</li>
+<li>抽象类不能被实例化，但可以定义一个抽象类的对象变量，只能引用非抽象子类的对象</li>
+</ul>
+</blockquote>
+<h3 id="4个访问修饰符"><a href="#4个访问修饰符" class="headerlink" title="4个访问修饰符"></a>4个访问修饰符</h3><blockquote>
+<ul>
+<li>private：仅本类可见</li>
+<li>public：对所有类可见</li>
+<li>protected:对本包和所有子类可见</li>
+<li>default：对本包可见</li>
+</ul>
+</blockquote>
+<h3 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h3><p>1、equals方法：在Object类中，equals用于判断两个对象是否有相同的引用；如果两个对象具有相同的引用，则两者一定是相同的。然而，经常需要检测两个对象状态的相等性，如果两个对象的状态相同，则认为两个对象是相等的</p>
+<p>  编写合格的equals方法：</p>
+<blockquote>
+<ul>
+<li>参数命名为otherObject，稍后将其转换成另一个叫做other的变量</li>
+<li>检测this与otherObject是否引用同一个对象<pre><code>if(this==otherObject) return true
+</code></pre></li>
+<li>检测otherObject是否为null<pre><code>if(otherObject==null) return false
+</code></pre></li>
+<li>比较this与otherObject是否属于同一个类。如果equals的语义在每个子类中有所改变，就使用getClass检测：<br>   if(getClass()!=otherObject.getClass()) return false;</li>
+<li>如果所有子类拥有统一的语义，则使用instanceof检测：<br>   if(!(otherObject instanceof ClassName)) return false;</li>
+<li>如果在子类中重新定义了equals，就要在其中包含调用super.equals(otherObject)</li>
+<li>将ohterObject转换为相应的类的类型变量<br>  ClassName other = (ClassName)otherObject;</li>
+<li>对所有需要比较的域进行比较。使用==比较基本类型域，使用equals比较对象域；如果所有的域都匹配，就返回true；否则返回false<br>  return field1 == other.field1 &amp;&amp; Objects.equals(field2,other.field2)</li>
+</ul>
+</blockquote>
+<p>2、hashCode方法<br>hash code是由对象导出的一个整形值。散列码是没有规律的，如果x和y是不同的对象，x.hashCode()与y.hashCode()基本不会相同。<br>Equals方法与hashCode的定义必须保持一致。如果x.equals(y)返回true，那么x.hashCode()与y.hashCode()必须具有相同的值。例如，如果在equals方法中用name这个属性去做判断，那么hashCode方法就需要散列name，而不是其他属性。</p>
+<p>3、toString方法：用于返回标识对象的字符串值，形式:类的名字，随后是一对方括号括起来的域值</p>
+<p>接下来是一个demo，实现了equals、hashCode、toString方法。</p>
+<p>父类:Employee</p>
+<pre><code>import java.util.Objects;
+public class Employee {
+
+private String name;
+private double salary;
+
+
+
+public Employee(String name, double salary) {
+    this.name = name;
+    this.salary = salary;
+}
+
+public String getName(){
+    return name;
+}
+
+public double getSalary(){
+    return salary;
+}
+
+public void raiseSalry(double byPercent){
+    double raise = salary * byPercent / 100;
+    salary += raise;
+}
+
+public boolean equals(Object otherObject){
+    if(this == otherObject) return true;
+    if(otherObject == null) return  false;
+    if(getClass()!=otherObject.getClass()) return false;
+    Employee other = (Employee) otherObject;
+    return Objects.equals(name, other.name) &amp;&amp; salary == other.salary;
+}
+
+public int hashCode(){
+    return Objects.hash(name,salary);
+}
+
+public String toString(){
+    return getClass().getName()+&quot;[name=&quot;+name+&quot;,salary=&quot;+salary+&quot;]&quot;;
+}
+}
+</code></pre><p>子类Manager</p>
+<pre><code>public class Manager extends Employee {
+
+private  double bouns;
+
+public Manager(String name,double salary){
+    super(name,salary);//调用父类构造方法必须写在第一行
+    bouns =  0;
+}
+
+public double getSalary(){
+    double salary = super.getSalary();//使用super.getSalary()访问继承自父类的成员变量
+    return salary + bouns;
+}
+
+public void setBouns(double bouns){
+    this.bouns = bouns;
+}
+
+public boolean equals(Object otherObject){
+    if(!super.equals(otherObject)) return false;
+    Manager other = (Manager) otherObject;
+    return bouns == other.bouns;
+}
+
+public int hashCode(){
+    return super.hashCode()+17 * new Double(bouns).hashCode();
+}
+
+public String toString(){
+    return super.toString()+&quot;[bouns=&quot;+bouns+&quot;]&quot;;
+}
+
+}
+</code></pre><h3 id="参数数量可变的方法"><a href="#参数数量可变的方法" class="headerlink" title="参数数量可变的方法"></a>参数数量可变的方法</h3><pre><code>示例如下：
+
+public static double max(double... values)
+{
+double largest = Double.NEGATIVE_INFINITY;
+for(double d:values)
+    if(d&gt;largest)
+        largest = v;
+return v;
+}
+</code></pre><p>上面代码中“…”表示可接收任意数量的参数，values是一个double类型的数组，存储着所有参数。可将double换为其他类型。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/03/06/javaLock2/" itemprop="url">
+                  Java中锁的基本概念
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T15:58:10+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="java中锁的基本知识"><a href="#java中锁的基本知识" class="headerlink" title="java中锁的基本知识"></a>java中锁的基本知识</h3><blockquote>
+<ul>
+<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的使用方式（代码如下）</li>
+</ul>
+</blockquote>
+<pre><code>/*
+*注意获取锁与释放锁的位置
+*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
+*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
+**/
+Lock lock = new ReentrantLock();
+lock.lock();
+try{
+}finally{
+lock.unlock();
+}
+</code></pre><h3 id="在synchronized与Lock之间进行选择"><a href="#在synchronized与Lock之间进行选择" class="headerlink" title="在synchronized与Lock之间进行选择"></a>在synchronized与Lock之间进行选择</h3><p>   Lock接口在锁操作上提供的语义与synchronized相同，不过除此之外，Lock接口还提供了其他特性：可中断获取锁，非阻塞获取锁，超时获取锁等；但在使用Lock接口时会有很大的风险，如忘记在finally块中调用unlock，虽然代码表面上可以运行，但实际上已经埋下了一颗定时炸弹，并且很有可能伤及其他代码。仅当synchronized不能满足需求时，才考虑使用Lock。这些场景包括可定时的、可轮询的与可中断的锁获取操作、公平队列、以及非机构的锁。否则，应该是优先使用synchronized。</p>
+<hr>
+<p>参考《Java并发编程的艺术》《Java并发编程实践》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/02/27/javaLock1/" itemprop="url">
+                  Java中锁的基本概念
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-02-27T15:58:10+08:00" content="2018-02-27">
+              2018-02-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h3><blockquote>
+<ul>
+<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的使用方式（代码如下）</li>
+</ul>
+</blockquote>
+<pre><code>/*
+*注意获取锁与释放锁的位置
+*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
+*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
+**/
+Lock lock = new ReentrantLock();
+lock.lock();
+try{
+}finally{
+lock.unlock();
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/01/05/javaMemory2/" itemprop="url">
                   java内存分配与回收策略
                 </a>
@@ -1198,1006 +1873,6 @@ while (true) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/19/JavaObject/" itemprop="url">
-                  Java对象与类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-19T13:08:34+08:00" content="2017-11-19">
-              2017-11-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Java对象与类"><a href="#Java对象与类" class="headerlink" title="Java对象与类"></a>Java对象与类</h2><h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><h3 id="对象：三个主要特性：行为、状态、标识"><a href="#对象：三个主要特性：行为、状态、标识" class="headerlink" title="对象：三个主要特性：行为、状态、标识"></a>对象：三个主要特性：行为、状态、标识</h3><h3 id="类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小"><a href="#类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小" class="headerlink" title="类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小"></a>类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小</h3><h3 id="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"><a href="#隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值" class="headerlink" title="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"></a>隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值</h3><h3 id="方法参数：Java采用按值调用。"><a href="#方法参数：Java采用按值调用。" class="headerlink" title="方法参数：Java采用按值调用。"></a>方法参数：Java采用按值调用。</h3><p>方法得到的是参数值的一个拷贝，方法不能修改传递给它的任何参数变量的内容。<br>举例如下：</p>
-<pre><code>public static void tripleValue(double x)
-    {
-     x = 3 * ;
-
-    }
-//调用该方法
-double percent = 10;
-tripleValue(percent);
-</code></pre><p>执行完后，发现percent的值还是为10，具体执行过程如下:</p>
-<blockquote>
-<ul>
-<li>x被初始化为percent的一个copy，也就是10</li>
-<li>x被乘以3后等于30，但percent仍然是10</li>
-<li>该方法结束后，x不被使用</li>
-<li>percent仍为10</li>
-</ul>
-</blockquote>
-<p>方法参数共有两种类型：基本数据类型；对象引用。在上面例子中，已经看到了一个方法不能改变一个基本数据类型的参数，那么对象引用类型的参数呢？</p>
-<pre><code>public static void tripleSalary(Employee x)
-{
- x.raiseSalary(200);
-} 
-当调用：
-harry = new Employee();
-tripleSalary(harry);
-</code></pre><p>具体过程如下:</p>
-<blockquote>
-<ul>
-<li>x被初始化为harry值的一个copy，这里是同一个对象的引用。</li>
-<li>raiseSalary应用于这个对象的引用。x和harry同时引用的那个Employee对象的salary改变</li>
-<li>方法结束后，参数x不被使用，对象变量harry继续引用salary改变的对象</li>
-</ul>
-</blockquote>
-<p>参数得到是对象引用的copy，对象引用以及他的copy同时引用同一个对象。</p>
-<p>java中的引用不是按引用调用，反例如下:</p>
-<pre><code>public staic void swap(Employee x,Employee y)
- {
-   Employee temp = x;
-   x =  y;
-   y = temp；
- }
-</code></pre><p>如果java对对象采用的是按引用调用，那么上面的方法就能实现交换数据的效果，但是实际上并没有改变存储在变量a和b中的的对象引用。swap方法的参数x和y被初始化为两个对象应用的copy，这个方法交换的是两个copy</p>
-<p>总结：</p>
-<blockquote>
-<ul>
-<li>一个方法不能修改一个基本数据类型的参数</li>
-<li>一个方法可以改变一个对象参数的状态</li>
-<li>一个方法不能让对象参数引用一个新的对象</li>
-</ul>
-</blockquote>
-<h3 id="重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"><a href="#重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。" class="headerlink" title="重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"></a>重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。<strong>返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。</strong></h3><h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>静态方法是一种不能向对象实施操作的方法。静态方法不能访问成员变量，因为它不能操作对象。<br>在下面两种情况使用静态方法：</p>
-<blockquote>
-<ul>
-<li>一个方法不需要访问对象状态，其所需参数都是通过显式参数提供</li>
-<li>一个方法只需要访问类的静态域</li>
-</ul>
-</blockquote>
-<h3 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h3><p>初始化数据的方法：</p>
-<blockquote>
-<ul>
-<li>在构造器中赋值</li>
-<li>在声明中赋值</li>
-<li>初始化块：首先运行初始化块，然后才运行构造器的主体部分。</li>
-</ul>
-</blockquote>
-<p>调用构造器的处理步骤;</p>
-<blockquote>
-<ul>
-<li>所有数据被初始化默认值（0，null或false）</li>
-<li>按照在类声明中出现的次序，依次执行所有域初始化语句和初始化块</li>
-<li>如果构造器中第一行调用了第二个构造器，则执行第二个构造器主体</li>
-<li>执行这个构造器主体</li>
-</ul>
-</blockquote>
-<p>对静态变量的初始化：静态的初始化块，在类第一次加载的时候，会进行静态域的初始化，所有静态初始化语句以及静态初始化块都依照类定义的顺序执行。</p>
-<h3 id="类设计技巧"><a href="#类设计技巧" class="headerlink" title="类设计技巧"></a>类设计技巧</h3><blockquote>
-<ul>
-<li>要保证成员变量私有</li>
-<li>要对成员变量初始化</li>
-<li>不要在类中使用过多的基本类型，可用其他类代替多个相关的基本类型的使用</li>
-<li>将职责过多的类进行分解</li>
-<li>不是所有的域都需要独立的get和set方法</li>
-<li>类名和方法名要能体现他们的职责</li>
-<li>优先使用不可的类</li>
-</ul>
-</blockquote>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><blockquote>
-<ul>
-<li>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象</li>
-<li>在java中，任何对象变量的值都是对存储在另外一个地方的一个对象的引用。new 操作符的返回值也是一个引用</li>
-<li>在一个源文件中，只能有一个public类，但可以有任意数目的非公有类</li>
-</ul>
-</blockquote>
-<p>参考：《java核心技术卷一》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/14/djangosql/" itemprop="url">
-                  djano执行原生sql语句
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-14T15:58:10+08:00" content="2017-11-14">
-              2017-11-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###为什么需要Django执行SQL<br>使用Django自带的ORM机制做查询有时会满足不了我们的需求， 例如某些查询没有对应的model；或者只想执行UPDATE、INSERT、或DELETE语句。在这些情况下，我们需要直接访问数据库，并想绕过model层。那么，我们应该如何做呢？<br>django.db.connection表示当前默认数据库的连接。如果想使用该连接，调用connection.cursor()来获得一个cursor对象；接着，调用cursor.execute(sql, [params])来执行SQL语句；然后使用cursor.fetchone()或cursor.fetchall()来返回查询结果。<br>示例如下：<br>from django.db import connection</p>
-<pre><code>def my_custom_sql(self):
-    with connection.cursor() as cursor:
-        cursor.execute(&quot;UPDATE bar SET foo = 1 WHERE baz = %s&quot;, [self.baz])
-        cursor.execute(&quot;SELECT foo FROM bar WHERE baz = %s&quot;, [self.baz])
-        row = cursor.fetchone()
-    return row
-</code></pre><p><strong>注意：如果想在查询语句中包含百分号，必须写两个，示例如下</strong></p>
-<pre><code>cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%&apos;&quot;)
-cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%%&apos; AND id = %s&quot;, [self.id])
-</code></pre><p>如果正在使用<a href="https://docs.djangoproject.com/en/1.11/topics/db/multi-db/" target="_blank" rel="noopener">多个数据库</a>，可以使用django.db.connections来获取指定数据库的连接（和cursor）。 django.db.connections是一个类似字典的对象，可以使用别名来获取指定的连接。</p>
-<pre><code>from django.db import connections
-cursor = connections[&apos;my_db_alias&apos;].cursor()
-# Your code here...
-</code></pre><p>默认情况下，Python DB API返回的结果中不包含字段名，这表示最终结果是值的list，而不是dict。可以使用以下代码返回一个dict。</p>
-<pre><code>def dictfetchall(cursor):
-    &quot;Return all rows from a cursor as a dict&quot;
-    columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
-</code></pre><p>另一个选择是使用python标准库 collections.namedtuple()。namedtuple是类似tuple的对象，支持属性查询来访问字段；同时也支持索引和迭代。结果是不可变的，并且可通过字段名或切片访问，这两个特性可能会比较有用。</p>
-<pre><code>from collections import namedtuple
-
-def namedtuplefetchall(cursor):
-&quot;Return all rows from a cursor as a namedtuple&quot;
-    desc = cursor.description
-    nt_result = namedtuple(&apos;Result&apos;, [col[0] for col in desc])
-    return [nt_result(*row) for row in cursor.fetchall()]
-</code></pre><p>以上三种情况的差别如下所示：</p>
-<pre><code>&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; cursor.fetchall()
-((54360982, None), (54360880, None))
-
-&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; dictfetchall(cursor)
-{&apos;parent_id&apos;: None, &apos;id&apos;: 54360982}, {&apos;parent_id&apos;: None, &apos;id&apos;: 54360880}]
-
-&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; results = namedtuplefetchall(cursor)
-&gt;&gt;&gt; results
-[Result(id=54360982, parent_id=None), Result(id=54360880, parent_id=None)]
-&gt;&gt;&gt; results[0].id
-54360982
-&gt;&gt;&gt; results[0][0]
-54360982
-</code></pre><p>###Connections 和 cursors<br>connection和cursor在大多数情况下都实现了<a href="https://www.python.org/dev/peps/pep-0249" target="_blank" rel="noopener">PEP 249</a>所描述的Python DB-API，除了事务处理。<br>如果对python DB-API不熟悉的话，要注意到cursor.execute()中的SQL语句使用了占位符”%s”,而不是SQL内直接添加参数。如果你使用这种机制，底层的数据库类库必要时将自动对参数进行转义。<br>同时也要注意，Djano使用”%s”作为占位符，而SQLite使用”?”做占位符。<br>将cursor用作上下文管理器</p>
-<pre><code>with connection.cursor() as c:
-    c.execute(...)
-</code></pre><p>等同于</p>
-<pre><code>c = connection.cursor()
-    try:
-        c.execute(...)
-    finally:
-        c.close()
-</code></pre><p>###调用存储过程<br>CursorWrapper.callproc(procname, params=None)<br>使用给定的名称或可选的输入参数来调用存储过程<br>例如，Oracle的一个存储过程如下</p>
-<pre><code>CREATE PROCEDURE &quot;TEST_PROCEDURE&quot;(v_i INTEGER, v_text NVARCHAR2(10)) AS
-    p_i INTEGER;
-    p_text NVARCHAR2(10);
-BEGIN
-    p_i := v_i;
-    p_text := v_text;
-    ...
-END;
-</code></pre><p>使用如下方式调用：</p>
-<pre><code>with connection.cursor() as cursor:
-cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/10/Iterator/" itemprop="url">
-                  Iterator接口及其在ArrayList中的实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-10T15:58:10+08:00" content="2017-11-10">
-              2017-11-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Iterator接口及其在ArrayList中的实现</p>
-<p>###继承关系如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/iterator.png" alt="此处输入图片的描述"></p>
-<h3 id="Itr类分析"><a href="#Itr类分析" class="headerlink" title="Itr类分析"></a>Itr类分析</h3><p>####成员变量</p>
-<blockquote>
-<ul>
-<li>cursor:下一个返回元素的序号</li>
-<li>lastRet:上次返回的元素的序号</li>
-<li>expectedModCount = modCount,修改次数</li>
-</ul>
-</blockquote>
-<p>####方法</p>
-<blockquote>
-<ul>
-<li>判断是否还有下一个元素，依据：元素的index是否等于最后一个元素的index</li>
-</ul>
-</blockquote>
-<p>   public boolean hasNext() {<br>            return cursor != size;<br>        }</p>
-<blockquote>
-<ul>
-<li>每个迭代器检查自己改写操作的计数值是否与集合的改写操作计数值一致。如果不一致，则抛出ConcurrentModificationException</li>
-</ul>
-</blockquote>
-<pre><code>final void checkForComodification() {
-       if (modCount != expectedModCount)
-           throw new ConcurrentModificationException();
-   }
-</code></pre><blockquote>
-<ul>
-<li>返回cursor指向的元素，然后cursor加1.这个方法会迷惑人，从字面意义上觉得是返回下一个元素，但事实却是返回当前元素，然后将cursor指向下一个元素。所以，next可以理解为将cursor指向next。</li>
-</ul>
-</blockquote>
-<pre><code>public E next() {
-        checkForComodification();
-        int i = cursor;
-        if (i &gt;= size)
-            throw new NoSuchElementException();
-        Object[] elementData = ArrayList.this.elementData;
-        if (i &gt;= elementData.length)
-            throw new ConcurrentModificationException();
-        cursor = i + 1;
-        return (E) elementData[lastRet = i];
-    }
-</code></pre><blockquote>
-<ul>
-<li>remove方法：在调用remove方法之前，如果没有调用next方法，将会抛出IllegalStateException,原因是lastRet初始值为-1，小于0，抛出IllegalStateException;而调用next方法后，将lastRet赋值为cursor，即当前访问的元素，这样lastRet大于或等于0，不会抛出异常。然后调用ArrayList的remove方法删除元素；又将lastRest复位为-1，所以下次remove时，需要再次调用next</li>
-</ul>
-</blockquote>
-<pre><code>public void remove() {
-        if (lastRet &lt; 0)
-            throw new IllegalStateException();
-        checkForComodification();
-
-        try {
-            ArrayList.this.remove(lastRet);
-            cursor = lastRet;
-            lastRet = -1;
-            expectedModCount = modCount;
-        } catch (IndexOutOfBoundsException ex) {
-            throw new ConcurrentModificationException();
-        }
-    }
-</code></pre><blockquote>
-<ul>
-<li>forEachRemaining方法，java8中的新特性。以后补充。</li>
-</ul>
-</blockquote>
-<p>###ListItr类分析：继承了Itr类，实现了ListIterator接口<br>方法如下：</p>
-<blockquote>
-<ul>
-<li>构造方法：将cursor初始化为index，默认值为0</li>
-</ul>
-</blockquote>
-<pre><code>ListItr(int index) {
-    super();
-    cursor = index;
-}
-</code></pre><blockquote>
-<ul>
-<li>判断是否有前一个元素：依据：cursor是否等于0</li>
-</ul>
-</blockquote>
-<pre><code>public boolean hasPrevious() {
-       return cursor != 0;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取下一个元素的序号(cursor指向下一个元素的序号)</li>
-</ul>
-</blockquote>
-<pre><code>public int nextIndex() {
-       return cursor;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取上一个元素的序号(cursor指向下一个元素的序号)</li>
-</ul>
-</blockquote>
-<pre><code>public int previousIndex() {
-       return cursor - 1;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取前一个元素：如果当前元素(序号为cursor-1)为第一个元素，则抛出NoSuchElementException；将cursor指向当前元素(正常情况指向下一个元素)，返回当前元素</li>
-</ul>
-</blockquote>
-<pre><code>public E previous() {
-        checkForComodification();
-        int i = cursor - 1;
-        if (i &lt; 0)
-            throw new NoSuchElementException();
-        Object[] elementData = ArrayList.this.elementData;
-        if (i &gt;= elementData.length)
-            throw new ConcurrentModificationException();
-        cursor = i;
-        return (E) elementData[lastRet = i];
-    }
-</code></pre><blockquote>
-<ul>
-<li>用元素e取代next或previous返回的元素:在调用该方法前，必须先调用previous或next方法。否则,lastRet为-1，小于0，抛出异常。set方法并没有导致modCount加1操作，所以set方法不被视为结构性修改</li>
-</ul>
-</blockquote>
-<pre><code>public void set(E e) {
-        if (lastRet &lt; 0)
-            throw new IllegalStateException();
-        checkForComodification();
-
-        try {
-            ArrayList.this.set(lastRet, e);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new ConcurrentModificationException();
-        }
-    }
-</code></pre><blockquote>
-<ul>
-<li>添加元素:ArrayList的add方法导致modCount次数加1，所以此操作会修改结构。当一个iter对集合进行遍历，而另一个对其修改时，则会抛出ConcurrentModificationException</li>
-</ul>
-</blockquote>
-<pre><code>public void add(E e) {
-     checkForComodification();
-
-     try {
-         int i = cursor;
-         ArrayList.this.add(i, e);
-         cursor = i + 1;
-         lastRet = -1;
-         expectedModCount = modCount;
-     } catch (IndexOutOfBoundsException ex) {
-         throw new ConcurrentModificationException();
-     }
- }
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/09/ArrayListInterface/" itemprop="url">
-                  Java ArrayList源码阅读
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-09T15:58:10+08:00" content="2017-11-09">
-              2017-11-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ArrayList继承的类和实现的接口"><a href="#ArrayList继承的类和实现的接口" class="headerlink" title="ArrayList继承的类和实现的接口"></a>ArrayList继承的类和实现的接口</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/arrayList.png" alt="此处输入图片的描述"><br>如上图所示，实现的接口有List、RandomAccess、Cloneable、java.io.Serializable;继承的类有AbstractList</p>
-<h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><blockquote>
-<ul>
-<li>serialVersionUID</li>
-<li>DEFAULT_CAPACITY:默认初始容量，值为10</li>
-<li>EMPTY_ELEMENTDATA：为空的列表，共享该数组</li>
-<li>elementData:数组，用来存储元素。ArrayList的容量就是指这个数组的长度。当第一个元素添加到数组里时，空ArrayList的elementData将会扩充到DEFAULT_CAPACITY</li>
-<li>size: 现有元素的数量</li>
-</ul>
-</blockquote>
-<h3 id="三个构造方法"><a href="#三个构造方法" class="headerlink" title="三个构造方法"></a>三个构造方法</h3><p>1、无构造参数：使用默认值10来初始化数组</p>
-<pre><code>/**
-    * Constructs an empty list with an initial capacity of ten.
-    */
-   public ArrayList() {
-       super();
-       this.elementData = EMPTY_ELEMENTDATA;
-   }
-</code></pre><p>2、构造参数为初始容量：先判断initialCapacity是否合法，若合法，将elementData初始化长度为initialCapacity</p>
-<pre><code>public ArrayList(int initialCapacity) {
-       super();
-       if (initialCapacity &lt; 0)
-           throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
-                                              initialCapacity);
-       this.elementData = new Object[initialCapacity];
-   }
-</code></pre><p>3、构造参数为一个集合：取集合c的对象数组，赋给elementData；把数组的长度赋给size。<br>什么情况下会出现<strong><em>elementData.getClass() != Object[].class</em></strong>？？？？</p>
-<pre><code>public ArrayList(Collection&lt;? extends E&gt; c) {
-       elementData = c.toArray();
-       size = elementData.length;
-       // c.toArray might (incorrectly) not return Object[] (see 6260652)
-       if (elementData.getClass() != Object[].class)
-           elementData = Arrays.copyOf(elementData, size, Object[].class);
-   }
-</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
-<pre><code>public boolean add(E e) {
-        ensureCapacityInternal(size + 1);  // Increments modCount!!
-        elementData[size++] = e;
-        return true;
-    }
-</code></pre><p>2、public void add(int index, E element):在指定位置index插入指定元素element：调用rangeCheckForAdd，检测index的合法性；必要时对数组进行扩充；modCount加1;调用System.arraycopy将index位置(及其右边)的元素右移;将index位置的元素改为element</p>
-<pre><code> public void add(int index, E element) {
-    rangeCheckForAdd(index);
-
-    ensureCapacityInternal(size + 1);  // Increments modCount!!
-    System.arraycopy(elementData, index, elementData, index + 1,
-                     size - index);
-    elementData[index] = element;
-    size++;
-}
-</code></pre><p>3、public boolean addAll(Collection&lt;? extends E&gt; c):按照迭代器返回的顺序，将集合c中的元素添加到list中。(为什么一开始不判断c是否为空？)</p>
-<pre><code>public boolean addAll(Collection&lt;? extends E&gt; c) {
-    Object[] a = c.toArray();
-    int numNew = a.length;
-    ensureCapacityInternal(size + numNew);  // Increments modCount
-    System.arraycopy(a, 0, elementData, size, numNew);
-    size += numNew;
-    return numNew != 0;
-}
-</code></pre><p>4、public boolean addAll(int index, Collection&lt;? extends E&gt; c):将集合c中的元素插入到list的指定位置中去。首先检测index的合法性；modCount加1，必要时扩充数组；将index右边的元素依次右移numNew，最后将c中的元素copy到list中，调整size。</p>
-<pre><code>   public boolean addAll(int index, Collection&lt;? extends E&gt; c) {
-    rangeCheckForAdd(index);
-
-    Object[] a = c.toArray();
-    int numNew = a.length;
-    ensureCapacityInternal(size + numNew);  // Increments modCount
-
-    int numMoved = size - index;
-    if (numMoved &gt; 0)
-        System.arraycopy(elementData, index, elementData, index + numNew,
-                         numMoved);
-
-    System.arraycopy(a, 0, elementData, index, numNew);
-    size += numNew;
-    return numNew != 0;
-}  
-</code></pre><h3 id="indexOf方法"><a href="#indexOf方法" class="headerlink" title="indexOf方法"></a>indexOf方法</h3><p>1、indexOf:返回元素在第一次出现的位置，如果不存在，返回-1<br>   <strong>注意对object为null时的处理</strong></p>
-<pre><code> public int indexOf(Object o) {
-    if (o == null) {
-        for (int i = 0; i &lt; size; i++)
-            if (elementData[i]==null)
-                return i;
-    } else {
-        for (int i = 0; i &lt; size; i++)
-            if (o.equals(elementData[i]))
-                return i;
-    }
-    return -1;
-}
-</code></pre><p>2、lastIndexOf:返回元素在list最后一次出现的位置，如果不存在，返回-1<br>   <strong>注意对object为null时的处理</strong></p>
-<pre><code>  public int lastIndexOf(Object o) {
-    if (o == null) {
-        for (int i = size-1; i &gt;= 0; i--)
-            if (elementData[i]==null)
-                return i;
-    } else {
-        for (int i = size-1; i &gt;= 0; i--)
-            if (o.equals(elementData[i]))
-                return i;
-    }
-    return -1;
-}
-</code></pre><p>###toArray方法：使用Arrays类的copyOf方法，将一个数组的值拷贝到一个新的数组中去，然后返回这个新数组。</p>
-<pre><code> public Object[] toArray() {
-    return Arrays.copyOf(elementData, size);
-}
-</code></pre><h3 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h3><p>1、public E remove(int index):index合法性检测;取到index位置上的值;如果要删除的元素不在最后位置,需要将index之后的元素依次左移,然后将最后位置元素置为null，size减一，返回删除的元素</p>
-<pre><code>    public E remove(int index) {
-    rangeCheck(index);
-
-    modCount++;
-    E oldValue = elementData(index);
-
-    int numMoved = size - index - 1;
-    if (numMoved &gt; 0)
-        System.arraycopy(elementData, index+1, elementData, index,
-                         numMoved);
-    elementData[--size] = null; // clear to let GC do its work
-
-    return oldValue;
-}
-</code></pre><p>2、private void fastRemove(int index):上一个方法的简化版：不做index合法性检测;不返回删除的元素</p>
-<pre><code>   private void fastRemove(int index) {
-    modCount++;
-    int numMoved = size - index - 1;
-    if (numMoved &gt; 0)
-        System.arraycopy(elementData, index+1, elementData, index,
-                         numMoved);
-    elementData[--size] = null; // clear to let GC do its work
-}
-</code></pre><p>3、public boolean remove(Object o):删除列表中第一次出现的o<br>   <strong>注意点:object为null时的处理</strong></p>
-<pre><code>public boolean remove(Object o) {
-    if (o == null) {
-        for (int index = 0; index &lt; size; index++)
-            if (elementData[index] == null) {
-                fastRemove(index);
-                return true;
-            }
-    } else {
-        for (int index = 0; index &lt; size; index++)
-            if (o.equals(elementData[index])) {
-                fastRemove(index);
-                return true;
-            }
-    }
-    return false;
-}
-</code></pre><p>4、protected void removeRange(int fromIndex, int toIndex)：删除fromIndex和toIndex之间的元素(不包括toIndex):用toIndex之后的元素覆盖掉[fromIndex,toIndex)之间的元素，然后将toIndex之后的元素置为null，调整size</p>
-<pre><code> protected void removeRange(int fromIndex, int toIndex) {
-    modCount++;
-    int numMoved = size - toIndex;
-    System.arraycopy(elementData, toIndex, elementData, fromIndex,
-                     numMoved);
-
-    // clear to let GC do its work
-    int newSize = size - (toIndex-fromIndex);
-    for (int i = newSize; i &lt; size; i++) {
-        elementData[i] = null;
-    }
-    size = newSize;
-}
-</code></pre><p>5、public boolean removeAll(Collection&lt;?&gt; c):删除list中集合c包含的元素：首先检测c是否为null，然后调用batchRemove</p>
-<pre><code>  public boolean removeAll(Collection&lt;?&gt; c) {
-    Objects.requireNonNull(c);
-    return batchRemove(c, false);
-}
-</code></pre><p>6、public boolean retainAll(Collection&lt;?&gt; c)：删除list中不包含在c中的元素</p>
-<pre><code>  public boolean retainAll(Collection&lt;?&gt; c) {
-    Objects.requireNonNull(c);
-    return batchRemove(c, true);
-}
-</code></pre><p>7、private boolean batchRemove:这个方法设计的很巧妙，根据complement来确定是要删除还是保留c中的元素。<br>   如果complement为false,表示求与elementData的差集；如果为true，表示求交集。</p>
-<pre><code> private boolean batchRemove(Collection&lt;?&gt; c, boolean complement) {
-    final Object[] elementData = this.elementData;
-    int r = 0, w = 0;
-    boolean modified = false;
-    try {
-        /**
-         *for循环用于筛选想要的元素
-         *当complement等于false时，表示从arrayList中删除c中含有的元素。如果c.contains(elementData[r])也等于false，说明c中不包含该元素，这时候要“保存”下这些元素，即非c中的元素，执行elementData[w++]=elementData[r],其实也就是求与elementData的差集
-        *当complement等于true时，表示保留arrayList中c中含有的元素，删除其他元素。这时候如果c.contains(elementData[r])等于true，表示c中有该元素，应该保留下来，同样用elementData[w++] = elementData[r]，其他元素忽略掉
-         */
-
-        for (; r &lt; size; r++)
-            if (c.contains(elementData[r]) == complement)
-                elementData[w++] = elementData[r];
-    } finally {
-        //finally语句用于元素的移动和数组大小调整
-        // Preserve behavioral compatibility with AbstractCollection,
-        // even if c.contains() throws.
-        if (r != size) {
-            System.arraycopy(elementData, r,
-                             elementData, w,
-                             size - r);
-            w += size - r;
-        }
-        if (w != size) {
-            // clear to let GC do its work
-            for (int i = w; i &lt; size; i++)
-                elementData[i] = null;
-            modCount += size - w;
-            size = w;
-            modified = true;
-        }
-    }
-    return modified;
-}
-</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、缩减长度：减少ArrayList的存储。如果数组当前长度小于容量（也就是说还有剩余容量），就把剩余容量删除掉</p>
-<pre><code>public void trimToSize() {
-        modCount++;
-        if (size &lt; elementData.length) {
-            elementData = Arrays.copyOf(elementData, size);
-        }
-    }
-</code></pre><p>2、clear方法：修改次数加1；遍历数组，依次将各个元素置为null，然后将size置为0</p>
-<pre><code>public void clear() {
-    modCount++;
-
-    // clear to let GC do its work
-    for (int i = 0; i &lt; size; i++)
-        elementData[i] = null;
-
-    size = 0;
-}
-</code></pre><p>3、set方法：public E set(int index, E element)<br>   首先检测index合法性；若合法，取出原先index位置上的值；将index上值进行更新；返回原先的值</p>
-<pre><code>public E set(int index, E element) {
-    rangeCheck(index);
-    E oldValue = elementData(index);
-    elementData[index] = element;
-    return oldValue;
-}
-</code></pre><p>4、isEmpty():判读list是否为空，依据：size是否等于0<br>5、contains():判断list是否包含某个元素，依据：判读该元素在list中的位置是否小于0</p>
-<p>###序列化与反序列化<br>这里有两个疑问：</p>
-<blockquote>
-<ul>
-<li>ArrayList实现了Serializable接口，但是elementData却声明为transient（表示该变量不能被序列化），这是为什么</li>
-<li>序列化和反序列化的两个方法：writeObject和readObject都声明为private，但在类中却没有被调用到，这是为什么<br><a href="http://www.cnblogs.com/vinozly/p/5171227.html" target="_blank" rel="noopener">这篇文章</a>给出了答案，可以参考一下。</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2243,7 +1918,7 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">105</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

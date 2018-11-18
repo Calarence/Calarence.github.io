@@ -271,6 +271,532 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
+                  RabbitMQ常用命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
+              2018-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
+<ul>
+<li>启动节点：rabbitmq-server</li>
+<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
+<li>停止节点：rabbitmqctl stop</li>
+<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
+<li>停止应用程序 rabbitmqctl stop_app </li>
+<li>启动应用程序 rabbitmqctl start_app</li>
+<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
+<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
+<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
+<li>列出绑定：rabbitmqctl list_bindings</li>
+<li>添加用户: rabbitmqctl add_user username password</li>
+<li>删除用户：rabbitmqctl delete_user </li>
+<li>列出所有用户：rabbitmqctl list_users</li>
+<li>修改密码 rabbitmqctl change_password username newpassword</li>
+<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
+<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
+<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
+                  spring与amqp
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
+              2018-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol>
+<li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li>
+</ol>
+<p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p>
+<p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p>
+<p> 3.amqp的一种实现–rabbitmq</p>
+<blockquote>
+<ul>
+<li>配置spring支持rabbitmq</li>
+<li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li>
+<li>声明rabbittemplate</li>
+<li>使用rabbittemplate发送消息<ul>
+<li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li>
+<li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li>
+</ul>
+</li>
+<li>接收消息(异步)<ul>
+<li>consumer端配置</li>
+<li>实现消费消息的代码，如下</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<pre><code>    public class MessageReceiver implements MessageListener {
+    public void onMessage(Message message) {
+        System.out.println(message);
+    }
+
+    public static void main(String[]args){
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/30/springMVChello world/" itemprop="url">
+                  springMVC示例之hello world
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-30T13:58:10+08:00" content="2018-04-30">
+              2018-04-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="springMVC示例之hello-world"><a href="#springMVC示例之hello-world" class="headerlink" title="springMVC示例之hello world"></a>springMVC示例之hello world</h3><h3 id="Spring-MVC对请求的处理流程"><a href="#Spring-MVC对请求的处理流程" class="headerlink" title="Spring MVC对请求的处理流程"></a>Spring MVC对请求的处理流程</h3><p>流程图如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png" alt="springMVC请求处理流程"></p>
+<ol>
+<li>DispatcherServlet称为前端控制器，它根据处理器映射将请求发送给对应的控制器</li>
+<li>处理器映射：记录请求和它对应的控制器</li>
+<li>请求的实际处理者。它将业务逻辑委托给一个或多个服务对象进行处理，产生信息(model)和视图(view), </li>
+<li>控制器将模型数据打包，标注视图名，然后将请求连同模型和数据发送回DispatcherServlet.</li>
+<li>视图解析器将视图名匹配为一个真正的视图，可能是jsp或html</li>
+<li>将模型数据渲染到视图</li>
+<li>返回响应</li>
+</ol>
+<p><strong><em>MVC的核心思想是业务数据抽取与业务数据呈现相分离</em></strong></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC.png" alt="此处输入图片的描述"></h2><h3 id="springMVC-hello-world实现"><a href="#springMVC-hello-world实现" class="headerlink" title="springMVC hello world实现"></a>springMVC hello world实现</h3><ol>
+<li>新建maven spring webapp工程，命名为springMVC</li>
+<li>在pom中添加相关spring依赖</li>
+<li>在web.xml中配置DispatcherServlet</li>
+</ol>
+<pre><code> &lt;!DOCTYPE web-app PUBLIC
+ &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
+ &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
+ &lt;web-app&gt;
+    &lt;context-param&gt;
+        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;classpath:application-context.xml&lt;/param-value&gt;
+    &lt;/context-param&gt;
+&lt;listener&gt;
+     &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+
+&lt;servlet&gt;
+    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;
+    org.springframework.web.servlet.DispatcherServlet
+    &lt;/servlet-class&gt;
+    &lt;init-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:springMVC-context.xml&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</code></pre><p>  简单理解该配置文件：</p>
+<blockquote>
+<ul>
+<li>servlet:load-on-startup元素标记容器是否在启动的时候就加载这个servlet，正数值越小，该servlet优先级越高，在容器启动时，就应该越先加载</li>
+<li>servlet映射的是“/”，这表示它会是应用的默认Servlet。 它会处理进入 应用的所有请求</li>
+<li>Spring context:由DispatcherServlet创建，用于加载web组件，如控制器、视图解析器和处理器映射。</li>
+<li>Application context:由ContextLoaderListener创建，用来控制spring全局的特性,它是执行的是spring的上下文，用户加载bean，service，dao，数据库等配置信息</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li><p>springMVC-context.xml配置</p>
+<blockquote>
+<ul>
+<li>启用spring</li>
+<li>启用组件扫描</li>
+<li>配置视图解析器</li>
+<li>静态资源的处理</li>
+</ul>
+</blockquote>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;
+&lt;!--启用Spring基于annotation的D，使用户可以在spring中使用Spring的强大功能
+激活@Required @Autowired @PostConstruct @PreDestroy @Resource等标注--&gt;
+&lt;context:annotation-config /&gt;
+&lt;!--启用注解--&gt;
+&lt;mvc:annotation-driven /&gt;
+ &lt;!--组件扫描--&gt;
+&lt;context:component-scan base-package=&quot;com.appleieye.maya.web.controller&quot; /&gt;
+ &lt;!--视图解析器--&gt;
+ &lt;bean id=&quot;defaultViewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+&lt;property name=&quot;viewClass&quot; value=&quot;org.springframework.web.servlet.view.JstlView&quot;/&gt;
+&lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;&lt;!--设置JSP文件的目录位置--&gt;
+&lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;
+ &lt;/bean&gt;
+&lt;!--静态资源映射--&gt;
+&lt;!--项目一般是前后端分离,所以不需要关心这部分--&gt;
+&lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/WEB-INF/statics/css/&quot;/&gt;
+&lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/WEB-INF/statics/js/&quot;/&gt;
+&lt;mvc:resources mapping=&quot;/image/**&quot; location=&quot;/WEB-INF/statics/image/&quot;/&gt;
+&lt;/beans&gt;
+</code></pre></li>
+<li><p>application-context.xml配置</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;
+
+&lt;context:annotation-config/&gt;
+&lt;context:component-scan base-package=&quot;com.appleieye.maya&quot; &gt;
+&lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot; /&gt;
+&lt;/context:component-scan&gt;
+&lt;/beans&gt;
+</code></pre></li>
+</ol>
+<ol start="5">
+<li><p>编写控制器</p>
+<pre><code>package com.appleieye.maya.web.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;        
+
+@Controller
+public class HelloWorldController {
+
+@RequestMapping(value = &quot;helloWorld&quot;,method = RequestMethod.GET)
+@ResponseBody
+public String hello(){
+    return &quot;helloWorld&quot;;
+    }
+}
+</code></pre><p>@Controller注解基于@Component,在组件扫描时，会将其声明为Spring应用上下文中的一个bean；<br>@RequestMapping注解，它的value属性指定了这个方法要处理的请求路径，method指定了它所处理的http方法。当收到对“/helloWorld”的http get请求时，会调用hello方法，方法返回名为helloWorld的视图</p>
+</li>
+<li><p>建立视图:在WEB-INF/views下新建helloWorld.jsp</p>
+<pre><code> &lt;html&gt;
+     &lt;body&gt;
+       &lt;h2&gt;Hello World!&lt;/h2&gt;
+     &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+<li><p>部署及访问：访问路径为“springMVC/helloWorld”</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
                   spring bean装配的三种方式之xml配置
                 </a>
@@ -362,6 +888,158 @@
 &lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
 &lt;/bean&gt;
 </code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
+                  spring面向切面编程示例之打印日志
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
+<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
+<li><p>pom中添加依赖</p>
+<pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+ &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+ &lt;version&gt;1.8.13&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>添加切面的实现</p>
+</li>
+</ul>
+<pre><code>public class LogHelper {
+public LogHelper() {
+    }
+public void sayBefore(){
+    System.out.println(&quot;before saying hello world&quot;);
+    }
+public void sayAfter(){
+    System.out.println(&quot;after saying hello world&quot;);
+        }
+      }
+</code></pre><ul>
+<li><p>配置切面</p>
+<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
+&lt;/bean&gt;
+&lt;aop:config&gt;
+&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
+&lt;!--定义切点--&gt;
+&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
+&lt;!--定义前置通知--&gt;
+&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
+&lt;!--定义后置通知--&gt;
+&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+</ul>
+<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
 
           
         
@@ -1217,681 +1895,6 @@ public boolean equals(Object obj) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/06/JavaLock3/" itemprop="url">
-                  Java中锁的实现原理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-03-06T21:02:08+08:00" content="2018-03-06">
-              2018-03-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Java中锁的实现原理"><a href="#Java中锁的实现原理" class="headerlink" title="Java中锁的实现原理"></a>Java中锁的实现原理</h3><blockquote>
-<ul>
-<li>原理<br>Lock接口的实现是通过聚合了一个队列同步器，利用同步器实现锁的语义。或者可以理解为Lock接口是通过队列同步器实现的。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>队列同步器的使用方式<br>同步器的主要使用方式是继承，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器的模版方法，而这些模版方法将会调用使用者重写的方法。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>队列同步器的API或模版方法</li>
-<li>队列同步器的实现分析<ul>
-<li>同步队列：同步器依赖内部的同步队列，FIFO双向队列来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成为一个节点，将其加入队列尾部，并阻塞当前线程；当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</li>
-<li>入队：当一个线程成功获取了同步状态后，其他线程无法获取到同步状态，转而被构造成为节点，添加到尾部，然而加入到队列的过程必须要<strong>保证线程安全</strong>，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Node uodate),它需要传递当前线程认为的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。</li>
-<li>出队：首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设为首节点，因为只有一个线程能够获取到同步状态，因此不需要CAS来设置。</li>
-<li>独占式同步状态获取与释放<ul>
-<li>获取流程如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/system.png" alt="此处输入图片的描述"></li>
-<li>释放：释放同步状态，并唤醒下一个节点    </li>
-</ul>
-</li>
-<li>共享式同步状态获取与释放<ul>
-<li>获取：与独占式的区别：共享式创建的Node的nextWaiter是一个SHARED常量来标志，而独占式标志是一个NULL节点；在队列等待时，独占式如果改变Status成功则就直接设置为头结点就返回了，但是共享式会进行判断，如果是SHARED并且Status&gt;=0则会设置头结点并且直接将下一个节点也unpark唤醒以便传递下去；</li>
-<li>释放：因为释放同步状态的操作会同时来自多个线程，所以一般通过循环和CAS来保证释放。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/06/extends/" itemprop="url">
-                  Java继承
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-03-06T19:49:32+08:00" content="2018-03-06">
-              2018-03-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h3><h3 id="子类构造器："><a href="#子类构造器：" class="headerlink" title="子类构造器："></a>子类构造器：</h3><p>使用super调用构造器的语句必须是子类构造器的第一条语句。</p>
-<blockquote>
-<ul>
-<li>this的作用：一是引用隐式参数；二是调用该类其他的构造器</li>
-<li>super的作用:一是调用超类的方法；二是调用超类的构造器</li>
-</ul>
-</blockquote>
-<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>程序中出现超类对象的任何地方都可以用子类对象替换。一个变量既可以引用自己类的对象，也可以引用其任何一个子类的对象。<br><strong>不能将超类的引用赋给子类变量</strong></p>
-<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><h3 id="强制类型转换："><a href="#强制类型转换：" class="headerlink" title="强制类型转换："></a>强制类型转换：</h3><p>将一个子类的引用赋给一个超类变量，编译器是允许的；但将一个超类的引用赋给一个子类变量，必须进行类型转换。<br>在进行类型转换时，需要注意以下两点：</p>
-<blockquote>
-<ul>
-<li>只能在继承层次内进行类型转换</li>
-<li>在将超类转换成子类之前，应该使用instancef进行检查</li>
-</ul>
-</blockquote>
-<h3 id="抽象类："><a href="#抽象类：" class="headerlink" title="抽象类："></a>抽象类：</h3><blockquote>
-<ul>
-<li>包含一个或多个抽象方法</li>
-<li>可以包含具体数据和具体方法</li>
-<li>抽象类不能被实例化，但可以定义一个抽象类的对象变量，只能引用非抽象子类的对象</li>
-</ul>
-</blockquote>
-<h3 id="4个访问修饰符"><a href="#4个访问修饰符" class="headerlink" title="4个访问修饰符"></a>4个访问修饰符</h3><blockquote>
-<ul>
-<li>private：仅本类可见</li>
-<li>public：对所有类可见</li>
-<li>protected:对本包和所有子类可见</li>
-<li>default：对本包可见</li>
-</ul>
-</blockquote>
-<h3 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h3><p>1、equals方法：在Object类中，equals用于判断两个对象是否有相同的引用；如果两个对象具有相同的引用，则两者一定是相同的。然而，经常需要检测两个对象状态的相等性，如果两个对象的状态相同，则认为两个对象是相等的</p>
-<p>  编写合格的equals方法：</p>
-<blockquote>
-<ul>
-<li>参数命名为otherObject，稍后将其转换成另一个叫做other的变量</li>
-<li>检测this与otherObject是否引用同一个对象<pre><code>if(this==otherObject) return true
-</code></pre></li>
-<li>检测otherObject是否为null<pre><code>if(otherObject==null) return false
-</code></pre></li>
-<li>比较this与otherObject是否属于同一个类。如果equals的语义在每个子类中有所改变，就使用getClass检测：<br>   if(getClass()!=otherObject.getClass()) return false;</li>
-<li>如果所有子类拥有统一的语义，则使用instanceof检测：<br>   if(!(otherObject instanceof ClassName)) return false;</li>
-<li>如果在子类中重新定义了equals，就要在其中包含调用super.equals(otherObject)</li>
-<li>将ohterObject转换为相应的类的类型变量<br>  ClassName other = (ClassName)otherObject;</li>
-<li>对所有需要比较的域进行比较。使用==比较基本类型域，使用equals比较对象域；如果所有的域都匹配，就返回true；否则返回false<br>  return field1 == other.field1 &amp;&amp; Objects.equals(field2,other.field2)</li>
-</ul>
-</blockquote>
-<p>2、hashCode方法<br>hash code是由对象导出的一个整形值。散列码是没有规律的，如果x和y是不同的对象，x.hashCode()与y.hashCode()基本不会相同。<br>Equals方法与hashCode的定义必须保持一致。如果x.equals(y)返回true，那么x.hashCode()与y.hashCode()必须具有相同的值。例如，如果在equals方法中用name这个属性去做判断，那么hashCode方法就需要散列name，而不是其他属性。</p>
-<p>3、toString方法：用于返回标识对象的字符串值，形式:类的名字，随后是一对方括号括起来的域值</p>
-<p>接下来是一个demo，实现了equals、hashCode、toString方法。</p>
-<p>父类:Employee</p>
-<pre><code>import java.util.Objects;
-public class Employee {
-
-private String name;
-private double salary;
-
-
-
-public Employee(String name, double salary) {
-    this.name = name;
-    this.salary = salary;
-}
-
-public String getName(){
-    return name;
-}
-
-public double getSalary(){
-    return salary;
-}
-
-public void raiseSalry(double byPercent){
-    double raise = salary * byPercent / 100;
-    salary += raise;
-}
-
-public boolean equals(Object otherObject){
-    if(this == otherObject) return true;
-    if(otherObject == null) return  false;
-    if(getClass()!=otherObject.getClass()) return false;
-    Employee other = (Employee) otherObject;
-    return Objects.equals(name, other.name) &amp;&amp; salary == other.salary;
-}
-
-public int hashCode(){
-    return Objects.hash(name,salary);
-}
-
-public String toString(){
-    return getClass().getName()+&quot;[name=&quot;+name+&quot;,salary=&quot;+salary+&quot;]&quot;;
-}
-}
-</code></pre><p>子类Manager</p>
-<pre><code>public class Manager extends Employee {
-
-private  double bouns;
-
-public Manager(String name,double salary){
-    super(name,salary);//调用父类构造方法必须写在第一行
-    bouns =  0;
-}
-
-public double getSalary(){
-    double salary = super.getSalary();//使用super.getSalary()访问继承自父类的成员变量
-    return salary + bouns;
-}
-
-public void setBouns(double bouns){
-    this.bouns = bouns;
-}
-
-public boolean equals(Object otherObject){
-    if(!super.equals(otherObject)) return false;
-    Manager other = (Manager) otherObject;
-    return bouns == other.bouns;
-}
-
-public int hashCode(){
-    return super.hashCode()+17 * new Double(bouns).hashCode();
-}
-
-public String toString(){
-    return super.toString()+&quot;[bouns=&quot;+bouns+&quot;]&quot;;
-}
-
-}
-</code></pre><h3 id="参数数量可变的方法"><a href="#参数数量可变的方法" class="headerlink" title="参数数量可变的方法"></a>参数数量可变的方法</h3><pre><code>示例如下：
-
-public static double max(double... values)
-{
-double largest = Double.NEGATIVE_INFINITY;
-for(double d:values)
-    if(d&gt;largest)
-        largest = v;
-return v;
-}
-</code></pre><p>上面代码中“…”表示可接收任意数量的参数，values是一个double类型的数组，存储着所有参数。可将double换为其他类型。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/06/javaLock2/" itemprop="url">
-                  Java中锁的基本概念
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-03-06T15:58:10+08:00" content="2018-03-06">
-              2018-03-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="java中锁的基本知识"><a href="#java中锁的基本知识" class="headerlink" title="java中锁的基本知识"></a>java中锁的基本知识</h3><blockquote>
-<ul>
-<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的使用方式（代码如下）</li>
-</ul>
-</blockquote>
-<pre><code>/*
-*注意获取锁与释放锁的位置
-*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
-*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
-**/
-Lock lock = new ReentrantLock();
-lock.lock();
-try{
-}finally{
-lock.unlock();
-}
-</code></pre><h3 id="在synchronized与Lock之间进行选择"><a href="#在synchronized与Lock之间进行选择" class="headerlink" title="在synchronized与Lock之间进行选择"></a>在synchronized与Lock之间进行选择</h3><p>   Lock接口在锁操作上提供的语义与synchronized相同，不过除此之外，Lock接口还提供了其他特性：可中断获取锁，非阻塞获取锁，超时获取锁等；但在使用Lock接口时会有很大的风险，如忘记在finally块中调用unlock，虽然代码表面上可以运行，但实际上已经埋下了一颗定时炸弹，并且很有可能伤及其他代码。仅当synchronized不能满足需求时，才考虑使用Lock。这些场景包括可定时的、可轮询的与可中断的锁获取操作、公平队列、以及非机构的锁。否则，应该是优先使用synchronized。</p>
-<hr>
-<p>参考《Java并发编程的艺术》《Java并发编程实践》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/02/27/javaLock1/" itemprop="url">
-                  Java中锁的基本概念
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-02-27T15:58:10+08:00" content="2018-02-27">
-              2018-02-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h3><blockquote>
-<ul>
-<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的使用方式（代码如下）</li>
-</ul>
-</blockquote>
-<pre><code>/*
-*注意获取锁与释放锁的位置
-*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
-*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
-**/
-Lock lock = new ReentrantLock();
-lock.lock();
-try{
-}finally{
-lock.unlock();
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1937,7 +1940,7 @@ lock.unlock();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">105</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -271,6 +271,573 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/22/devstack/" itemprop="url">
+                  使用devstack安装openstack
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-22T18:30:30+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>使用的环境：Centos7,python2.7</li>
+<li>下载安装git <code>yum install git</code></li>
+<li>下载devstack,<code>cd opt</code>,<code>git clone https://github.com/openstack-dev/devstack.git</code></li>
+<li>创建stack用户 <code>sudo chown –R $USER:$USER /opt/devstack</code> <code>cd /opt/devstack/tools/</code>  <code>./create-stack-user.sh</code></li>
+<li>配置stack用户密码 <code>passwd stack</code></li>
+<li>修改stack权限 <code>sudo chowne -R stack:stack /opt/devstack</code> <code>sudo chown -R stack:stack /opt/stack</code></li>
+<li>提前下载好组件，避免在运行<code>stack.sh</code>下载时速度过慢 <code>git clone git://git.openstack.org/openstack/ceilometer /opt/stack/ceilometer</code> <code>git clone git://git.openstack.org/openstack/cinder /opt/stack/cinder</code> <code>git clone git://git.openstack.org/openstack/glance /opt/stack/glance</code> <code>git clone git://git.openstack.org/openstack/heat /opt/stack/heat</code> <code>git clone git://git.openstack.org/openstack/horizon /opt/stack/horizon</code> <code>git clone git://git.openstack.org/openstack/keystone /opt/stack/keystone</code> <code>git clone git://git.openstack.org/openstack/neutron /opt/stack/neutron</code> <code>git clone git://git.openstack.org/openstack/neutron-fwaas /opt/stack/neutron-fwaas</code> <code>git clone git://git.openstack.org/openstack/neutron-lbaas /opt/stack/neutron-lbaas</code> <code>git clone git://git.openstack.org/openstack/neutron-vpnaas /opt/stack/neutron-vpnaas</code> <code>git clone git://git.openstack.org/openstack/nova /opt/stack/nova</code> <code>git clone git://git.openstack.org/openstack/swift /opt/stack/swift</code> <code>wget --progress=dot:giga -c https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img -O /opt/devstack/files/cirros-0.3.0-x86_64-disk.img</code></li>
+<li>切换到stack用户下 <code>su - stack</code>,运行stack.sh <code>./stack.sh</code>进行安装</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/04/the-hacker-guide-python6/" itemprop="url">
+                  the-hacker-guide-python 第六章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-04T21:29:34+08:00" content="2015-12-04">
+              2015-12-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>Unit testing</em></strong></p>
+<hr>
+<p>对于现在流行的测试驱动开发，作者的观点是“Writing code that is not tested is essentially useless, as there’s no way to conclusively prove that it works.” </p>
+<ul>
+<li><strong>基础工具</strong>–<a href="https://docs.python.org/3.4/library/unittest.html" target="_blank" rel="noopener">unnitest</a>包（python的标准类库），介绍了它的一些基本方法如assertEqual、assertTrue,assertFalse,assertGreater,assertGreaterEqual, assertIn,assertIs,assertIsIntance,assertIsNone等等，着重介绍了一下<strong>unittest.TestCase.skipTest()</strong>的用法–跳过一些不能运行的测试。setUp和tearDown方法分别在类测试方法执行前执行。This is really useful for creating test environments</li>
+<li><strong><a href="https://pypi.python.org/pypi/fixtures" target="_blank" rel="noopener">Fixtures</a></strong>–测试夹具由一组unnitest组成，这个组件可以在其他地方重复使用</li>
+<li><strong>Mocking</strong> Mock对象用了模拟真实的应用。如在写一个HTTP客户端时，我们不可能再写一个HTTP server用了返回各个可能值进行测试，也无法满足其他应用场景的测试。如果可以建立起一些模型来模拟特定的场景，然后用这些模型作为环境来测试代码，这样就变得很容易。<a href="https://pypi.python.org/pypi/mock/1.0.1" target="_blank" rel="noopener">Mock</a>的作用就在这。通过使用mock，可以模拟以下问题：web服务器返回404错误或者网络问题的出现，可以确保代码返回正确的值或者引发相对应的异常，总之就是代码按照期望的方式工作</li>
+<li><strong><em>Scenarios</em></strong>–即场景。很多情况下，需要在不同版本中进行测试；或者在不同驱动上进行测试。对不同驱动的实现情况，Ceilmeter提供了一个抽象类，然后不同驱动去实现这个类然后注册成driver。这样在测试时就需要对各个驱动进行测试。<a href="https://pypi.python.org/pypi/testscenarios" target="_blank" rel="noopener">testscenarios</a>提供了一种简单的方式在不同情景中运行一组测试。</li>
+<li><strong>Test streaming and parallelism</strong>：在进行测试时，对他们的运行过程进行分析显得非常有用。<a href="https://pypi.python.org/pypi/python-subunit" target="_blank" rel="noopener"><strong>sububit</strong></a>对测试结果提供了流的处理。它允许对测试结果进行合并、记录和存档。它也可以自动检测出哪些测试在运行。<a href="https://pypi.python.org/pypi/testrepository" target="_blank" rel="noopener">testrepository</a>用来处理大量测试的结果流化。提供了<code>testr</code>程序，来处理一个测试的数据库:例如记录自从上次提交后哪个测试失败了。并行运行测试的方法<code>testr run --parallel</code></li>
+<li><strong>Coverage</strong>：覆盖测试。code coverage使用代码分析工具和追踪工具来确定哪些行代码已经执行过了，哪些还没有。python模块<a href="https://pypi.python.org/pypi/coverage" target="_blank" rel="noopener">coverage</a>提供了这些功能。一旦安装成功后，可以使用命令行与coverage程序交互</li>
+<li><strong>Using virtualenv with tox</strong>：tox的目标是使python的测试变得自动化和标准化。tox可以完成部署虚拟环境、安装setup工具，安装所有应用/类库/单元测试所需的依赖。当运行时，tox将创建虚拟环境，安装新的依赖并且运行测试</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/02/openstack-cinder-bug/" itemprop="url">
+                  openstack-cinder bug的一次重现与修复
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-02T19:51:52+08:00" content="2015-12-02">
+              2015-12-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><strong>bug描述</strong>：openstack在创建一个project A时，默认分配的volume quota为10，将该quota完全分给其子项目B，然后再在A中创建volume时可以创建成功。正常情况来说不应允许新的volume创建，因为quota全部分配给了B，这就是bug的具体体现</li>
+<li><strong>实验环境</strong> ：centos7 openstack L版本(devstack安装)</li>
+<li><strong>bug恢复步骤</strong> ：<ol>
+<li><code>openstack project create A</code></li>
+<li>grant the role admin to the user in this project<br><code>openstack role add admin --project A --user admin</code></li>
+<li>create a subproject of A<br><code>openstack project create B --property parent_id=&lt;project id of A&gt;</code></li>
+<li>grant the role admin to the user in this project.<br><code>openstack role add admin --project B --user admin</code></li>
+<li><code>. openrc admin A</code></li>
+<li>allocate all volume quota of project A to project B   <code>openstack quota set &lt;project id of B&gt; --volumes 10</code></li>
+<li>create a volume in project A, it should not be allowed since it was allocated all the quota of project A to project Bopenstack<br><code>volume create --size 1 test_volume</code><br>在第七步时，应该不允许创建新的volume。但是仍然可以创建成功。原因是没有将父project A 分配出去的quota计算在内。</li>
+</ol>
+</li>
+<li><strong>修复方法</strong>：修改<code>cinder/db/sqlalchemy/api.py</code>文件，<a href="https://review.openstack.org/#/c/240046/1/cinder/db/sqlalchemy/api.py" target="_blank" rel="noopener">具体修改</a> ：获取项目分配出去的quota–allocated；在使用量中添加allocated</li>
+<li><strong>重启cinder服务</strong>：操作见<a href="http://stackoverflow.com/questions/32310209/restart-of-nova-services-in-devstack" target="_blank" rel="noopener">stackoverflow</a>,我按这个方法做没有成功，但我觉得这个方法是正确的，只是我操作的问题，于是就把cinder部分git下来，然后修改相应文件，最后再进行安装</li>
+<li><strong>bug修复后的状态</strong>：在执行第7步时，会提示“maximum number of volumes allowd (10) exceeded for quota ‘volume’”,并拒绝请求的执行</li>
+<li><strong>踩过的坑与总结</strong>：我觉得这个bug比较好理解，解决办法也比较简单，但是我大部分时间与精力都浪费在了环境上。刚开始时我用了rdo安装了K、L版本，发现使用rdo的安装不能重现该bug，并且第6条命令只有L版本支持。于是再用devstack进行安装L版本，中间也出现了不少问题，安装成功后进行bug修复，在重启服务时，由于没有成功重启服务，加上其他问题，导致环境崩溃。最后选择git代码，修改文件然后进行安装，最后成功修复bug。从最初的bug重现到修复，前前后后大概用了一个多月。所以在进行bug重现的时候一定要把环境配置弄清楚</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/29/yasi2/" itemprop="url">
+                  雅思词汇1-6章生疏词汇汇总
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-29T19:48:52+08:00" content="2015-11-29">
+              2015-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/雅思词汇/" itemprop="url" rel="index">
+                    <span itemprop="name">雅思词汇</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>Wordlist1</em></strong></p>
+<ul>
+<li>burgeon vi. 迅速成长，发展 </li>
+<li>subliminal a. 下意识的，潜意识的</li>
+<li>prosperous a. 繁荣的，常见的，常用的</li>
+<li>excavate vt. 挖掘，开凿</li>
+<li>mutual a. 相互的，共同的</li>
+<li>dismantle vt. 拆除，废除，取消</li>
+</ul>
+<hr>
+<p><strong><em>Wordlist2</em></strong></p>
+<ul>
+<li>crown n. 条款，项目；（新闻等）一则</li>
+<li>distraction n. 分散注意力的事；使人分心的事；娱乐，消遣</li>
+<li>evacuate v. 疏散；撤离</li>
+<li>surge v.(人群等)蜂拥而出；波动，涌动；（感情等的）洋溢；猛增</li>
+<li>epitomise vt. 集中体现；概括</li>
+<li>crocodile n. 鳄鱼；鳄鱼皮</li>
+<li>odour n. 气味</li>
+<li>tender a. 嫩的；脆弱的；温柔的</li>
+<li>delinquency n. 失职；行为不良</li>
+<li>delibreate a. 故意的；深思熟虑的；从容不迫的 v. 深思熟虑；审议</li>
+<li>substantial a. 可观的，大量的；坚固的，结实的；实质上的；大体上的</li>
+</ul>
+<hr>
+<p><strong><em>Wordlist3</em></strong></p>
+<ul>
+<li>impede vt. 阻碍，妨碍</li>
+<li>deduce v. 演绎，推断</li>
+<li>irritation n. 激怒，恼怒；刺激物，恼人的事</li>
+<li>induce vt.引诱，劝使；引起，导致；感应</li>
+<li>cosset vt. 宠爱，溺爱； n. 宠儿</li>
+<li>gadget n. 小巧的器械，精巧的装置；小玩意</li>
+<li>leisure n.空闲时间；悠闲</li>
+<li>vanish vi. 突然消失；不复存在，消逝</li>
+<li>erosion n. 腐蚀，磨损</li>
+<li>exclusively ad. 专有地，专门地</li>
+<li>illusion n. 幻想中的事物，错误的概念；错觉，幻觉，假象</li>
+</ul>
+<hr>
+<p><strong><em>Wordlist4</em></strong></p>
+<ul>
+<li>vertebrate n. 脊椎动物，有脊椎的</li>
+<li>industrious a. 勤奋的，勤勉的，勤劳的</li>
+<li>trapeze n. 高空秋千；吊架</li>
+<li>expel vt. 把…开除，驱逐</li>
+<li>discretion n. 判断力；谨慎，审慎；明智</li>
+<li>decrepit a. 破旧的，衰老的</li>
+<li>leopard n. 豹，美洲豹</li>
+<li>ignorant a.无知的，愚昧的</li>
+<li>thrive vi. 兴旺，繁荣</li>
+<li>anthropologist n.人类学家</li>
+<li>exile vt. 放逐，流放，使流亡 n.流放，流亡；被流放者，背井离乡者，流犯</li>
+<li>gloss n.光泽，色泽；虚假的外表，假象；注解，解释；使具有光泽；掩饰；曲解；做注释；发光，发亮</li>
+</ul>
+<hr>
+<p><strong><em>Wordlist5</em></strong></p>
+<ul>
+<li>shrewd a.机灵的；精明的</li>
+<li>truant vi. 逃避责任；旷课 n.逃学者；逃避者</li>
+<li>scandal n. 丑事，丑闻；恶意诽谤；流言飞语；反感，愤怒</li>
+<li>latent a. 潜在的，潜伏的，不易察觉的</li>
+<li>evaporate v.（使）蒸发；消失；不复存在</li>
+</ul>
+<hr>
+<p><strong><em>wordlist6</em></strong></p>
+<ul>
+<li>luxury n. 豪华(品)，奢侈(品) a. 奢华的</li>
+<li>demolish vt. 破坏，拆除；驳倒，推翻</li>
+<li>durable n. 耐用品 a. 耐久的；耐用的</li>
+<li>decay n. 腐烂，腐朽，腐败状态 v. 腐烂，腐朽；衰败；衰败；衰退</li>
+<li>ornament n. 装饰，装饰物 vt. 装饰，美化，修饰</li>
+<li>corrode v. 腐蚀，侵蚀</li>
+<li>elastic a. 有弹性的，灵活的 n. 松紧带</li>
+<li>demonstration n.论证，证明；示范，显示，表露；示威游行</li>
+<li>redundant a. (因人员过剩而)被解雇的；多余的，过剩的；累赘的，冗长的</li>
+<li>coordinator n. 协调者</li>
+<li>nourish vt. 养育，滋养；培养（情绪，观点等）</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/25/the-hacker-guide-to-python5/" itemprop="url">
                   the-hacker-guide-python 第五章读书笔记
                 </a>
@@ -1140,542 +1707,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/openstackAMQP2/" itemprop="url">
-                  openstack采用的消息协议机制--AMQP(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:35:34+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index">
-                    <span itemprop="name">openstack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>AMQP是openstack所采用的消息机制。openstack组件例如Nova、Cinder、Quantum内部间通过ANQP进行通信，它们之间通过rest调用的方式相互联系。AMQP代理–RabbitMQ，位于openstack组件内部之间，允许它们以松耦合的方式进行交互。也就是说组件的各组成部分不用知道其他部分的具体位置。更准确地说，nova组件的组成部分–nova-api、nova-scheduler和nova-compute间通过RPC的方式通信</p>
-<p>通常来讲，openstack组成部分间使用direct、fanout、topic-based类型的exchange，这个问题在上一篇博客中已经讨论过了</p>
-<hr>
-<p>openstack消息机制有两种模式：<br>rpc.cast-不用等待结果<br>rpc.call-等待结果（当有内容需要返回时）</p>
-<p>RPC是一种非常普通的模式，如果我们需要在远程计算机上运行一个程序并且等待结果怎么办？好吧，那是另一回事情。这个模式普遍成为Remote Procedure Call 或者简称为RPC</p>
-<hr>
-<p>在openstack中，Nova、Cinder 、Quantum在AMQP之上实现了RPC(request+response,或者称为rpc.call和rpc.cast)。通过提供一个适配器类来实现，该适配器类将message封装或解封成函数调用。每个nova组成部分（api、compute、scheduler）、cinder组成部分(volume、scheduler)、Quantum组成部分（quantum-server,agents,plugins）在初始化时创建了两个queue，一个用来接收带有routing keys“NODE.TYPE.NODE-ID”（例如compute.hostname）的message,另一个用来接收带有routing key“NODE-TYPE”（例如compute）的message</p>
-<p>当Nova-API需要将命令转发到指定的节点上时，如“nova delete instance”显得非常有用，只有主机上运行着hypervisor 的计算节点才可以kill掉这个instance。当RPC调用为request或response时，API表现为consumer，否则的话表现为publisher。</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/openstackrabbitmq.png" alt="此处输入图片的描述"><br>Fig:Messaging in Openstack using RabbitMQ ( Queue–server)</p>
-<hr>
-<p>当单个instance在openstack中部署和共享时。每个组件根据其特点（例如compute ndoe、cinder、quantum）连接到message broker，有的作为invoker（例如API、scheduler）使用queue，有的作为worker（例如compute或quantum）。Invoker和worker实际上在Nova对象模型中并不真实存在，于是我们将把他们作为抽象概念使用</p>
-<p>invoker通过两个操作rpc.call和rpc.cast在队列系统中发送message</p>
-<p>worker从队列系统中获取message并根据rpc.call操作进行响应</p>
-<hr>
-<p>如下是message broker node的元素</p>
-<ul>
-<li>Topic Publisher:处理rpc.call或rpc.cast操作，用来将message添加到队列系统。每个publisher总是连接同一个topic的exchange。生命周期限制到message的交付</li>
-<li>Direct Consumer:仅处理rpc.call操作，用来从队列系统中获取响应信息，每个consumer通过唯一专有的queue连接到唯一的direct exchange。生命周期截止到message的交付</li>
-<li>Topic Consumer：当worker实例化时被激活。在其生命周期中，用来从队列中获取message并调用worker角色定义的相应action。Topic Consumer通过共享或专一queue连接到同一个topic exchange。每一个worker有两个consumer，一个用于rpc.cast操作（通过exchange key“topic”连接到共享queue），一个用于rpc.call操作（通过exchange key“topic.host”连接到唯一的queue）</li>
-<li>Direct Publisher:在rpc.call操作时被激活，被实例化用来返回request/response操作需要的message。该对象连接到direct exchange上，传入的message携带标识符</li>
-</ul>
-<hr>
-<p>openstack中的RPC调用</p>
-<ol>
-<li>Topic Publisher被实例化来向队列系统中发送message请求，在publishing 操作之间，迅速地实例化Direct Consumer来等待响应信息</li>
-<li>一旦message被exchange分发，它通过routing key（例如topic.hsot）被Topic consumer获取到，并传递给负责该task的worker</li>
-<li>一旦task完成，Direct Publisher被分配来将响应消息发送到队列系统</li>
-<li>一旦message被exchange分发，通过routing key（例如msg_id）获取到并传递给invoker</li>
-</ol>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccall.png" alt="此处输入图片的描述"></p>
-<hr>
-<p>Openstack中的RPC cast</p>
-<ol>
-<li>Topic Publisher被实例化来向队列系统中发送请求消息</li>
-<li>一旦消息经过exchange分发，通过routing key（例如topic）被Topic Consumer获取到，并传递给负责该task的worker</li>
-</ol>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccast.png" alt="此处输入图片的描述"><br>publisher将message发送到一个topic exchange(compute topic);consumer（compute worker）从queue中获取message。没有任何响应信息返回，因为这是cast操作而不是call</p>
-<hr>
-<p>Exchanges and queues being created by Openstack components are:<br>Exchanges and its type:</p>
-<p>amq.direct      direct<br>cinder-scheduler_fanout fanout<br>conductor_fanout        fanout<br>amq.topic       topic<br>cinder  topic<br>amq.rabbitmq.trace      topic<br>compute_fanout  fanout<br>amq.rabbitmq.log        topic<br>amq.fanout      fanout<br>q-agent-notifier-network-delete_fanout  fanout<br>cinder-volume_fanout    fanout<br>amq.headers     headers<br>nova    topic<br>scheduler_fanout        fanout<br>quantum topic<br>amq.match       headers<br>dhcp_agent_fanout       fanout<br>q-agent-notifier-security_group-update_fanout   fanout<br>q-agent-notifier-port-update_fanout     fanout<br>Queues:<br>scheduler_fanout_300bc05b412948ca91e9c2609022d94a       0<br>compute.localhost   0<br>cinder-scheduler        0<br>notifications.info      16<br>q-agent-notifier-port-update_fanout_e84cd1190d3d4d6fab9c92b9903ad1ee    0<br>compute_fanout_ae1e11827f144d5886f96cdcaba7f90b 0<br>cinder-scheduler_fanout_ebe88ad41b7d450a95b183e6e7a404f0        0<br>conductor_fanout_d82adea2be344983bdc36756e58849f9       0<br>q-plugin        0<br>dhcp_agent      0<br>q-agent-notifier-network-delete_fanout_68eb13d73ccb4d97b84e2534f7181f02 0<br>conductor.localhost 0<br>compute 0<br>scheduler.localhost 0<br>scheduler       0<br>dhcp_agent_fanout_d00b708d17994e31bdad92876dcbafc5      0<br>q-agent-notifier-security_group-update_fanout_62f50e6f6327453ca02efb9e67212a53  0<br>conductor       0<br>cinder-scheduler.localhost    0<br>dhcp_agent.localhost  0</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/api/" itemprop="url">
-                  前后端完全分离之API设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:28:18+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
-                    <span itemprop="name">技术杂文</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>大三的时候选了一门课，叫服务开发技术，里面提到了REST，即用唯一的一个URI标识网络中的资源，使用HTTP的标准操作如PUT、POST、DELETE、UPDATE对资源进行操作。但是我在对资源命名的时候还是停留在使用数据库操作的来进行命名。这篇文章很好的阐释了如何合理的对URI命名以及状态码、返回值的规范问题</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/612edf3ajw1euqrd7amfgj20c89iynfd.jpg" alt="此处输入图片的描述"><br>（文章出自Arccode’s blog,版权归属原作者）</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/front/" itemprop="url">
-                  angularjs开发工具，前端开发工具
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:28:06+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/开发工具/" itemprop="url" rel="index">
-                    <span itemprop="name">开发工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<ul>
-<li>代码编辑工具：sublime text、webstorm</li>
-<li>断点调试工具：Batarang（对angularjs的调试）</li>
-<li>版本管理工具：git</li>
-<li>代码合并和混淆工具：<a href="http://www.gruntjs.net/" target="_blank" rel="noopener">grunt</a></li>
-<li>依赖管理工具:<a href="http://bower.io/" target="_blank" rel="noopener">bower</a></li>
-<li>单元测试工具:karma+jasmine,使用npm install安装</li>
-<li>集成测试工具：Protractor：专门为Angularjs定制的测试工具</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/nodejs/" itemprop="url">
-                  nodejs进阶一
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:26:16+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
-                    <span itemprop="name">MEAN框架学习</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>javascript语法、特性学习，可参考<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000" target="_blank" rel="noopener">js编程全栈</a></li>
-<li>node特点：<blockquote>
-<ul>
-<li>异步I/O</li>
-<li>事件与回调函数</li>
-<li>单线程</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>node的模块–modole:ConnmonJS对模块的定义十分简单，主要分为模块引用、模块定义和模块标识三个部分。<blockquote>
-<ul>
-<li>模块引用：示例代码<code>var math = require(&#39;math&#39;)</code>在CommonJS规范中，存在require()方法，这个方法接收模块标识，以此引入一个模块的api到当前上下文中</li>
-<li>模块的定义：在模块中，上下文提供require()方法来引入外部模块。对应引入功能，上下文提供了exports对象用于导出当前模块的方法或者变量，并且它是唯一导出的出口。在模块中，还存在一个module对象，它代表模块自身，而exports是module的属性。在Node中，一个文件就是一个模块，将方法挂载在exports对象上作为属性即可定义导出的方式。<br><code>//math.js
-exports.add = function(){
-var sum =0,
-i = 0,
-args = arguments,
-l = args.length;
-while(i&lt;1){
-sum += args[i++];
-}
-return sum;
-};</code></li>
-<li>在另一个文件中，可通过require()方法引入模块后，就能调用定义的属性或方法了：<br><code>//programs.js
-var math = require(&#39;math&#39;);
-exports.increment = function(val){
-return math.add(val,1);
-};</code><br><a href="http://www.sitepoint.com/understanding-module-exports-exports-node-js/" target="_blank" rel="noopener">这篇文章</a>详细讲述了module.exports和module</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1721,7 +1752,7 @@ return math.add(val,1);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">105</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -271,6 +271,1006 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/19/JavaObject/" itemprop="url">
+                  Java对象与类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-19T13:08:34+08:00" content="2017-11-19">
+              2017-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Java对象与类"><a href="#Java对象与类" class="headerlink" title="Java对象与类"></a>Java对象与类</h2><h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><h3 id="对象：三个主要特性：行为、状态、标识"><a href="#对象：三个主要特性：行为、状态、标识" class="headerlink" title="对象：三个主要特性：行为、状态、标识"></a>对象：三个主要特性：行为、状态、标识</h3><h3 id="类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小"><a href="#类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小" class="headerlink" title="类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小"></a>类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小</h3><h3 id="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"><a href="#隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值" class="headerlink" title="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"></a>隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值</h3><h3 id="方法参数：Java采用按值调用。"><a href="#方法参数：Java采用按值调用。" class="headerlink" title="方法参数：Java采用按值调用。"></a>方法参数：Java采用按值调用。</h3><p>方法得到的是参数值的一个拷贝，方法不能修改传递给它的任何参数变量的内容。<br>举例如下：</p>
+<pre><code>public static void tripleValue(double x)
+    {
+     x = 3 * ;
+
+    }
+//调用该方法
+double percent = 10;
+tripleValue(percent);
+</code></pre><p>执行完后，发现percent的值还是为10，具体执行过程如下:</p>
+<blockquote>
+<ul>
+<li>x被初始化为percent的一个copy，也就是10</li>
+<li>x被乘以3后等于30，但percent仍然是10</li>
+<li>该方法结束后，x不被使用</li>
+<li>percent仍为10</li>
+</ul>
+</blockquote>
+<p>方法参数共有两种类型：基本数据类型；对象引用。在上面例子中，已经看到了一个方法不能改变一个基本数据类型的参数，那么对象引用类型的参数呢？</p>
+<pre><code>public static void tripleSalary(Employee x)
+{
+ x.raiseSalary(200);
+} 
+当调用：
+harry = new Employee();
+tripleSalary(harry);
+</code></pre><p>具体过程如下:</p>
+<blockquote>
+<ul>
+<li>x被初始化为harry值的一个copy，这里是同一个对象的引用。</li>
+<li>raiseSalary应用于这个对象的引用。x和harry同时引用的那个Employee对象的salary改变</li>
+<li>方法结束后，参数x不被使用，对象变量harry继续引用salary改变的对象</li>
+</ul>
+</blockquote>
+<p>参数得到是对象引用的copy，对象引用以及他的copy同时引用同一个对象。</p>
+<p>java中的引用不是按引用调用，反例如下:</p>
+<pre><code>public staic void swap(Employee x,Employee y)
+ {
+   Employee temp = x;
+   x =  y;
+   y = temp；
+ }
+</code></pre><p>如果java对对象采用的是按引用调用，那么上面的方法就能实现交换数据的效果，但是实际上并没有改变存储在变量a和b中的的对象引用。swap方法的参数x和y被初始化为两个对象应用的copy，这个方法交换的是两个copy</p>
+<p>总结：</p>
+<blockquote>
+<ul>
+<li>一个方法不能修改一个基本数据类型的参数</li>
+<li>一个方法可以改变一个对象参数的状态</li>
+<li>一个方法不能让对象参数引用一个新的对象</li>
+</ul>
+</blockquote>
+<h3 id="重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"><a href="#重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。" class="headerlink" title="重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"></a>重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。<strong>返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。</strong></h3><h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>静态方法是一种不能向对象实施操作的方法。静态方法不能访问成员变量，因为它不能操作对象。<br>在下面两种情况使用静态方法：</p>
+<blockquote>
+<ul>
+<li>一个方法不需要访问对象状态，其所需参数都是通过显式参数提供</li>
+<li>一个方法只需要访问类的静态域</li>
+</ul>
+</blockquote>
+<h3 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h3><p>初始化数据的方法：</p>
+<blockquote>
+<ul>
+<li>在构造器中赋值</li>
+<li>在声明中赋值</li>
+<li>初始化块：首先运行初始化块，然后才运行构造器的主体部分。</li>
+</ul>
+</blockquote>
+<p>调用构造器的处理步骤;</p>
+<blockquote>
+<ul>
+<li>所有数据被初始化默认值（0，null或false）</li>
+<li>按照在类声明中出现的次序，依次执行所有域初始化语句和初始化块</li>
+<li>如果构造器中第一行调用了第二个构造器，则执行第二个构造器主体</li>
+<li>执行这个构造器主体</li>
+</ul>
+</blockquote>
+<p>对静态变量的初始化：静态的初始化块，在类第一次加载的时候，会进行静态域的初始化，所有静态初始化语句以及静态初始化块都依照类定义的顺序执行。</p>
+<h3 id="类设计技巧"><a href="#类设计技巧" class="headerlink" title="类设计技巧"></a>类设计技巧</h3><blockquote>
+<ul>
+<li>要保证成员变量私有</li>
+<li>要对成员变量初始化</li>
+<li>不要在类中使用过多的基本类型，可用其他类代替多个相关的基本类型的使用</li>
+<li>将职责过多的类进行分解</li>
+<li>不是所有的域都需要独立的get和set方法</li>
+<li>类名和方法名要能体现他们的职责</li>
+<li>优先使用不可的类</li>
+</ul>
+</blockquote>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><blockquote>
+<ul>
+<li>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象</li>
+<li>在java中，任何对象变量的值都是对存储在另外一个地方的一个对象的引用。new 操作符的返回值也是一个引用</li>
+<li>在一个源文件中，只能有一个public类，但可以有任意数目的非公有类</li>
+</ul>
+</blockquote>
+<p>参考：《java核心技术卷一》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/14/djangosql/" itemprop="url">
+                  djano执行原生sql语句
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-14T15:58:10+08:00" content="2017-11-14">
+              2017-11-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###为什么需要Django执行SQL<br>使用Django自带的ORM机制做查询有时会满足不了我们的需求， 例如某些查询没有对应的model；或者只想执行UPDATE、INSERT、或DELETE语句。在这些情况下，我们需要直接访问数据库，并想绕过model层。那么，我们应该如何做呢？<br>django.db.connection表示当前默认数据库的连接。如果想使用该连接，调用connection.cursor()来获得一个cursor对象；接着，调用cursor.execute(sql, [params])来执行SQL语句；然后使用cursor.fetchone()或cursor.fetchall()来返回查询结果。<br>示例如下：<br>from django.db import connection</p>
+<pre><code>def my_custom_sql(self):
+    with connection.cursor() as cursor:
+        cursor.execute(&quot;UPDATE bar SET foo = 1 WHERE baz = %s&quot;, [self.baz])
+        cursor.execute(&quot;SELECT foo FROM bar WHERE baz = %s&quot;, [self.baz])
+        row = cursor.fetchone()
+    return row
+</code></pre><p><strong>注意：如果想在查询语句中包含百分号，必须写两个，示例如下</strong></p>
+<pre><code>cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%&apos;&quot;)
+cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%%&apos; AND id = %s&quot;, [self.id])
+</code></pre><p>如果正在使用<a href="https://docs.djangoproject.com/en/1.11/topics/db/multi-db/" target="_blank" rel="noopener">多个数据库</a>，可以使用django.db.connections来获取指定数据库的连接（和cursor）。 django.db.connections是一个类似字典的对象，可以使用别名来获取指定的连接。</p>
+<pre><code>from django.db import connections
+cursor = connections[&apos;my_db_alias&apos;].cursor()
+# Your code here...
+</code></pre><p>默认情况下，Python DB API返回的结果中不包含字段名，这表示最终结果是值的list，而不是dict。可以使用以下代码返回一个dict。</p>
+<pre><code>def dictfetchall(cursor):
+    &quot;Return all rows from a cursor as a dict&quot;
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+</code></pre><p>另一个选择是使用python标准库 collections.namedtuple()。namedtuple是类似tuple的对象，支持属性查询来访问字段；同时也支持索引和迭代。结果是不可变的，并且可通过字段名或切片访问，这两个特性可能会比较有用。</p>
+<pre><code>from collections import namedtuple
+
+def namedtuplefetchall(cursor):
+&quot;Return all rows from a cursor as a namedtuple&quot;
+    desc = cursor.description
+    nt_result = namedtuple(&apos;Result&apos;, [col[0] for col in desc])
+    return [nt_result(*row) for row in cursor.fetchall()]
+</code></pre><p>以上三种情况的差别如下所示：</p>
+<pre><code>&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; cursor.fetchall()
+((54360982, None), (54360880, None))
+
+&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; dictfetchall(cursor)
+{&apos;parent_id&apos;: None, &apos;id&apos;: 54360982}, {&apos;parent_id&apos;: None, &apos;id&apos;: 54360880}]
+
+&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; results = namedtuplefetchall(cursor)
+&gt;&gt;&gt; results
+[Result(id=54360982, parent_id=None), Result(id=54360880, parent_id=None)]
+&gt;&gt;&gt; results[0].id
+54360982
+&gt;&gt;&gt; results[0][0]
+54360982
+</code></pre><p>###Connections 和 cursors<br>connection和cursor在大多数情况下都实现了<a href="https://www.python.org/dev/peps/pep-0249" target="_blank" rel="noopener">PEP 249</a>所描述的Python DB-API，除了事务处理。<br>如果对python DB-API不熟悉的话，要注意到cursor.execute()中的SQL语句使用了占位符”%s”,而不是SQL内直接添加参数。如果你使用这种机制，底层的数据库类库必要时将自动对参数进行转义。<br>同时也要注意，Djano使用”%s”作为占位符，而SQLite使用”?”做占位符。<br>将cursor用作上下文管理器</p>
+<pre><code>with connection.cursor() as c:
+    c.execute(...)
+</code></pre><p>等同于</p>
+<pre><code>c = connection.cursor()
+    try:
+        c.execute(...)
+    finally:
+        c.close()
+</code></pre><p>###调用存储过程<br>CursorWrapper.callproc(procname, params=None)<br>使用给定的名称或可选的输入参数来调用存储过程<br>例如，Oracle的一个存储过程如下</p>
+<pre><code>CREATE PROCEDURE &quot;TEST_PROCEDURE&quot;(v_i INTEGER, v_text NVARCHAR2(10)) AS
+    p_i INTEGER;
+    p_text NVARCHAR2(10);
+BEGIN
+    p_i := v_i;
+    p_text := v_text;
+    ...
+END;
+</code></pre><p>使用如下方式调用：</p>
+<pre><code>with connection.cursor() as cursor:
+cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/10/Iterator/" itemprop="url">
+                  Iterator接口及其在ArrayList中的实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-10T15:58:10+08:00" content="2017-11-10">
+              2017-11-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Iterator接口及其在ArrayList中的实现</p>
+<p>###继承关系如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/iterator.png" alt="此处输入图片的描述"></p>
+<h3 id="Itr类分析"><a href="#Itr类分析" class="headerlink" title="Itr类分析"></a>Itr类分析</h3><p>####成员变量</p>
+<blockquote>
+<ul>
+<li>cursor:下一个返回元素的序号</li>
+<li>lastRet:上次返回的元素的序号</li>
+<li>expectedModCount = modCount,修改次数</li>
+</ul>
+</blockquote>
+<p>####方法</p>
+<blockquote>
+<ul>
+<li>判断是否还有下一个元素，依据：元素的index是否等于最后一个元素的index</li>
+</ul>
+</blockquote>
+<p>   public boolean hasNext() {<br>            return cursor != size;<br>        }</p>
+<blockquote>
+<ul>
+<li>每个迭代器检查自己改写操作的计数值是否与集合的改写操作计数值一致。如果不一致，则抛出ConcurrentModificationException</li>
+</ul>
+</blockquote>
+<pre><code>final void checkForComodification() {
+       if (modCount != expectedModCount)
+           throw new ConcurrentModificationException();
+   }
+</code></pre><blockquote>
+<ul>
+<li>返回cursor指向的元素，然后cursor加1.这个方法会迷惑人，从字面意义上觉得是返回下一个元素，但事实却是返回当前元素，然后将cursor指向下一个元素。所以，next可以理解为将cursor指向next。</li>
+</ul>
+</blockquote>
+<pre><code>public E next() {
+        checkForComodification();
+        int i = cursor;
+        if (i &gt;= size)
+            throw new NoSuchElementException();
+        Object[] elementData = ArrayList.this.elementData;
+        if (i &gt;= elementData.length)
+            throw new ConcurrentModificationException();
+        cursor = i + 1;
+        return (E) elementData[lastRet = i];
+    }
+</code></pre><blockquote>
+<ul>
+<li>remove方法：在调用remove方法之前，如果没有调用next方法，将会抛出IllegalStateException,原因是lastRet初始值为-1，小于0，抛出IllegalStateException;而调用next方法后，将lastRet赋值为cursor，即当前访问的元素，这样lastRet大于或等于0，不会抛出异常。然后调用ArrayList的remove方法删除元素；又将lastRest复位为-1，所以下次remove时，需要再次调用next</li>
+</ul>
+</blockquote>
+<pre><code>public void remove() {
+        if (lastRet &lt; 0)
+            throw new IllegalStateException();
+        checkForComodification();
+
+        try {
+            ArrayList.this.remove(lastRet);
+            cursor = lastRet;
+            lastRet = -1;
+            expectedModCount = modCount;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+</code></pre><blockquote>
+<ul>
+<li>forEachRemaining方法，java8中的新特性。以后补充。</li>
+</ul>
+</blockquote>
+<p>###ListItr类分析：继承了Itr类，实现了ListIterator接口<br>方法如下：</p>
+<blockquote>
+<ul>
+<li>构造方法：将cursor初始化为index，默认值为0</li>
+</ul>
+</blockquote>
+<pre><code>ListItr(int index) {
+    super();
+    cursor = index;
+}
+</code></pre><blockquote>
+<ul>
+<li>判断是否有前一个元素：依据：cursor是否等于0</li>
+</ul>
+</blockquote>
+<pre><code>public boolean hasPrevious() {
+       return cursor != 0;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取下一个元素的序号(cursor指向下一个元素的序号)</li>
+</ul>
+</blockquote>
+<pre><code>public int nextIndex() {
+       return cursor;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取上一个元素的序号(cursor指向下一个元素的序号)</li>
+</ul>
+</blockquote>
+<pre><code>public int previousIndex() {
+       return cursor - 1;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取前一个元素：如果当前元素(序号为cursor-1)为第一个元素，则抛出NoSuchElementException；将cursor指向当前元素(正常情况指向下一个元素)，返回当前元素</li>
+</ul>
+</blockquote>
+<pre><code>public E previous() {
+        checkForComodification();
+        int i = cursor - 1;
+        if (i &lt; 0)
+            throw new NoSuchElementException();
+        Object[] elementData = ArrayList.this.elementData;
+        if (i &gt;= elementData.length)
+            throw new ConcurrentModificationException();
+        cursor = i;
+        return (E) elementData[lastRet = i];
+    }
+</code></pre><blockquote>
+<ul>
+<li>用元素e取代next或previous返回的元素:在调用该方法前，必须先调用previous或next方法。否则,lastRet为-1，小于0，抛出异常。set方法并没有导致modCount加1操作，所以set方法不被视为结构性修改</li>
+</ul>
+</blockquote>
+<pre><code>public void set(E e) {
+        if (lastRet &lt; 0)
+            throw new IllegalStateException();
+        checkForComodification();
+
+        try {
+            ArrayList.this.set(lastRet, e);
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+</code></pre><blockquote>
+<ul>
+<li>添加元素:ArrayList的add方法导致modCount次数加1，所以此操作会修改结构。当一个iter对集合进行遍历，而另一个对其修改时，则会抛出ConcurrentModificationException</li>
+</ul>
+</blockquote>
+<pre><code>public void add(E e) {
+     checkForComodification();
+
+     try {
+         int i = cursor;
+         ArrayList.this.add(i, e);
+         cursor = i + 1;
+         lastRet = -1;
+         expectedModCount = modCount;
+     } catch (IndexOutOfBoundsException ex) {
+         throw new ConcurrentModificationException();
+     }
+ }
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/09/ArrayListInterface/" itemprop="url">
+                  Java ArrayList源码阅读
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-09T15:58:10+08:00" content="2017-11-09">
+              2017-11-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="ArrayList继承的类和实现的接口"><a href="#ArrayList继承的类和实现的接口" class="headerlink" title="ArrayList继承的类和实现的接口"></a>ArrayList继承的类和实现的接口</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/arrayList.png" alt="此处输入图片的描述"><br>如上图所示，实现的接口有List、RandomAccess、Cloneable、java.io.Serializable;继承的类有AbstractList</p>
+<h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><blockquote>
+<ul>
+<li>serialVersionUID</li>
+<li>DEFAULT_CAPACITY:默认初始容量，值为10</li>
+<li>EMPTY_ELEMENTDATA：为空的列表，共享该数组</li>
+<li>elementData:数组，用来存储元素。ArrayList的容量就是指这个数组的长度。当第一个元素添加到数组里时，空ArrayList的elementData将会扩充到DEFAULT_CAPACITY</li>
+<li>size: 现有元素的数量</li>
+</ul>
+</blockquote>
+<h3 id="三个构造方法"><a href="#三个构造方法" class="headerlink" title="三个构造方法"></a>三个构造方法</h3><p>1、无构造参数：使用默认值10来初始化数组</p>
+<pre><code>/**
+    * Constructs an empty list with an initial capacity of ten.
+    */
+   public ArrayList() {
+       super();
+       this.elementData = EMPTY_ELEMENTDATA;
+   }
+</code></pre><p>2、构造参数为初始容量：先判断initialCapacity是否合法，若合法，将elementData初始化长度为initialCapacity</p>
+<pre><code>public ArrayList(int initialCapacity) {
+       super();
+       if (initialCapacity &lt; 0)
+           throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                                              initialCapacity);
+       this.elementData = new Object[initialCapacity];
+   }
+</code></pre><p>3、构造参数为一个集合：取集合c的对象数组，赋给elementData；把数组的长度赋给size。<br>什么情况下会出现<strong><em>elementData.getClass() != Object[].class</em></strong>？？？？</p>
+<pre><code>public ArrayList(Collection&lt;? extends E&gt; c) {
+       elementData = c.toArray();
+       size = elementData.length;
+       // c.toArray might (incorrectly) not return Object[] (see 6260652)
+       if (elementData.getClass() != Object[].class)
+           elementData = Arrays.copyOf(elementData, size, Object[].class);
+   }
+</code></pre><h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><p>1、 public boolean add(E e):在末尾添加元素，过程如下：modCount（修改次数）加1；ensureCapacityInternal(size + 1)用于判断是否扩充数组，即动态调整大小，其细节在<a href="http://www.appleieye.com/2017/11/06/ArrayList%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4/">这篇文章</a>里;将元素e添加到List尾部，size（元素个数）加1</p>
+<pre><code>public boolean add(E e) {
+        ensureCapacityInternal(size + 1);  // Increments modCount!!
+        elementData[size++] = e;
+        return true;
+    }
+</code></pre><p>2、public void add(int index, E element):在指定位置index插入指定元素element：调用rangeCheckForAdd，检测index的合法性；必要时对数组进行扩充；modCount加1;调用System.arraycopy将index位置(及其右边)的元素右移;将index位置的元素改为element</p>
+<pre><code> public void add(int index, E element) {
+    rangeCheckForAdd(index);
+
+    ensureCapacityInternal(size + 1);  // Increments modCount!!
+    System.arraycopy(elementData, index, elementData, index + 1,
+                     size - index);
+    elementData[index] = element;
+    size++;
+}
+</code></pre><p>3、public boolean addAll(Collection&lt;? extends E&gt; c):按照迭代器返回的顺序，将集合c中的元素添加到list中。(为什么一开始不判断c是否为空？)</p>
+<pre><code>public boolean addAll(Collection&lt;? extends E&gt; c) {
+    Object[] a = c.toArray();
+    int numNew = a.length;
+    ensureCapacityInternal(size + numNew);  // Increments modCount
+    System.arraycopy(a, 0, elementData, size, numNew);
+    size += numNew;
+    return numNew != 0;
+}
+</code></pre><p>4、public boolean addAll(int index, Collection&lt;? extends E&gt; c):将集合c中的元素插入到list的指定位置中去。首先检测index的合法性；modCount加1，必要时扩充数组；将index右边的元素依次右移numNew，最后将c中的元素copy到list中，调整size。</p>
+<pre><code>   public boolean addAll(int index, Collection&lt;? extends E&gt; c) {
+    rangeCheckForAdd(index);
+
+    Object[] a = c.toArray();
+    int numNew = a.length;
+    ensureCapacityInternal(size + numNew);  // Increments modCount
+
+    int numMoved = size - index;
+    if (numMoved &gt; 0)
+        System.arraycopy(elementData, index, elementData, index + numNew,
+                         numMoved);
+
+    System.arraycopy(a, 0, elementData, index, numNew);
+    size += numNew;
+    return numNew != 0;
+}  
+</code></pre><h3 id="indexOf方法"><a href="#indexOf方法" class="headerlink" title="indexOf方法"></a>indexOf方法</h3><p>1、indexOf:返回元素在第一次出现的位置，如果不存在，返回-1<br>   <strong>注意对object为null时的处理</strong></p>
+<pre><code> public int indexOf(Object o) {
+    if (o == null) {
+        for (int i = 0; i &lt; size; i++)
+            if (elementData[i]==null)
+                return i;
+    } else {
+        for (int i = 0; i &lt; size; i++)
+            if (o.equals(elementData[i]))
+                return i;
+    }
+    return -1;
+}
+</code></pre><p>2、lastIndexOf:返回元素在list最后一次出现的位置，如果不存在，返回-1<br>   <strong>注意对object为null时的处理</strong></p>
+<pre><code>  public int lastIndexOf(Object o) {
+    if (o == null) {
+        for (int i = size-1; i &gt;= 0; i--)
+            if (elementData[i]==null)
+                return i;
+    } else {
+        for (int i = size-1; i &gt;= 0; i--)
+            if (o.equals(elementData[i]))
+                return i;
+    }
+    return -1;
+}
+</code></pre><p>###toArray方法：使用Arrays类的copyOf方法，将一个数组的值拷贝到一个新的数组中去，然后返回这个新数组。</p>
+<pre><code> public Object[] toArray() {
+    return Arrays.copyOf(elementData, size);
+}
+</code></pre><h3 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h3><p>1、public E remove(int index):index合法性检测;取到index位置上的值;如果要删除的元素不在最后位置,需要将index之后的元素依次左移,然后将最后位置元素置为null，size减一，返回删除的元素</p>
+<pre><code>    public E remove(int index) {
+    rangeCheck(index);
+
+    modCount++;
+    E oldValue = elementData(index);
+
+    int numMoved = size - index - 1;
+    if (numMoved &gt; 0)
+        System.arraycopy(elementData, index+1, elementData, index,
+                         numMoved);
+    elementData[--size] = null; // clear to let GC do its work
+
+    return oldValue;
+}
+</code></pre><p>2、private void fastRemove(int index):上一个方法的简化版：不做index合法性检测;不返回删除的元素</p>
+<pre><code>   private void fastRemove(int index) {
+    modCount++;
+    int numMoved = size - index - 1;
+    if (numMoved &gt; 0)
+        System.arraycopy(elementData, index+1, elementData, index,
+                         numMoved);
+    elementData[--size] = null; // clear to let GC do its work
+}
+</code></pre><p>3、public boolean remove(Object o):删除列表中第一次出现的o<br>   <strong>注意点:object为null时的处理</strong></p>
+<pre><code>public boolean remove(Object o) {
+    if (o == null) {
+        for (int index = 0; index &lt; size; index++)
+            if (elementData[index] == null) {
+                fastRemove(index);
+                return true;
+            }
+    } else {
+        for (int index = 0; index &lt; size; index++)
+            if (o.equals(elementData[index])) {
+                fastRemove(index);
+                return true;
+            }
+    }
+    return false;
+}
+</code></pre><p>4、protected void removeRange(int fromIndex, int toIndex)：删除fromIndex和toIndex之间的元素(不包括toIndex):用toIndex之后的元素覆盖掉[fromIndex,toIndex)之间的元素，然后将toIndex之后的元素置为null，调整size</p>
+<pre><code> protected void removeRange(int fromIndex, int toIndex) {
+    modCount++;
+    int numMoved = size - toIndex;
+    System.arraycopy(elementData, toIndex, elementData, fromIndex,
+                     numMoved);
+
+    // clear to let GC do its work
+    int newSize = size - (toIndex-fromIndex);
+    for (int i = newSize; i &lt; size; i++) {
+        elementData[i] = null;
+    }
+    size = newSize;
+}
+</code></pre><p>5、public boolean removeAll(Collection&lt;?&gt; c):删除list中集合c包含的元素：首先检测c是否为null，然后调用batchRemove</p>
+<pre><code>  public boolean removeAll(Collection&lt;?&gt; c) {
+    Objects.requireNonNull(c);
+    return batchRemove(c, false);
+}
+</code></pre><p>6、public boolean retainAll(Collection&lt;?&gt; c)：删除list中不包含在c中的元素</p>
+<pre><code>  public boolean retainAll(Collection&lt;?&gt; c) {
+    Objects.requireNonNull(c);
+    return batchRemove(c, true);
+}
+</code></pre><p>7、private boolean batchRemove:这个方法设计的很巧妙，根据complement来确定是要删除还是保留c中的元素。<br>   如果complement为false,表示求与elementData的差集；如果为true，表示求交集。</p>
+<pre><code> private boolean batchRemove(Collection&lt;?&gt; c, boolean complement) {
+    final Object[] elementData = this.elementData;
+    int r = 0, w = 0;
+    boolean modified = false;
+    try {
+        /**
+         *for循环用于筛选想要的元素
+         *当complement等于false时，表示从arrayList中删除c中含有的元素。如果c.contains(elementData[r])也等于false，说明c中不包含该元素，这时候要“保存”下这些元素，即非c中的元素，执行elementData[w++]=elementData[r],其实也就是求与elementData的差集
+        *当complement等于true时，表示保留arrayList中c中含有的元素，删除其他元素。这时候如果c.contains(elementData[r])等于true，表示c中有该元素，应该保留下来，同样用elementData[w++] = elementData[r]，其他元素忽略掉
+         */
+
+        for (; r &lt; size; r++)
+            if (c.contains(elementData[r]) == complement)
+                elementData[w++] = elementData[r];
+    } finally {
+        //finally语句用于元素的移动和数组大小调整
+        // Preserve behavioral compatibility with AbstractCollection,
+        // even if c.contains() throws.
+        if (r != size) {
+            System.arraycopy(elementData, r,
+                             elementData, w,
+                             size - r);
+            w += size - r;
+        }
+        if (w != size) {
+            // clear to let GC do its work
+            for (int i = w; i &lt; size; i++)
+                elementData[i] = null;
+            modCount += size - w;
+            size = w;
+            modified = true;
+        }
+    }
+    return modified;
+}
+</code></pre><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>1、缩减长度：减少ArrayList的存储。如果数组当前长度小于容量（也就是说还有剩余容量），就把剩余容量删除掉</p>
+<pre><code>public void trimToSize() {
+        modCount++;
+        if (size &lt; elementData.length) {
+            elementData = Arrays.copyOf(elementData, size);
+        }
+    }
+</code></pre><p>2、clear方法：修改次数加1；遍历数组，依次将各个元素置为null，然后将size置为0</p>
+<pre><code>public void clear() {
+    modCount++;
+
+    // clear to let GC do its work
+    for (int i = 0; i &lt; size; i++)
+        elementData[i] = null;
+
+    size = 0;
+}
+</code></pre><p>3、set方法：public E set(int index, E element)<br>   首先检测index合法性；若合法，取出原先index位置上的值；将index上值进行更新；返回原先的值</p>
+<pre><code>public E set(int index, E element) {
+    rangeCheck(index);
+    E oldValue = elementData(index);
+    elementData[index] = element;
+    return oldValue;
+}
+</code></pre><p>4、isEmpty():判读list是否为空，依据：size是否等于0<br>5、contains():判断list是否包含某个元素，依据：判读该元素在list中的位置是否小于0</p>
+<p>###序列化与反序列化<br>这里有两个疑问：</p>
+<blockquote>
+<ul>
+<li>ArrayList实现了Serializable接口，但是elementData却声明为transient（表示该变量不能被序列化），这是为什么</li>
+<li>序列化和反序列化的两个方法：writeObject和readObject都声明为private，但在类中却没有被调用到，这是为什么<br><a href="http://www.cnblogs.com/vinozly/p/5171227.html" target="_blank" rel="noopener">这篇文章</a>给出了答案，可以参考一下。</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/06/ArrayListResize/" itemprop="url">
                   Java ArrayList 数组大小动态调整
                 </a>
@@ -1172,714 +2172,6 @@ while(in.hasNext())
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/18/pythonMultithread/" itemprop="url">
-                  python多线程基础知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-08-18T14:13:12+08:00" content="2017-08-18">
-              2017-08-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
-<ul>
-<li>并行：是指在两个或多个进程同时运行，比如在每个处理器上运行一个进程</li>
-<li>并发：在同一个处理器上运行多个进程。通常使用时间片轮转的技术来实现。实际上，这种是伪并行，只是时间片很短，进程切换的非常快，看起来像是并行。<br>并发是现代操作系统常用的技术。因为这种技术与计算机的处理器个数无关，所以操作系需要同时运行多个系统任务，而且还要满足用户任何的需求。为了解决这类问题，操作系统首先要关注处理器的任务调度时间表，记录每个任务需要的运行时间，然后在不同任务之间进行上下文切换，给每个任务一个时间片</li>
-</ul>
-</blockquote>
-<h3 id="多线程的优缺点"><a href="#多线程的优缺点" class="headerlink" title="多线程的优缺点"></a>多线程的优缺点</h3><p>优点：</p>
-<blockquote>
-<ul>
-<li>持续响应：在单线程的程序中，执行一个长期运行的任务可能会导致程序冻结。多线程可以把这个长期运行的任务放在一个工作线程（worker thread）中，在程序并发地运行任务时可以持续响应客户需求。</li>
-<li>更快的响应速度：在多核或多处理器的操作系统上，多线程可以通过真正的并行提高程序运行速度</li>
-<li>较低的资源消耗：利用线程模式，程序可以利用一个进程的资源响应多个请求</li>
-<li>更简单的状态共享与进程间通信机制：由于线程都共享同一资源和内存空间，因此线程之间的通信比进程间通信更简单</li>
-<li>并行化：多核与多处理器系统可以实现多线程的每个线程独立运行。</li>
-</ul>
-</blockquote>
-<p>缺点：</p>
-<blockquote>
-<ul>
-<li>线程同步</li>
-<li>某个线程出现问题导致集体崩溃</li>
-<li>死锁</li>
-</ul>
-</blockquote>
-<h3 id="GLI与多线程的使用场景"><a href="#GLI与多线程的使用场景" class="headerlink" title="GLI与多线程的使用场景"></a>GLI与多线程的使用场景</h3><p>python的官方版本（CPython）有一个GIL限制。GIL会阻止多线程同时运行Python的字节码，所以这就不是真正的并发。CPython的GIL是有必要的，因为python的内存管理不是线程安全的。因此，为了让每个任务都按顺序进行，它需要保证运行过程中内存不受干扰。<br>（有一种说法是GIL只是CPython（python编译器）的产物，而与python语言本身没有关系）</p>
-<p>基于GIL的原因，不应该使用Python线程来处理计算密集型的任务，因为这种任务更适合在多个CPU核心上实现并行处理。python线程更适合于I/O处理以及涉及阻塞操作的并发执行任务，如等待I/O，等待从数据库取出结果等。<br><a href="http://blog.csdn.net/q_l_s/article/details/51538039" target="_blank" rel="noopener">计算密集型与I/O密集型</a></p>
-<h3 id="python中多线程的实现方式"><a href="#python中多线程的实现方式" class="headerlink" title="python中多线程的实现方式"></a>python中多线程的实现方式</h3><p>python中有两种方式实现多线程：</p>
-<blockquote>
-<ul>
-<li>thread模块：这个模块提供了有限的线程能力。它很容易使用，适合小项目，不过会增加一点额外的资源消耗</li>
-<li>threading模块：这是从Python2.4引入的新模块，提供了一些更强大、更高层次的线程支持。</li>
-</ul>
-</blockquote>
-<p><strong><em>python普遍推荐使用threading模块。</em></strong></p>
-<h3 id="单线程代码多线程化"><a href="#单线程代码多线程化" class="headerlink" title="单线程代码多线程化"></a>单线程代码多线程化</h3><p>实例：检查一组网站的请求状态码。<br>单线程代码如下：</p>
-<pre><code>import urllib3
-import time
-from threading import Thread
-
-def getResponseCode():
-    urls = [
-        &apos;http://www.appleieye.com&apos;,
-        &apos;http://www.amazon.com&apos;,
-        &apos;http://www.ebay.com&apos;,
-        # &apos;http://www.alibaba.com&apos;,
-        &apos;http://www.reddit.com&apos;
-    ]
-    start = time.time()
-    for url in  urls:
-        print(url)
-        http = urllib3.PoolManager()
-        response = http.request(&apos;GET&apos;,url)
-        print(response.status)
-    print(&quot;Elapsed time: {}&quot;.format(time.time()-start))
-    #打印的时间为Elapsed time: 33.027889251708984
-</code></pre><p>多线程：可以并发检查所有网站的状态，不需要在检查完成之后再去运行另一个检查<br>代码如下：</p>
-<pre><code>import urllib3
-import time
-from threading import Thread
-class GetUrlThread(Thread):
-
-    def __init__(self,url):
-        self.url = url
-        super(GetUrlThread, self).__init__()
-
-    def run(self):
-        http = urllib3.PoolManager()
-        response = http.request(&apos;GET&apos;,self.url)
-        print(self.url,response.status)
-
-def getResponse():
-    urls = [
-            &apos;http://www.appleieye.com&apos;,
-            &apos;http://www.amazon.com&apos;,
-            &apos;http://www.ebay.com&apos;,
-            # &apos;http://www.alibaba.com&apos;,
-            &apos;http://www.reddit.com&apos;
-        ]
-    start = time.time()
-    threads = []
-    for url in urls:
-        thread = GetUrlThread(url)
-        threads.append(thread)
-        thread.start()
-
-    for t in threads:
-        t.join()
-
-    print(&apos;time spent:{}&apos;.format(time.time()-start))
-    #所耗费的时间为7.181410789489746。
-</code></pre><p>对比两种实现，可见多线程效率几乎是单线程的4倍。</p>
-<h3 id="对临界区加锁："><a href="#对临界区加锁：" class="headerlink" title="对临界区加锁："></a>对临界区加锁：</h3><p>考虑一个例子：用多线程轮流对一个全局变量globalValue进行加一操作，直至加到200（数字越大，线程运行时的不确定性才能表现出来）</p>
-<pre><code>import threading
-
-globalValue = 0
-class ShareCounter(threading.Thread):
-
-    def __init__(self,name):
-        threading.Thread.__init__(self)
-        self.name = name
-
-    def run(self):
-        global globalValue
-        localCopy = globalValue
-        print(&quot;{} with value {}&quot;.format(self.name,localCopy))
-        globalValue = localCopy + 1
-
-if __name__ == &apos;__main__&apos;:
-    for index in range(200):
-        t = ShareCounter(&quot;thread&quot;+str(index))
-        t.start()
-</code></pre><p>部分打印结果如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multiThread1.png" alt="此处输入图片的描述"><br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multithread2.png" alt="此处输入图片的描述"><br>由打印结果看出，线程126/127/128/130/134打印的结果都是一样的，并且数字输出的顺序也会有错乱，最终得到的数值也没有到达200。<br>这是由于线程执行的速度、顺序不确定造成的。所以，需要确保代码在复制数值、进行加一操作以及打印数值的时候是处于加锁状态，没有两个线程来同时访问该数值。这时候就用到了锁：加锁和释放锁。<br>代码如下：</p>
-<pre><code>_lock = threading.RLock()
-def run(self):
-    ShareCounter._lock.acquire()
-    global globalValue
-    localCopy = globalValue
-    print(&quot;{} with value {}&quot;.format(self.name,localCopy))
-    globalValue = localCopy + 1
-    ShareCounter._lock.release()
-</code></pre><p>这时候在运行这段代码，就会发现数值按顺序打印，并且没有重复值出现。</p>
-<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/27/python3/" itemprop="url">
-                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-27T11:32:28+08:00" content="2017-07-27">
-              2017-07-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###向pyc文件写入字符串的过程<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png" alt="此处输入图片的描述"></p>
-<p>写入一个字符串时，可能发生3种情况：</p>
-<ol>
-<li>写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。</li>
-<li>intern字符串（与普通字符串有什么区别）的首次写入：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILE.png" alt="此处输入图片的描述"><br> 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从pyc中读出时，strings会指向一个PyListObject对象。PyDictObject对象实际上维护着（PyStringObject,PyIntObeject）这样的映射关系，PyIntObject的值表示PyStringObject对象是第几个被加入到WFILE.strings中的字符串。更准确地说，是第几个被写入到pyc文件中的intern字符串。那么，记录这个信息有什么用呢?看下面的一个例子。<br>假设需要写入3个字符串:”python”,”ruby”,”python”,写入前两个后pyc文件的情况如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python&amp;ruby.png" alt="此处输入图片的描述"><br>当写入第二个”python”时，PyDictObject不允许出现重复的键值。于是，python给了TYPE_STRINGREF这个东西，这个标志标明后面的一个数值表示了一个索引值，根据这索引值到WFILE.strings中去查找，就能找到对应的string了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/TYPE_STRINGREF.png" alt="此处输入图片的描述"></li>
-<li><p>总结inter字符串的写入机制：当写入一个字符串时，会首先在strings中查找其中是否记录了该字符串，这个查找动作会导致两个结果：</p>
-<blockquote>
-<ul>
-<li>查找失败，进行intern字符的首次写入：<ul>
-<li>将（字符串，序号）添加到strings中</li>
-<li>将类型标识TYPE_INTERND和字符串本身写入到pyc文件中</li>
-</ul>
-</li>
-<li>查找成功，进行intern字符串的非首次写入：</li>
-<li>将类型标识TYPE_STRINGREF和查找得到的序号写入pyc文件中。</li>
-</ul>
-</blockquote>
-<p>在加载pyc文件时，WFILE里面的strings会转换成PyListObject对象，在读入前两个字符串后，WFILE.strings的情况如下图所示：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILERead.png" alt="此处输入图片的描述"><br>当读到（R，0）时，解析到Type_STRINGREF标志，所以直接以标志后面的数值0位索引访问WFILE.strings，立刻得到字符串“python”</p>
-</li>
-</ol>
-<h3 id="写入多个PyCodeObject"><a href="#写入多个PyCodeObject" class="headerlink" title="写入多个PyCodeObject"></a>写入多个PyCodeObject</h3><p>有demo.py文件，代码如下：</p>
-<pre><code>class A：
-    pass
-def Func():
-    pass
-a = A()
-Func()
-</code></pre><p>这段代码在编译时，会生成3个pycodeobject（在python中，类、函数、module都对应着一个独立的命名空间，都会有一个pycodeobject对象与之对应）。而在write_compiled_module中，python运行环境只对一个PyCodeObject对象调用PyMarshal_WriteObjectToFile操作，另外两个PyCodeObject对象包含在另一个PyCodeObject中。与Fun和A对应的PyCodeObject对象包含在与demo.py对应的PyCodeObject对象中，其中的co_consts域就是两个pycodeObject对象的藏身之处.</p>
-<p>在对一个PyCodeObject对象进行写入到pyc文件的操作时，如果碰到它包含的另一个pycodeobject对象，那么就会递归地执行写入PyCodeObject对象的操作。如此下去，最终所有的PyCodeObject对象都会被写入到pyc文件中去。所以，pyc文件中的pycodeobject对象也是以一种嵌套的关系联系在一起的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/26/python2/" itemprop="url">
-                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-26T09:13:38+08:00" content="2017-07-26">
-              2017-07-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###python源码中的PyCodeObject<br>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png" alt="此处输入图片的描述"></p>
-<p>各字段定义如下：</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th style="text-align:right">意义</th>
-<th style="text-align:center"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>co_argcount</td>
-<td style="text-align:right">位置参数的个数</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_nlocals</td>
-<td style="text-align:right">局部变量的个数</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_stacksize</td>
-<td style="text-align:right">所需要的栈空间</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_flags</td>
-<td style="text-align:right">N/A</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_code</td>
-<td style="text-align:right">字节码指令序列</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_consts</td>
-<td style="text-align:right">保存所有常量</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_names</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_varnames</td>
-<td style="text-align:right">局部变量名集合</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_freevars</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_cellvars</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_filename</td>
-<td style="text-align:right">.py文件的完整路径</td>
-</tr>
-<tr>
-<td>co_name</td>
-<td style="text-align:right">函数名或类名</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_firs</td>
-<td style="text-align:right">tlineno</td>
-<td style="text-align:center">Code Block 在对应的.py文件中起始行</td>
-</tr>
-<tr>
-<td>co_lnotab</td>
-<td style="text-align:right">字节码指令与.pywenj文件中source code行号的对应关系</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>###pyc文件：<br>PyCodeObject对象中都包含了每一个Code Block中所有python源代码经过编译后得到的byte code序列，python会将这些字节码序列和PyCodeObject对象一起存储在pyc文件中。但是并不是每次都会生成pyc文件。</p>
-<blockquote>
-<ul>
-<li>不会生成pyc的情况：某些python程序只是临时完成一些琐碎的工作，可能仅仅运行一次，然后就再也没有用了，所以没必要保存其对应的pyc文件</li>
-<li>需要生成pyc文件的情况：若某个程序需要被重用，比如通过import语句被加载，这时候就需要存储其对应的PyCodeObject对象，生成pyc文件，这样下次python就不会再次进行编译了。这意味着Python的import机制会触发pyc文件的生成，实际上，在python运行过程中，如果碰到import  abc这样的语句，python将到设定好的path中寻找abc.pyc或abc.dll文件，如果没有这些文件，而只是发现了abc.py文件，那么python会首先将abc.py编译成相应的PyCodeObject的中间结果，然后创建abc.pyc文件，并将中间结果写入该文件。jiaxial接下来，python会对abc.pyc进行import的动作。实际上也就是将abc.pyc文件中的PyCodeObject重新在内存中复制出来。</li>
-</ul>
-</blockquote>
-<p>###pyc文件生成过程</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycwriteobject.png" alt="此处输入图片的描述"></p>
-<p> 从write_compiled_module中可以发现，一个pyc文件中实际上包含了三部分独立的信息：magic number、pyc文件创建的时间信息，以及PyCodeObject对象。<br> 过程如下：</p>
-<blockquote>
-<ul>
-<li>首先，python会将pyc_magic这个值写入文件开头。实际上，pyc_magic是python所定义的这个整数值，一般来说，不同版本的Python实现都会定义不同的magic number，用来保证python兼容性。比如说要要防止python2.5的环境加载由python1.5产生的pyc文件，那么只需要将python2.5和python1.5的magic number设为不同的值就可以了，因为python在加载pyc文件时会首先检查这个magic number，如果发现python自身的magic number与待加载的pyc文件中记录的magic number不同，则会拒绝加载不兼容的pyc文件</li>
-<li>写入pyc文件创建的时间信息。在pyc文件中包含时间信息可以使python自动将pyc文件与最新的py文件进行同步。在加载pyc文件中，如果python发现pyc文件的时间早于py文件，会重新编译py文件，生成新的pyc。</li>
-<li>将内存中的PyCodeObject对象写入pyc文件。</li>
-</ul>
-</blockquote>
-<p>在调用PyMarshl_WriteLongToFile时，会直接调用w_long,w_long会将需要写入的数据一个字节一个字节地写入到文件中。而在调用PyMarshal_WriteObjectToFile时，python会借助于另一个辅助的函数w_object来完成将PyCodeObject对象写入到pyc文件中的操作。PyMarshal_WriteObjectToFile的第一个参数是python编译出来的PyCodeObject对象。w_object对应不同的对象，比如string、int、list、dict等，会有不同的写操作，最终是通过基本的w_long、w_string将整个PyCodeObject写入到pyc文件中去的。</p>
-<p>举个例子，python在向pyc写入list对象时，只是将list中所包含的数值或字符串写入pyc文件。同时也意味着，python在加载pyc文件时，必须基于这些数值或字符串重新构造出list对象。这就要求在w_object写入对象之前，先写入TYPE_LIST、TYPE_CODE或者TYPE_INT这样的标识。这些标识对于pyc文件的再次加载具有至关重要的作用。<br>在前面说过，python最终仅仅会将数值和字符串写入到pyc文件中。当PyCodeObject对象写入到pyc文件之后，所有的数据都变成了字节流，类型信息都丢失了。如果没有类型信息，python再次加载pyc文件时，就再也没有办法知道这些字节流隐藏的结构和蕴含的信息了，所以Python必须将对象的类型信息也写入到pyc文件中，这些标识正是python定义的类型信息，如果python在pyc文件中发现 这样的标识，则预示着上一个对象结束，新的对象开始，而且也知道了新对象是什么类型的对象。只有这样，当python加载pyc文件时，加载器才能知道在什么时候应该进行什么样的加载操作。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/20/python1/" itemprop="url">
-                  python源码剖析读书笔记--Python程序的执行过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-20T11:21:48+08:00" content="2017-07-20">
-              2017-07-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<ul>
-<li>python有一个非常核心的东西，这个东西叫作解释器（interpreter），我们在敲下python时，实际上激活了这个解释器。当我们通过python program.py执行一个特定的python程序时，python解释器立即被激活，然后执行Python程序。但是，在真正开始执行之前，python解释器还要完成一个非常复杂的工作–编译.py文件</li>
-<li>python解释器在执行一个python程序文件时，首先进行的动作都是先对文件中的python源代码进编译，编译的主要结果是产生一组Python的byte code（字节码）,然后将编译的结果交给python的虚拟机，由虚拟机按照顺序一条一条地执行字节码，从而完成对python程序的操作。</li>
-<li>python的编译器和虚拟机都存在于python25.dll</li>
-</ul>
-</blockquote>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pythonRunning.png" alt="python运行过程"></p>
-<p>关于python执行过程的两篇文章：<br><a href="http://www.cnblogs.com/kym/archive/2012/05/14/2498728.html" target="_blank" rel="noopener">说说Python程序的执行过程</a><br><a href="http://l62s.iteye.com/blog/1481421" target="_blank" rel="noopener">Python解释执行原理</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1925,7 +2217,7 @@ Func()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">105</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

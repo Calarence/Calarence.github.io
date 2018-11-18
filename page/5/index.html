@@ -271,6 +271,714 @@
             
               
                 
+                <a class="post-title-link" href="/2017/08/18/pythonMultithread/" itemprop="url">
+                  python多线程基础知识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-08-18T14:13:12+08:00" content="2017-08-18">
+              2017-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
+<ul>
+<li>并行：是指在两个或多个进程同时运行，比如在每个处理器上运行一个进程</li>
+<li>并发：在同一个处理器上运行多个进程。通常使用时间片轮转的技术来实现。实际上，这种是伪并行，只是时间片很短，进程切换的非常快，看起来像是并行。<br>并发是现代操作系统常用的技术。因为这种技术与计算机的处理器个数无关，所以操作系需要同时运行多个系统任务，而且还要满足用户任何的需求。为了解决这类问题，操作系统首先要关注处理器的任务调度时间表，记录每个任务需要的运行时间，然后在不同任务之间进行上下文切换，给每个任务一个时间片</li>
+</ul>
+</blockquote>
+<h3 id="多线程的优缺点"><a href="#多线程的优缺点" class="headerlink" title="多线程的优缺点"></a>多线程的优缺点</h3><p>优点：</p>
+<blockquote>
+<ul>
+<li>持续响应：在单线程的程序中，执行一个长期运行的任务可能会导致程序冻结。多线程可以把这个长期运行的任务放在一个工作线程（worker thread）中，在程序并发地运行任务时可以持续响应客户需求。</li>
+<li>更快的响应速度：在多核或多处理器的操作系统上，多线程可以通过真正的并行提高程序运行速度</li>
+<li>较低的资源消耗：利用线程模式，程序可以利用一个进程的资源响应多个请求</li>
+<li>更简单的状态共享与进程间通信机制：由于线程都共享同一资源和内存空间，因此线程之间的通信比进程间通信更简单</li>
+<li>并行化：多核与多处理器系统可以实现多线程的每个线程独立运行。</li>
+</ul>
+</blockquote>
+<p>缺点：</p>
+<blockquote>
+<ul>
+<li>线程同步</li>
+<li>某个线程出现问题导致集体崩溃</li>
+<li>死锁</li>
+</ul>
+</blockquote>
+<h3 id="GLI与多线程的使用场景"><a href="#GLI与多线程的使用场景" class="headerlink" title="GLI与多线程的使用场景"></a>GLI与多线程的使用场景</h3><p>python的官方版本（CPython）有一个GIL限制。GIL会阻止多线程同时运行Python的字节码，所以这就不是真正的并发。CPython的GIL是有必要的，因为python的内存管理不是线程安全的。因此，为了让每个任务都按顺序进行，它需要保证运行过程中内存不受干扰。<br>（有一种说法是GIL只是CPython（python编译器）的产物，而与python语言本身没有关系）</p>
+<p>基于GIL的原因，不应该使用Python线程来处理计算密集型的任务，因为这种任务更适合在多个CPU核心上实现并行处理。python线程更适合于I/O处理以及涉及阻塞操作的并发执行任务，如等待I/O，等待从数据库取出结果等。<br><a href="http://blog.csdn.net/q_l_s/article/details/51538039" target="_blank" rel="noopener">计算密集型与I/O密集型</a></p>
+<h3 id="python中多线程的实现方式"><a href="#python中多线程的实现方式" class="headerlink" title="python中多线程的实现方式"></a>python中多线程的实现方式</h3><p>python中有两种方式实现多线程：</p>
+<blockquote>
+<ul>
+<li>thread模块：这个模块提供了有限的线程能力。它很容易使用，适合小项目，不过会增加一点额外的资源消耗</li>
+<li>threading模块：这是从Python2.4引入的新模块，提供了一些更强大、更高层次的线程支持。</li>
+</ul>
+</blockquote>
+<p><strong><em>python普遍推荐使用threading模块。</em></strong></p>
+<h3 id="单线程代码多线程化"><a href="#单线程代码多线程化" class="headerlink" title="单线程代码多线程化"></a>单线程代码多线程化</h3><p>实例：检查一组网站的请求状态码。<br>单线程代码如下：</p>
+<pre><code>import urllib3
+import time
+from threading import Thread
+
+def getResponseCode():
+    urls = [
+        &apos;http://www.appleieye.com&apos;,
+        &apos;http://www.amazon.com&apos;,
+        &apos;http://www.ebay.com&apos;,
+        # &apos;http://www.alibaba.com&apos;,
+        &apos;http://www.reddit.com&apos;
+    ]
+    start = time.time()
+    for url in  urls:
+        print(url)
+        http = urllib3.PoolManager()
+        response = http.request(&apos;GET&apos;,url)
+        print(response.status)
+    print(&quot;Elapsed time: {}&quot;.format(time.time()-start))
+    #打印的时间为Elapsed time: 33.027889251708984
+</code></pre><p>多线程：可以并发检查所有网站的状态，不需要在检查完成之后再去运行另一个检查<br>代码如下：</p>
+<pre><code>import urllib3
+import time
+from threading import Thread
+class GetUrlThread(Thread):
+
+    def __init__(self,url):
+        self.url = url
+        super(GetUrlThread, self).__init__()
+
+    def run(self):
+        http = urllib3.PoolManager()
+        response = http.request(&apos;GET&apos;,self.url)
+        print(self.url,response.status)
+
+def getResponse():
+    urls = [
+            &apos;http://www.appleieye.com&apos;,
+            &apos;http://www.amazon.com&apos;,
+            &apos;http://www.ebay.com&apos;,
+            # &apos;http://www.alibaba.com&apos;,
+            &apos;http://www.reddit.com&apos;
+        ]
+    start = time.time()
+    threads = []
+    for url in urls:
+        thread = GetUrlThread(url)
+        threads.append(thread)
+        thread.start()
+
+    for t in threads:
+        t.join()
+
+    print(&apos;time spent:{}&apos;.format(time.time()-start))
+    #所耗费的时间为7.181410789489746。
+</code></pre><p>对比两种实现，可见多线程效率几乎是单线程的4倍。</p>
+<h3 id="对临界区加锁："><a href="#对临界区加锁：" class="headerlink" title="对临界区加锁："></a>对临界区加锁：</h3><p>考虑一个例子：用多线程轮流对一个全局变量globalValue进行加一操作，直至加到200（数字越大，线程运行时的不确定性才能表现出来）</p>
+<pre><code>import threading
+
+globalValue = 0
+class ShareCounter(threading.Thread):
+
+    def __init__(self,name):
+        threading.Thread.__init__(self)
+        self.name = name
+
+    def run(self):
+        global globalValue
+        localCopy = globalValue
+        print(&quot;{} with value {}&quot;.format(self.name,localCopy))
+        globalValue = localCopy + 1
+
+if __name__ == &apos;__main__&apos;:
+    for index in range(200):
+        t = ShareCounter(&quot;thread&quot;+str(index))
+        t.start()
+</code></pre><p>部分打印结果如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multiThread1.png" alt="此处输入图片的描述"><br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multithread2.png" alt="此处输入图片的描述"><br>由打印结果看出，线程126/127/128/130/134打印的结果都是一样的，并且数字输出的顺序也会有错乱，最终得到的数值也没有到达200。<br>这是由于线程执行的速度、顺序不确定造成的。所以，需要确保代码在复制数值、进行加一操作以及打印数值的时候是处于加锁状态，没有两个线程来同时访问该数值。这时候就用到了锁：加锁和释放锁。<br>代码如下：</p>
+<pre><code>_lock = threading.RLock()
+def run(self):
+    ShareCounter._lock.acquire()
+    global globalValue
+    localCopy = globalValue
+    print(&quot;{} with value {}&quot;.format(self.name,localCopy))
+    globalValue = localCopy + 1
+    ShareCounter._lock.release()
+</code></pre><p>这时候在运行这段代码，就会发现数值按顺序打印，并且没有重复值出现。</p>
+<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/27/python3/" itemprop="url">
+                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-27T11:32:28+08:00" content="2017-07-27">
+              2017-07-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###向pyc文件写入字符串的过程<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png" alt="此处输入图片的描述"></p>
+<p>写入一个字符串时，可能发生3种情况：</p>
+<ol>
+<li>写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。</li>
+<li>intern字符串（与普通字符串有什么区别）的首次写入：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILE.png" alt="此处输入图片的描述"><br> 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从pyc中读出时，strings会指向一个PyListObject对象。PyDictObject对象实际上维护着（PyStringObject,PyIntObeject）这样的映射关系，PyIntObject的值表示PyStringObject对象是第几个被加入到WFILE.strings中的字符串。更准确地说，是第几个被写入到pyc文件中的intern字符串。那么，记录这个信息有什么用呢?看下面的一个例子。<br>假设需要写入3个字符串:”python”,”ruby”,”python”,写入前两个后pyc文件的情况如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python&amp;ruby.png" alt="此处输入图片的描述"><br>当写入第二个”python”时，PyDictObject不允许出现重复的键值。于是，python给了TYPE_STRINGREF这个东西，这个标志标明后面的一个数值表示了一个索引值，根据这索引值到WFILE.strings中去查找，就能找到对应的string了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/TYPE_STRINGREF.png" alt="此处输入图片的描述"></li>
+<li><p>总结inter字符串的写入机制：当写入一个字符串时，会首先在strings中查找其中是否记录了该字符串，这个查找动作会导致两个结果：</p>
+<blockquote>
+<ul>
+<li>查找失败，进行intern字符的首次写入：<ul>
+<li>将（字符串，序号）添加到strings中</li>
+<li>将类型标识TYPE_INTERND和字符串本身写入到pyc文件中</li>
+</ul>
+</li>
+<li>查找成功，进行intern字符串的非首次写入：</li>
+<li>将类型标识TYPE_STRINGREF和查找得到的序号写入pyc文件中。</li>
+</ul>
+</blockquote>
+<p>在加载pyc文件时，WFILE里面的strings会转换成PyListObject对象，在读入前两个字符串后，WFILE.strings的情况如下图所示：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILERead.png" alt="此处输入图片的描述"><br>当读到（R，0）时，解析到Type_STRINGREF标志，所以直接以标志后面的数值0位索引访问WFILE.strings，立刻得到字符串“python”</p>
+</li>
+</ol>
+<h3 id="写入多个PyCodeObject"><a href="#写入多个PyCodeObject" class="headerlink" title="写入多个PyCodeObject"></a>写入多个PyCodeObject</h3><p>有demo.py文件，代码如下：</p>
+<pre><code>class A：
+    pass
+def Func():
+    pass
+a = A()
+Func()
+</code></pre><p>这段代码在编译时，会生成3个pycodeobject（在python中，类、函数、module都对应着一个独立的命名空间，都会有一个pycodeobject对象与之对应）。而在write_compiled_module中，python运行环境只对一个PyCodeObject对象调用PyMarshal_WriteObjectToFile操作，另外两个PyCodeObject对象包含在另一个PyCodeObject中。与Fun和A对应的PyCodeObject对象包含在与demo.py对应的PyCodeObject对象中，其中的co_consts域就是两个pycodeObject对象的藏身之处.</p>
+<p>在对一个PyCodeObject对象进行写入到pyc文件的操作时，如果碰到它包含的另一个pycodeobject对象，那么就会递归地执行写入PyCodeObject对象的操作。如此下去，最终所有的PyCodeObject对象都会被写入到pyc文件中去。所以，pyc文件中的pycodeobject对象也是以一种嵌套的关系联系在一起的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/26/python2/" itemprop="url">
+                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-26T09:13:38+08:00" content="2017-07-26">
+              2017-07-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###python源码中的PyCodeObject<br>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png" alt="此处输入图片的描述"></p>
+<p>各字段定义如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:right">意义</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>co_argcount</td>
+<td style="text-align:right">位置参数的个数</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_nlocals</td>
+<td style="text-align:right">局部变量的个数</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_stacksize</td>
+<td style="text-align:right">所需要的栈空间</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_flags</td>
+<td style="text-align:right">N/A</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_code</td>
+<td style="text-align:right">字节码指令序列</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_consts</td>
+<td style="text-align:right">保存所有常量</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_names</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_varnames</td>
+<td style="text-align:right">局部变量名集合</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_freevars</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_cellvars</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_filename</td>
+<td style="text-align:right">.py文件的完整路径</td>
+</tr>
+<tr>
+<td>co_name</td>
+<td style="text-align:right">函数名或类名</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>co_firs</td>
+<td style="text-align:right">tlineno</td>
+<td style="text-align:center">Code Block 在对应的.py文件中起始行</td>
+</tr>
+<tr>
+<td>co_lnotab</td>
+<td style="text-align:right">字节码指令与.pywenj文件中source code行号的对应关系</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>###pyc文件：<br>PyCodeObject对象中都包含了每一个Code Block中所有python源代码经过编译后得到的byte code序列，python会将这些字节码序列和PyCodeObject对象一起存储在pyc文件中。但是并不是每次都会生成pyc文件。</p>
+<blockquote>
+<ul>
+<li>不会生成pyc的情况：某些python程序只是临时完成一些琐碎的工作，可能仅仅运行一次，然后就再也没有用了，所以没必要保存其对应的pyc文件</li>
+<li>需要生成pyc文件的情况：若某个程序需要被重用，比如通过import语句被加载，这时候就需要存储其对应的PyCodeObject对象，生成pyc文件，这样下次python就不会再次进行编译了。这意味着Python的import机制会触发pyc文件的生成，实际上，在python运行过程中，如果碰到import  abc这样的语句，python将到设定好的path中寻找abc.pyc或abc.dll文件，如果没有这些文件，而只是发现了abc.py文件，那么python会首先将abc.py编译成相应的PyCodeObject的中间结果，然后创建abc.pyc文件，并将中间结果写入该文件。jiaxial接下来，python会对abc.pyc进行import的动作。实际上也就是将abc.pyc文件中的PyCodeObject重新在内存中复制出来。</li>
+</ul>
+</blockquote>
+<p>###pyc文件生成过程</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycwriteobject.png" alt="此处输入图片的描述"></p>
+<p> 从write_compiled_module中可以发现，一个pyc文件中实际上包含了三部分独立的信息：magic number、pyc文件创建的时间信息，以及PyCodeObject对象。<br> 过程如下：</p>
+<blockquote>
+<ul>
+<li>首先，python会将pyc_magic这个值写入文件开头。实际上，pyc_magic是python所定义的这个整数值，一般来说，不同版本的Python实现都会定义不同的magic number，用来保证python兼容性。比如说要要防止python2.5的环境加载由python1.5产生的pyc文件，那么只需要将python2.5和python1.5的magic number设为不同的值就可以了，因为python在加载pyc文件时会首先检查这个magic number，如果发现python自身的magic number与待加载的pyc文件中记录的magic number不同，则会拒绝加载不兼容的pyc文件</li>
+<li>写入pyc文件创建的时间信息。在pyc文件中包含时间信息可以使python自动将pyc文件与最新的py文件进行同步。在加载pyc文件中，如果python发现pyc文件的时间早于py文件，会重新编译py文件，生成新的pyc。</li>
+<li>将内存中的PyCodeObject对象写入pyc文件。</li>
+</ul>
+</blockquote>
+<p>在调用PyMarshl_WriteLongToFile时，会直接调用w_long,w_long会将需要写入的数据一个字节一个字节地写入到文件中。而在调用PyMarshal_WriteObjectToFile时，python会借助于另一个辅助的函数w_object来完成将PyCodeObject对象写入到pyc文件中的操作。PyMarshal_WriteObjectToFile的第一个参数是python编译出来的PyCodeObject对象。w_object对应不同的对象，比如string、int、list、dict等，会有不同的写操作，最终是通过基本的w_long、w_string将整个PyCodeObject写入到pyc文件中去的。</p>
+<p>举个例子，python在向pyc写入list对象时，只是将list中所包含的数值或字符串写入pyc文件。同时也意味着，python在加载pyc文件时，必须基于这些数值或字符串重新构造出list对象。这就要求在w_object写入对象之前，先写入TYPE_LIST、TYPE_CODE或者TYPE_INT这样的标识。这些标识对于pyc文件的再次加载具有至关重要的作用。<br>在前面说过，python最终仅仅会将数值和字符串写入到pyc文件中。当PyCodeObject对象写入到pyc文件之后，所有的数据都变成了字节流，类型信息都丢失了。如果没有类型信息，python再次加载pyc文件时，就再也没有办法知道这些字节流隐藏的结构和蕴含的信息了，所以Python必须将对象的类型信息也写入到pyc文件中，这些标识正是python定义的类型信息，如果python在pyc文件中发现 这样的标识，则预示着上一个对象结束，新的对象开始，而且也知道了新对象是什么类型的对象。只有这样，当python加载pyc文件时，加载器才能知道在什么时候应该进行什么样的加载操作。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/20/python1/" itemprop="url">
+                  python源码剖析读书笔记--Python程序的执行过程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T11:21:48+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<ul>
+<li>python有一个非常核心的东西，这个东西叫作解释器（interpreter），我们在敲下python时，实际上激活了这个解释器。当我们通过python program.py执行一个特定的python程序时，python解释器立即被激活，然后执行Python程序。但是，在真正开始执行之前，python解释器还要完成一个非常复杂的工作–编译.py文件</li>
+<li>python解释器在执行一个python程序文件时，首先进行的动作都是先对文件中的python源代码进编译，编译的主要结果是产生一组Python的byte code（字节码）,然后将编译的结果交给python的虚拟机，由虚拟机按照顺序一条一条地执行字节码，从而完成对python程序的操作。</li>
+<li>python的编译器和虚拟机都存在于python25.dll</li>
+</ul>
+</blockquote>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pythonRunning.png" alt="python运行过程"></p>
+<p>关于python执行过程的两篇文章：<br><a href="http://www.cnblogs.com/kym/archive/2012/05/14/2498728.html" target="_blank" rel="noopener">说说Python程序的执行过程</a><br><a href="http://l62s.iteye.com/blog/1481421" target="_blank" rel="noopener">Python解释执行原理</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/20/python4/" itemprop="url">
                   python源码剖析读书笔记--Python中的Dict对象（上）
                 </a>
@@ -1138,704 +1846,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/28/python6/" itemprop="url">
-                  python源码剖析读书笔记二--python对象初探(下)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-06-28T08:48:48+08:00" content="2017-06-28">
-              2017-06-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###类型对象<br>在上篇文章中，介绍到了PyObject中保存了所有对象共有的一些信息。那么问题来了，每种对象个性化的信息存在哪里呢？比如创建对象时需要分配空间，但不同对象需要的空间不一样，整数对象和字符串对象所需要的空间肯定不同，那么对象所需要的内存空间大小的信息存放在哪里呢？答案是<strong><em>_typeobject</em></strong></p>
-<p>其代码如下:<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/typeobject.png" alt="此处输入图片的描述"></p>
-<p>包含的主要信息如下：</p>
-<blockquote>
-<ul>
-<li>类型名，tp_name，主要用于python内部以及调试</li>
-<li>创建该类型对象时分配内存空间大小的信息，即tp_basicsize和tp_itemsize;</li>
-<li>与该类型对象相关联的操作信息，如tp_print,tp_compare等</li>
-</ul>
-</blockquote>
-<p>###对象行为<br>在PyTypeObject中定义了大量的函数指针，这些函数指针最终都会指向某个函数，或者指向NULL。这些函数指针可以视为类型对象中所定义的操作，而这些操作直接决定了一个对象在运行时所表现出的行为。<br>在这些操心信息中，有非常重要的操作族，它们是tp_as_number,tp_as_sequence,tp_as_mappiong.它们分别指向PyNumberMethods、PySequenceMethods和PyMappingMethods.分别定义了整数对象、序列对象以及字典对象的行为。</p>
-<p>PyNumberMethods部分源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PyNumberMethods.png" alt="此处输入图片的描述"></p>
-<p>PySequenceMethods源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PySequenceMethods.png" alt="此处输入图片的描述"></p>
-<p>PyMappingMethods源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PyMappingMethods.png" alt="此处输入图片的描述"></p>
-<p>也就是一种对象可以指定三种不同对象的行为特性。</p>
-<p>###类型对象的类型：<br>python中任何一个东西都是对象，每一个对象都对应一种类型。那么，类型对象的类型是什么呢？答案是PyType_Type.<br>用户自定义class所对应的PyTypeObject对象都是通过PyType_Type创建的。它是所有class的class，在python中称为metaclass</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/26/pythonSourceCode/" itemprop="url">
-                  python源码剖析读书笔记一--python源码剖析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-06-26T16:33:42+08:00" content="2017-06-26">
-              2017-06-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###python总体架构：<br>如图python整体架构可分为三部分：</p>
-<blockquote>
-<ul>
-<li>最左边包括python提供的Modules、Library以及用户自定义的模块；</li>
-<li>右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包括了python中的各种内建对象，比如整数、list、dict，以及用户自定义的类型和对象</li>
-<li>中间部分是python核心。Scanner对应词法分析，将文件输入的Python源代码或从命令行输入的一行行python代码切分为一个个的token；parser对应语法分析，在scanner的分析结果上进行语法分析，建立抽象语法树；compiler根据建立的AST生成指令集合–python字节码；最后由Code Evaluator来执行这些字节码。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png" alt="此处输入图片的描述"></li>
-</ul>
-</blockquote>
-<hr>
-<p>###python源码结构（以python2.5为例）<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png" alt="此处输入图片的描述"></p>
-<blockquote>
-<ul>
-<li>Include：该目录下包含了python提供的所有头文件，如果用户需要自己用C或C++来编写自定义模块拓展python，那么就需要用到这里提供的头文件。</li>
-<li>Lib: 该目录下包好了python自带的所有标准库，Lib中的库都是用Python语言编写的。</li>
-<li>Modules:该目录中包含了所有用C语言编写的模块，如random、cStringIO等。Modules中的模块都是那些对速度要求非常严格的模块，而有一些对速度没有太严格要求的模块，如os，就用python编写，放在Lib目录下</li>
-<li>Parser: 该目录包括了python解释器中的Scanner和Parser，即对Python源代码进行词法分析和语法分析的部分。除此之外，Parser目录下还包含了一些有用的工具，这些工具能根据python语言的语法自动生成python语言的词法和语法分析器</li>
-<li>Objects: 该目录中包含了所有python的内建对象，如整数、list、dict等。同时，该目录还包含了python在运行时需要的所有的内部使用对象的实现。</li>
-<li>python：该目录下包含了python解释器中的Compiler和执行引擎部分，是python运行的核心所在</li>
-</ul>
-</blockquote>
-<hr>
-<p>关于编译器与解释b性语言器：<br>将编程语言编译成机器码有两种传统方法：使用编译器（compiler）预先编译，或者使用解释器（interpreter）一边编译一边运行。</p>
-<blockquote>
-<ul>
-<li>编译器的工作方式是，通过编译程序直接将我们的源代码翻译成当前系统环境下CPU可执行的机器码，下次只需要执行这些翻译完成后的机器代码即可。<br>这种方式的好处是执行效率非常高，因为我们最终生成的程序与直接用0、 1写的程序并没有 太大的区别。但是这种方式的缺点就是可移植性很差， 很显然不能把在 Windows 系统下编译 连接成的EXE文件拿到Linux系统中去执行，Xcode编译的 App也只能在iOS和OSX系统中运行。</li>
-<li>解释器的工作方式是将代码一句一句解释给CPU执行。解释器不会一次把整个程序翻译出来，而只像一位“中间人”，每次运行程序时都需要先转成另一种语言再运行，因此解释器的程序运行速度比较缓慢。它每翻译一行程序叙述就立刻运行，然后再翻译下 一行，再运行，如此不停地进行下去。这种方式的一种好处就是平台无关性， 我们只要写出 程序代码， 那么它在任何操作系统、任何环境中都可以执行， 当然代价就是极低的效率。 第二个优点是， 这个“编辑-解释-除错”的循环通常比“编辑-编译-运行-除错”的循环省时许多。</li>
-</ul>
-</blockquote>
-<p>摘自–余果. Web全栈工程师的自我修养 (Kindle 位置 2057-2059). 人民邮电出版社. Kindle 版本. </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/PythonFunctin1/" itemprop="url">
-                  Python类常用的内置方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-03-24T17:26:36+08:00" content="2017-03-24">
-              2017-03-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><strong>init</strong>(self):初始化对象，在创建新对象时调用,这个方法可以用来对你的对象做一些你希望的初始化</li>
-<li><p><strong>new</strong>(cls,*args,**kwd) 实例的生成操作.在<strong>init</strong>()之前被调用，用于生成实例对象。利用这个方法和类属性的特性可以实现设计模式中的单例模式，代码如下：</p>
-<pre><code>class Singleton(object):
- __instance = None
-
-    def __init__(self):
-        pass
-
-    def __new__(cls,*args,**kwd):
-        if Singleton.__instance is None:
-            Singleton.__instance = object.__new__(cls,*args,**kwd)
-        return Singleton.__instance
-
-if __name__ == &apos;__main__&apos;:
-s1 = Singleton()
-s2 = Singleton()
-print(&quot;s1 id %s ,s2 id %s &quot; % (id(s1),id(s2)))
-</code></pre></li>
-</ul>
-<ul>
-<li><strong>getattr</strong>(self,name) 获取属性的值，当读取对象的某个属性时，python会自动调用<strong>getattr</strong>()方法</li>
-<li><strong>setattr</strong>(self, name):设置属性值，当使用赋值语句对属性进行设置时，python会自动调用<strong>setattr</strong>()方法</li>
-<li><strong>getattribute</strong>(self, name)：与<strong>getattr</strong>(self,name)类似,如果定义了<strong>getattr</strong>(self, name),则先调用getattr。</li>
-<li><strong>getitem</strong>(self,key) 获取序列的索引key对应的值，等价于seq[key]，<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013946328809098c1be08a2c7e4319bd60269f62be04fa000" target="_blank" rel="noopener">详细用法</a></li>
-<li><p><strong>str</strong>():<strong>str</strong>()用于表示对象代表的含义，返回一个字符串;默认输出对象，可以对其进行定制化，输出想要的东西。示例代码如下：</p>
-<pre><code>class Fruit(object):
-&quot;&quot;&quot;docstring for Fruit&quot;&quot;&quot;
-
-    def __init__(self, color=&quot;red&quot;, price=0):
-        self.color = color
-        self.price = price
-
-    def __str__(self):
-        return self.__doc__
-
-if __name__ == &apos;__main__&apos;:
-    f1 = Fruit(&quot;blue&quot;, 1)
-    print(f1) # 输出docstring for Fruit
-</code></pre></li>
-</ul>
-<hr>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/24/pythonFucttion/" itemprop="url">
-                  python内建方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-03-24T14:58:34+08:00" content="2017-03-24">
-              2017-03-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>python 版本：2.7.13</p>
-<table>
-<thead>
-<tr>
-<th>方法名称</th>
-<th style="text-align:right">用法解释</th>
-<th style="text-align:center">其他</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>abs（x）</td>
-<td style="text-align:right">返回x的绝对值</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>all(iterable)</td>
-<td style="text-align:right">如果iterable为空或者iterable内所有元素为真返回True，否则返回False</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>any(iterable)</td>
-<td style="text-align:right">如果iterable中有元素为True,则返回True；如果iterable为空返回false</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>basestring()</td>
-<td style="text-align:right">用了判断一个对象是否是str的实例</td>
-<td style="text-align:center">python3中已经除去了该方法</td>
-<td></td>
-</tr>
-<tr>
-<td>bin（x）</td>
-<td style="text-align:right">将整数转换成二进制字符串。</td>
-<td style="text-align:center">如果x不是一个int对象，则必须定义<strong>index</strong>()方法并返回一个整数</td>
-</tr>
-<tr>
-<td>bool(x)</td>
-<td style="text-align:right">如果x为false,或者为空，返回False；否则返回True</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>callable(object)</td>
-<td style="text-align:right">如果object是可调用的返回True，否则返回False。如果返回True的话，有可能调用失败；但是返回False的话，一定不会调用成功</td>
-<td style="text-align:center">如果一个类返回一个实例，那么它就是可调用的；如果类实例含有<strong>call</strong>()方法，那么它也是可调用的</td>
-<td></td>
-</tr>
-<tr>
-<td>chr()</td>
-<td style="text-align:right">返回ASCII码为整数的字符</td>
-<td style="text-align:center">参数取值范围为0~255，如果不在这个范围，就会报ValueError</td>
-</tr>
-<tr>
-<td>classmethod()</td>
-<td style="text-align:right"></td>
-</tr>
-<tr>
-<td>cmp(x,y)</td>
-<td style="text-align:right">比较x与y的大小</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>compile</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>dict</td>
-<td style="text-align:right">创建字典类型</td>
-<td style="text-align:center">参数可以为mapping类型或iterable类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>complex()</td>
-<td style="text-align:right">用于创建一个复数</td>
-<td style="text-align:center">加减号两侧不能包含空格，否则会报ValueError</td>
-</tr>
-<tr>
-<td>delattr（object，name）</td>
-<td style="text-align:right">用来删除一个对象的属性，</td>
-</tr>
-<tr>
-<td>dir（object）</td>
-<td style="text-align:right">如果参数为空的话，返回当前作用域的name列表，如果指定参数的话，返回该对象的有效属性列表</td>
-</tr>
-<tr>
-<td>divmod(x,y)</td>
-<td style="text-align:right">返回x除以y的商和余数</td>
-</tr>
-<tr>
-<td>enumerate(sequence, start=0)</td>
-<td style="text-align:right">返回一个枚举对象，参数必须是序列、迭代器或其他支持迭代的对象；enumerate()返回迭代器的next方法，next方法的每次调用返回一个元组，元组中包括一个计数（默认从0开始）和从sequence中迭代而来的值</td>
-</tr>
-<tr>
-<td>eval(expression[, globals[, locals]])</td>
-<td style="text-align:right">expression参数当作python 表达式解析并执行，使用global指定全局变量，使用locals指定局部变量</td>
-</tr>
-<tr>
-<td>file（name）</td>
-<td style="text-align:right">file类型的构造函数;当打开一个文件时更倾向于使用open()函数；file()函数更适用于类型判读，如isinstance(f,file)</td>
-</tr>
-<tr>
-<td>filter(function, iterable)</td>
-<td style="text-align:right">返回一个列表，列表中元素为iterable中function条件为真的那些</td>
-<td style="text-align:center">等价于[item for item in iterable if function(item)]，注意python2与python3返回值不同，python2返回list，而python3返回filter对象</td>
-</tr>
-<tr>
-<td>float(x)</td>
-<td style="text-align:right">将数字或字符串转换为浮点数</td>
-</tr>
-<tr>
-<td>format(value[, format_spec])</td>
-<td style="text-align:right">将value转换为格式化表示</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>frozenset([iterable])</td>
-<td style="text-align:right">返回frozenset对象，set的一种类型</td>
-<td style="text-align:center">frozenset是冻结的集合，它是不可变的，存在哈希值，好处是它可以作为字典的key，也可以作为其它集合的元素。缺点是一旦创建便不能更改，没有add，remove方法</td>
-</tr>
-<tr>
-<td>getattr(object, name[, default])</td>
-<td style="text-align:right">返回object的name属性的值，name必须为一个字符串，如果name为object对象的一个属性，返回的结果为该属性的值</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>globals()</td>
-<td style="text-align:right">返回一个字典，代表当前全局变量</td>
-<td style="text-align:center">globals(x)，x成为全局变量</td>
-</tr>
-<tr>
-<td>hasattr(object, name)</td>
-<td style="text-align:right">参数为对象和字符串，如果name为object的一个属性则返回True，否则返回False</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>hash(object)</td>
-<td style="text-align:right">返回object的hash值。用来在字典查询时快速比较键值，数字值相同的话有相同的hash值，如1跟1.0的哈希值相同</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>help([object])</td>
-<td style="text-align:right">调用系统内建的帮助系统</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>hex(x)</td>
-<td style="text-align:right">将一个整数转换为以‘0x’开头的小写十六进制</td>
-<td style="text-align:center">如果x不是python的int或long对象，那么它必须定义<strong>hex()</strong>方法来返回一个字符串</td>
-<td></td>
-</tr>
-<tr>
-<td>id(object)</td>
-<td style="text-align:right">返回对象的标识符。这是一个整数，在对象生命周期内，来保证它的唯一性，并且不可变</td>
-<td style="text-align:center">Two objects with non-overlapping lifetimes may have the same id() value；这是对象在内存中的地址</td>
-</tr>
-<tr>
-<td>input</td>
-<td style="text-align:right">获取用户输入</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1881,7 +1891,7 @@ if __name__ == &apos;__main__&apos;:
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">101</span>
+              <span class="site-state-item-count">105</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
