@@ -271,139 +271,6 @@
             
               
                 
-                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
-                  RabbitMQ常用命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
-              2018-05-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
-<ul>
-<li>启动节点：rabbitmq-server</li>
-<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
-<li>停止节点：rabbitmqctl stop</li>
-<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
-<li>停止应用程序 rabbitmqctl stop_app </li>
-<li>启动应用程序 rabbitmqctl start_app</li>
-<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
-<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
-<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
-<li>列出绑定：rabbitmqctl list_bindings</li>
-<li>添加用户: rabbitmqctl add_user username password</li>
-<li>删除用户：rabbitmqctl delete_user </li>
-<li>列出所有用户：rabbitmqctl list_users</li>
-<li>修改密码 rabbitmqctl change_password username newpassword</li>
-<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
-<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
-<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
                   spring与amqp
                 </a>
@@ -500,6 +367,139 @@
     }
 }
 </code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
+                  RabbitMQ常用命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
+              2018-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
+<ul>
+<li>启动节点：rabbitmq-server</li>
+<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
+<li>停止节点：rabbitmqctl stop</li>
+<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
+<li>停止应用程序 rabbitmqctl stop_app </li>
+<li>启动应用程序 rabbitmqctl start_app</li>
+<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
+<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
+<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
+<li>列出绑定：rabbitmqctl list_bindings</li>
+<li>添加用户: rabbitmqctl add_user username password</li>
+<li>删除用户：rabbitmqctl delete_user </li>
+<li>列出所有用户：rabbitmqctl list_users</li>
+<li>修改密码 rabbitmqctl change_password username newpassword</li>
+<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
+<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
+<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
+</ul>
+</blockquote>
+
           
         
       
