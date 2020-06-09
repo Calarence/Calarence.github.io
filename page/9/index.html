@@ -271,6 +271,184 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/22/the-hacker-to-python12/" itemprop="url">
+                  the-hacker-guide-python 一二章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T19:42:46+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。</p>
+<hr>
+<p><strong><em>python版本&amp;项目结构&amp;版本号&amp;代码风格和自动检查</em></strong></p>
+<ul>
+<li>版本选择:3.3及以上。2.x与3.x兼容性不是很好，如果想要使用将来的新特性，建议选择3.3版本及以上</li>
+<li><p>项目布局：<img src="http://7pn53u.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%871.png" alt="此处输入图片的描述"></p>
+<ol>
+<li>setup.py:标准python安装脚本，运行时，安装所需的依赖包</li>
+<li>requirements.txt:描述了所需的依赖包，可用pip进行安装</li>
+<li>test-requirements.txt:描述了测试时所依赖的包</li>
+<li>docs:文档，手册</li>
+<li>注意tests目录的位置，不要放到与setup.py同目录下</li>
+<li>etc:配置文件</li>
+<li>tools: shell脚本或相关工具</li>
+<li>bin:二进制脚本，通过setup.py安装,程序启动入口</li>
+</ol>
+</li>
+<li><p>编码规范 and 自动检查工具:pep8、flake8,会对代码进行检测，找出不符合编码规范的行</p>
+</li>
+</ul>
+<hr>
+<p><strong><em>import系统&amp;标准库&amp;扩展库&amp;框架&amp;API变化管理</em></strong></p>
+<ul>
+<li>与import系统相关的模块–sys。可通过sys.modules获取当前已导入的模块。它是一个字典形式，键名为模块名称，值为模块对象；sys.path描述了模块加载路径</li>
+<li><p>标准库：python提供了大量的标准库，当我们在尝试自己写函数来处理简单任务时，首先要检查一下是否已经有相关的库。</p>
+<ul>
+<li><strong>atexit</strong> allows you to register functions to call when your program exits</li>
+<li><strong>argparse</strong> provides functions for parsing command line arguments</li>
+<li><strong>bisect</strong> provides bisection algorithms for sorting lists</li>
+<li><strong>calendar</strong> provides a number of date-related functions</li>
+<li><strong>codecs</strong> provides functions for encoding and decoding data</li>
+<li><strong>collections</strong> provides a variety of useful data structures.</li>
+<li><strong>copy</strong> provides functions for copying data</li>
+<li><strong>csv</strong> provides functions for reading and writing CSV files.</li>
+<li><strong>datetime</strong> provides classes for handling dates and times.</li>
+<li><strong>fnmatch</strong> provides functions for matching Unix-style filename patterns</li>
+<li><strong>glob</strong> provides functions for matching Unix-style path patterns</li>
+<li><strong>io</strong> provides functions for handling I/O streams. In Python 􀇖, it also contains StringIO<br>(which is in the module of the same name in P⁴thon 􀇕), which allows you to treat strings as files</li>
+<li><strong>json</strong> provides functions for reading and writing data in JSON format</li>
+<li><strong>logging</strong> provides access to Python’s own built-in logging functionality</li>
+<li><strong>multiprocessing</strong> allows you to run multiple subprocesses from your application,while providing an API that makes them look like threads.</li>
+<li><strong>operator</strong> provides functions implementing the basic Python operators which you can use instead of having to write your own lambda expressions</li>
+<li><strong>os</strong> provides access to basic OS functions</li>
+<li><strong>random</strong> provides functions for generating pseudo-random numbers</li>
+<li><strong>re</strong> provides regular expression functionality</li>
+<li><strong>select</strong> provides access to the select() and poll() functions for creating event loops</li>
+<li><strong>shutil</strong> provides access to high-level file functions</li>
+<li><strong>signal</strong> provides functions for handling POSIX signals</li>
+<li><strong>tempfile</strong> provides functions for creating temporary files and directories</li>
+<li><strong>threading</strong> provides access to high-level threading functionalit⁴</li>
+<li><strong>urllib</strong>(and urllib2 and urlparse in python 2.x)provides functions for handling and parsing URLs</li>
+<li><strong>uuid</strong> allows you to generate UUIDs (Universally Unique Identifiers).</li>
+</ul>
+</li>
+<li><p>扩展库：作者对使用扩展库的态度是谨慎的，毕竟它不像标准库那么稳定。在书中，作者提出了check list来决定是否使用一个扩展库</p>
+<ul>
+<li>python3 compatibility.Even if you’re not targeting python 3 right now,odds are good that you will somewhere down the line,so it’s a good idea to check that your chosen library is already Python3 -compatible and committed to staying that way</li>
+<li>Active development. GitHub and Ohloh usually provide enough information to determine whether a given library is still being worked on by its maintainers</li>
+<li>Active maintenance. Even if a library is “finished” (i.e. feature-complete), the maintainers should still be working on ensuring it remains bug-free. Check the project’s tracking system to see how quickl⁴ the maintainers respond to bugs</li>
+<li>Packaged with OS distributions. If a library is packaged with major Linux distributions,that means other projects are depending on it – so if something goes wrong, you won’t be the only one complaining. It’s also a good idea to check this if you plan to release your sotware to the public: it’ll be easier to distribute if its dependencies are already installed on the end user’s machine</li>
+<li>API compatibility commitment. Nothing’s worse than having your sotware suddenly break because a librar⁴ it depends on changed its entire API. You might want to check whether your chosen library has had an⁴thing like this happen in the past</li>
+</ul>
+</li>
+<li>对于API的改变，作者提到了模块<strong>warnings</strong>可以提示开发者他们正在使用老的接口，他们应该采取相应措施</li>
+<li>对于框架的选择标准，check list同扩展库</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/22/openstackAMQP2/" itemprop="url">
                   openstack采用的消息协议机制--AMQP(二)
                 </a>
@@ -1522,286 +1700,6 @@ cinde.volumes.delete(&apos;这里写volumeid&apos;)`
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/12/javaclass/" itemprop="url">
-                  java类的生命详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-09-12T22:17:56+08:00" content="2015-09-12">
-              2015-09-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/拿来主义/" itemprop="url" rel="index">
-                    <span itemprop="name">拿来主义</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://blog.csdn.net/zhengzhb/article/details/7517213" target="_blank" rel="noopener">原文链接</a><br>首先来了解一下jvm（java虚拟机）中的几个比较重要的内存区域，这几个区域在java类的生命周期中扮演着比较重要的角色：</p>
-<ul>
-<li>方法区：在java的虚拟机中有一块专门用来存放已经加载的类信息、常量、静态变量以及方法代码的内存区域，叫做方法区。</li>
-<li>常量池：常量池是方法区的一部分，主要用来存放常量和类中的符号引用等信息。</li>
-<li>堆区：用于存放类的对象实例。</li>
-<li>栈区：也叫java虚拟机栈，是由一个一个的栈帧组成的后进先出的栈式结构，栈桢中  - 存放方法运行时产生的局部变量、方法出口等信息。<br>当调用一个方法时，虚拟机栈中就会创建一个栈帧存放这些数据，当方法调用完成时，栈帧消失，如果方法中调用了其他方法，则继续在栈顶创建新的栈桢。</li>
-</ul>
-<p>除了以上四个内存区域之外，jvm中的运行时内存区域还包括本地方法栈和程序计数器，这两个区域与java类的生命周期关系不是很大，在这里就不说了，感兴趣的朋友可以自己百度一下。<br><strong>类的生命周期</strong></p>
-<p>当我们编写一个java的源文件后，经过编译会生成一个后缀名为class的文件，这种文件叫做字节码文件，只有这种字节码文件才能够在java虚拟机中运行，java类的生命周期就是指一个class文件从加载到卸载的全过程。</p>
-<p>一个java类的完整的生命周期会经历<strong>加载</strong>、<strong>连接</strong>、<strong>初始化</strong>、<strong>使用</strong>、和<strong>卸载</strong>五个阶段，当然也有在加载或者连接之后没有被初始化就直接被使用的情况，如图所示：<br><img src="https://github.com/Calarence/practice/blob/master/picture/one.jpg?raw=true" alt="此处输入图片的描述"><br>下面我们就依次来说一说这五个阶段。</p>
-<p><strong><em>加载</em></strong></p>
-<p>在java中，我们经常会接触到一个词——类加载，它和这里的加载并不是一回事，通常我们说类加载指的是类的生命周期中<strong>加载、连接、初始化</strong>三个阶段。在加载阶段，java虚拟机会做什么工作呢？其实很简单，就是找到需要加载的类并把类的信息加载到jvm的方法区中，然后在堆区中实例化一个java.lang.Class对象，作为方法区中这个类的信息的入口。</p>
-<p>类的加载方式比较灵活，我们最常用的加载方式有两种，一种是根据类的全路径名找到相应的class文件，然后从class文件中读取文件内容；另一种是从jar文件中读取。另外，还有下面几种方式也比较常用：</p>
-<ol>
-<li>从网络中获取：比如10年前十分流行的Applet。<br>根据一定的规则实时生成，比如设计模式中的动态代理模式，就是根据相应的类自动生成它的代理类。<ol start="2">
-<li>从非class文件中获取，其实这与直接从class文件中获取的方式本质上是一样的，这些非class文件在jvm中运行之前会被转换为可被jvm所识别的字节码文件。</li>
-</ol>
-</li>
-</ol>
-<p>对于加载的时机，各个虚拟机的做法并不一样，但是有一个原则，就是当jvm“预期”到一个类将要被使用时，就会在使用它之前对这个类进行加载。比如说，在一段代码中出现了一个类的名字，jvm在执行这段代码之前并不能确定这个类是否会被使用到，于是，有些jvm会在执行前就加载这个类，而有些则在真正需要用的时候才会去加载它，这取决于具体的jvm实现。我们常用的hotspot虚拟机是采用的后者，就是说当真正用到一个类的时候才对它进行加载。</p>
-<p>加载阶段是类的生命周期中的第一个阶段，加载阶段之后，是连接阶段。有一点需要注意，就是有时连接阶段并不会等加载阶段完全完成之后才开始，而是交叉进行，可能一个类只加载了一部分之后，连接阶段就已经开始了。但是这两个阶段总的开始时间和完成时间总是固定的：加载阶段总是在连接阶段之前开始，连接阶段总是在加载阶段完成之后完成。</p>
-<p><strong>连接</strong></p>
-<p>连接阶段比较复杂，一般会跟加载阶段和初始化阶段交叉进行，这个阶段的主要任务就是做一些加载后的验证工作以及一些初始化前的准备工作，可以细分为三个步骤：验证、准备和解析。</p>
-<p>验证：当一个类被加载之后，必须要验证一下这个类是否合法，比如这个类是不是符合字节码的格式、变量与方法是不是有重复、数据类型是不是有效、继承与实现是否合乎标准等等。总之，这个阶段的目的就是保证加载的类是能够被jvm所运行。<br>准备：准备阶段的工作就是为类的静态变量分配内存并设为jvm默认的初值，对于非静态的变量，则不会为它们分配内存。有一点需要注意，这时候，静态变量的初值为jvm默认的初值，而不是我们在程序中设定的初值。jvm默认的初值是这样的：<br>    基本类型（int、long、short、char、byte、boolean、float、double）的默认值为0。<br>    引用类型的默认值为null。<br>    常量的默认值为我们程序中设定的值，比如我们在程序中定义final static int a = 100，则准备阶段中a的初值就是100。<br>解析：这一阶段的任务就是把常量池中的符号引用转换为直接引用。那么什么是符号引用，什么又是直接引用呢？我们来举个例子：我们要找一个人，我们现有的信息是这个人的身份证号是1234567890。只有这个信息我们显然找不到这个人，但是通过公安局的身份系统，我们输入1234567890这个号之后，就会得到它的全部信息：比如安徽省黄山市余暇村18号张三，通过这个信息我们就能找到这个人了。这里，123456790就好比是一个符号引用，而安徽省黄山市余暇村18号张三就是直接引用。在内存中也是一样，比如我们要在内存中找一个类里面的一个叫做show的方法，显然是找不到。但是在解析阶段，jvm就会把show这个名字转换为指向方法区的的一块内存地址，比如c17164，通过c17164就可以找到show这个方法具体分配在内存的哪一个区域了。这里show就是符号引用，而c17164就是直接引用。在解析阶段，jvm会将所有的类或接口名、字段名、方法名转换为具体的内存地址。</p>
-<p>连接阶段完成之后会根据使用的情况（直接引用还是被动引用）来选择是否对类进行初始化。</p>
-<p><strong>初始化</strong></p>
-<p>如果一个类被直接引用，就会触发类的初始化。在java中，直接引用的情况有：</p>
-<p>通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法。<br>通过反射方式执行以上三种行为。<br>初始化子类的时候，会触发父类的初始化。<br>作为程序入口直接运行时（也就是直接调用main方法）。</p>
-<p>除了以上四种情况，其他使用类的方式叫做被动引用，而被动引用不会触发类的初始化。请看主动引用的示例代码：</p>
-<pre><code>import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-class InitClass{
-static {
-    System.out.println(&quot;初始化InitClass&quot;);
-}
-public static String a = null;
-public static void method(){}
-}
-
-class SubInitClass extends InitClass{}
-
-public class Test1 {
-
-/**
- * 主动引用引起类的初始化的第四种情况就是运行Test1的main方法时
- * 导致Test1初始化，这一点很好理解，就不特别演示了。
- * 本代码演示了前三种情况，以下代码都会引起InitClass的初始化，
- * 但由于初始化只会进行一次，运行时请将注解去掉，依次运行查看结果。
-
- * @param args
- * @throws Exception
- */
-public static void main(String[] args) throws Exception{
-//  主动引用引起类的初始化一: new对象、读取或设置类的静态变量、调用类的静态方法。
-//    new InitClass();
-//    InitClass.a = &quot;&quot;;
-//    String a = InitClass.a;
-//    InitClass.method();
-
-//  主动引用引起类的初始化二：通过反射实例化对象、读取或设置类的静态变量、调用类的静态方法。
-
-//    Class cls = InitClass.class;
-//    cls.newInstance();
-
-//    Field f = cls.getDeclaredField(&quot;a&quot;);
-//    f.get(null);
-//    f.set(null, &quot;s&quot;);
-
-//    Method md = cls.getDeclaredMethod(&quot;method&quot;);
-//    md.invoke(null, null);
-
-//  主动引用引起类的初始化三：实例化子类，引起父类初始化。
-//    new SubInitClass();
-
-}
-
-}
-</code></pre><p>上面的程序演示了主动引用触发类的初始化的四种情况。</p>
-<p>类的初始化过程是这样的：按照顺序自上而下运行类中的变量赋值语句和静态语句，如果有父类，则首先按照顺序运行父类中的变量赋值语句和静态语句。先看一个例子，首先建两个类用来显示赋值操作：</p>
-<pre><code>public class Field1{
-public Field1(){
-    System.out.println(&quot;Field1构造方法&quot;);
-}
-}
-public class Field2{
-public Field2(){
-    System.out.println(&quot;Field2构造方法&quot;);
-}
-</code></pre><p>}</p>
-<p>下面是演示初始化顺序的代码：</p>
-<pre><code>class InitClass2{
-static{
-    System.out.println(&quot;运行父类静态代码&quot;);
-}
-public static Field1 f1 = new Field1();
-public static Field1 f2; 
-}
-
-class SubInitClass2 extends InitClass2{
-static{
-    System.out.println(&quot;运行子类静态代码&quot;);
-}
-public static Field2 f2 = new Field2();
-}
-
-public class Test2 {
-public static void main(String[] args) throws ClassNotFoundException{
-    new SubInitClass2();
-}
-}
-</code></pre><p>上面的代码中，初始化的顺序是：第03行，第05行，第11行，第13行。第04行是声明操作，没有赋值，所以不会被运行。而下面的代码：</p>
-<pre><code>class InitClass2{
-public static Field1 f1 = new Field1();
-public static Field1 f2;
-static{
-    System.out.println(&quot;运行父类静态代码&quot;);
-    }
-}
-
-class SubInitClass2 extends InitClass2{
-public static Field2 f2 = new Field2();
-static{
-    System.out.println(&quot;运行子类静态代码&quot;);
-}
-}
-
-public class Test2 {
-public static void main(String[] args) throws ClassNotFoundException{
-    new SubInitClass2();
-}
-}
-</code></pre><p>初始化顺序为：第02行、第05行、第10行、第12行，各位可以运行程序查看结果。</p>
-<p>在类的初始化阶段，只会初始化与类相关的静态赋值语句和静态语句，也就是有static关键字修饰的信息，而没有static修饰的赋值语句和执行语句在实例化对象的时候才会运行。</p>
-<p>使用</p>
-<p>类的使用包括主动引用和被动引用，主动引用在初始化的章节中已经说过了，下面我们主要来说一下被动引用：</p>
-<p>引用父类的静态字段，只会引起父类的初始化，而不会引起子类的初始化。<br>定义类数组，不会引起类的初始化。<br>引用类的常量，不会引起类的初始化。</p>
-<p>被动引用的示例代码：</p>
-<pre><code>class InitClass{
-static {
-    System.out.println(&quot;初始化InitClass&quot;);
-}
-public static String a = null;
-public final static String b = &quot;b&quot;;
-public static void method(){}
-}
-
-class SubInitClass extends InitClass{
-static {
-    System.out.println(&quot;初始化SubInitClass&quot;);
-}
-}
-
- public class Test4 {
-
-public static void main(String[] args) throws Exception{
-//    String a = SubInitClass.a;// 引用父类的静态字段，只会引起父类初始化，而不会引起子类的初始化
-//    String b = InitClass.b;// 使用类的常量不会引起类的初始化
-    SubInitClass[] sc = new SubInitClass[10];// 定义类数组不会引起类的初始化
-}
-}
-</code></pre><p>最后总结一下使用阶段：使用阶段包括主动引用和被动引用，主动饮用会引起类的初始化，而被动引用不会引起类的初始化。</p>
-<p>当使用阶段完成之后，java类就进入了卸载阶段。</p>
-<p><strong><em>卸载</em></strong></p>
-<p>关于类的卸载，笔者在单例模式讨论篇：单例模式与垃圾回收一文中有过描述，在类使用完之后，如果满足下面的情况，类就会被卸载：</p>
-<p>该类所有的实例都已经被回收，也就是java堆中不存在该类的任何实例。<br>加载该类的ClassLoader已经被回收。<br>该类对应的java.lang.Class对象没有任何地方被引用，无法在任何地方通过反射访问该类的方法。</p>
-<p>如果以上三个条件全部满足，jvm就会在方法区垃圾回收的时候对类进行卸载，类的卸载过程其实就是在方法区中清空类信息，java类的整个生命周期就结束了。</p>
-<p><strong>总结：</strong><br>做java的朋友对于对象的生命周期可能都比较熟悉，对象基本上都是在jvm的堆区中创建，在创建对象之前，会触发类加载（加载、连接、初始化），当类初始化完成后，根据类信息在堆区中实例化类对象，初始化非静态变量、非静态代码以及默认构造方法，当对象使用完之后会在合适的时候被jvm垃圾收集器回收。读完本文后我们知道，对象的生命周期只是类的生命周期中使用阶段的主动引用的一种情况（即实例化类对象）。而类的整个生命周期则要比对象的生命周期长的多。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1847,7 +1745,7 @@ public static void main(String[] args) throws Exception{
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">105</span>
+              <span class="site-state-item-count">106</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1864,7 +1762,7 @@ public static void main(String[] args) throws Exception{
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
@@ -1919,7 +1817,7 @@ public static void main(String[] args) throws Exception{
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2018-11-18T05:42:16.081Z</updated>
+  <updated>2020-06-09T08:28:27.558Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Three mechanisms to become a good liar</title>
+    <link href="http://www.appleieye.com/2020/06/09/Three_mechanisms_to_become_a_liar/"/>
+    <id>http://www.appleieye.com/2020/06/09/Three_mechanisms_to_become_a_liar/</id>
+    <published>2020-06-09T05:58:10.000Z</published>
+    <updated>2020-06-09T08:28:27.558Z</updated>
+    
+    <content type="html"><![CDATA[<p>To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been learning how to present and visualize data via various charts, namely, bar chart, line graph and scatter plot. Before I am exposed to many technical details, I knew a fact first which is a significant number of statical charts are incorrect, fake and misleading.  You can see this kind of charts, graphs in different places including news, websites, TV, books and even papers. “However, the mirror image of that awareness, the study of how graphs, charts, maps, and diagrams can be used to deceive, has remained within the boundaries of academic circles in statistics, cartography, and computer science.”</p><p>There are endless reasons why people make misleading charts, however, I don’t want to explore these reasons. I just want to show three mechanisms that they normally use to mislead the public. And what’s more important, I really want to improve your awareness about this problem and introduce something about critical thinking. If you want to know more about critical thinking, you can read the book which is called Asking the Right Questions: A Guide to Critical Thinking. </p><p>Here are three strategies which are used to deceive: Hiding relevant data to highlight what benefits us, Displaying too much data to obscure reality, Using graphic forms in inappropriate ways (distorting the data). I will show some examples to explain these three mechanisms.</p><p>He proudly holds the average sales increase of his company over the last year: 12 %. It is good, isn’t it? Let’s look at the second picture. The fact is that among the ten markets in which this company operates, ﬁve improved, but the other ﬁve shrank.</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gl5fwj30ks0fwgr3.jpg" alt=""><br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gxuktj30ke0ga0wm.jpg" alt=""></p><p>The most common one is distorting the data. The next picture is the results of the presidential election results in Venezuela. Notice the truncated Y-axis which greatly distorts the difference between the percentages of the vote, and this is because Y-axis does not begin with zero.</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43ilfpgj30xk0fywnn.jpg" alt=""></p><p>If we add a zero-baseline, it will be the next picture. If we add a zero-baseline, it will be the next picture. You can see the difference is extremely small.</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43jlnhqj310e0g0n56.jpg" alt=""></p><p>Here is another example. We can see from this picture that x-axis is not starting from zero, instead, it begins with 0.55%. This way exaggerates 0.1%–a very small value. This article uses blue and red colour to show the figure which can attract readers’ attention easily, and readers may only notice the ‘big’ gap between this two-colour. What’s more, the font of the figures is very small, because of this, readers are more likely to pay little attention to the figure.</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm4698gx0j30zg0pk46k.jpg" alt=""></p><p>The third mechanism is Displaying Too Much Data to Obscure Reality. Similarly, extreme simpliﬁcation can also be an effective way to obfuscate data. You can compare the following charts. The second one would be meaningless without the help of interactive tools such as zooms and filters.</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43hcg5sj313c0oc7if.jpg" alt=""><br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43i5oo6j313o0nmtxp.jpg" alt=""></p><p>I just cover three mechanisms to illustrate how to use charts to deceive and the explanation is extremely simple. If you want to learn more misleading charts, you can google ‘misleading statistical charts’.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been le
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>一条查询语句的执行过程</title>
@@ -502,31 +527,6 @@
     
     
       <category term="maven" scheme="http://www.appleieye.com/tags/maven/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何正确的重写equals方法</title>
-    <link href="http://www.appleieye.com/2018/04/14/equals/"/>
-    <id>http://www.appleieye.com/2018/04/14/equals/</id>
-    <published>2018-04-14T07:17:26.000Z</published>
-    <updated>2018-04-14T07:17:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="如何正确的重写equals方法"><a href="#如何正确的重写equals方法" class="headerlink" title="如何正确的重写equals方法"></a>如何正确的重写equals方法</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>Object类是Java中所有类的始祖。Object类的设计是为了扩展，其中它所有的非final方法(如equal/hashcode/toString/clone/finalize)都是可以被覆盖的。本文将介绍如何以正确的姿势覆盖equals和hashcode方法。</p><hr><h3 id="为什么要重写equals方法？"><a href="#为什么要重写equals方法？" class="headerlink" title="为什么要重写equals方法？"></a>为什么要重写equals方法？</h3><p>先来看一下equals方法在Object类中的实现：</p><pre><code>public boolean equals(Object obj) {        return (this == obj);    }</code></pre><p>可见，equals方法的默认实现是判断两个引用是否相等。这种方式是判断两个对象的引用。如果引用相同，则认为两个对象是相等的，这一点毋庸置疑。但是它欠缺了一点：如果两个对象的引用不同，但是对象的各种状态相同，也认为这两个对象相等。举个例子，把引用比作为家庭住址，住的人可能因搬家导致家庭住址发生变化，但是人的各种信息，如姓名/性别/外貌/手机号/生份证号等，如果相同，则认为是两个人是相等的。</p><hr><p>如何正确的重写equals方法：<br>假设有一个person类，它所拥有的属性有name、sex、age，那么该如何重写它的equals方法呢？<br>过程如下：</p><blockquote><ul><li>判断this与ohterObject的引用是否相同</li><li>判断otherObject是否为null</li><li>判断this与otherObject是否属于同一个类</li><li>将otherObject转换为相应的类类型变量</li><li>对所有属性进行比对，使用==比较基本类型，使用equals比较对象类型，若所有的属性都匹配，则返回true，否则返回false。</li></ul></blockquote><p>代码如下：</p><pre><code>import java.util.Objects;public class Person {private String name;private String sex;private String address;private int age;public Person(String name, String sex, String address, int age) {    this.name = name;    this.sex = sex;    this.address = address;    this.age = age;}@Overridepublic boolean equals(Object obj) {    if (this == obj) return true;    if (obj == null) return false;    if (getClass()!=obj.getClass()) return false;    Person other = (Person) obj;    return Objects.equals(name,other.name)&amp;&amp;Objects.equals(sex,other.sex)            &amp;&amp;Objects.equals(address,other.address)&amp;&amp;age == other.age;}}</code></pre><hr><h3 id="重写hashCode方法"><a href="#重写hashCode方法" class="headerlink" title="重写hashCode方法"></a>重写hashCode方法</h3><p>在重新定义equal方法后，必须重新定义hashCode方法。因为equals方法与hashCode的定义必须一致：如果x.equals(y)返回true，则x和y必须有相同的hashcode值，这是因为hashtable的原因，具体可去看hashtable的实现。<br>hashCode方法重写如下：</p><pre><code>@Override    public int hashCode() {        return Objects.hash(name,sex,address,age);    }</code></pre><hr><h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><p>Commons Lang EqualsBuilder组件可以帮助我们只需要一行代码即可实现equals和hashCode方法的重写，具体参考<a href="https://www.ibm.com/developerworks/cn/education/java/j-lessismore/j-lessismore.html" target="_blank" rel="noopener">编写更少的代码</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;如何正确的重写equals方法&quot;&gt;&lt;a href=&quot;#如何正确的重写equals方法&quot; class=&quot;headerlink&quot; title=&quot;如何正确的重写equals方法&quot;&gt;&lt;/a&gt;如何正确的重写equals方法&lt;/h3&gt;&lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
     
   </entry>
   

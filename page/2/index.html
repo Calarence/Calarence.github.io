@@ -271,6 +271,128 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/27/RabbitMQ通信过程分析/" itemprop="url">
+                  RabbitMQ通信过程分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-27T13:58:10+08:00" content="2018-05-27">
+              2018-05-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
+<h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol>
+<li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li>
+<li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li>
+<li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li>
+<li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li>
+<li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li>
+<li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li>
+</ol>
+<h3 id="消息投递流程补充"><a href="#消息投递流程补充" class="headerlink" title="消息投递流程补充"></a>消息投递流程补充</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png" alt="rabbitmq消息投递流程"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
                   spring与amqp
                 </a>
@@ -1730,171 +1852,6 @@ return new CDPlayer( compactDisc);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/14/equals/" itemprop="url">
-                  如何正确的重写equals方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-14T15:17:26+08:00" content="2018-04-14">
-              2018-04-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="如何正确的重写equals方法"><a href="#如何正确的重写equals方法" class="headerlink" title="如何正确的重写equals方法"></a>如何正确的重写equals方法</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>Object类是Java中所有类的始祖。Object类的设计是为了扩展，其中它所有的非final方法(如equal/hashcode/toString/clone/finalize)都是可以被覆盖的。本文将介绍如何以正确的姿势覆盖equals和hashcode方法。</p>
-<hr>
-<h3 id="为什么要重写equals方法？"><a href="#为什么要重写equals方法？" class="headerlink" title="为什么要重写equals方法？"></a>为什么要重写equals方法？</h3><p>先来看一下equals方法在Object类中的实现：</p>
-<pre><code>public boolean equals(Object obj) {
-        return (this == obj);
-    }
-</code></pre><p>可见，equals方法的默认实现是判断两个引用是否相等。这种方式是判断两个对象的引用。如果引用相同，则认为两个对象是相等的，这一点毋庸置疑。但是它欠缺了一点：如果两个对象的引用不同，但是对象的各种状态相同，也认为这两个对象相等。举个例子，把引用比作为家庭住址，住的人可能因搬家导致家庭住址发生变化，但是人的各种信息，如姓名/性别/外貌/手机号/生份证号等，如果相同，则认为是两个人是相等的。</p>
-<hr>
-<p>如何正确的重写equals方法：<br>假设有一个person类，它所拥有的属性有name、sex、age，那么该如何重写它的equals方法呢？<br>过程如下：</p>
-<blockquote>
-<ul>
-<li>判断this与ohterObject的引用是否相同</li>
-<li>判断otherObject是否为null</li>
-<li>判断this与otherObject是否属于同一个类</li>
-<li>将otherObject转换为相应的类类型变量</li>
-<li>对所有属性进行比对，使用==比较基本类型，使用equals比较对象类型，若所有的属性都匹配，则返回true，否则返回false。</li>
-</ul>
-</blockquote>
-<p>代码如下：</p>
-<pre><code>import java.util.Objects;
-
-public class Person {
-
-private String name;
-private String sex;
-private String address;
-private int age;
-
-public Person(String name, String sex, String address, int age) {
-    this.name = name;
-    this.sex = sex;
-    this.address = address;
-    this.age = age;
-}
-
-@Override
-public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass()!=obj.getClass()) return false;
-    Person other = (Person) obj;
-    return Objects.equals(name,other.name)&amp;&amp;Objects.equals(sex,other.sex)
-            &amp;&amp;Objects.equals(address,other.address)&amp;&amp;age == other.age;
-}
-}
-</code></pre><hr>
-<h3 id="重写hashCode方法"><a href="#重写hashCode方法" class="headerlink" title="重写hashCode方法"></a>重写hashCode方法</h3><p>在重新定义equal方法后，必须重新定义hashCode方法。因为equals方法与hashCode的定义必须一致：如果x.equals(y)返回true，则x和y必须有相同的hashcode值，这是因为hashtable的原因，具体可去看hashtable的实现。<br>hashCode方法重写如下：</p>
-<pre><code>@Override
-    public int hashCode() {
-        return Objects.hash(name,sex,address,age);
-    }
-</code></pre><hr>
-<h3 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h3><p>Commons Lang EqualsBuilder组件可以帮助我们只需要一行代码即可实现equals和hashCode方法的重写，具体参考<a href="https://www.ibm.com/developerworks/cn/education/java/j-lessismore/j-lessismore.html" target="_blank" rel="noopener">编写更少的代码</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1940,7 +1897,7 @@ public boolean equals(Object obj) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">105</span>
+              <span class="site-state-item-count">106</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1957,7 +1914,7 @@ public boolean equals(Object obj) {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
@@ -2012,7 +1969,7 @@ public boolean equals(Object obj) {
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
