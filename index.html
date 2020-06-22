@@ -271,6 +271,137 @@
             
               
                 
+                <a class="post-title-link" href="/2020/06/22/描述统计上/" itemprop="url">
+                  描述统计—上
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-06-22T13:58:10+08:00" content="2020-06-22">
+              2020-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。</p>
+<p>第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该段范围的频率。它的计算方法不再赘述，重点是我们能从图中得到什么信息。</p>
+<p>直方图可以告诉我们数据的两个重要特性：集中趋势(即越靠近中央部分，频率越高)和离中趋势(绝大多数个体值并不与平均水平完全重合，而是不同程度地偏离平局水平)。根据集中和离散的程度，数据分布类型可以分为对称分布和偏态分布(右偏态分布和左偏态分布)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对称分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">右偏态分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">左偏态分布</span><br></pre></td></tr></table></figure>
+<p>区分左右偏态分布的方法很简单，看尾巴在哪边就是什么偏态分布。导致分布偏离中央的数据称为outliers(离群值)，这个离群值很重要，因为它决定了average的选择，比如选择用mean(平均数)、median(中位数)、还是mode(众数)。</p>
+<p>下面用例子说明离群值对average的选择。</p>
+<p>一个老者去健身房锻炼身体，但他不知道自己适合项目，于是工作人员根据每个项目参与人年龄的mean值(平均数)给老爷爷推荐了武术班。上完课后，老爷爷的体会是：“I ended up in the Kung Fu class with lots of young ‘uns and a few ancient masters. My back will never be the same again“。很明显，工作人员给老爷爷推荐了一个不适合他这个年龄的项目，那么，问题出在哪里？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">功夫班学员的平均年龄</span><br></pre></td></tr></table></figure>
+<p>如果将上图画成直方图的话，很明显是一个右偏态分布(因为145、147的存在)，145、147这两个极值将平均值拉高到了38岁，然而除了这两个极值，没有一个人能达到38岁，这就是我们所熟悉的“被平均”。所以当我们看到“平均“字眼，如平均工资，一定要提高警惕，不然很有可能被平均。像这种情况，我们可以选择中位数作为average。</p>
+<p>引申：当一组数据包含两类数据时，不可以直接使用mean或median。下图是家长和孩子参加活动时的年龄分布图</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg"></p>
+<p>均值和中位数都是17，但是这个值不可以用，因为没有一个孩子的年龄是17岁，也没有一个家长的年龄是17岁。很明显，这是两组或者说两类数据，这种情况，我们可以统计年龄的频数，然后选取频数最大的，这个值称为众数。</p>
+<p><strong>总结：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">对称分布的平均水平使用均值来描述</span><br><span class="line"></span><br><span class="line">偏态分布的平均水平使用中位数来描述</span><br><span class="line"></span><br><span class="line">当多组数据存在时，考虑众数</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/06/09/Three_mechanisms_to_become_a_liar/" itemprop="url">
                   Three mechanisms to become a good liar
                 </a>
@@ -592,135 +723,6 @@
 </li>
 <li><p>利用反射分析运行中的某个类</p>
 </li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/10/07/西藏旅游攻略/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-10-07T21:37:30+08:00" content="2018-10-07">
-              2018-10-07
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="西藏"><a href="#西藏" class="headerlink" title="西藏"></a>西藏</h3><ol>
-<li><p>林芝：海拔3000多米，可以适应一下高反，然后去拉萨。</p>
-<ul>
-<li>八一镇（1天）：距米林机场52公里，有机场大巴。大柏树、喇嘛岭、笨日神山及山后到莎布牧场</li>
-<li>巴松措/错高村（可能1天）</li>
-<li>雅鲁藏布江大峡谷+南迦巴瓦峰（1天）</li>
-</ul>
-<p>林芝到拉萨可能需要一天（1天）</p>
-<ol start="2">
-<li>拉萨（1天）</li>
-</ol>
-</li>
-</ol>
-<ul>
-<li><p>布达拉宫：现场提前买或网上提前七天预约</p>
-</li>
-<li><p>药王山照景台：药王山照景台在布达拉宫的斜对面，是拍摄布达拉宫的最佳地点，50块人民币上的布达拉宫照片就是在这里拍的</p>
-</li>
-<li><p>布达拉宫广场</p>
-</li>
-<li><p>大昭寺：供奉的释迦牟尼12岁等身像，释迦牟尼亲自开过光的等身像世界上只有三尊，而大昭寺里的这尊12岁等身像是最完整，最尊贵的，藏传佛教弟子认为见到这个佛和见到2500年前的佛祖没有区别。也因为此，有1300多年的历史的大昭寺在藏传佛教中拥有至高无上的地位。不要拍佛像。大昭寺顶层有个极赞的拍照地点</p>
-</li>
-<li><p>八廓街：商业街</p>
-</li>
-<li><ol>
-<li>出租车，10元起步，打表，司机会默认你接受拼车，沿途遇到乘客会停下问，如果顺路会拉上。</li>
-</ol>
-<p>2、滴滴快车，按照实际显示收费，但如果去机场，司机还是会跟你议价，正常情况是200块包车。</p>
-<p>3、易道，高端选择是易道，车好而且很正规，不议价，不拼车，不过价格是前面选择的1.5-1.7倍。</p>
-<p>4、人力三轮，10元起步价，运气好距离近能砍到8块，不过这个是短途选择，解决一两公里的问题。</p>
-</li>
-</ul>
-<ol start="3">
-<li>羊湖海拔（1天）：4441米，非常美！单程2小时+，当天返回拉萨，会拉萨后继续玩</li>
-<li>纳木措（1天）：海拔4718米，从拉萨前往单程5小时+，当天不返回拉萨，在纳木措住一晚。师姐住的集装箱那种的屋子</li>
 </ol>
 
           

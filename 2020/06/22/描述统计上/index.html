@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="数据科学," />
 
 
 
@@ -86,17 +86,24 @@
 
 
 
-<meta name="description" content="Spring 核心：依赖注入和面向切面  思想：  基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类  通过依赖注入和面向接口实现松耦合  基于切面和惯例进行声明式编程 通过切面和模版减少版式代码   依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系">
+<meta name="description" content="在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。 第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该">
+<meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Clarence&#39;s blog">
-<meta property="og:url" content="http://www.appleieye.com/2018/10/07/Spring/index.html">
+<meta property="og:title" content="描述统计—上">
+<meta property="og:url" content="http://www.appleieye.com/2020/06/22/描述统计上/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="Spring 核心：依赖注入和面向切面  思想：  基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类  通过依赖注入和面向接口实现松耦合  基于切面和惯例进行声明式编程 通过切面和模版减少版式代码   依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系">
+<meta property="og:description" content="在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。 第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:updated_time" content="2018-10-07T13:37:11.086Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg">
+<meta property="og:updated_time" content="2020-06-22T12:00:32.144Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Clarence&#39;s blog">
-<meta name="twitter:description" content="Spring 核心：依赖注入和面向切面  思想：  基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类  通过依赖注入和面向接口实现松耦合  基于切面和惯例进行声明式编程 通过切面和模版减少版式代码   依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系">
+<meta name="twitter:title" content="描述统计—上">
+<meta name="twitter:description" content="在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。 第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg">
 
 
 
@@ -117,9 +124,9 @@
 
 
 
-  <link rel="canonical" href="http://www.appleieye.com/2018/10/07/Spring/"/>
+  <link rel="canonical" href="http://www.appleieye.com/2020/06/22/描述统计上/"/>
 
-  <title>  | Clarence's blog </title>
+  <title> 描述统计—上 | Clarence's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -269,7 +276,7 @@
             
             
               
-                
+                描述统计—上
               
             
           </h1>
@@ -281,11 +288,30 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-10-07T21:37:11+08:00" content="2018-10-07">
-              2018-10-07
+            <time itemprop="dateCreated" datetime="2020-06-22T13:58:10+08:00" content="2020-06-22">
+              2020-06-22
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -309,42 +335,26 @@
       
 
       
-        <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><ol>
-<li><p>核心：依赖注入和面向切面</p>
-</li>
-<li><p>思想：</p>
-<ul>
-<li>基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类</li>
-<li></li>
-<li><p>通过依赖注入和面向接口实现松耦合</p>
-</li>
-<li>基于切面和惯例进行声明式编程</li>
-<li>通过切面和模版减少版式代码</li>
-</ul>
-</li>
-<li><p>依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系自动注入到需要他们的对象中去。</p>
-</li>
-<li><p>装配：创建应用组件之间协作的行为，即装配。配置类之间的依赖关系</p>
-</li>
-<li><p>Spring容器：负责创建对象，管理它们，配置它们并且管理它们的整个生命周期。Spring自带了多种容器的实现，可以归为以下两种类型</p>
-<ul>
-<li><p>bean工厂：由org.springframework.beans.factory.BeanFactory接口定义，是最简单的容器，提供基本的依赖注入支持</p>
-</li>
-<li><p>应用上下文：由org.springframework.context.ApplicationContext接口定义，基于BeanFactoy构建，提供框架级服务。应用上下文要比bean工厂更受欢迎。</p>
-</li>
-<li><p>5种应用上下文：</p>
-<p>a. AnnotationConfigApplicationContext:从一个或多个基于Java的配置类中加载Spring应用上下文</p>
-<p>b. AnnotationConfigWebApplicationContext:从一个或多个基于Java的配置类中加载Spring web应用上下文</p>
-<p>c. ClassPathXmlApplicationContext:从类路径下的一个或多个xml配置文件中加载上下文定义，把应用上下文的定义文件作为类资源</p>
-<p>d. FileSystemXmlApplicationContext:从文件系统下的一个或多个xml配置文件中加载上下文定义</p>
-<p>e. XmlWebApplicationContext:从web应用下的一个或多个xml文件中加载应用上下文</p>
-</li>
-</ul>
-</li>
-<li><p><strong>Spring生命周期</strong> </p>
-</li>
-</ol>
-
+        <p>在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。</p>
+<p>第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该段范围的频率。它的计算方法不再赘述，重点是我们能从图中得到什么信息。</p>
+<p>直方图可以告诉我们数据的两个重要特性：集中趋势(即越靠近中央部分，频率越高)和离中趋势(绝大多数个体值并不与平均水平完全重合，而是不同程度地偏离平局水平)。根据集中和离散的程度，数据分布类型可以分为对称分布和偏态分布(右偏态分布和左偏态分布)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对称分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">右偏态分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">左偏态分布</span><br></pre></td></tr></table></figure>
+<p>区分左右偏态分布的方法很简单，看尾巴在哪边就是什么偏态分布。导致分布偏离中央的数据称为outliers(离群值)，这个离群值很重要，因为它决定了average的选择，比如选择用mean(平均数)、median(中位数)、还是mode(众数)。</p>
+<p>下面用例子说明离群值对average的选择。</p>
+<p>一个老者去健身房锻炼身体，但他不知道自己适合项目，于是工作人员根据每个项目参与人年龄的mean值(平均数)给老爷爷推荐了武术班。上完课后，老爷爷的体会是：“I ended up in the Kung Fu class with lots of young ‘uns and a few ancient masters. My back will never be the same again“。很明显，工作人员给老爷爷推荐了一个不适合他这个年龄的项目，那么，问题出在哪里？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">功夫班学员的平均年龄</span><br></pre></td></tr></table></figure>
+<p>如果将上图画成直方图的话，很明显是一个右偏态分布(因为145、147的存在)，145、147这两个极值将平均值拉高到了38岁，然而除了这两个极值，没有一个人能达到38岁，这就是我们所熟悉的“被平均”。所以当我们看到“平均“字眼，如平均工资，一定要提高警惕，不然很有可能被平均。像这种情况，我们可以选择中位数作为average。</p>
+<p>引申：当一组数据包含两类数据时，不可以直接使用mean或median。下图是家长和孩子参加活动时的年龄分布图</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg"></p>
+<p>均值和中位数都是17，但是这个值不可以用，因为没有一个孩子的年龄是17岁，也没有一个家长的年龄是17岁。很明显，这是两组或者说两类数据，这种情况，我们可以统计年龄的频数，然后选取频数最大的，这个值称为众数。</p>
+<p><strong>总结：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">对称分布的平均水平使用均值来描述</span><br><span class="line"></span><br><span class="line">偏态分布的平均水平使用中位数来描述</span><br><span class="line"></span><br><span class="line">当多组数据存在时，考虑众数</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -364,22 +374,24 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/16/Spring容器启动流程/" rel="next" title="Spring容器启动流程">
-                <i class="fa fa-chevron-left"></i> Spring容器启动流程
+              <a href="/2020/06/09/Three_mechanisms_to_become_a_liar/" rel="next" title="Three mechanisms to become a good liar">
+                <i class="fa fa-chevron-left"></i> Three mechanisms to become a good liar
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/07/java 反射/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -511,7 +523,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">1.</span> <span class="nav-text">Spring</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目錄</p>
             
           </div>
         </section>
