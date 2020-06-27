@@ -271,6 +271,141 @@
             
               
                 
+                <a class="post-title-link" href="/2017/10/29/IP/" itemprop="url">
+                  DNS查询主机名IP的流程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-10-29T15:58:10+08:00" content="2017-10-29">
+              2017-10-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###IP与主机名的历史</p>
+<blockquote>
+<ul>
+<li>IP是由32位二进制（IPV4）组成，为了适应人们的习惯，将其转换成四组十进制的数字，如12.34.56.78</li>
+<li>由于IP数字这个格式不便于记忆，人们想到了一个方法，在一个文件中记录ip与主机名的对应关系，这个文件就是<strong><em>/etc/hosts</em></strong>，其内容为“IP主机名1主机名2”</li>
+<li>当IP数量过多时，导致/etc/hosts文件过大，不利于其他主机的同步。为了解决这个日益严重的问题，伯克利大学发明了域名系统（Domain Name System,DNS）.通过DNS，不需要知道主机的IP，只要知道该主机的名称，就能连上该主机。</li>
+</ul>
+</blockquote>
+<p>###主机名与域名<br>拿电话号码来解释主机名与域名的关系。<br>假设有北京、上海各有一个电话号码1234567，那么如何区别这两个号码呢？用区号（区号对应的是域名），假设我想打给上海的1234567，就拨0211234567，同理，打给北京的就拨0101234567。这里021、010就是域名，而1234567是主机名。可见，通过域名来区分相同的主机名。<br>对于网站，<a href="http://www.google.com,www.seednet.net,www是主机名，那么怎么区分这两个主机名相同的机器呢？答案是通过域名，这里域名是google.com,seednet.net.所以即使两台机器主机名相同，位于不同的域中，也能够被区分出来。" target="_blank" rel="noopener">www.google.com,www.seednet.net,www是主机名，那么怎么区分这两个主机名相同的机器呢？答案是通过域名，这里域名是google.com,seednet.net.所以即使两台机器主机名相同，位于不同的域中，也能够被区分出来。</a></p>
+<p>###DNS的阶层架构<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/Untitled1%20%281%29.png" alt="此处输入图片的描述"><br>如图：<br>     &gt; <em> 最上方是root服务器<br>     &gt; </em> 第二层是顶级域名，如.com,.gov,.edu<br>     &gt; * 第三层是地区级域名，如.cn,.jp</p>
+<p>###通过DNS查询主机名IP的流程。</p>
+<blockquote>
+<ul>
+<li>在浏览器中输入<a href="http://www.tsinghua.edu.cn时，计算机会根据/etc/resolv.conf这个文件提供的DNS的IP进行连接；" target="_blank" rel="noopener">http://www.tsinghua.edu.cn时，计算机会根据/etc/resolv.conf这个文件提供的DNS的IP进行连接；</a></li>
+<li>DNS服务器在收到用户请求后，先查询本身有没有这个记录，如果没有则向.(root)查询</li>
+<li>DNS会询问<a href="http://www.tsinghua.edu.cn在哪里，.(root)只记录了.cn信息，则告诉去寻找.cn" target="_blank" rel="noopener">www.tsinghua.edu.cn在哪里，.(root)只记录了.cn信息，则告诉去寻找.cn</a></li>
+<li>同样.cn记录了.edu.cn,.com.cn,.gov.cn,对比后发现，应该去.edu.cn那里寻找，所以告知.edu.cn记录</li>
+<li>.edu.cn告知应该去tsinghua.edu.cn寻找</li>
+<li>在找到tsinghua.edu.cn后发现www这台主机确实是它管理的，则告知<a href="http://www.tsinghua.edu.cn的IP" target="_blank" rel="noopener">www.tsinghua.edu.cn的IP</a></li>
+<li>记录缓存并回报用户</li>
+</ul>
+</blockquote>
+<p>参考《鸟哥的Linux私房菜-服务器架设篇》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/08/20/os/" itemprop="url">
                   操作系统内存管理总结
                 </a>
@@ -1708,125 +1843,6 @@ Func()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/05/python8/" itemprop="url">
-                  python源码剖析读书笔记三--python中的整数对象（上）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-05T15:31:48+08:00" content="2017-07-05">
-              2017-07-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###python中整数的定义<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/intobject.png" alt="pyintobject"></p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pyinttype.png" alt="pyinttype"></p>
-<h3 id="整数对象的创建"><a href="#整数对象的创建" class="headerlink" title="整数对象的创建"></a>整数对象的创建</h3><p>从PyInt_Type创建整数对象<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E4%BB%8EPyInt_Type%E5%88%9B%E5%BB%BA%E6%95%B4%E6%95%B0%E5%AF%B9%E8%B1%A1.png" alt="此处输入图片的描述"></p>
-<p>首先PyInt_Type中的tp_new会被调用，如果这个tp_new为NULL（真正的PyInt_Type中并不为NULL），那么会导tp_base指定的基类中去寻找tp_new操作，PyBaseObject——Type的tp_new指向了object_new.在python2.2之后的new style class中，所有的类都是以object为基类的，所以最终会找到一个不为NULL的tp_new。在object_new中，会访问PyInt_Type中记录的tp_basicsize信息，继而完成申请内存的操作。这个信息记录着一个整数对象应该占用多大内存，在python源码中，会看到这个值被设置成了sizeof(PyIntObject).在调用tp_new完成“创建对象”<br>之后，流程会转向PyInt_Type的tp_init,完成“初始化对象”的工作。</p>
-<h3 id="小整数对象："><a href="#小整数对象：" class="headerlink" title="小整数对象："></a>小整数对象：</h3><p>由于小整数对象使用比较频繁，为避免一次次使用malloc申请空间，提高运行效率，提高python的整体性能，在python中使用了对象池技术。python直接将这些整数对应的PyIntObject缓存在内存中。小整数对象默认范围为[-5,257]</p>
-<h3 id="大整数对象："><a href="#大整数对象：" class="headerlink" title="大整数对象："></a>大整数对象：</h3><p>对于大整数对象，python提供一块内存空间，这些内存空间由这些大整数轮流使用，也就是说，谁需要的时候谁就用。这样就免去了不断地malloc之苦，又在一定程度上考虑了效率问题。</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/intobject1.png" alt="intobject"><br>PyIntBlock这个结构体里维护了一块内存，其中保存了一些PyIntObject对象。从PyIntBlock的定义中，可以看出，在一个PyIntBlock中维护着N_INTO-OBJECTS个对象。<br>block_list这个单向列表用来存储被缓存的PyIntObject对象<br>free_list这个单向列表用来维护空闲内存</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1872,7 +1888,7 @@ Func()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">106</span>
+              <span class="site-state-item-count">107</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

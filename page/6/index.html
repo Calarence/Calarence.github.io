@@ -271,6 +271,125 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/05/python8/" itemprop="url">
+                  python源码剖析读书笔记三--python中的整数对象（上）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-05T15:31:48+08:00" content="2017-07-05">
+              2017-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###python中整数的定义<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/intobject.png" alt="pyintobject"></p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pyinttype.png" alt="pyinttype"></p>
+<h3 id="整数对象的创建"><a href="#整数对象的创建" class="headerlink" title="整数对象的创建"></a>整数对象的创建</h3><p>从PyInt_Type创建整数对象<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E4%BB%8EPyInt_Type%E5%88%9B%E5%BB%BA%E6%95%B4%E6%95%B0%E5%AF%B9%E8%B1%A1.png" alt="此处输入图片的描述"></p>
+<p>首先PyInt_Type中的tp_new会被调用，如果这个tp_new为NULL（真正的PyInt_Type中并不为NULL），那么会导tp_base指定的基类中去寻找tp_new操作，PyBaseObject——Type的tp_new指向了object_new.在python2.2之后的new style class中，所有的类都是以object为基类的，所以最终会找到一个不为NULL的tp_new。在object_new中，会访问PyInt_Type中记录的tp_basicsize信息，继而完成申请内存的操作。这个信息记录着一个整数对象应该占用多大内存，在python源码中，会看到这个值被设置成了sizeof(PyIntObject).在调用tp_new完成“创建对象”<br>之后，流程会转向PyInt_Type的tp_init,完成“初始化对象”的工作。</p>
+<h3 id="小整数对象："><a href="#小整数对象：" class="headerlink" title="小整数对象："></a>小整数对象：</h3><p>由于小整数对象使用比较频繁，为避免一次次使用malloc申请空间，提高运行效率，提高python的整体性能，在python中使用了对象池技术。python直接将这些整数对应的PyIntObject缓存在内存中。小整数对象默认范围为[-5,257]</p>
+<h3 id="大整数对象："><a href="#大整数对象：" class="headerlink" title="大整数对象："></a>大整数对象：</h3><p>对于大整数对象，python提供一块内存空间，这些内存空间由这些大整数轮流使用，也就是说，谁需要的时候谁就用。这样就免去了不断地malloc之苦，又在一定程度上考虑了效率问题。</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/intobject1.png" alt="intobject"><br>PyIntBlock这个结构体里维护了一块内存，其中保存了一些PyIntObject对象。从PyIntBlock的定义中，可以看出，在一个PyIntBlock中维护着N_INTO-OBJECTS个对象。<br>block_list这个单向列表用来存储被缓存的PyIntObject对象<br>free_list这个单向列表用来维护空闲内存</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/06/28/python7/" itemprop="url">
                   python源码剖析读书笔记二--python对象初探(上)
                 </a>
@@ -1742,136 +1861,6 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/11/centos7-mysql/" itemprop="url">
-                  centos7下mysql的安装和配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-02-11T11:06:16+08:00" content="2017-02-11">
-              2017-02-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p> <strong><em>下载安装mysql-server</em></strong>:</p>
-<ol>
-<li><code>wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm</code></li>
-<li><code>rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></li>
-<li><code>yum install mysql-community-server</code></li>
-</ol>
-<p><strong><em>安装完成后重启mysql服务</em></strong><br><code>service mysqld restart</code></p>
-<p><strong><em>登录mysql(初次登录没有密码)</em></strong><br><code>mysql -u root</code></p>
-<p><strong><em>设置密码</em></strong><br><code>set password for &#39;root&#39;@&#39;localhost&#39; =password(&#39;password&#39;);</code></p>
-<p><strong><em>再次登录</em></strong><br><code>mysql -u root -p</code>,会提示输入密码，输入密码后，回车即可进入数据库</p>
-<hr>
-<p><strong><em>配置mysql</em></strong></p>
-<ol>
-<li><p>编码，编辑<strong>/etc/my.cnf</strong>，最后添加<br> [mysql]<br> default-character-set =utf8<br><strong><em>这里的字符编码必须和/usr/share/mysql/charsets/Index.xml中一致</em></strong></p>
-</li>
-<li><p>远程连接<br>把在所有数据库的所有表的所有权限赋值给位于所有IP地址的root用户：<br><code>grant all privileges on *.* to root@&#39;%&#39;identified by &#39;password&#39;;</code><br><code>FLUSH PRIVILEGES</code></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1917,7 +1906,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">106</span>
+              <span class="site-state-item-count">107</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
