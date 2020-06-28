@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-06-27T07:28:35.636Z</updated>
+  <updated>2020-06-28T07:19:45.170Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>方差分析</title>
+    <link href="http://www.appleieye.com/2020/06/27/%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90/"/>
+    <id>http://www.appleieye.com/2020/06/27/方差分析/</id>
+    <published>2020-06-27T05:58:10.000Z</published>
+    <updated>2020-06-28T07:19:45.170Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>方差分析</strong>：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。</p><p><strong>使用场景</strong>：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计学方法。</p><p><strong>基本思想</strong>：比较两类误差，以检验均值是否相等，比较的基础是方差比；如果<strong>系统误差</strong>显著地不同于<strong>随机误差</strong>，则均值就是不想等的；反之，均值就是相等的。</p><p><strong>实例</strong>：为了对几个行业的服务质量进行评价，消费者协会在四个行业分别抽取了不同的企业作为样本。最近一年中消费者对总共23家企业投诉的次数如下表：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg"></p><p><strong>结合实例理解相关概念</strong>：</p><ul><li>因素或因子(factor):所要检验的对象，比如在这个例子中，要分析行业对投诉次数是否有影响，行业是要检验的因素或因子</li><li>水平或处理(treatment):因素的不同表现，即每个自变量的不同取值称为因素的水平</li><li>观察值：在每个因素水平下得到的样本值，每个行业被投诉的次数就是观察值</li><li>试验: 这里只涉及一个因素，因此称为单因素四水平的试验</li><li>总体：因素的每一个水平可以看作是一个总体，比如零售业、旅游业、航空公司、家电制造业可以看作是四个总体</li><li>样本数据: 被投诉次数可以看作是从这四个总体中抽取的样本数据</li><li>随机误差: 因素的<strong>同一水平或总体</strong>下，样本各观察值之间的差异，比如，<strong>同一行业</strong>下不同企业被投诉次数是不同的，这种差异可以看成是随机因素的影响，称为随机误差</li><li>系统误差：因素的不同水平或不同总体下，各观察值之间的差异，比如不同行业之间的被投诉次数之间的差异，这种差异可能是由于抽样的随机性所造成的，也可能是由于行业本身所造成的，后者所形成的误差是由系统性因素造成的，称为系统误差</li><li>组内方差: 因素的同一水平或同一个总体下样本数据的方差，比如零售业被投诉次数的方差，组内方差只包含随机误差</li><li>组间方差：因素的不同水平或不同总体下各样本之间的方差；比如四个行业被投诉次数之间的方差，组间方差包括随机误差，也包括系统误差</li></ul><p><strong>方差的比较</strong>：</p><ul><li>若不同行业对投诉次数没有影响，则组间误差中只包含随机误差，没有系统误差。这时，组间误差与组内误差经过平均后的数值就应该很接近，它们的比值就会接近1</li><li>若不同行业对投诉次数有影响，在组间误差中除了包含随机误差外，还会包含有系统误差，这时组间误差平均后的数值就会大于组内误差平均后的数值，它们之间的比值就会大于1</li><li>这个比值大到某种程度时，就可以说不同水平之间存在显著差异，也就是自变量对因变量有影响</li><li>判断行业对投诉次数是否有显著影响，实际上也就是检验被投诉次数的差异主要是由于什么原因所引起的。如果这种差异主要是系统误差，说明不同行业对被投诉次数有显著影响</li></ul><hr><hr><p>单因素方差分析：模型中有一个自变量(因素)和一个观测变量，其实就是在一个因素的不同水平下，观测变量均值差异的显著性检验。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg"></p><p><strong>提出假设</strong>：</p><ul><li>H0: u1 = u2 = … = uk, 自变量对因变量没有显著影响</li><li>H1: u1, u2…u4不完全相等，自变量对因变量有显著影响</li><li>拒绝原假设，只表明至少有两个总体的均值不相等，并不意味着所有的均值都不相等。</li></ul><hr><p><strong>检验统计量</strong></p><ul><li><p>水平的均值</p></li><li><p>全部观察值的总均值</p></li><li><p>误差平方和</p></li><li><p>均方(MS)</p><p><strong>水平的均值</strong>：假定从第i个总体中抽取一个容量为ni的简单随机样本，第i个总体的样本均值为该样本的<strong><em>全部观察值总和除以观察值的个数</em></strong></p></li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg"></p><p><strong>全部观察值的总均值</strong>：全部观察值的总和除以观察值的总个数</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg"></p><p><strong>均值计算结果：</strong></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg"></p><p><strong><em>总误差平方和SST：</em></strong>全部观察值与总平均值的离差平方和，反应全部观察值的离散状况</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg"></p><p><strong>水平项平方和SSA</strong>：各组平均值与总平均值的离差平方和，反映各总体的样本均值之间的离异程度，又称组建平方和，该平方和既包括随机误差，也包括系统误差。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg"></p><p><strong>误差项平方和SSE</strong>：每个水平或组的各样本数据与其组平均值的离差平方和，反映每个样本各观察值的离散状况，又称组内平方和，该平方和反映的是随机误差的大小。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg"></p><p><strong>平方和之间的关系</strong>：总离差平方和SST、误差项离差平方和SSE、水平项离差平方和SSA之间的关系</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg"></p><p>SST反映全部数据总的误差程度，SSE反映随机误差的大小，SSA反映随机误差和系统误差的大小。如果原假设成立，则表明没有系统误差，组间平房和SSA除以自由度后的均方与组内平方和SSE除以自由度后的均方差异就不会太大；如果组间均方显著地大于组内均方，说明各水平(总体)之间的差异不仅有随机误差，还有系统误差，判断因素的水平是否对其观察值有影响，实际上就是比较组间方差与组内方差之间差异的大小。</p><p><strong>均方</strong>：各误差平方和的大小与观察值的多少有关，为消除观察值多少对误差平方和大小的影响，需要将其平均，这就是均方，也称为方差，计算方法是用误差平方和除以相应的自由度。</p><p><strong>各自由度</strong>：SST的自由度为n-1，其中n为全部观察值的个数；SSA的自由度为k-1，其中k为因素水平(总体)的个数；SSE的自由度为n-k</p><p><strong>F统计量</strong>：将MSA(组间方差，SSA的均方，记为MSA)和MSE(组内方差，SSE的均方，记为MSE)进行对比，即得到所需要的检验统</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg"></p><p>根据给定的显著性水平，在F分布表中查找与第一自由度df1=k-1，第二自由度df2=n-k相应的临界值</p><p>若F&gt;Fa,则拒绝原假设H0，表明均值之间的差异是显著的，所检验的因素对观察值有显著影响</p><p>若F&lt;Fa,则不拒绝原假设H0，不能认为所检验的因素对观察值有显著影响。</p><p><strong>方差分析表</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg"></p><p><strong><em>实例：</em></strong>在评价某药物耐受性及安全性的I期临床试验中，对符合纳入标准的30名健康自愿者随机分为3组每组10名，各组注射剂量分别为0.5U、1U、2U，观察48小时部分凝血活酶时间（s）试问不同剂量的部分凝血活酶时间有无不同？</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg"></p><p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p><p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;方差分析&lt;/strong&gt;：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>假设检验</title>
@@ -489,31 +515,6 @@
       
       
         &lt;h3 id=&quot;spring-bean装配的三种方式之Java代码配置&quot;&gt;&lt;a href=&quot;#spring-bean装配的三种方式之Java代码配置&quot; class=&quot;headerlink&quot; title=&quot;spring bean装配的三种方式之Java代码配置&quot;&gt;&lt;/a&gt;sprin
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring依赖注入示例之hello world</title>
-    <link href="http://www.appleieye.com/2018/04/17/sprigworld/"/>
-    <id>http://www.appleieye.com/2018/04/17/sprigworld/</id>
-    <published>2018-04-17T07:58:10.000Z</published>
-    <updated>2018-04-17T13:50:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring依赖注入示例之hello-world"><a href="#spring依赖注入示例之hello-world" class="headerlink" title="spring依赖注入示例之hello world"></a>spring依赖注入示例之hello world</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>任何一个应用都会有两个或两个以上的类组成，这些类相互协作以完成特定的逻辑，这期间会出现高度耦合的代码。而依赖注入的出现，可以让我们比较容易的实现松耦合。通过依赖注入，对象的依赖关系由系统中负责协调各对象的第三方组件在创建对象的时候进行设定。对象无需创建或管理它们的依赖关系，而依赖关系会自动被注入到需要它们的对象当中去。</p><h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3><ul><li>情景：有一个类，它负责根据时间来输出hello world，如早上输出“hello world in morning”,晚上输出“hello world at night”。</li><li>设计：Interface–HelloWorldService定义一个接口sayHelloWorld(),而HelloWorldA和HelloWorldB负责具体的实现；类OutPutHelper实现具体的“业务”。</li><li>步骤：<ul><li>新建maven工程，用来管理Spring jar包依赖</li><li>在pom文件中引入spring依赖</li><li>代码实现如下：</li></ul></li></ul><pre><code>        //HelloWorldService接口定义        public interface HelloWorldService {        String sayHelloWorld();        }        //HelloWorldA的实现        public class HelloWorldA implements HelloWorldService {        public String sayHelloWorld() {        return &quot;Hello World in  morning&quot;;        }        }        //HelloWorldB的实现        public class HelloWorldB implements HelloWorldService {        public String sayHelloWorld() {        return &quot;Hello World in night&quot;;        }        }        //输出类实现        public class OutPutHelper {        private HelloWorldService helloWorldService;         public OutPutHelper(HelloWorldService  helloWorldService){        this.helloWorldService = helloWorldService;        }         public void outPut(){         System.out.println(helloWorldService.sayHelloWorld());        }        }* spring配置文件        &lt;bean id=&quot;helloWorldA&quot; class=&quot;com.appleieye.service.impl.HelloWorldA&quot; /&gt;         &lt;bean id=&quot;helloWorldB&quot;  class=&quot;com.appleieye.service.impl.HelloWorldB&quot; /&gt;        &lt;bean id=&quot;outPutHelper&quot; class=&quot;com.appleieye.outputer.OutPutHelper&quot; &gt;        &lt;constructor-arg ref=&quot;helloWorldA&quot; /&gt;        &lt;/bean&gt;* 测试           public class Main {           public static void main(String[] args) {           ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;spring.xml&quot;);            OutPutHelper outPutHelper = (OutPutHelper) context.getBean(&quot;outPutHelper&quot;);           outPutHelper.outPut();             }          }</code></pre><hr><p>最后：Spring通过xml配置的方式实现了bean类的依赖注入。只是一种注入方式，其他方式在以后的文章中也会介绍。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring依赖注入示例之hello-world&quot;&gt;&lt;a href=&quot;#spring依赖注入示例之hello-world&quot; class=&quot;headerlink&quot; title=&quot;spring依赖注入示例之hello world&quot;&gt;&lt;/a&gt;spring依赖注入示例之h
       
     
     </summary>

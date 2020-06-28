@@ -271,6 +271,196 @@
             
               
                 
+                <a class="post-title-link" href="/2020/06/27/方差分析/" itemprop="url">
+                  方差分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-06-27T13:58:10+08:00" content="2020-06-27">
+              2020-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>方差分析</strong>：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。</p>
+<p><strong>使用场景</strong>：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计学方法。</p>
+<p><strong>基本思想</strong>：比较两类误差，以检验均值是否相等，比较的基础是方差比；如果<strong>系统误差</strong>显著地不同于<strong>随机误差</strong>，则均值就是不想等的；反之，均值就是相等的。</p>
+<p><strong>实例</strong>：为了对几个行业的服务质量进行评价，消费者协会在四个行业分别抽取了不同的企业作为样本。最近一年中消费者对总共23家企业投诉的次数如下表：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg"></p>
+<p><strong>结合实例理解相关概念</strong>：</p>
+<ul>
+<li>因素或因子(factor):所要检验的对象，比如在这个例子中，要分析行业对投诉次数是否有影响，行业是要检验的因素或因子</li>
+<li>水平或处理(treatment):因素的不同表现，即每个自变量的不同取值称为因素的水平</li>
+<li>观察值：在每个因素水平下得到的样本值，每个行业被投诉的次数就是观察值</li>
+<li>试验: 这里只涉及一个因素，因此称为单因素四水平的试验</li>
+<li>总体：因素的每一个水平可以看作是一个总体，比如零售业、旅游业、航空公司、家电制造业可以看作是四个总体</li>
+<li>样本数据: 被投诉次数可以看作是从这四个总体中抽取的样本数据</li>
+<li>随机误差: 因素的<strong>同一水平或总体</strong>下，样本各观察值之间的差异，比如，<strong>同一行业</strong>下不同企业被投诉次数是不同的，这种差异可以看成是随机因素的影响，称为随机误差</li>
+<li>系统误差：因素的不同水平或不同总体下，各观察值之间的差异，比如不同行业之间的被投诉次数之间的差异，这种差异可能是由于抽样的随机性所造成的，也可能是由于行业本身所造成的，后者所形成的误差是由系统性因素造成的，称为系统误差</li>
+<li>组内方差: 因素的同一水平或同一个总体下样本数据的方差，比如零售业被投诉次数的方差，组内方差只包含随机误差</li>
+<li>组间方差：因素的不同水平或不同总体下各样本之间的方差；比如四个行业被投诉次数之间的方差，组间方差包括随机误差，也包括系统误差</li>
+</ul>
+<p><strong>方差的比较</strong>：</p>
+<ul>
+<li>若不同行业对投诉次数没有影响，则组间误差中只包含随机误差，没有系统误差。这时，组间误差与组内误差经过平均后的数值就应该很接近，它们的比值就会接近1</li>
+<li>若不同行业对投诉次数有影响，在组间误差中除了包含随机误差外，还会包含有系统误差，这时组间误差平均后的数值就会大于组内误差平均后的数值，它们之间的比值就会大于1</li>
+<li>这个比值大到某种程度时，就可以说不同水平之间存在显著差异，也就是自变量对因变量有影响</li>
+<li>判断行业对投诉次数是否有显著影响，实际上也就是检验被投诉次数的差异主要是由于什么原因所引起的。如果这种差异主要是系统误差，说明不同行业对被投诉次数有显著影响</li>
+</ul>
+<hr>
+<hr>
+<p>单因素方差分析：模型中有一个自变量(因素)和一个观测变量，其实就是在一个因素的不同水平下，观测变量均值差异的显著性检验。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg"></p>
+<p><strong>提出假设</strong>：</p>
+<ul>
+<li>H0: u1 = u2 = … = uk, 自变量对因变量没有显著影响</li>
+<li>H1: u1, u2…u4不完全相等，自变量对因变量有显著影响</li>
+<li>拒绝原假设，只表明至少有两个总体的均值不相等，并不意味着所有的均值都不相等。</li>
+</ul>
+<hr>
+<p><strong>检验统计量</strong></p>
+<ul>
+<li><p>水平的均值</p>
+</li>
+<li><p>全部观察值的总均值</p>
+</li>
+<li><p>误差平方和</p>
+</li>
+<li><p>均方(MS)</p>
+<p><strong>水平的均值</strong>：假定从第i个总体中抽取一个容量为ni的简单随机样本，第i个总体的样本均值为该样本的<strong><em>全部观察值总和除以观察值的个数</em></strong></p>
+</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg"></p>
+<p><strong>全部观察值的总均值</strong>：全部观察值的总和除以观察值的总个数</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg"></p>
+<p><strong>均值计算结果：</strong></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg"></p>
+<p><strong><em>总误差平方和SST：</em></strong>全部观察值与总平均值的离差平方和，反应全部观察值的离散状况</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg"></p>
+<p><strong>水平项平方和SSA</strong>：各组平均值与总平均值的离差平方和，反映各总体的样本均值之间的离异程度，又称组建平方和，该平方和既包括随机误差，也包括系统误差。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg"></p>
+<p><strong>误差项平方和SSE</strong>：每个水平或组的各样本数据与其组平均值的离差平方和，反映每个样本各观察值的离散状况，又称组内平方和，该平方和反映的是随机误差的大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg"></p>
+<p><strong>平方和之间的关系</strong>：总离差平方和SST、误差项离差平方和SSE、水平项离差平方和SSA之间的关系</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg"></p>
+<p>SST反映全部数据总的误差程度，SSE反映随机误差的大小，SSA反映随机误差和系统误差的大小。如果原假设成立，则表明没有系统误差，组间平房和SSA除以自由度后的均方与组内平方和SSE除以自由度后的均方差异就不会太大；如果组间均方显著地大于组内均方，说明各水平(总体)之间的差异不仅有随机误差，还有系统误差，判断因素的水平是否对其观察值有影响，实际上就是比较组间方差与组内方差之间差异的大小。</p>
+<p><strong>均方</strong>：各误差平方和的大小与观察值的多少有关，为消除观察值多少对误差平方和大小的影响，需要将其平均，这就是均方，也称为方差，计算方法是用误差平方和除以相应的自由度。</p>
+<p><strong>各自由度</strong>：SST的自由度为n-1，其中n为全部观察值的个数；SSA的自由度为k-1，其中k为因素水平(总体)的个数；SSE的自由度为n-k</p>
+<p><strong>F统计量</strong>：将MSA(组间方差，SSA的均方，记为MSA)和MSE(组内方差，SSE的均方，记为MSE)进行对比，即得到所需要的检验统</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg"></p>
+<p>根据给定的显著性水平，在F分布表中查找与第一自由度df1=k-1，第二自由度df2=n-k相应的临界值</p>
+<p>若F&gt;Fa,则拒绝原假设H0，表明均值之间的差异是显著的，所检验的因素对观察值有显著影响</p>
+<p>若F&lt;Fa,则不拒绝原假设H0，不能认为所检验的因素对观察值有显著影响。</p>
+<p><strong>方差分析表</strong>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg"></p>
+<p><strong><em>实例：</em></strong>在评价某药物耐受性及安全性的I期临床试验中，对符合纳入标准的30名健康自愿者随机分为3组每组10名，各组注射剂量分别为0.5U、1U、2U，观察48小时部分凝血活酶时间（s）试问不同剂量的部分凝血活酶时间有无不同？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg"></p>
+<p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p>
+<p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/06/27/假设检验/" itemprop="url">
                   假设检验
                 </a>
@@ -1560,161 +1750,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/04/Mysql的几种日志/" itemprop="url">
-                  Mysql的几种日志
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-06-04T13:58:10+08:00" content="2018-06-04">
-              2018-06-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Mysql的几种日志"><a href="#Mysql的几种日志" class="headerlink" title="Mysql的几种日志"></a>Mysql的几种日志</h3><ul>
-<li>错误日志</li>
-<li>慢查询日志</li>
-<li>查询日志</li>
-<li>二进制日志</li>
-</ul>
-<h3 id="错误日志："><a href="#错误日志：" class="headerlink" title="错误日志："></a>错误日志：</h3><p>对mysql的启动、运行、关闭过程进行了记录；不仅记录了所有错误信息，也记录一些警告信息或正确的信息。通过<em>show variables like ‘log_error’ \G</em> 命令来定位错误日志</p>
-<h3 id="慢查询日志："><a href="#慢查询日志：" class="headerlink" title="慢查询日志："></a>慢查询日志：</h3><p>可以为mysql设定一个阀值，将运行时间超过该值的所有sql语句都记录到慢查询日志。</p>
-<ol>
-<li>开启慢查询日志。慢查询日志默认是关闭的，其状态可以通过<em>show variables like ‘slow_query_log’;</em> 将其打开<em>set global slow_query_log=1;</em>，1代表打开，0代表关闭；使用set global slow_query_log=1开启了慢查询日志只对当前数据库生效，如果MySQL重启后则会失效。如果要永久生效，就必须修改配置文件my.cnf（其它系统变量也是如此）；</li>
-<li>设置阀值。使用<em>show variables like ‘long_query_time’;</em>,查看当前阀值，默认是10秒；设置阀值<em>set global long_query_time=4;</em></li>
-<li>mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。log_out参数指定了慢查询输出的格式，默认为FILE,可以将它设为TABLE,就可以查询slow_log这张表了。命令如下：<em>show variables like ‘log_output’ \G; set global log_out=’TABLE’</em> 。(日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，又需要能够获得更高的系统性能，那么建议优先记录到文件)</li>
-<li>测试慢查询。执行select sleep(10);</li>
-<li>查询慢查询日志。mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。</li>
-<li>优化：slow_log表默认的存储引擎是CVS引擎，对大数据量下的查询效率可能不高，可以将其转换为MyISAM。<ul>
-<li>停用慢查询 <em>set global slow_query_log = off;</em></li>
-<li>更改引擎：alter table slow_log engine = MyISAM;</li>
-<li>启用慢查询： set global slow_query_log = on;</li>
-</ul>
-</li>
-<li>在配置文件中修改参数</li>
-<li>其他：<ul>
-<li>log_queries_not_using_indexes:</li>
-<li>Log_throttle_queries_not_using_indexes:</li>
-</ul>
-</li>
-</ol>
-<h3 id="查询日志"><a href="#查询日志" class="headerlink" title="查询日志"></a>查询日志</h3><p>查询日志记录了所有对mysql数据库请求对信息，无论这些请求是否得到了执行。通过查询mysql.general_log来获取这些记录。general_log默认也是关闭的，需要设置为开启状态。</p>
-<h3 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h3><p>二进制日志记录了对mysql数据库执行更改的所有操作。</p>
-<h4 id="二进制日志的作用："><a href="#二进制日志的作用：" class="headerlink" title="二进制日志的作用："></a>二进制日志的作用：</h4><ul>
-<li>恢复：某些数据的恢复需要二进制文件</li>
-<li>复制：通过复制和执行二进制日志使一台从数据库与一台主数据库进行实时同步</li>
-<li>审计：通过二进制日志中的信息来进行审计，判断是否有对数据库执行注入的攻击</li>
-</ul>
-<h4 id="开启二进制日志："><a href="#开启二进制日志：" class="headerlink" title="开启二进制日志："></a>开启二进制日志：</h4><p>二进制日志默认情况下是关闭的，需要通过修改配置文件并重启服务的方式，开启二进制日志。</p>
-<h4 id="几个参数："><a href="#几个参数：" class="headerlink" title="几个参数："></a>几个参数：</h4><ul>
-<li>max_binglog_size:指定了单个二进制日志文件的最大值，如果超过该值，则产生新的二进制日志文件，后缀名+1，并记录到.index文件。</li>
-<li>Bingo_cache_size:当使用事务时，所有未提交的二进制日志会被记录到一个缓存中去，等该事务提交时直接将缓冲的中的二进制日志写入二进制日志文件，而该缓冲的大小由binlog_cache_size决定，默认大小为32k；</li>
-<li>Bingo_do_db和binlog_ignore_db表示需要写入或忽略写入哪些库的日志。默认为空，表示需哟啊同步所有库的日志到二进制日志。</li>
-<li>log_slave_update:设置从库从master取得并执行二进制日志到自己的二进制日志文件中去</li>
-<li>binlog_format:记录二进制日志的格式。通常将其设置为row格式，在这种情况下，二进制日志记录的不再是简单的sql语句，而是记录表的行更改情况。这可以为数据库的恢复和复制带来更好的可靠性。</li>
-<li>sync_binlog:二进制日志是否同步写磁盘。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1760,7 +1795,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">107</span>
+              <span class="site-state-item-count">108</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
