@@ -636,6 +636,61 @@
 <p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p>
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p>
 <p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p>
+<hr>
+<p><strong>方差分析中的多重比较</strong>：通过对总体均值之间的<strong>配对</strong>比较来进一步检验到底哪些均值之间存在差异，可采用Fisher提出的最小显著差异方法(简写为LSD)，LSD方法是对检验两个总体均值是否相等的T检验方法的总体方差估计而得到的。</p>
+<p><strong><em>LSD方法：</em></strong>对k组中的两组的平均数进行比较，当两组样本容量分别为ni，nj都为时，有</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg"></p>
+<p><strong><em>实例：</em></strong>颜色对销售额的影响</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg"></p>
+<hr>
+<p><strong><em>多因素方差分析：</em></strong>无交互效应的多因素方差分析；有交互效应的多因素方差分析</p>
+<p><strong>主效应与交互效应</strong>：各个因素对观测变量的单独影响称为主效应；各个因素不同水平的搭配所产生的新的影响称为交互效应。</p>
+<p><strong>双因素方差分析</strong>：双因素方差分析中因素A和B对结果的影响相互独立时称为<em>无交互效应的双因素方差分析；**如果除了A和B对结果的单独影响之外还存在交互效应，这时的双因素方差分析称为<strong>有交互效应的双因素方差分析</strong></em></p>
+<p>无<strong><em>交互效应的双因素方差分析模型</em></strong>：</p>
+<p>离差平方和的分解：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg"></p>
+<p><strong>有交互效应的双因素方差分析模型</strong>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg"></p>
+<p><strong>双因素方差分析的步骤</strong>：</p>
+<p><strong>提出假设</strong>：</p>
+<p>要说明因素A有无显著影响，需要检验以下假设：</p>
+<p>H0:因素A不同水平下观测变量的总体均值无显著差异</p>
+<p>H1:因素A不同水平下观测变量的总体均值均存在显著差异</p>
+<p>要说明因素B有无显著影响，就是检验以下假设：</p>
+<p>H0: 因素B不同水平下观测变量的总体均值无显著差异</p>
+<p>H1: 因素B不同水平下观测变量的总体均值存在显著差异</p>
+<p>在有交互效应的双因素方差中，要说明两个因素的交互效应是否显著，还要检验第三组零假设和备择假设：</p>
+<p>H0:因素A和因素B的交互效应对观测变量的总体均值无显著差异</p>
+<p>H1:因素A和因素B的交互效应对观测变量的总体均值存在显著差异</p>
+<p>构造统计量：在原假设成立的情况下，三个统计量分别服从自由度为（r-1,rs(m-1)）、（s-1,rs(m-1)）、（(r-1)(s-1),rs(m-1)）的F分布。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg"></p>
+<p>利用原假设和样本数据分别计算3个F统计量的值和其对应的p值,对比p值和α，结合原假设作出推断。若p&lt;α，则拒绝关于这个因素的原假设，得出此因素不同水平下观测变量各总体均值存在显著差异的结论。</p>
+<p><strong>实例：</strong></p>
+<p>有四个品牌的彩电在五个地区销售，为分析彩电的品牌(品牌因素)和销售地区(地区因素)对销售量是否有影响，对每个品牌在各地区的销售量取得以下数据。试分析品牌和销售地区对彩电的销售量是否有显著影响？(α=0.05)</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg"></p>
+<p><strong>提出假设：</strong></p>
+<p>对行因素提出的假设为：H0: μ1 = μ2 = … = μi = …= μk (μi为第i个水平的均值)H1: μi (i =1,2, … , k) 不全相等</p>
+<p>对列因素提出的假设为：H0: μ1 = μ2 = … = μj = …= μr (mj为第j个水平的均值)H1: μj (j =1,2,…,r) 不全相等</p>
+<p><strong>计算各平方和</strong>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg"></p>
+<p><strong>计算均方</strong>：误差平方和除以相应的自由度</p>
+<ul>
+<li>总离差平方和SST的自由度为 kr-1</li>
+<li>行因素的离差平方和SSR的自由度为 k-1</li>
+<li>列因素的离差平方和SSC的自由度为 r-1</li>
+<li>随机误差平方和SSE的自由度为 (k-1)×(r-1)</li>
+</ul>
+<p>计算检验统计量(F)：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg"></p>
+<p>检验列因素的统计量：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg"></p>
+<p>FA＝18.10777&gt;Fα＝3.4903，拒绝原假设H0，说明彩电的品牌对销售量有显著影响</p>
+<p>FB＝2.100846&lt; Fα＝3.2592，接受原假设H0，说明销售地区对彩电的销售量没有显著影响</p>
 
           
         
