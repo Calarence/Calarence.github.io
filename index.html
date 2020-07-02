@@ -271,8 +271,8 @@
             
               
                 
-                <a class="post-title-link" href="/2020/06/27/假设检验/" itemprop="url">
-                  假设检验
+                <a class="post-title-link" href="/2020/07/01/相关分析/" itemprop="url">
+                  相关分析
                 </a>
               
             
@@ -285,8 +285,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-06-27T13:58:10+08:00" content="2020-06-27">
-              2020-06-27
+            <time itemprop="dateCreated" datetime="2020-07-01T13:58:10+08:00" content="2020-07-01">
+              2020-07-01
             </time>
           </span>
 
@@ -334,118 +334,91 @@
       
         
           
-            <p> 假设：对总体的具体数值(如均值、比例等)所作的陈述，比如新的配方的药效要比原来的更好；推广新的教育方案后，教学效果有所提高；醉驾判定为刑事犯罪后使得交通事故减少；男生和女生在选文理科时存在性别因素影响。</p>
-<p>  假设检验(也称显著性检验)是对总体数据提出某种假设，然后再利用样本的信息(数值信息)判断假设是否成立的过程。例如，假设“醉驾判定为刑事犯罪后使得交通事故减少”，我们要检验这个假设收否成立。假设检验的目的是确定一个观测到的效果是否是由随机性造成的。</p>
-<p>为什么需要假设检验？我们为什么需要做出一个假设？为什么不能只是查看实验的结果，然后选择处理结果更好的那一组？问题的答案在于，人们在思想上倾向于低估天然随机行为的范围。一个典型的例证就是难以预料的极端事件，即黑天鹅事件；另一个例证就是人们倾向于将随机事件曲解为具有某种显著性的模式；为此，人们提出了统计假设检验方法，目的是使研究人员免受随机性的愚弄。统计假设试验是对任何随机试验的进一步分析，意在评估随机性是否可以合理地解释A组和B组之间观测到的差异。</p>
-<p>  假设检验的步骤可以分为：提出假设、确定适当的检验统计量(衡量假设是否成立的标准)、规定显著性水平、计算检验统计量的值、做出统计决策。</p>
-<p>  显著性水平是一个概率值，是指可接受的“异常值“的概率。假设某工厂生产一批零件，允许一百件中有两件次品，那么显著性水平就是2%。比较专业的定义是原假设为真时，拒绝原假设的概率，表示为alpha，常用取值为0.01，0.05，0.10。统计学家引入了统计显著性的概念，用于衡量一个实验，所生成的结果是否会比随机情况下可能给出的结果更极端。如果生成的结果超出了随机变异的范围，则我们称它是统计显著的</p>
-<p>  检验统计量：计算检验的统计量(用于检验处理效果的度量)，根据给定的显著性水平，查表得出相应的临界值，将检验统计量的值与显著性水平的临界值进行比较，得出拒绝或不拒绝原假设的结论。</p>
-<p>其他概念：</p>
-<ol>
-<li>原假设与备择假设：待检验的假设又叫原假设，也可以叫零假设，表示为H0，零假设表示原假设没有差异，没有改变。如醉驾判定为刑事犯罪后对交通事故减少没有影响。与原假设对比的假设叫作备择假设，表示为H1,如醉驾判定为刑事犯罪后使得交通事故减少。</li>
-<li>备择假设：与原假设对比的假设叫做备择假设，表示为H1。总而言之,零假设和备择假设必须涵盖了所有的可能性</li>
-<li>小概率：在一次试验中，一个几乎不可能发生的事件发生的概率；在一次试验中，小概率事件一旦发生，我们就有理由拒绝原假设。</li>
-<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
-<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
-</ol>
-<p>左侧检验图示。左侧检验适用于以下情景：当关键词有不得少于/低于的时候，如灯泡的使用寿命不得少于/低于700个小时。若检验统计量值小于临界值，此时落在拒绝域内，P值(曲线的面积)要小于alpha，拒绝假设成立；反之，P值大于alpha，则支持假设成立</p>
-<p><img src="https://img3.doubanio.com/view/note/l/l9DKNARImMg3BClPPRAAJA/71060297/x73795361.jpg" alt="img"></p>
-<p>右侧检验：适用于以下场景：当关键词有不得多于/高于的时候，如次品率不得多于/高于5%时。</p>
-<p><img src="https://img3.doubanio.com/view/note/l/GGrnmhIUcxDfIpSCL5mYHw/71060297/x73795362.jpg" alt="img"></p>
-<p>双侧检验：用于等于或不等于的场景，比如某种零件的尺寸，要求其平均长度为10cm，大于或小于10cm均属于不合格，这个场景可以使用双侧检验。原则假设与备择假设应为，H0:u=10,H1≠10</p>
-<p><img src="https://img3.doubanio.com/view/note/l/RoczY5MS4qXW6XSgHvBoZg/71060297/x73795363.jpg" alt="img"></p>
-<p>  如何确定检验结果：</p>
-<p>   单侧检验：若P值&gt;a,不拒绝H0;若P值&lt;a,拒绝H0</p>
-<p>   双侧检验：若P值&gt;a/2, 不拒绝H0；若P值&lt;a/2, 拒绝H0</p>
-<hr>
-<p>Z检验</p>
-<p>原理：总体标准差已知，样本量较大时用标准正态分布的理论来推断差异发生的概率，从而比较两个平均数的差异是否显著。</p>
-<p>计算公式：</p>
-<p>1、如果检验来自两个的两组样本平均数的差异性，从而判断它们各自代表的总体的差异是否显著，其Z值计算公式为：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/y0gOLfbbK2nrQalXUpGIRg/71060297/x73795364.jpg" alt="img"></p>
-<p>2、如果检验一个样本平均数与总体平均数的差异是否显著，则计算公式如下：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/M74FReAwzhzF-SLOBTNMtw/71060297/x73795366.jpg" alt="img"></p>
-<p>实例：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/eWY6pYbkljnKHkjMroRyZw/71060297/x73795365.jpg" alt="img"></p>
-<p><img src="https://img1.doubanio.com/view/note/l/hZ0-YAjIT8WqdmKH4plYIA/71060297/x73795367.jpg" alt="img"></p>
-<p><img src="https://img1.doubanio.com/view/note/l/GmCOhwchzOSZr9VDPGgmpQ/71060297/x73795369.jpg" alt="img"></p>
-<p>通过查询<a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a>，我们知道1-a/2的临界值为1.96，所以10.40&gt;1.96落在了拒绝域内，此时P值&lt;a/2,所以拒绝H0,接受H1，可以认为正常人与高血压患者的血清胆固醇含量有差别，高血压患者高于正常人。</p>
-<p>结合下图：</p>
-<p><img src="https://img3.doubanio.com/view/note/l/arYf1_vXzw4z_gCGKlSbWw/71060297/x73795370.jpg" alt="img"></p>
-<p>实例2:</p>
-<p>某机床厂加工一种零件，根据经验知道，该厂加工零件的椭圆度近似服从正态分布，其总体均值u=0.081mm，总体标准差为σ= 0.025。今换一种新机床进行加工，抽取n=200个零件进行检验，得到的椭圆度为0.076mm。试问新机床加工零件的椭圆度的均值与以前有无显著差异。</p>
-<p><img src="https://img3.doubanio.com/view/note/l/2u83pjjfEmNJRBywUEL3Cg/71060297/x73795371.jpg" alt="img"></p>
-<p>实例3:</p>
-<p>根据大量资料，某厂生产的灯泡的使用寿命服从正太分布N～(1020，100^2)。现从最近生产的一批产品中随机抽取16只，测得样本平均寿命为1080小时。在0.05的显著性水平下判断这批产品的使用寿命是否有显著提高(a=0.05)</p>
-<p><img src="https://img3.doubanio.com/view/note/l/LP501CYnBbD0W6SDkfvRpw/71060297/x73795372.jpg" alt="img"></p>
-<hr>
-<p>T检验：</p>
-<p>单个样本的t检验：用来比较一组数据的平均值和一个数值有无差异。例如，选5个人测量他们的身高，要看这个五个人的平均身高是否高于、等于还是低于1.7m，就需要用这个检验方法</p>
-<p>配对样本均数T检验(非独立两样本均数T检验)：用来看一组样本在处理前后的平均值有无差异。比如，选5个人，分别在吃饭前和饭后测量他们的体重，检测吃饭对他们体重的影响，就用这个T检验。</p>
-<p>两个独立样本均数T检验。用来看两组数据的平均值有无差异。比如选取5男5女，想看男女之间身高有无差异，这样男生一组，女生一组，这两个组之间的身高平均值的大小比较就用这种检验。</p>
-<p>单个样本T检验：适用于样本均数与已知总体均数μ0的比较，目的是检验样本均数所代表的总体均数μ是否与已知均数μ0有差别；已知总体均数μ0一般为标准值、理论值或经大量观察得到的较稳定的指标值；应用条件，总体标准α未知的小样本资料,且服从正态分布。</p>
-<p><a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a></p>
-<p>实例一：通过大规模调查已知某地新生儿出生体重为3.30kg。从该地难产儿中随机抽取35名新生儿，平均出生体重为3.42kg，标准差为0.40kg，问该地难产儿出生体重是否与一般新生儿体重不同。</p>
-<p>建立建设检验：H0: μ=μ0，H1:μ≠μ0, a=0.05.</p>
-<p>计算检验统计量：</p>
-<p><img src="https://img3.doubanio.com/view/note/l/j039ryWax3XG-RWvzv9mfA/71060297/x73795373.jpg" alt="img"></p>
-<p>自由度v=n-1=35-1=34，查临界值表可以知道T0.05/2,34=2.032。如下图，因为t&lt;临界值，所以所在置信区间内，即不能拒绝H0，差别无统计意义，不能认为该地难产儿与一般新生儿平均出生体重不同</p>
-<p><img src="https://img9.doubanio.com/view/note/l/LutOklRBxg7EciCjP8dgMw/71060297/x73795374.jpg" alt="img"></p>
-<p>配对样本均数T检验：非独立两样本均数T检验，适用于配对设计计量资料均数的比较；配对设计是将受试对象按某些特征相近的原则配成对子，每队中的两个个体随机地给予两种处理。</p>
-<p>配对样本均数T检验原理：配对设计的资料具有对子内数据一一对应的特征，研究者应关心是对子的效应差值而不是各自的效应值；进行配对T检验时，首选应计算各队数据间的差值d，将d作为变量计算均数；配对样本T检验的基本原理是假设两种处理的效应相同，理论上差值d的总体均数μd为0，现有的不等于0差值样本均数可以来自μd = 0的总体，也可以来μd ≠ 0的总体；可将该检验理解为差值样本均数与已知总体均数μd(μd = 0)比较的单样本T检验，其检验统计量为：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/ND5BW3Hwag8vB6ejne22Kg/71060297/x73795375.jpg" alt="img"></p>
-<p>实例2: 有12名接种卡介苗的儿童，8周后用两批不同的结核菌素，一批是标准结核菌素，一批是新制结核菌素，分别注射在儿童的前臂，两种结核菌素的皮肤浸润反应平均直径(mm)如表所示，问两种结核菌素的反应性有无差别。</p>
-<p><img src="https://img9.doubanio.com/view/note/l/NKPwUE-XD3I6A7iVA6MTDA/71060297/x73795376.jpg" alt="img"></p>
-<p><img src="https://img1.doubanio.com/view/note/l/dTSXS2MzVjfwaPMqsHIHEA/71060297/x73795377.jpg" alt="img"></p>
-<p><img src="https://img1.doubanio.com/view/note/l/J5cnGRRcr7LO2G_CHcfszQ/71060297/x73795379.jpg" alt="img"></p>
-<p>两独立样本T检验：适用于完全随机设计的两样本均数的比较，其目的是检验两样本所来自总体的均数是否相等；完全随机设计是将受试对象随机地分配到两组中，每组接受不同的处理，分析比较处理的效应；两独立样本t检验要求两样本所代表的总体服从正态分布N(μ1，σ^2)和N(μ2，σ^2)，且两总体方差σ1^2、σ2^2相等,即方差齐性。若两总体方差不等需要先进行变换。</p>
-<p>  两独立样本T检验原理：两独立样本T检验的检验假设是两总体均数相等，即H0:μ1=μ2，也可表述为μ1－μ2=0,这里可将两样本均数的差值看成一个变量样本，则在H0条件下两独立样本均数T检验可视为样本与已知总体均数μ1－μ2=0的单样本t检验, 统计量计算公式为：</p>
-<p><img src="https://img1.doubanio.com/view/note/l/q_xALt1XIduYG--C-A7-Wg/71060297/x73795378.jpg" alt="img"></p>
-<p>实例3:25名糖尿病患者随机分成两组，甲组单纯使用药物治疗，乙组采用药物治疗并搭配饮食疗法，二个月后测空腹血糖，判断两种疗法后患者血糖值是否相同。</p>
-<p><img src="https://img3.doubanio.com/view/note/l/Updp_bn2tAqjfJ1cCgjamA/71060297/x73795381.jpg" alt="img"></p>
-<p><img src="https://img3.doubanio.com/view/note/l/cJWk7sGaI4WbhHiw_Bq_pg/71060297/x73795380.jpg" alt="img"></p>
-<p><img src="https://img3.doubanio.com/view/note/l/2vVYeNJte3-xGazEjm4pBg/71060297/x73795383.jpg" alt="img"></p>
-<p>T检验应用条件：</p>
+            <p><strong>相关分析</strong>：</p>
 <ul>
-<li>两组计量资料小</li>
-<li>样本对总体有较好代表性，对比组间有较好组间均衡性—随机抽样和随机分组</li>
-<li>样本来自正态分布总体，配对T检验要求差值服从正态分布，大样本时，用Z检验，且正态性要求可以放宽</li>
-<li>两独立样本均数T检验要求方差齐性——两组总体方差相等或两样本方差间无显著性。</li>
+<li>无论是在数据科学还是研究中，很多建模项目的探索性数据分析都要检查预测因子之间的相关性，以及预测因子和目标量之间的相关性。给定变量X和Y，它们均有测量数据。如果变量X的高值随变量Y的高值而变化，并且X的低值随Y的低值的变化而变化，那么我们称X和Y是正相关的。如果X的高值随Y的低值的变化而变化，那么我们称变量X和Y是负相关的。</li>
+<li>衡量事物之间或称变量之间<strong><em>线性相关</em></strong>程度的强弱，并用适当的统计指标表示出来的过程</li>
+<li>比如家庭收入和支出、一个人所受教育程度与其收入、子女身高和父母身高等</li>
 </ul>
-<p>正态性和两总体方差的齐性检验：</p>
-<p>正态性检验：常用的图示法包括P-P图法和Q-Q图法。图中数据呈直线关系可认为呈正态分布，不呈直线关系可认为呈偏态分布；偏度检验：主要计算偏度系数，H0：G1=0，总体分布对称 H1：G1≠0，总体分布不对称</p>
-<p><img src="https://img3.doubanio.com/view/note/l/v9Om0Wr-FTXyWCceCsdm8Q/71060297/x73795382.jpg" alt="img"></p>
-<p>峰度检验,主要计算峰度系数,H0：G2=0，总体分布为正态峰,H1：G2≠0，总体分布不是正态峰</p>
-<p><img src="https://img9.doubanio.com/view/note/l/MSNhMe8kqbIN_fQ6Gp8yPA/71060297/x73795384.jpg" alt="img"></p>
-<p>方差齐性检验：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/Oxaza_RDh-7DSJIcCDI3pg/71060297/x73795385.jpg" alt="img"></p>
-<p>式中S1^2为较大的样本方差S2^2为较小的样本方差，分子的自由度为v1，分母的自由度为v2，相应的样本例数分别为n1和n2 。F值是两个样本方差之比，如仅是抽样误差的影响，它一般不会离1太远，反之，F 值较大，两总体方差相同的可能性较小。F分布就是反映此概率的分布。求得F值后，查附表，F界值表得P值，F&lt;Fα/2(ν1，ν2），则P&gt;α，不拒绝H0，可认为两总体方差相等； F≥Fα/2(ν1，ν2），则P≤α，拒绝H0，可认为两总体方差不等。</p>
-<p>实例：由X线胸片上测得两组患者的肺门横径右侧距R1值 (cm)，计算的结果如下，比较其方差是否齐性</p>
-<p><img src="https://img1.doubanio.com/view/note/l/AW8FEzEFX-l2OcrWYt3qkg/71060297/x73795387.jpg" alt="img"></p>
-<p>建立检验假设，确定检验水准</p>
-<p><img src="https://img9.doubanio.com/view/note/l/F4ZImvuxDv5GBN85FGkxug/71060297/x73795386.jpg" alt="img"></p>
-<p>计算F值</p>
-<p><img src="https://img1.doubanio.com/view/note/l/2u04Sw6Xg-WJqebYTxzMYQ/71060297/x73795388.jpg" alt="img"></p>
-<p>确定P值 作出推断结论 本例ν1=10-1=9，ν2=50-1=49，查附表4，F界值表， F0.10/2(9,49=2.80，得P＜0.05, 按α=0.10，拒绝H0, 接受H1，故可认为两总体方差不齐。</p>
-<p>方差不齐时，两小样本均数的比较，可选用以下方法：① 采用近似法t‘ 检验; ② 采用适当的变量变换，使达到方差齐的要求; ③采用秩和检验。</p>
+<p><strong>相关系数</strong>：</p>
+<ul>
+<li>一种用于测量数值变量间相关程度的度量，取值范围在-1到+1之间</li>
+<li>相关系数r的正负号表示变化方向。“+”号表示变化方向一致，即正相关；“-”号表示变化方向相反，即负相关</li>
+<li>r的绝对值表示变量之间的密切程度(即强度)。绝对值越接近1，表示两个变量之间关系越密切；越接近0，表示两个变量之间关系越不密切</li>
+<li>相关系数的值，仅仅是一个比值。它不是由相等单位度量而来(即不等距)，也不是百分比，因此，不能直接作加、减、乘、除运算</li>
+<li>相关系数只能描述两个变量之间的变化方向及密切程度，并不能揭示两者之间的内在本质联系，即存在相关的两个变量，不一定存在因果关系</li>
+<li></li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg"></p>
+<p><strong>相关分析的分类：</strong></p>
+<ol>
+<li>连续变量的相关分析</li>
+<li>等级变量的相关分析</li>
+<li>质量相关分析</li>
+<li>品质相关分析</li>
+<li>偏相关分析</li>
+</ol>
 <hr>
-<p>卡方检验：用于检验两个（或多个）率或构成比之间差别是否有统计学意义。检验实际频数(A)和理论频数(T)的差别是否由抽样误差所引起的。也就是由样本率（或样本构成比）来推断总体率或构成比。</p>
-<p>理论频数与实际频数的差别:</p>
-<p><img src="https://img1.doubanio.com/view/note/l/F_-n0mSZQHYOLfbnvjk4rg/71060297/x73795389.jpg" alt="img"></p>
-<p>ARC是位于R行C列交叉处的实际频数， TRC是位于R行C列交叉处的理论频数。 （ ARC - TRC ）反映实际频数与理论频数的差距，除以TRC 为的是考虑相对差距。所以，χ^2 值反映了实际频数与理论频数的吻合程度， χ^2 值大，说明实际频数与理论频数的差距大。 χ^2 值的大小除了与实际频数和理论频数的差的大小有关外，还与它们的行、列数有关。即自由度的大小。</p>
-<p>四格表：</p>
-<p><img src="https://img3.doubanio.com/view/note/l/f3e4guXTZgX-4xHNAt1mtw/71060297/x73795390.jpg" alt="img"></p>
-<p><img src="https://img3.doubanio.com/view/note/l/M5m780BSAJAqhy7dvh9D4A/71060297/x73795391.jpg" alt="img"></p>
-<p>若检验假设H0:π1=π2成立，四个格子的实际频数A 与理论频数T 相差不应该很大，即统计量χ2 不应该很大。如果χ2 值很大，即相对应的P 值很小，若 P≤α，则反过来推断A与T相差太大，超出了抽样误差允许的范围，从而怀疑H0的正确性，继而拒绝H0，接受其对立假设H1，即π1≠π2 。</p>
-<p>实例：</p>
-<p>某药品检验所随机抽取574名成年人，研究抗生素的耐药性（资料如表8-11）。问两种人群的耐药率是否一致？</p>
-<p><img src="https://img3.doubanio.com/view/note/l/Tx_RDpixTomiV6pXXtb-3A/71060297/x73795393.jpg" alt="img"></p>
-<p><img src="https://img3.doubanio.com/view/note/l/LEP40ZcpJbB8PhaB846tTQ/71060297/x73795392.jpg" alt="img"></p>
-<p>建立假设并确定检验水准：H0:两种人群对该抗生素的耐药率相同，即π1 = π2; （两总体率相等);H1:两种人群对该抗生素的耐药率不同，即π1≠π2 ；（两总体不相等）</p>
-<p>计算检验统计量：</p>
-<p><img src="https://img9.doubanio.com/view/note/l/PidmAX1WxhPbQQ3eSx157g/71060297/x73795394.jpg" alt="img"></p>
-<p>得出结果</p>
-<p>查表确定P值， P＞0.05，得出结论。按0.05水准，不拒绝H0,可以认为两组人群对该抗生素的耐药率的差异无统计学意义</p>
+<p><strong>连续变量的相关分析：\</strong>连续变量即<strong><em>数据变量,</em></strong>它的取值之间可以比较大小，可以用加减法计算出差异的大小，如年龄、收入、成绩等变量；当两个变量都是正态连续变量，而且两者之间呈线性关系时，通常用Pearson相关数来衡量。</p>
+<p>协方差：协方差是一个反映两个随机变量相关程度的指标，如果一个变量跟随着另一个变量同时变大或变小，那么这两个变量的协方差就是正值。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg"></p>
+<p>虽然协方差能反映两个随机变量的相关程度(协方差大于0的时候表示两者正相关，小于0的时候表示两者负相关)，但是协方差值的大小并不能很好地度量两个随机变量的关联程度。这是因为在二维空间中分布着一些数据，我们想知道数据点坐标X轴和Y轴的相关程度，如果X与Y的相关程度较小但是数据分布的比较离散，这样会导致求出的协方差值较大，用这个值来度量相关程度是不合理的。</p>
+<p>为了更好的衡量两个随机变量的相关程度，引入了Pearson相关系数，其在协方差的基础上除以了两个随机变量的标准差。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg"></p>
+<p>Pearson是一个介于-1和1之间的值，当两个变量的线性关系增强时，相关系数趋于1或-1；当一个变量增大时，另一个变量也增大时，表明它们之间是正相关的，相关系数大于0；如果一个变量增大，另一个变量却减小，表明它们之间是负相关的，相关系数小于0；如果相关系数等于0，表明它们之间不存在线性相关关系。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg"></p>
+<hr>
+<p><strong>等级变量的相关分析</strong></p>
+<p>当测量得到的数据不是等距或等比数据，而是具有<strong><em>等级顺序</em></strong>的数据；或者得到的数据是等距或等比数据，但其所来自的总体分布不是正态分布的，不满足皮尔森相关系数的要求。这时就要运用等级相关系数。</p>
+<p>两个基因A、D，他们的关系是D=A^10，在8个样本中的表达量值如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg"></p>
+<p>皮尔森相关系数是一种线性相关系数，因此如果两个变量呈线性关系的时候，具有最大的显著性。对于非线性关系（例如A、D的幂函数关系），则其对相关性的检测功效会下降。</p>
+<p>这时我们可以考虑另外一个相关系数计算方法：<strong>斯皮尔曼等级相关</strong>。</p>
+<p><strong><em>斯皮尔曼等级相关：</em></strong>当两个变量值以等级次序排列或以等级次序表示时，两个相应总体并不一定呈正态分布，样本容量也不一定大于30，表示这两变量之间的相关，称为Spearman等级相关。无论两个变量的数据如何变化，符合什么样的分布，我们只关心每个数值在变量内的排列顺序。如果两个变量的对应值，在各组内的排列顺位是相同或类似的，则具有显著的相关性。</p>
+<p>计算公式：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg"></p>
+<p>n为等级个数；d为二列成对变量的等级差数。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg"></p>
+<p>利用斯皮尔曼等级相关计算A、D基因表达量的相关性，结果是：r=1，p-value = 4.96e-05</p>
+<p>这里斯皮尔曼等级相关的显著性显然高于皮尔森相关。这是因为虽然两个基因的表达量是非线性关系，但两个基因表达量在所有样本中的排列顺序是完全相同的，因为具有极显著的斯皮尔曼等级相关性。</p>
+<p><strong><em>肯德尔和谐系数(Kendall)：</em></strong>当多个(两个以上)变量值以等级次序排列或以等级次序表示，描述这几个变量之间的一致性程度的量，称为肯德尔和谐系数。它常用来表示几个评定者对同一组学生成绩用等级 先后评定多次之间的一致性程度。</p>
+<p><strong>同一评价者无相同等级评定时</strong>，公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg"></p>
+<ul>
+<li>N——-被评的对象数量</li>
+<li>K——-评分者人数或评分所依据的标准数</li>
+<li>S——-每个被评对象所评等级之和Ri与所有这些和的平均数的离差平凡和</li>
+<li></li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg"></p>
+<p>当评分者意见完全一致时，S取得最大值，和谐系数是实际求得的S与其最大可能取值的比值，故0≤W≤1</p>
+<p>同一评价者有相同等级评定时，计算公式：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg"></p>
+<ul>
+<li>mi为第i个评价者的评定结果中有重复等级的个数。</li>
+<li>nij为第i个评价者的评定结果中第j个重复等级的相同等级数。</li>
+<li>对于评定结果无相同等级的评价者，Ti = 0，因此只须对评定结果有相同等级的评价者计算Ti。</li>
+</ul>
+<hr>
+<p><strong>*质量相关分析：</strong>是指一个变量为质，另一个变量为量，这两个变量之间的相关，如智商、学科分数、身高、体重等是表现为量的变量；男与女，右与劣，及格与不及格等是表现为质的变量。质与量的相关主要包括*<strong>二列相关、点二列相关、多系列相关</strong>。</p>
+<p><strong>二列相关</strong>：当两个变量都是正太连续变量，其中一个变量被人为划分成二分变量(如按一定标准将属于正太连续变量的学科考试分数划分成及格与不及格，录取与未录取，把某一体育项目测验结果划分成通过与未通过，达标与未达标，把健康状况划分成好与差等等)，表示这两个变量之间的相关，称为二列相关。</p>
+<p>二列相关的使用条件：</p>
+<ul>
+<li>两个变量都是连续变量，且总体呈正态分布，或总体接近正态分布，至少是单峰对称分布</li>
+<li>两个变量之间是线性关系</li>
+<li>二分变量是人为划分的，其分界点应尽量靠近中值</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg"></p>
+<p><strong>点二列相关</strong>：当两个变量其中一个是正态连续性变量，另一个是真正的二分名义变量(如男与女，已婚和未婚，色盲和非色盲，生与死)，这时，表示这两个变量之间的相关，称为点二列相关。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg"></p>
+<hr>
+<p><strong>品质相关分析</strong>：两个变量都是按质划分成几种类别，表示这两个变量之间的相关称为品质相关。例如，一个变量按性别划分成男与女，另一个变量按学科成绩划分成及格与不及格；例如，一个变量按学校类别分成重点及非重点，另一个变量按学科成绩分成优良中差等等。</p>
+<p><strong>列相关系数</strong>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg"></p>
+<p><strong>φ相关</strong></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg"></p>
+<hr>
 
           
         
@@ -691,6 +664,230 @@
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg"></p>
 <p>FA＝18.10777&gt;Fα＝3.4903，拒绝原假设H0，说明彩电的品牌对销售量有显著影响</p>
 <p>FB＝2.100846&lt; Fα＝3.2592，接受原假设H0，说明销售地区对彩电的销售量没有显著影响</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/06/27/假设检验/" itemprop="url">
+                  假设检验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-06-27T13:58:10+08:00" content="2020-06-27">
+              2020-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 假设：对总体的具体数值(如均值、比例等)所作的陈述，比如新的配方的药效要比原来的更好；推广新的教育方案后，教学效果有所提高；醉驾判定为刑事犯罪后使得交通事故减少；男生和女生在选文理科时存在性别因素影响。</p>
+<p>  假设检验(也称显著性检验)是对总体数据提出某种假设，然后再利用样本的信息(数值信息)判断假设是否成立的过程。例如，假设“醉驾判定为刑事犯罪后使得交通事故减少”，我们要检验这个假设收否成立。假设检验的目的是确定一个观测到的效果是否是由随机性造成的。</p>
+<p>为什么需要假设检验？我们为什么需要做出一个假设？为什么不能只是查看实验的结果，然后选择处理结果更好的那一组？问题的答案在于，人们在思想上倾向于低估天然随机行为的范围。一个典型的例证就是难以预料的极端事件，即黑天鹅事件；另一个例证就是人们倾向于将随机事件曲解为具有某种显著性的模式；为此，人们提出了统计假设检验方法，目的是使研究人员免受随机性的愚弄。统计假设试验是对任何随机试验的进一步分析，意在评估随机性是否可以合理地解释A组和B组之间观测到的差异。</p>
+<p>  假设检验的步骤可以分为：提出假设、确定适当的检验统计量(衡量假设是否成立的标准)、规定显著性水平、计算检验统计量的值、做出统计决策。</p>
+<p>  显著性水平是一个概率值，是指可接受的“异常值“的概率。假设某工厂生产一批零件，允许一百件中有两件次品，那么显著性水平就是2%。比较专业的定义是原假设为真时，拒绝原假设的概率，表示为alpha，常用取值为0.01，0.05，0.10。统计学家引入了统计显著性的概念，用于衡量一个实验，所生成的结果是否会比随机情况下可能给出的结果更极端。如果生成的结果超出了随机变异的范围，则我们称它是统计显著的</p>
+<p>  检验统计量：计算检验的统计量(用于检验处理效果的度量)，根据给定的显著性水平，查表得出相应的临界值，将检验统计量的值与显著性水平的临界值进行比较，得出拒绝或不拒绝原假设的结论。</p>
+<p>其他概念：</p>
+<ol>
+<li>原假设与备择假设：待检验的假设又叫原假设，也可以叫零假设，表示为H0，零假设表示原假设没有差异，没有改变。如醉驾判定为刑事犯罪后对交通事故减少没有影响。与原假设对比的假设叫作备择假设，表示为H1,如醉驾判定为刑事犯罪后使得交通事故减少。</li>
+<li>备择假设：与原假设对比的假设叫做备择假设，表示为H1。总而言之,零假设和备择假设必须涵盖了所有的可能性</li>
+<li>小概率：在一次试验中，一个几乎不可能发生的事件发生的概率；在一次试验中，小概率事件一旦发生，我们就有理由拒绝原假设。</li>
+<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
+<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
+</ol>
+<p>左侧检验图示。左侧检验适用于以下情景：当关键词有不得少于/低于的时候，如灯泡的使用寿命不得少于/低于700个小时。若检验统计量值小于临界值，此时落在拒绝域内，P值(曲线的面积)要小于alpha，拒绝假设成立；反之，P值大于alpha，则支持假设成立</p>
+<p><img src="https://img3.doubanio.com/view/note/l/l9DKNARImMg3BClPPRAAJA/71060297/x73795361.jpg" alt="img"></p>
+<p>右侧检验：适用于以下场景：当关键词有不得多于/高于的时候，如次品率不得多于/高于5%时。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/GGrnmhIUcxDfIpSCL5mYHw/71060297/x73795362.jpg" alt="img"></p>
+<p>双侧检验：用于等于或不等于的场景，比如某种零件的尺寸，要求其平均长度为10cm，大于或小于10cm均属于不合格，这个场景可以使用双侧检验。原则假设与备择假设应为，H0:u=10,H1≠10</p>
+<p><img src="https://img3.doubanio.com/view/note/l/RoczY5MS4qXW6XSgHvBoZg/71060297/x73795363.jpg" alt="img"></p>
+<p>  如何确定检验结果：</p>
+<p>   单侧检验：若P值&gt;a,不拒绝H0;若P值&lt;a,拒绝H0</p>
+<p>   双侧检验：若P值&gt;a/2, 不拒绝H0；若P值&lt;a/2, 拒绝H0</p>
+<hr>
+<p>Z检验</p>
+<p>原理：总体标准差已知，样本量较大时用标准正态分布的理论来推断差异发生的概率，从而比较两个平均数的差异是否显著。</p>
+<p>计算公式：</p>
+<p>1、如果检验来自两个的两组样本平均数的差异性，从而判断它们各自代表的总体的差异是否显著，其Z值计算公式为：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/y0gOLfbbK2nrQalXUpGIRg/71060297/x73795364.jpg" alt="img"></p>
+<p>2、如果检验一个样本平均数与总体平均数的差异是否显著，则计算公式如下：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/M74FReAwzhzF-SLOBTNMtw/71060297/x73795366.jpg" alt="img"></p>
+<p>实例：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/eWY6pYbkljnKHkjMroRyZw/71060297/x73795365.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/hZ0-YAjIT8WqdmKH4plYIA/71060297/x73795367.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/GmCOhwchzOSZr9VDPGgmpQ/71060297/x73795369.jpg" alt="img"></p>
+<p>通过查询<a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a>，我们知道1-a/2的临界值为1.96，所以10.40&gt;1.96落在了拒绝域内，此时P值&lt;a/2,所以拒绝H0,接受H1，可以认为正常人与高血压患者的血清胆固醇含量有差别，高血压患者高于正常人。</p>
+<p>结合下图：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/arYf1_vXzw4z_gCGKlSbWw/71060297/x73795370.jpg" alt="img"></p>
+<p>实例2:</p>
+<p>某机床厂加工一种零件，根据经验知道，该厂加工零件的椭圆度近似服从正态分布，其总体均值u=0.081mm，总体标准差为σ= 0.025。今换一种新机床进行加工，抽取n=200个零件进行检验，得到的椭圆度为0.076mm。试问新机床加工零件的椭圆度的均值与以前有无显著差异。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/2u83pjjfEmNJRBywUEL3Cg/71060297/x73795371.jpg" alt="img"></p>
+<p>实例3:</p>
+<p>根据大量资料，某厂生产的灯泡的使用寿命服从正太分布N～(1020，100^2)。现从最近生产的一批产品中随机抽取16只，测得样本平均寿命为1080小时。在0.05的显著性水平下判断这批产品的使用寿命是否有显著提高(a=0.05)</p>
+<p><img src="https://img3.doubanio.com/view/note/l/LP501CYnBbD0W6SDkfvRpw/71060297/x73795372.jpg" alt="img"></p>
+<hr>
+<p>T检验：</p>
+<p>单个样本的t检验：用来比较一组数据的平均值和一个数值有无差异。例如，选5个人测量他们的身高，要看这个五个人的平均身高是否高于、等于还是低于1.7m，就需要用这个检验方法</p>
+<p>配对样本均数T检验(非独立两样本均数T检验)：用来看一组样本在处理前后的平均值有无差异。比如，选5个人，分别在吃饭前和饭后测量他们的体重，检测吃饭对他们体重的影响，就用这个T检验。</p>
+<p>两个独立样本均数T检验。用来看两组数据的平均值有无差异。比如选取5男5女，想看男女之间身高有无差异，这样男生一组，女生一组，这两个组之间的身高平均值的大小比较就用这种检验。</p>
+<p>单个样本T检验：适用于样本均数与已知总体均数μ0的比较，目的是检验样本均数所代表的总体均数μ是否与已知均数μ0有差别；已知总体均数μ0一般为标准值、理论值或经大量观察得到的较稳定的指标值；应用条件，总体标准α未知的小样本资料,且服从正态分布。</p>
+<p><a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a></p>
+<p>实例一：通过大规模调查已知某地新生儿出生体重为3.30kg。从该地难产儿中随机抽取35名新生儿，平均出生体重为3.42kg，标准差为0.40kg，问该地难产儿出生体重是否与一般新生儿体重不同。</p>
+<p>建立建设检验：H0: μ=μ0，H1:μ≠μ0, a=0.05.</p>
+<p>计算检验统计量：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/j039ryWax3XG-RWvzv9mfA/71060297/x73795373.jpg" alt="img"></p>
+<p>自由度v=n-1=35-1=34，查临界值表可以知道T0.05/2,34=2.032。如下图，因为t&lt;临界值，所以所在置信区间内，即不能拒绝H0，差别无统计意义，不能认为该地难产儿与一般新生儿平均出生体重不同</p>
+<p><img src="https://img9.doubanio.com/view/note/l/LutOklRBxg7EciCjP8dgMw/71060297/x73795374.jpg" alt="img"></p>
+<p>配对样本均数T检验：非独立两样本均数T检验，适用于配对设计计量资料均数的比较；配对设计是将受试对象按某些特征相近的原则配成对子，每队中的两个个体随机地给予两种处理。</p>
+<p>配对样本均数T检验原理：配对设计的资料具有对子内数据一一对应的特征，研究者应关心是对子的效应差值而不是各自的效应值；进行配对T检验时，首选应计算各队数据间的差值d，将d作为变量计算均数；配对样本T检验的基本原理是假设两种处理的效应相同，理论上差值d的总体均数μd为0，现有的不等于0差值样本均数可以来自μd = 0的总体，也可以来μd ≠ 0的总体；可将该检验理解为差值样本均数与已知总体均数μd(μd = 0)比较的单样本T检验，其检验统计量为：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/ND5BW3Hwag8vB6ejne22Kg/71060297/x73795375.jpg" alt="img"></p>
+<p>实例2: 有12名接种卡介苗的儿童，8周后用两批不同的结核菌素，一批是标准结核菌素，一批是新制结核菌素，分别注射在儿童的前臂，两种结核菌素的皮肤浸润反应平均直径(mm)如表所示，问两种结核菌素的反应性有无差别。</p>
+<p><img src="https://img9.doubanio.com/view/note/l/NKPwUE-XD3I6A7iVA6MTDA/71060297/x73795376.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/dTSXS2MzVjfwaPMqsHIHEA/71060297/x73795377.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/J5cnGRRcr7LO2G_CHcfszQ/71060297/x73795379.jpg" alt="img"></p>
+<p>两独立样本T检验：适用于完全随机设计的两样本均数的比较，其目的是检验两样本所来自总体的均数是否相等；完全随机设计是将受试对象随机地分配到两组中，每组接受不同的处理，分析比较处理的效应；两独立样本t检验要求两样本所代表的总体服从正态分布N(μ1，σ^2)和N(μ2，σ^2)，且两总体方差σ1^2、σ2^2相等,即方差齐性。若两总体方差不等需要先进行变换。</p>
+<p>  两独立样本T检验原理：两独立样本T检验的检验假设是两总体均数相等，即H0:μ1=μ2，也可表述为μ1－μ2=0,这里可将两样本均数的差值看成一个变量样本，则在H0条件下两独立样本均数T检验可视为样本与已知总体均数μ1－μ2=0的单样本t检验, 统计量计算公式为：</p>
+<p><img src="https://img1.doubanio.com/view/note/l/q_xALt1XIduYG--C-A7-Wg/71060297/x73795378.jpg" alt="img"></p>
+<p>实例3:25名糖尿病患者随机分成两组，甲组单纯使用药物治疗，乙组采用药物治疗并搭配饮食疗法，二个月后测空腹血糖，判断两种疗法后患者血糖值是否相同。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/Updp_bn2tAqjfJ1cCgjamA/71060297/x73795381.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/cJWk7sGaI4WbhHiw_Bq_pg/71060297/x73795380.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/2vVYeNJte3-xGazEjm4pBg/71060297/x73795383.jpg" alt="img"></p>
+<p>T检验应用条件：</p>
+<ul>
+<li>两组计量资料小</li>
+<li>样本对总体有较好代表性，对比组间有较好组间均衡性—随机抽样和随机分组</li>
+<li>样本来自正态分布总体，配对T检验要求差值服从正态分布，大样本时，用Z检验，且正态性要求可以放宽</li>
+<li>两独立样本均数T检验要求方差齐性——两组总体方差相等或两样本方差间无显著性。</li>
+</ul>
+<p>正态性和两总体方差的齐性检验：</p>
+<p>正态性检验：常用的图示法包括P-P图法和Q-Q图法。图中数据呈直线关系可认为呈正态分布，不呈直线关系可认为呈偏态分布；偏度检验：主要计算偏度系数，H0：G1=0，总体分布对称 H1：G1≠0，总体分布不对称</p>
+<p><img src="https://img3.doubanio.com/view/note/l/v9Om0Wr-FTXyWCceCsdm8Q/71060297/x73795382.jpg" alt="img"></p>
+<p>峰度检验,主要计算峰度系数,H0：G2=0，总体分布为正态峰,H1：G2≠0，总体分布不是正态峰</p>
+<p><img src="https://img9.doubanio.com/view/note/l/MSNhMe8kqbIN_fQ6Gp8yPA/71060297/x73795384.jpg" alt="img"></p>
+<p>方差齐性检验：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/Oxaza_RDh-7DSJIcCDI3pg/71060297/x73795385.jpg" alt="img"></p>
+<p>式中S1^2为较大的样本方差S2^2为较小的样本方差，分子的自由度为v1，分母的自由度为v2，相应的样本例数分别为n1和n2 。F值是两个样本方差之比，如仅是抽样误差的影响，它一般不会离1太远，反之，F 值较大，两总体方差相同的可能性较小。F分布就是反映此概率的分布。求得F值后，查附表，F界值表得P值，F&lt;Fα/2(ν1，ν2），则P&gt;α，不拒绝H0，可认为两总体方差相等； F≥Fα/2(ν1，ν2），则P≤α，拒绝H0，可认为两总体方差不等。</p>
+<p>实例：由X线胸片上测得两组患者的肺门横径右侧距R1值 (cm)，计算的结果如下，比较其方差是否齐性</p>
+<p><img src="https://img1.doubanio.com/view/note/l/AW8FEzEFX-l2OcrWYt3qkg/71060297/x73795387.jpg" alt="img"></p>
+<p>建立检验假设，确定检验水准</p>
+<p><img src="https://img9.doubanio.com/view/note/l/F4ZImvuxDv5GBN85FGkxug/71060297/x73795386.jpg" alt="img"></p>
+<p>计算F值</p>
+<p><img src="https://img1.doubanio.com/view/note/l/2u04Sw6Xg-WJqebYTxzMYQ/71060297/x73795388.jpg" alt="img"></p>
+<p>确定P值 作出推断结论 本例ν1=10-1=9，ν2=50-1=49，查附表4，F界值表， F0.10/2(9,49=2.80，得P＜0.05, 按α=0.10，拒绝H0, 接受H1，故可认为两总体方差不齐。</p>
+<p>方差不齐时，两小样本均数的比较，可选用以下方法：① 采用近似法t‘ 检验; ② 采用适当的变量变换，使达到方差齐的要求; ③采用秩和检验。</p>
+<hr>
+<p>卡方检验：用于检验两个（或多个）率或构成比之间差别是否有统计学意义。检验实际频数(A)和理论频数(T)的差别是否由抽样误差所引起的。也就是由样本率（或样本构成比）来推断总体率或构成比。</p>
+<p>理论频数与实际频数的差别:</p>
+<p><img src="https://img1.doubanio.com/view/note/l/F_-n0mSZQHYOLfbnvjk4rg/71060297/x73795389.jpg" alt="img"></p>
+<p>ARC是位于R行C列交叉处的实际频数， TRC是位于R行C列交叉处的理论频数。 （ ARC - TRC ）反映实际频数与理论频数的差距，除以TRC 为的是考虑相对差距。所以，χ^2 值反映了实际频数与理论频数的吻合程度， χ^2 值大，说明实际频数与理论频数的差距大。 χ^2 值的大小除了与实际频数和理论频数的差的大小有关外，还与它们的行、列数有关。即自由度的大小。</p>
+<p>四格表：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/f3e4guXTZgX-4xHNAt1mtw/71060297/x73795390.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/M5m780BSAJAqhy7dvh9D4A/71060297/x73795391.jpg" alt="img"></p>
+<p>若检验假设H0:π1=π2成立，四个格子的实际频数A 与理论频数T 相差不应该很大，即统计量χ2 不应该很大。如果χ2 值很大，即相对应的P 值很小，若 P≤α，则反过来推断A与T相差太大，超出了抽样误差允许的范围，从而怀疑H0的正确性，继而拒绝H0，接受其对立假设H1，即π1≠π2 。</p>
+<p>实例：</p>
+<p>某药品检验所随机抽取574名成年人，研究抗生素的耐药性（资料如表8-11）。问两种人群的耐药率是否一致？</p>
+<p><img src="https://img3.doubanio.com/view/note/l/Tx_RDpixTomiV6pXXtb-3A/71060297/x73795393.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/LEP40ZcpJbB8PhaB846tTQ/71060297/x73795392.jpg" alt="img"></p>
+<p>建立假设并确定检验水准：H0:两种人群对该抗生素的耐药率相同，即π1 = π2; （两总体率相等);H1:两种人群对该抗生素的耐药率不同，即π1≠π2 ；（两总体不相等）</p>
+<p>计算检验统计量：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/PidmAX1WxhPbQQ3eSx157g/71060297/x73795394.jpg" alt="img"></p>
+<p>得出结果</p>
+<p>查表确定P值， P＞0.05，得出结论。按0.05水准，不拒绝H0,可以认为两组人群对该抗生素的耐药率的差异无统计学意义</p>
 
           
         
@@ -1649,165 +1846,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/09/Java线程池/" itemprop="url">
-                  Java 线程池
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-06-09T13:58:10+08:00" content="2018-06-09">
-              2018-06-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="为什么需要线程池"><a href="#为什么需要线程池" class="headerlink" title="为什么需要线程池"></a>为什么需要线程池</h4><p>线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？</p>
-<ol>
-<li>降低资源消耗：通过反复使用创建过的线程降低线程创建和销毁的消耗</li>
-<li>提高响应速度：当任务到达时，可以不需要等待线程创建就可以立即执行</li>
-</ol>
-<h4 id="线程池的工作原理："><a href="#线程池的工作原理：" class="headerlink" title="线程池的工作原理："></a>线程池的工作原理：</h4><p>当提交一个任务到线程池时，处理流程如下：</p>
-<ol>
-<li>判断核心线程池是否已满。如果不是，则创建线程，执行任务；否则，进入下个流程。</li>
-<li>判断工作队列是否已满。如果不是，则将任务存储在任务队列里；否则，进入下个流程</li>
-<li>判断线程池是否已满。如果不是，则创建线程，执行任务；否则，交给饱和策略来处理这个任务。</li>
-</ol>
-<h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><p>可以通过ThreadPoolExecutor来创建一个线程池：</p>
-<p>new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,milliseconds,runnableTaskQueue,handler),</p>
-<p>参数说明：</p>
-<ul>
-<li>corePoolSize:线程池基本大小，当提交一个任务到线程池时，线程池会创建一个线程来执行任务，即使其他空闲的基本线程能够执行任务也会创建新线程；等到需要执行的任务数等于线程池基本大小就不再创建。</li>
-<li>runnableTaskQueue：任务队列，用于保存待执行的任务的阻塞队列。有以下几种队列：<ul>
-<li>ArrayBockingQueue:基于数组结构的有界阻塞队列，按照FIFO原则处理任务</li>
-<li>LinkedBlockingQueue:基于链表结构的阻塞队列，按照FIFO原则处理任务，吞吐量高于ArrayBockingQueue。静态工厂方法Executors.newFixedThreadPool()使用了这个队列</li>
-<li>SynchronousQueue:一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了该队列</li>
-<li>PriorityBlockingQueue:一个具有优先级的无限阻塞队列</li>
-</ul>
-</li>
-<li>maximumPoolSize：线程池所允许创建的最大线程数。如果队列满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程任务。如果使用了无界的任务队列，这个参数就没有效果</li>
-<li>keepAliveTime：线程池的工作线程空闲后，保持存活的时间</li>
-<li>milliseconds：线程活动的时间单位：如天、小时、秒、毫秒等。</li>
-<li>RejectedExecutionHandler:饱和策略，当队列和线程池都满了，说明线程池处于饱和状态，必须采取一种策略处理提交的新任务。默认是AbortPolicy。四种策略如下<ul>
-<li>AbortPolicy:直接抛出异常</li>
-<li>CallerRunsPolicy:使用调用者所在线程来运行任务</li>
-<li>DiscardOldestPolicy:丢弃队列里最老的一个任务，执行当前的一个任务</li>
-<li>DiscardPolicy:不处理，丢弃掉</li>
-</ul>
-</li>
-</ul>
-<h4 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h4><p>可以通过execute()和submit()方法向线程池提交任务。</p>
-<ul>
-<li>execute()方法用于提交不需要返回值的任务。输入的参数是Runnable类的实例</li>
-<li>submit()方法用于提交需要返回值的任务。线程池会返回一个future类型的对象，通过该对象判断任务是否执行成功；通过get方法来获取返回值，get()方法会阻塞当前线程直到任务执行成功；get(long timeunit,TimeUnit unit)方法会阻塞当前线程一段时间后返回，这时候任务可能没有执行完</li>
-</ul>
-<h4 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h4><p>通过shutdown或shutdownNow方法来关闭线程池。</p>
-<h4 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h4><ul>
-<li><p>CPU密集型任务应该配置尽可能性小的线程，如配置Ncpu+1个线程的线程池</p>
-</li>
-<li><p>IO密集型则配置尽可能多的线程，如2*Ncpu</p>
-<p>通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1853,7 +1891,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">108</span>
+              <span class="site-state-item-count">109</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
