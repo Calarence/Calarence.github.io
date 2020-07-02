@@ -271,6 +271,153 @@
             
               
                 
+                <a class="post-title-link" href="/2018/06/12/mysql索引/" itemprop="url">
+                  Mysql索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-06-12T13:58:10+08:00" content="2018-06-12">
+              2018-06-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="索引概述"><a href="#索引概述" class="headerlink" title="索引概述"></a>索引概述</h4><p>索引用于快速找出在某个列中有特定值的行。如果不使用索引，Mysql必须从第一条记录开始遍历，读完整个表，直到找出相关的行。如果表越大，那么花费的时间就越多。如果表中查询的列中有索引，就可以快速定位这些数据，没有必要看所有的数据。</p>
+<h4 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h4><ul>
+<li>普通索引(index):对索引值没有限制</li>
+<li>唯一索引(unique index):索引列的值必须唯一，但允许有空值</li>
+<li>主键索引(primary key):是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值。一般是在建表的时候同时创建主键索引。</li>
+<li>组合索引:指多个字段上创建的索引。只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。使用组合索引时遵循最左前缀集合</li>
+<li>全文索引</li>
+</ul>
+<p>PRIMARY KEY 与UNIQUE的区别： </p>
+<ul>
+<li>每个数据表只能有一个PRIMARY KEY</li>
+<li>PRIMARY KEY不可以包含NULL值，而UNIQUE索引可以.而且，如果你允许某个UNIQUE索引包含NULL值，那它将可以包含多个NULL值。因为mysql无法判断两个NULL值是否代表同样的东西，索引里的多个NULL值将被认为代表多个不同的东西</li>
+<li>除PRIAMRY KEY以外，其他类型的索引几乎都可以用CREAET INDEX语句来添加。</li>
+</ul>
+<h4 id="设计索引的原则"><a href="#设计索引的原则" class="headerlink" title="设计索引的原则"></a>设计索引的原则</h4><ul>
+<li>尽量为用来搜索、分类或分组的数据列编制索引，不要作为输出显示的数据列编制索引。换句话说，最适合有索引的数据列是那些在WHERE子句中出现的数据列、在联结子句中给出的数据列，或者是在ORDER BY或GROUP BY子句中出现的数据列。根据SELECT关键字仅出现在输出列清单里的数据列最好不要有索引。</li>
+<li>为字符串值的前缀编索引。假如要为字符串数据列编索引，应当尽可能给出前缀长度。例如，假定你有一个CHAR（200）的数据列，大多数的值前10或20个字符是唯一的，那么就不用为整个数据列编索引。仅为前面的20或30个字符编索引可以节省索引中的大量空间，而且会使查询进行得更快。为较小的值编索引可以减少磁盘输入、输出，加快比较速度。</li>
+<li>不要过多索引</li>
+<li>对短小的值进行索引。应尽量选用比较“小”的数据类型。比如说，如果一个MEDIUMINT数据列已足以容纳需要存储的数据，就不要选用BIGINT；如果你的数据没有一个比25个字符更长，就不要选用CHAR(100)。比较短小的值可以在以以下几个方面提高索引的处理性能。 <ul>
+<li>短小的值可以让比较操作更快地完成，加快索引查找速度</li>
+<li>短小的值可以让索引的“体积”更小，减少磁盘I/O活动</li>
+<li>短小的值意味着键缓存块里可以容纳更多的键值，让MYSQL在内存里同时容纳更多的键，而这将加大在不需要从磁盘读取更多索引块的前提下在内存里找到键值的概率。<br>对InnoDB存储引擎而言，因为它使用的是<strong>聚集索引</strong>，所以让主键尽量短小将更有好处。所谓聚集索引是把数据行和主键值集中保存在一起的情况。其他的索引都是些二级索引–它们保存着主键值和二级索引值。现在二级索引里找到一个主键值，再通过它找到相应的数据行。这意味着主键值在每一个二级索引里都会重复出现，如果主键值比较长的话，就会导致每一个二级索引都将占用更多的存储空间。</li>
+</ul>
+</li>
+</ul>
+<h4 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h4><ul>
+<li>创建索引：<ul>
+<li>普通索引：<code>CREATE INDEX indexName ON mytable(username(length))</code>或<code>ALTER table tableName ADD INDEX indexName(columnName)</code></li>
+<li>唯一索引：<code>CREATE UNIQUE INDEX indexName ON mytable(username(length))</code></li>
+<li>主键：<code>ALTER TABLE tbl_name ADD PRIMARY KEY (column_list)</code>该语句添加一个主键，这意味着索引值必须是唯一的，且不能为NULL</li>
+</ul>
+</li>
+<li>查询索引：SHOW INDEX<code>或</code>SHOW CREATE TABLE</li>
+<li>删除索引：DROP INDEX index_name ON tbl_name</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/06/09/Java线程池/" itemprop="url">
                   Java 线程池
                 </a>
@@ -1359,158 +1506,6 @@ public String hello(){
             
               
                 
-                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
-                  spring面向切面编程示例之打印日志
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
-<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
-<li><p>pom中添加依赖</p>
-<pre><code>&lt;dependency&gt;
- &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
- &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
- &lt;version&gt;1.8.13&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre></li>
-<li><p>添加切面的实现</p>
-</li>
-</ul>
-<pre><code>public class LogHelper {
-public LogHelper() {
-    }
-public void sayBefore(){
-    System.out.println(&quot;before saying hello world&quot;);
-    }
-public void sayAfter(){
-    System.out.println(&quot;after saying hello world&quot;);
-        }
-      }
-</code></pre><ul>
-<li><p>配置切面</p>
-<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
-&lt;/bean&gt;
-&lt;aop:config&gt;
-&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
-&lt;!--定义切点--&gt;
-&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
-&lt;!--定义前置通知--&gt;
-&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
-&lt;!--定义后置通知--&gt;
-&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
-&lt;/aop:aspect&gt;
-&lt;/aop:config&gt;
-</code></pre></li>
-</ul>
-<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
                   spring bean装配的三种方式之xml配置
                 </a>
@@ -1651,8 +1646,8 @@ public void sayAfter(){
             
               
                 
-                <a class="post-title-link" href="/2018/04/22/springbean1/" itemprop="url">
-                  spring bean装配的三种方式之自动装配
+                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
+                  spring面向切面编程示例之打印日志
                 </a>
               
             
@@ -1665,7 +1660,7 @@ public void sayAfter(){
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T14:58:10+08:00" content="2018-04-22">
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
               2018-04-22
             </time>
           </span>
@@ -1714,81 +1709,47 @@ public void sayAfter(){
       
         
           
-            <h3 id="spring-bean装配的三种方式"><a href="#spring-bean装配的三种方式" class="headerlink" title="spring bean装配的三种方式"></a>spring bean装配的三种方式</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。<strong><em>创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质</em></strong>。</p>
-<h3 id="bean装配的三种方式："><a href="#bean装配的三种方式：" class="headerlink" title="bean装配的三种方式："></a>bean装配的三种方式：</h3><blockquote>
-<ul>
-<li>在xml中进行显示配置</li>
-<li>在java中进行显示配置</li>
-<li>隐式的bean发现和自动装配</li>
-</ul>
-</blockquote>
-<p>推荐顺序：优先使用自动配置，显式配置越少越好；如果非用显示配置，java代码配置要优先于xml配置；最后是xml配置</p>
-<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个音箱系统(播放古老cd),由两部分组成：播放器(CDPlayer)和CD(compact Disc)。首先，要创建CompactDisc类，然后创建一个CDPlayer类，让spring发现它，并将CompactDisc bean注入进来。</p>
-<h3 id="两个接口"><a href="#两个接口" class="headerlink" title="两个接口"></a>两个接口</h3><pre><code>package com.appleieye.service;
-public interface CompactDisc {
-void play();
-}
-
-package com.appleieye.service;
-public interface MediaPlayer {
-void play();
-}
-</code></pre><h3 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h3><p>spring从两个角度来实现自动装配：<br>    &gt; <em> 组件扫描：spring会自动发现应用上下文中所创建的bean<br>    &gt; </em> 自动装配：spring自动满足bean之间的依赖</p>
-<ol>
-<li><p>组件扫描</p>
-<blockquote>
-<ul>
-<li>创建bean</li>
-<li>启动组件扫描</li>
-</ul>
-</blockquote>
-<p>代码如下：</p>
-<pre><code>//创建bean
-package com.appleieye.maya.api.impl;
-
-import com.appleieye.maya.api.service.CompasticDisc;
-import org.springframework.stereotype.Component;
-
-@Component
-public class SgtPeppers implements CompasticDisc {
-
-private String title = &quot;Sgt. Pepper&apos; s Lonely Hearts Club Band&quot;;
-private String artist = &quot;The Beatles&quot;;
-
-public void play() {
-System.out.println(&quot;Playing &quot; + title +&quot; by &quot; + artist);
-}
-}
-</code></pre><p><strong><em>Component表明该类会作为组件类，并告知spring为该类创建bean</em></strong></p>
-<p>   <strong><em>组件扫描默认是不启用的，需要显式配置spring，从而命令它去寻找带有@Component的类，并为它创建bean</em></strong></p>
-<pre><code>//启动组件扫描
-package com.appleieye.maya.api;
-
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-@Configuration
-@ComponentScan
-public class CDPlayerConfig {
- }
-</code></pre><p> @ComponentScan注解用于启动组件扫描；如果没有特殊配置的话，@ComponentScan默认会扫描与配置类相同的包，因为CDPlayerConfig位于api这个包下，所以@ComponentScan会扫描API包以及它的子包，这样就能发现SgtPeppers，并为其创建bean。</p>
+            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
+<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
+<li><p>pom中添加依赖</p>
+<pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+ &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+ &lt;version&gt;1.8.13&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>添加切面的实现</p>
 </li>
-<li><p>自动装配<br>自动装配就是让Spring自动满足bean依赖的一种方法，在满足依赖的 过程中，会在Spring应用上下文中寻找匹配某个bean需求的其他bean。为了 声明要进行自动装配，我们可以借助Spring的@Autowired 注解。</p>
-</li>
-</ol>
-<p>代码如下：</p>
-<pre><code>package com.appleieye.maya.api.impl;
+</ul>
+<pre><code>public class LogHelper {
+public LogHelper() {
+    }
+public void sayBefore(){
+    System.out.println(&quot;before saying hello world&quot;);
+    }
+public void sayAfter(){
+    System.out.println(&quot;after saying hello world&quot;);
+        }
+      }
+</code></pre><ul>
+<li><p>配置切面</p>
+<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
+&lt;/bean&gt;
+&lt;aop:config&gt;
+&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
+&lt;!--定义切点--&gt;
+&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
+&lt;!--定义前置通知--&gt;
+&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
+&lt;!--定义后置通知--&gt;
+&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+</ul>
+<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
 
-@Component
-public class CDPlayer implements MediaPlayer {
-
-@Autowired
-private CompasticDisc cd;
-
-public void play() {
-    cd.play();
-}
-}
-</code></pre>
           
         
       
@@ -1861,7 +1822,7 @@ public void play() {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

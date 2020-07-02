@@ -271,6 +271,129 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/30/noname/" itemprop="url">
+                  MYSQL中replace into的用法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-30T14:40:52+08:00" content="2015-07-30">
+              2015-07-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂文</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>replace into 是insert into的加强版。有时候我们会有这样的需要：向表中插入数据时，首先判断数据是否存在，如果不存在则插入；如果存在，则更新。<br>或许，我们会这样判断： <code>if not exists(select 1 from where id = 1) 
+insert into(id,update_time) values(1,getDate())
+else
+update t set updata_time = getDate where id = 1</code><br>如果使用replace into的显得比较简单：<br><code>replace into t(id,update_time) values (1,now())</code><br>或<code>replace into t(id,update_time) select 1,now()</code></p>
+<p>replace into 跟 insert 功能类似，不同点在于：replace into 首先尝试插入数据到表中， 1.如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则，直接插入新数据</p>
+<p>Mysql replace into 有三种形式：</p>
+<ol>
+<li><code>replace into table_name(col_name,..)values(...)</code>这种形式类似于insert into的用法</li>
+<li><code>replace into table_name(col_name) select...</code>第二种用法类似 与insert …select。可以使用 replace select从表二将数据导入表一</li>
+<li><code>replace into table_name set col_name=value</code>,该方法类似于update set用法</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/30/11/" itemprop="url">
                   避免3种响应式设计灾祸
                 </a>
@@ -1439,7 +1562,7 @@ open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib.request.urlopen(&#39;http:/
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

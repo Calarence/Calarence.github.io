@@ -271,6 +271,130 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/13/pythonCode/" itemprop="url">
+                  python编码与解码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-13T10:30:28+08:00" content="2017-03-13">
+              2017-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="python编码："><a href="#python编码：" class="headerlink" title="python编码："></a>python编码：</h3><p>计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.<br>美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。<br>由于中文用一字节（128）表示不了，<code>UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe4 in position 0: ordinal not in range(128)</code> 所以会报这个错误。后来中文有了自己的编码–GB2312。<br>为了将所有语言统一编码，Unicode应运而生。<br>Unicode编码用两个字节表示一个字符，这样就会造成一定的浪费：像A完全可以用一个字节表示，第二个字节就浪费掉了。如果表示全英文，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。<br>为了节省空间，UTF-8编码出现了–它是可变长的Unicode编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。<br>ASCII编码实际上可以被看成是UTF-8编码的一部分，所以，大量只支持ASCII编码的历史遗留软件可以在UTF-8编码下继续工作。</p>
+<hr>
+<p>在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码.<br>由于Python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。<br>以Unicode表示的str通过encode()方法可以编码为指定的bytes</p>
+<pre><code>&gt;&gt;&gt; &apos;ABC&apos;.encode(&apos;ascii&apos;)
+b&apos;ABC&apos;
+&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;utf-8&apos;)
+b&apos;\xe4\xb8\xad\xe6\x96\x87&apos;
+&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;ascii&apos;)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 0-1: ordinal not in range(128)
+</code></pre><p>纯英文的str可以用ASCII编码为bytes，内容是一样的，含有中文的str可以用UTF-8编码为bytes。含有中文的str无法用ASCII编码，因为中文编码的范围超过了ASCII编码的范围，Python会报错<br>    如果我们从网络或磁盘上读取了字节流，那么读到的数据就是bytes。要把bytes变为str，就需要用decode()方法<br>    str和bytes互相转换时，需要指定编码。最常用的编码是UTF-8</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/10/redisquickstart/" itemprop="url">
                   Redis quick start
                 </a>
@@ -1547,176 +1671,6 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/08/yasi3/" itemprop="url">
-                  雅思词汇7-12章生疏词汇汇总
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-01-08T19:42:24+08:00" content="2016-01-08">
-              2016-01-08
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/雅思词汇/" itemprop="url" rel="index">
-                    <span itemprop="name">雅思词汇</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>wordlist7</strong><br>flourish v. 繁荣，兴旺；健康幸福 n. (为引起注意的)夸张动作，修饰<br>insulation n. 隔绝，隔热状态；绝缘材料，隔热，隔音<br>undermin v. 虚弱破坏。eg. The constant failure was staring to undermine my confidence<br>eliminate vt. 消灭，消除;淘汰<br>empirical a. 经验主义的，以经验为依据的 eg. Amazingly, there is virtually no empirical evidence to support the use of illustrations in teaching reading<br>probation n. 缓刑；试用，试用期<br>endeavour n/vi 努力，尽力；尝试 endeavour to do sth<br>devastate vt. 破坏，毁坏；是震惊，使极为悲痛 The writer had been devastated by the death of his seven-year-old elder daughter<br>illuminate vt 照亮；阐明，解释；启发<br>avail vt。 有帮助，有益，有用 n.效益，利益 Avail yourself of every opportunity to enrich your knowledge<br>acute a. 灵敏的；剧烈的；猛烈的</p>
-<hr>
-<p><strong>wordlist8</strong></p>
-<ol>
-<li>formulate vt.系统阐述，明确表达；构想出（计划，方法等），规划（制度等）</li>
-<li>collate vt. 对照，核对；整理（文件、书页等）</li>
-<li>consensus n. 共识；（意见）一致 The general consensuus is that reform is a good thing</li>
-<li>exaggerate v 夸张，夸大 eg. The witness exaggerated the seriousness of the accident</li>
-<li>reckon v认为，估计；测算，测量；料想，指望 eg. Did you reckon in the cost of these raw materials</li>
-<li>arrogance n.傲慢，自大 His arrogance impressed us most unfavourably</li>
-<li>roam v随便走，漫游；徜徉；漫谈某事 n. 漫步，徘徊 </li>
-<li>hurdle n. 障碍，跨栏 v. 越过障碍</li>
-<li>homogeneous a. 同种类的，由相同或同类型事物组成的</li>
-</ol>
-<hr>
-<p><strong>wordlist9</strong></p>
-<ol>
-<li>compassionate a. 有同情心的，怜悯的 eg. we should try our best to make a more compassionate society</li>
-<li>hostile a.敌方的，不友善的；不利的</li>
-<li>intervene vi. 干扰，干涉；介于其间</li>
-<li>limp a. 软的，无力的 some of you may come from cultures that accept limp handshakes as normal</li>
-<li>foremost a. 最好的，最重要的 the foremost research center of the day is in the USA</li>
-<li>aasemble v 集合，装配 eg. all components were assembled in the front workshop</li>
-<li>stout a. 发胖的，肥胖的，强壮的；结实的，牢固的；顽强的，坚毅的</li>
-<li>conform vt. 遵守，遵从；适应，顺应；相一致，相符合 </li>
-</ol>
-<hr>
-<p><strong>wordlist10</strong></p>
-<ol>
-<li>aesthetic a.美学的，审美的</li>
-<li>perceive vt. 感知，感觉；认识到，理解 Tom perceived Mary’s comment as a challenge</li>
-<li>destruction n. 毁坏，毁灭，摧毁</li>
-<li>parliament n.议会，国会</li>
-<li>intimate a.亲密的，密切的；私人的，个人的；小圈子的 n至交，密友 vt. 暗示，提示，透露</li>
-<li>harsh a.严厉的，严酷的，粗糙的，毛糙的；刻薄的，恶劣的；刺耳的，刺目的</li>
-<li>forgo vt. 放弃，抛弃；作罢</li>
-</ol>
-<hr>
-<p><strong>wordlist11</strong></p>
-<ol>
-<li>intrinsic a. 固有的，内在的，本质的</li>
-<li>retailer n零售商人；复述者，传播者</li>
-<li>turnover n 营业额；人事变动率；货物周转率</li>
-<li>lateral a. 侧面的，旁边的</li>
-<li>marvellous a. 令人惊奇的；奇特的；奇迹般的，不可思议的；绝妙的</li>
-<li>conquer vt. 征服，战胜，占领；克服，破除</li>
-<li>intrusion n. 闯入；打搅；侵扰</li>
-</ol>
-<hr>
-<p><strong>wordlist12</strong></p>
-<ol>
-<li>ensue vi. 继而发生，接着发生</li>
-<li>predominately adv 主要地；重要地；显著地</li>
-<li>moderation n. 温和，中庸；适度，合理</li>
-<li>vocational a职业的，业务的</li>
-<li>audacious a. 大胆的；有冒险精神的；莽撞的；厚颜无耻的</li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1762,7 +1716,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">109</span>
+              <span class="site-state-item-count">110</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
