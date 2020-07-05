@@ -271,6 +271,222 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/24/RESTfulAPI/" itemprop="url">
+                  RESTful API最佳实践
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-24T14:39:44+08:00" content="2017-03-24">
+              2017-03-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/全栈/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>参考资料：</p>
+<ol>
+<li>《python web开发实战》</li>
+<li>RESTful API最佳实践 <a href="https://zhuanlan.zhihu.com/p/25647039?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">地址</a></li>
+</ol>
+<h3 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h3><p>越来越多的公司让服务端所有商业逻辑都以RESTful API的方式暴露给客户端，浏览器用户可以使用Ajax、HTML5技术，通过HTTP的方式与后台直接交互。这种统一的机制，既减少了开发复杂度，又有非常好的扩展性。</p>
+<p>REST:Representational State Transfer–表现层状态转化，这里指的是资源的表现层。资源是指web上一切可识别、可命名、可被找到并处理的实体。比如HTML页面、音频文件、图片等。用一个URL指向资源，使用HTTP方法操作资源。URI可进一步划分为统一资源名(URN)和统一资源定位符（URL），其中URL可以定位HTTP网址、FTP服务器和文件路径等，符合绝大多数场景，所以一般都可以用URL。</p>
+<h3 id="REST架构风格的5个约束："><a href="#REST架构风格的5个约束：" class="headerlink" title="REST架构风格的5个约束："></a>REST架构风格的5个约束：</h3><p>1、客户端-服务器端。这种Client/Server架构形式提供了基本的分布式，客户端发起请求，服务端决定响应或拒绝请求，如果出错，则返回错误信息，由客户端处理异常。<br>2、无状态。通信的会话状态应该由客户端负责维护，也就是请求中包含了全部的必要信息。如果使用基于服务器端的会话，那么需要保证指定会话使用同一个服务器响应所有请求；要么得创建一个可供所有服务器访问的公用的会话存储区，对每个请求都额外访问这个集中式的数据存储区获得会话状态<br>3、缓存。无状态就表示可能出现重复的请求，事实上这些请求只需要第一次真正的执行，其余的请求都可以享用这个已完成的结果而直接响应，所以缓存可以抵消一部分无状态带来的响应<br>4、统一接口。统一接口意味着每个REST应用都共享一种通用架构。<br>5、分层系统：将系统划分为几个部分，每个部分负责一部分相对单一的职责，然后通过上下层的依赖和调用组成一个完整的系统。通常可以划分为如下三层：<br>    应用层：负责返回JSON数据和其他业务逻辑<br>    服务层: 为应用层提供服务支持<br>    数据库访问层：提供数据访问和存储的服务，如数据库、缓存系统、文件系统、搜索引擎等</p>
+<h3 id="RESTful-API设计指南："><a href="#RESTful-API设计指南：" class="headerlink" title="RESTful API设计指南："></a>RESTful API设计指南：</h3><blockquote>
+<ul>
+<li>应该将API部署在专用域名之下：<a href="https://api.example.com" target="_blank" rel="noopener">https://api.example.com</a></li>
+<li>不用大写</li>
+<li>用中杠-不用下杠_</li>
+<li>参数列表要encode</li>
+<li>使用名词来表示资源,URI中的名词表示资源集合，使用复数形式；</li>
+<li>关注请求头：一定要看请求头信息，并给予正确的状态码。举个例子，假设服务器端只能返回JSON格式，如果客户端的头信息的Accept字段要求返回application/xml，这个时候就不应该返回application/josn类型的数据，而应该返回406错误。</li>
+<li>合理使用请求方法和状态码：</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th style="text-align:right">语义</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPTIONS</td>
+<td style="text-align:right">用于获取资源支持的所有HTTP方法</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td style="text-align:right">用于只获取请求某个资源返回头信息</td>
+</tr>
+<tr>
+<td>GET</td>
+<td style="text-align:right">用于从服务器获取某个资源的信息，1.完成请求后，返回状态码200 OK 2.完成请求后，需要返回被请求的资源详细信息</td>
+</tr>
+<tr>
+<td>POST</td>
+<td style="text-align:right">用于创建新资源， 1、创建完成后，返回状态码201 Created 2、完成请求后，需要返回被创建的资源详细信息</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td style="text-align:right">用于完整的替换资源或创建指定身份的资源，如创建id为123的某个资源：1、如果是创建了资源，则返回201created 2.如果是替换了资源，则返回200 ok</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td style="text-align:right">用于局部更新资源： 1、 完成请求后，返回状态码200 ok；2. 完成请求后，需要返回被修改的资源详细信息 </td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td style="text-align:right">用于删除某个资源，完成请求后返回状态码204 NO Content</td>
+</tr>
+</tbody>
+</table>
+<p>使用201 created响应时，应该带location，指向新建资源的地址<br>使用405 method not allowed响应时，应该带有allow头，告诉客户端对该资源有效的http方法</p>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>就像HTML的出错页面向访问者展示了有用的错误消息一样，API也应该用之前熟悉易读的格式来提供有用的错误消息。错误的表现形式应该跟其他资源保持一致，只是用一些自己的字段。</p>
+<p>API应该一直返回合理的HTTP状态码。API错误一般情况下分成两类：代表客户端错误的400系列状态码和代表服务端错误的500系列状态码。API至少把所有400系列错误统一用易读的JSON格式来展示。如果可能（比如，如果负载均衡和反向代理能够创建自定义错误内容的话），500系列的状态码也这么弄。</p>
+<p>JSON错误内容应该为开发者提供一些东西 - 有用的错误消息，唯一的错误码（通过它可以在文档中找到更多错误细节），可能的话提供错误细节描述。用JSON格式来输出错误看起来这样：</p>
+<pre><code>{
+  &quot;code&quot; : 1234,
+  &quot;message&quot; : &quot;Something bad happened :(&quot;,
+  &quot;description&quot; : &quot;More details about the error here&quot;
+}
+</code></pre><p>对于PUT、PATCH和POST的请求进行的校验错误需要嵌套多个字段。最佳做法是用固定的错误码来表示校验失败，然后在额外的errors字段中提供错误的细节，像这样：</p>
+<pre><code>{
+  &quot;code&quot; : 1024,
+  &quot;message&quot; : &quot;Validation Failed&quot;,
+  &quot;errors&quot; : [
+    {
+      &quot;code&quot; : 5432,
+      &quot;field&quot; : &quot;first_name&quot;,
+      &quot;message&quot; : &quot;First name cannot have fancy characters&quot;
+    },
+    {
+       &quot;code&quot; : 5622,
+       &quot;field&quot; : &quot;password&quot;,
+       &quot;message&quot; : &quot;Password cannot be blank&quot;
+    }
+  ]
+}
+</code></pre><h3 id="对输出结果不再包装"><a href="#对输出结果不再包装" class="headerlink" title="对输出结果不再包装"></a>对输出结果不再包装</h3><p>不恰当的响应例子：</p>
+<pre><code>HTTP/1.1 200 OK
+   {
+   &apos;success&apos;: true,
+   &apos;data&apos;: {&apos;id&apos;:1,&apos;name&apos;:&apos;xiaoming&apos;}
+   }
+</code></pre><p>应该直接返回data的数据</p>
+<pre><code>HTTP/1.1 200 OK
+  {
+  &apos;id&apos;:1, &apos;name&apos;:&apos;xiaoming&apos;
+  }
+</code></pre><h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>保存在URI中， 如api/v2</p>
+<h3 id="URI失效和迁移"><a href="#URI失效和迁移" class="headerlink" title="URI失效和迁移"></a>URI失效和迁移</h3><p>随着业务的发展，会出现一些API失效或迁移。对失效的API，应该返回“404 not found”或“404 gone”；对迁移的API ，返回301重定向</p>
+<h3 id="速度限制"><a href="#速度限制" class="headerlink" title="速度限制"></a>速度限制</h3><p>为了避免请求泛滥，给API设置速度限制很重要。加入速度限制功能以后，应该提示用户，可以参照Github的返回头，如下所示：</p>
+<pre><code>X-RateLimit-Limit: 当前时间段允许的并发请求数
+X-RateLimit-Remaining: 当前时间段保留的请求数
+X-RateLimit-Reset: 当前时间段剩余的秒数
+</code></pre><h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>数据内容在一段时间内不会变动，这时我们就可以合理减少HTTP响应内容。应该在响应头中携带Last-Modified、ETag、Vary、Date等信息，客户端可以在随后请求这些资源时，在请求头中使用If-Modified-Since、If-None-Match等来确认资源是否经过修改。如果资源没有做过修改过，那么就响应“304 Not Modified”,并且不在响应实体中返回任何内容。</p>
+<h3 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h3><p>缺少并发控制的PUT和PATCH请求可能导致“更新丢失”。这个时候可以使用Last-Modified和ETag头来实现条件请求。</p>
+<h3 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h3><p>API的身份认证应该使用OAuth 2.0框架。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/13/pythonCode/" itemprop="url">
                   python编码与解码
                 </a>
@@ -1523,159 +1739,11 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/31/yasi1/" itemprop="url">
-                  雅思词汇13-15章生疏词汇汇总
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-01-31T17:42:02+08:00" content="2016-01-31">
-              2016-01-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/雅思词汇/" itemprop="url" rel="index">
-                    <span itemprop="name">雅思词汇</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong><em>Word list 13</em></strong></p>
-<ol>
-<li>crank n. 曲柄，曲轴 vt 用曲柄转动某物</li>
-<li>juvenile a.少年的，少年特有的；幼稚的，不成熟的 n未成年人，少年</li>
-<li>freight n.货物 vt运送（货物）；货运</li>
-<li>vulnerable a.易受攻击的，易受伤的</li>
-<li>sophisticate n.久经世故的人，精通者</li>
-<li>presumably adv.推测起来，大概</li>
-<li>pliable a(人或思想)容易受影响的；顺从的，易弯的，柔韧的</li>
-<li>subsidiary n子公司；附属机构；直流 a. 次要的；辅助的，附设的</li>
-<li>badge n徽章；标记；象征</li>
-</ol>
-<hr>
-<p><strong><em>word list 14</em></strong></p>
-<ol>
-<li>gross a.总的，毛的 Gross National Product 国民生产总值 Gross Domestic Product 国内生产总值</li>
-<li>curriculum n课程，（学校等）全部课程</li>
-<li>simultaneously  adv同时地</li>
-<li>interplay vi/n 相互作用，相互影响</li>
-<li>genuine a.真正的，真实的</li>
-<li>vitality n. 生命力，活力</li>
-<li>enlighten vt. 启发；开导；阐明</li>
-</ol>
-<hr>
-<p><strong><em>word list 15</em></strong></p>
-<ol>
-<li>clue n. 线索，提示</li>
-<li>stammer n. 结巴，口吃</li>
-<li>fickle adj. 易变得，无常的</li>
-<li>consecutive a. 连续不断的，连贯的</li>
-<li>scatter v.（使人或动物）散开，驱散；撒；撒播</li>
-<li>prevail vi.流行，盛行；占优势，战胜</li>
-<li>consolidation n.合并；巩固</li>
-<li>sensational a.轰动性的，引起哗然的；耸人听闻的；极好的；绝妙的</li>
-<li>pretension n.声称，自命；自负，自命不凡</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1716,7 +1784,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">110</span>
+              <span class="site-state-item-count">111</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1733,7 +1801,7 @@ virtualenv：虚拟环境的目录
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

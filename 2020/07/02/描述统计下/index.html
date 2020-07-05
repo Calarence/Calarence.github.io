@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在描述统计—-上 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位数和众数。在这篇文章中，将介绍描述数据离散趋势的指标，具体包括以下内容：  range interquartile range percentiles Box and whisker diagrams standard deviation Standard scores   背景：现有三名篮球运动员，他们的得分情况如下">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="描述统计—下">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/02/描述统计下/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="在描述统计—-上 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位数和众数。在这篇文章中，将介绍描述数据离散趋势的指标，具体包括以下内容：  range interquartile range percentiles Box and whisker diagrams standard deviation Standard scores   背景：现有三名篮球运动员，他们的得分情况如下">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbzd40j30vs05wjs3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbsqvlj317k060q40.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcmokuu2mj31ks0cigqz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcomu5ix7j314u096dil.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcp03jquaj314w0le7b3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcphi3lxej31b00sowrz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcpxts0olj30to05swg3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcq65crjqj30o80fqacc.jpg">
+<meta property="og:updated_time" content="2020-07-02T09:00:39.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="描述统计—下">
+<meta name="twitter:description" content="在描述统计—-上 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位数和众数。在这篇文章中，将介绍描述数据离散趋势的指标，具体包括以下内容：  range interquartile range percentiles Box and whisker diagrams standard deviation Standard scores   背景：现有三名篮球运动员，他们的得分情况如下">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/02/描述统计下/"/>
+
+  <title> 描述统计—下 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                描述统计—下
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-02T13:58:10+08:00" content="2020-07-02">
+              2020-07-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在<a href="http://www.appleieye.com/2020/06/22/%E6%8F%8F%E8%BF%B0%E7%BB%9F%E8%AE%A1%E4%B8%8A/">描述统计—-上</a> 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位数和众数。在这篇文章中，将介绍描述数据离散趋势的指标，具体包括以下内容：</p>
+<ol>
+<li>range</li>
+<li>interquartile range</li>
+<li>percentiles</li>
+<li>Box and whisker diagrams</li>
+<li>standard deviation</li>
+<li>Standard scores</li>
+</ol>
+<hr>
+<p><strong>背景</strong>：现有三名篮球运动员，他们的得分情况如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbzd40j30vs05wjs3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbzd40j30vs05wjs3.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbsqvlj317k060q40.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbsqvlj317k060q40.jpg"></p>
+<p>这三名运动员得分的算术平均数、中位数、众数都是10分，在这种情况下，假设教练要从这三人中选拔一名运动员，他应该选择哪一位？</p>
+<p>Average(算术平均数、中位数、众数)只告诉了我们数据的中心在哪里，但它们并没有告诉我们数据是如何变化的，也没有告诉我们数据围绕average是如何分布的。如果我们弄清楚了这些点，或许能够做出明智的选择。</p>
+<hr>
+<p>一、Range</p>
+<p>range(范围)描述了一组数据展开情况，通过Upper bound(上界,最大值)与Lower bound(下界,最小值)的差值，得出range.</p>
+<p>⚠️：range有它的局限性，例如它只告诉了我们数据的“宽度”，它并没有告诉我们数据是如何分布的；并且它很容易受到离群值的影响，因为它的计算方式是最大值减去最小值，所以有时候它并不能告诉我们数据的真实面貌。</p>
+<p>二、interquartile range(四分位间距)</p>
+<p>既然Range的局限性在于离群值的影响，那么是否可以规避这些离群值？这个方法就是只使用数据中心及其周围的数据值。我们可以将数据按照从小到大的顺序排列，然后将这些数据分成数量相等的四块，每一块包含四分之一的数据。如下图所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcmokuu2mj31ks0cigqz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcmokuu2mj31ks0cigqz.jpg"></p>
+<p>最小的四分位数称为lower quartile，或者是first quartile(Q1)；最大的四分位数称为upper quartile或Q3. 中间的四分位数称为Q2，因为它把数据分成了两部分。这两部分数据的范围称为interquartile range.</p>
+<p>四分位数是如何规避离群值影响的？</p>
+<p>首先，uppper和lower quartiles是位置固定的，所以有25%的数据是小于lower quartile的，同理，有25%的数据是大于upper quartile。这意味着interquartile range只使用了中间50%的数据，所以离群值被抛弃了。</p>
+<hr>
+<p>三、percentiles</p>
+<p>与四分位数类似，我们可以把数据分成若干等份。例如，我们可以把数据分成10份，每份包含十分之一的数据。把数据分割的数值称为百分位数，如我们把数据分成了10份，所以这个值称为是分位数。我们把使用这种方式构成的范围称为interpercentile range。每个百分位数是通过它分割数据的百分比来表示的。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcomu5ix7j314u096dil.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcomu5ix7j314u096dil.jpg"></p>
+<p>The lower quartile is P25, and the upper quartile is P75. The median is P50.</p>
+<hr>
+<p>四、Box and whisker diagrams(箱线图)</p>
+<p>箱线图可以在一个图表中展示多种数据，具体包括range，interquartile range，mean，所以它是一种对比数据集比较好的方式。具体图示如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcp03jquaj314w0le7b3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcp03jquaj314w0le7b3.jpg"></p>
+<hr>
+<p>五、standard deviation</p>
+<p>尽管range和interquartile range可以告诉我们最大值与最小值的差距，但是这些数据不能告诉我们每个运动员发挥是否稳定，或者说不能告诉我们他们得分的变化情况。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcphi3lxej31b00sowrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcphi3lxej31b00sowrz.jpg"></p>
+<p>我们可以计算每个值到均值的距离，来表示数据的变化情况。但这样的一个问题是会正负差值的抵消，所以我们可以将差值平方，这样得到的值就是正的(或者为0)了，这个数值叫作variance(方差)，方差开平方后得到的值叫作标准差(standard deviation)。标准差越小，值离算术平均值就越近。</p>
+<hr>
+<p>六、Standard scores(标准分)—-比较的基线</p>
+<p>想象这么一个情况：有两个能力不同的运动员，第一个平均投篮命中率为70%，标准差为20%，第二个命中率为40%，方差为10%；在一次比赛中，第一个运动员的命中率为75%，第二个命中率为55%。问你，哪个运动员表现更出色？</p>
+<p>这时两个运动员有不同的均值、标准差，这时候应该如何比较他们？这时候就用到了standard scores标准得分。计算公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcpxts0olj30to05swg3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcpxts0olj30to05swg3.jpg"></p>
+<p>通过计算z1为0.25,z2为1.5，那么这两个值到底代表了什么？</p>
+<p>standard score是一种对来自不同数据集的不同均值、标准差进行比较的一种方式。这种方式把两组数据好像整合到了一个数据集中(如下图)，实际上是均值为0，标准差为1的正态分布：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcq65crjqj30o80fqacc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcq65crjqj30o80fqacc.jpg"></p>
+<p>第一个运动员的标准得分是0.25，第二个运动员的标准得分是1.5，当标准化分数后，第二个运动员的得分更高，说明第二个运动员表现更好。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/01/相关分析/" rel="next" title="相关分析">
+                <i class="fa fa-chevron-left"></i> 相关分析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/05/机器学习introduction/" rel="prev" title="机器学习--introduction">
+                机器学习--introduction <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">111</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
