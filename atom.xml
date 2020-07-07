@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-05T11:05:45.528Z</updated>
+  <updated>2020-07-07T14:54:42.115Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>几何分布、二项分布、泊松分布</title>
+    <link href="http://www.appleieye.com/2020/07/07/%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83/"/>
+    <id>http://www.appleieye.com/2020/07/07/几何分布二项分布泊松分布/</id>
+    <published>2020-07-07T05:58:10.000Z</published>
+    <updated>2020-07-07T14:54:42.115Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>本文内容</strong>：</p><ol><li>几何分布</li><li>二项分布</li><li>泊松分布</li><li>多变量的泊松分布</li><li>使用泊松分布代替二项分布</li></ol><hr><p>一、<strong>几何分布</strong></p><p>从前有个人喜欢滑雪，他每次成功从山坡上滑下来的概率为0.2，他要一直练习从山坡上滑下，直到取得成功(假设每次他的每次练习是相互独立的，即一次练习的结果，不会影响到下一次练习)。</p><p>现在有一个问题，问他需要练习两次才成功的概率是多少。</p><p>我们可以使用probability tree来分析这个问题(如下图)。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilawnw9qj31300sajw9.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilawnw9qj31300sajw9.jpg"></p><p>如果X代表他需要练习的次数，则有</p><p>P(X = 1) = P(Success in trial 1) = 0.2</p><p>P(X = 2) = P(Success in trial 2 ∩ Failure in trial 1) = 0.2 x 0.8 = 0.16</p><p>他练习一次或两次即可成功的概率，则有：</p><p>P(X ≤ 2) = P(X = 1) + P(X = 2) = 0.2+0.16 = 0.3</p><p><strong><em>问题延伸：</em></strong>上面的两个问题计算的都是成功次数比较小时的概率，假设我们需要计算练习100次、1000次才可以成功的概率时，问题就变得复杂和困难起来。这个时候我们就需要<strong>*probability distribution(概率分布),</strong>我们可以利用它的一些特性，很快地计算出*<strong>概率、期望和方差</strong>。</p><p>我们滑雪场景下的概率分布，叫作<strong>*几何分布(geometric distribution)。</strong>它的计算公式如下<strong>：*</strong></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiltdmjf2j30cy03owel.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiltdmjf2j30cy03owel.jpg"></p><p>上述公式中，r表示尝试了r次才成功，r-1表示失败的次数，1表示成功的次数，p表示每次试验成功的概率，q表示每次试验失败的概率，其中q=1-p。这些公式都可以通过概率树进行推算</p><p>在我们这个例子中，假设我们想计算他尝试了100次，才成功1次的概率，则有如下等式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilxd213xj30ds02kdg2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilxd213xj30ds02kdg2.jpg"></p><p>此外，我们还可以计算超过r次才成功的概率，如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimc0a1z7j30du05sweo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimc0a1z7j30du05sweo.jpg"></p><p>超过r次才成功，说明前面r次都失败了</p><p>需要r次或小于r次成功的概率，计算公式如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimfaibbej30f2058gls.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimfaibbej30f2058gls.jpg"></p><p><strong><em>期望</em></strong>的计算公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimhwvtqij30s805ymyd.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimhwvtqij30s805ymyd.jpg"></p><p><strong><em>方差</em></strong>的计算公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimjb18vgj30dg05qglt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimjb18vgj30dg05qglt.jpg"></p><p><strong>几何分布的适用场景</strong>：</p><ol><li>进行了一系列独立试验</li><li>每次试验只有两种结果，要么成功要么失败，每次试验成功的概率是相同的</li><li>关心的问题是为了获得第一次的成功，需要进行多少次试验</li></ol><p>接下来会介绍二项分布，要注意区分两者的区别。</p><hr><p>二、<strong><em>二项分布</em></strong></p><p>二项分布与几何分布有些类似，但是关注的点不一样：几何分布关心的是在一列试验中第一次获得成功；而二项分布关注的是在一系列试验中，获得成功的次数。</p><p>下面通过例子来说明二项分布。</p><p>有个人参加一个问答比赛，题目如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggioe39w99j312g0u0q99.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggioe39w99j312g0u0q99.jpg"></p><p>很明显，他每道题的正确率为0.25,我们可以通过概率树列出这三道题答题的正确率分布：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiogx7tluj30wa0u011e.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiogx7tluj30wa0u011e.jpg"></p><p>我们可以根据上面的概率树推算出如下公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq61aze0j30xi078dhe.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq61aze0j30xi078dhe.jpg"></p><p>进一步推演：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq9v6p5kj30mq03wt90.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq9v6p5kj30mq03wt90.jpg"></p><p>这就是二项分布。</p><p>二项分布的<strong><em>期望</em></strong>为：E(X) = np</p><p><strong><em>方差为</em></strong>：Var(X) = npq</p><p>二项分布的<strong><em>适用场景</em></strong>：</p><ol><li>进行了一系列独立试验</li><li>每次试验的结果要么为成功要么为失败，并且每次试验的成功的概率都是一样的</li><li>进行了有限的试验</li></ol><p>这三个条件看起来与几何分布很类似，那么两者的区别在哪里呢？</p><p>如果有固定数目的试验，并且我们想知道取得一定次数的成功的概率，那么就需要用二项分布；并且也可以通过二项分布知道大概可以成功多少次；如果我们想知道在取得第一次成功之前，需要进行多少次尝试，则需要使用几何分布。</p><hr><p>三、<strong><em>泊松分布</em></strong></p><p>我们来看这么一个场景：现在有一台爆米花机器，它每周都会出现故障，平均每周的故障次数为3.4次，试问它下周可以正常工作的概率有多大。</p><p>这个场景跟之前的几个不一样，因为没有一系列的试验。我们只知道故障发生的次数。我们大概只知道每周故障次数为3次或者4次，糟糕时，次数会更多；好的时候，没有故障。</p><p>这种情况所涉及到的概率分布称为Poisson distribution(泊松分布)</p><p>泊松分布的<strong><em>适用场景</em></strong>：</p><ol><li>每个事件随机发生，并且在给定的间隔中是独立的；这个间隔可以是时间上的间隔，也可以是空间上的间隔，如在一周内，在一英里范围内</li><li>我们知道间隔内事件发生次数的均值，并且均值是有限的；均值一般用希腊字母lambda表示</li></ol><p>用X表示给定间隔内事件发生的次数，则有以下公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggis0jfnt8j30cg04wwer.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggis0jfnt8j30cg04wwer.jpg"></p><p>泊松分布的期望和均值均为λ。</p><hr><p>四、<strong><em>合并泊松分布变量</em></strong></p><p>如果X和Y是独立随机变量，并且X和Y都服从泊松分布，那么X+Y也服从泊松分布。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg"></p><hr><p>五、<strong><em>使用泊松分布代替二项分布</em></strong></p><p>有时候，二项分布的概率比较难计算，比如当次数为3000时，我们就需要计算3000的阶乘，这是非常困难的。这个时候，我们可以使用泊松分布来大概的替代二项分布。</p><p>泊松分布可以替代二项分布的条件：即两者的期望、方差是接近的，</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisdj1npaj313i06iwfw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisdj1npaj313i06iwfw.jpg"></p><p>当q接近于1，n非常大的时候，np与npq是非常接近的。所以，当n非常大，p非常小的时候，可以用泊松分布代替二项分布。一般来说，n大于50，p小于0.1</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;本文内容&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;几何分布&lt;/li&gt;
+&lt;li&gt;二项分布&lt;/li&gt;
+&lt;li&gt;泊松分布&lt;/li&gt;
+&lt;li&gt;多变量的泊松分布&lt;/li&gt;
+&lt;li&gt;使用泊松分布代替二项分布&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;一、&lt;strong
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习--introduction</title>
@@ -101,32 +135,6 @@
   </entry>
   
   <entry>
-    <title>方差分析</title>
-    <link href="http://www.appleieye.com/2020/06/27/%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90/"/>
-    <id>http://www.appleieye.com/2020/06/27/方差分析/</id>
-    <published>2020-06-27T05:58:10.000Z</published>
-    <updated>2020-06-29T04:38:35.205Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>方差分析</strong>：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。</p><p><strong>使用场景</strong>：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计学方法。</p><p><strong>基本思想</strong>：比较两类误差，以检验均值是否相等，比较的基础是方差比；如果<strong>系统误差</strong>显著地不同于<strong>随机误差</strong>，则均值就是不想等的；反之，均值就是相等的。</p><p><strong>实例</strong>：为了对几个行业的服务质量进行评价，消费者协会在四个行业分别抽取了不同的企业作为样本。最近一年中消费者对总共23家企业投诉的次数如下表：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg"></p><p><strong>结合实例理解相关概念</strong>：</p><ul><li>因素或因子(factor):所要检验的对象，比如在这个例子中，要分析行业对投诉次数是否有影响，行业是要检验的因素或因子</li><li>水平或处理(treatment):因素的不同表现，即每个自变量的不同取值称为因素的水平</li><li>观察值：在每个因素水平下得到的样本值，每个行业被投诉的次数就是观察值</li><li>试验: 这里只涉及一个因素，因此称为单因素四水平的试验</li><li>总体：因素的每一个水平可以看作是一个总体，比如零售业、旅游业、航空公司、家电制造业可以看作是四个总体</li><li>样本数据: 被投诉次数可以看作是从这四个总体中抽取的样本数据</li><li>随机误差: 因素的<strong>同一水平或总体</strong>下，样本各观察值之间的差异，比如，<strong>同一行业</strong>下不同企业被投诉次数是不同的，这种差异可以看成是随机因素的影响，称为随机误差</li><li>系统误差：因素的不同水平或不同总体下，各观察值之间的差异，比如不同行业之间的被投诉次数之间的差异，这种差异可能是由于抽样的随机性所造成的，也可能是由于行业本身所造成的，后者所形成的误差是由系统性因素造成的，称为系统误差</li><li>组内方差: 因素的同一水平或同一个总体下样本数据的方差，比如零售业被投诉次数的方差，组内方差只包含随机误差</li><li>组间方差：因素的不同水平或不同总体下各样本之间的方差；比如四个行业被投诉次数之间的方差，组间方差包括随机误差，也包括系统误差</li></ul><p><strong>方差的比较</strong>：</p><ul><li>若不同行业对投诉次数没有影响，则组间误差中只包含随机误差，没有系统误差。这时，组间误差与组内误差经过平均后的数值就应该很接近，它们的比值就会接近1</li><li>若不同行业对投诉次数有影响，在组间误差中除了包含随机误差外，还会包含有系统误差，这时组间误差平均后的数值就会大于组内误差平均后的数值，它们之间的比值就会大于1</li><li>这个比值大到某种程度时，就可以说不同水平之间存在显著差异，也就是自变量对因变量有影响</li><li>判断行业对投诉次数是否有显著影响，实际上也就是检验被投诉次数的差异主要是由于什么原因所引起的。如果这种差异主要是系统误差，说明不同行业对被投诉次数有显著影响</li></ul><hr><hr><p>单因素方差分析：模型中有一个自变量(因素)和一个观测变量，其实就是在一个因素的不同水平下，观测变量均值差异的显著性检验。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg"></p><p><strong>提出假设</strong>：</p><ul><li>H0: u1 = u2 = … = uk, 自变量对因变量没有显著影响</li><li>H1: u1, u2…u4不完全相等，自变量对因变量有显著影响</li><li>拒绝原假设，只表明至少有两个总体的均值不相等，并不意味着所有的均值都不相等。</li></ul><hr><p><strong>检验统计量</strong></p><ul><li><p>水平的均值</p></li><li><p>全部观察值的总均值</p></li><li><p>误差平方和</p></li><li><p>均方(MS)</p><p><strong>水平的均值</strong>：假定从第i个总体中抽取一个容量为ni的简单随机样本，第i个总体的样本均值为该样本的<strong><em>全部观察值总和除以观察值的个数</em></strong></p></li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg"></p><p><strong>全部观察值的总均值</strong>：全部观察值的总和除以观察值的总个数</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg"></p><p><strong>均值计算结果：</strong></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg"></p><p><strong><em>总误差平方和SST：</em></strong>全部观察值与总平均值的离差平方和，反应全部观察值的离散状况</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg"></p><p><strong>水平项平方和SSA</strong>：各组平均值与总平均值的离差平方和，反映各总体的样本均值之间的离异程度，又称组建平方和，该平方和既包括随机误差，也包括系统误差。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg"></p><p><strong>误差项平方和SSE</strong>：每个水平或组的各样本数据与其组平均值的离差平方和，反映每个样本各观察值的离散状况，又称组内平方和，该平方和反映的是随机误差的大小。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg"></p><p><strong>平方和之间的关系</strong>：总离差平方和SST、误差项离差平方和SSE、水平项离差平方和SSA之间的关系</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg"></p><p>SST反映全部数据总的误差程度，SSE反映随机误差的大小，SSA反映随机误差和系统误差的大小。如果原假设成立，则表明没有系统误差，组间平房和SSA除以自由度后的均方与组内平方和SSE除以自由度后的均方差异就不会太大；如果组间均方显著地大于组内均方，说明各水平(总体)之间的差异不仅有随机误差，还有系统误差，判断因素的水平是否对其观察值有影响，实际上就是比较组间方差与组内方差之间差异的大小。</p><p><strong>均方</strong>：各误差平方和的大小与观察值的多少有关，为消除观察值多少对误差平方和大小的影响，需要将其平均，这就是均方，也称为方差，计算方法是用误差平方和除以相应的自由度。</p><p><strong>各自由度</strong>：SST的自由度为n-1，其中n为全部观察值的个数；SSA的自由度为k-1，其中k为因素水平(总体)的个数；SSE的自由度为n-k</p><p><strong>F统计量</strong>：将MSA(组间方差，SSA的均方，记为MSA)和MSE(组内方差，SSE的均方，记为MSE)进行对比，即得到所需要的检验统</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg"></p><p>根据给定的显著性水平，在F分布表中查找与第一自由度df1=k-1，第二自由度df2=n-k相应的临界值</p><p>若F&gt;Fa,则拒绝原假设H0，表明均值之间的差异是显著的，所检验的因素对观察值有显著影响</p><p>若F&lt;Fa,则不拒绝原假设H0，不能认为所检验的因素对观察值有显著影响。</p><p><strong>方差分析表</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg"></p><p><strong><em>实例：</em></strong>在评价某药物耐受性及安全性的I期临床试验中，对符合纳入标准的30名健康自愿者随机分为3组每组10名，各组注射剂量分别为0.5U、1U、2U，观察48小时部分凝血活酶时间（s）试问不同剂量的部分凝血活酶时间有无不同？</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg"></p><p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p><p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p><hr><p><strong>方差分析中的多重比较</strong>：通过对总体均值之间的<strong>配对</strong>比较来进一步检验到底哪些均值之间存在差异，可采用Fisher提出的最小显著差异方法(简写为LSD)，LSD方法是对检验两个总体均值是否相等的T检验方法的总体方差估计而得到的。</p><p><strong><em>LSD方法：</em></strong>对k组中的两组的平均数进行比较，当两组样本容量分别为ni，nj都为时，有</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg"></p><p><strong><em>实例：</em></strong>颜色对销售额的影响</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg"></p><hr><p><strong><em>多因素方差分析：</em></strong>无交互效应的多因素方差分析；有交互效应的多因素方差分析</p><p><strong>主效应与交互效应</strong>：各个因素对观测变量的单独影响称为主效应；各个因素不同水平的搭配所产生的新的影响称为交互效应。</p><p><strong>双因素方差分析</strong>：双因素方差分析中因素A和B对结果的影响相互独立时称为<em>无交互效应的双因素方差分析；**如果除了A和B对结果的单独影响之外还存在交互效应，这时的双因素方差分析称为<strong>有交互效应的双因素方差分析</strong></em></p><p>无<strong><em>交互效应的双因素方差分析模型</em></strong>：</p><p>离差平方和的分解：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg"></p><p><strong>有交互效应的双因素方差分析模型</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg"></p><p><strong>双因素方差分析的步骤</strong>：</p><p><strong>提出假设</strong>：</p><p>要说明因素A有无显著影响，需要检验以下假设：</p><p>H0:因素A不同水平下观测变量的总体均值无显著差异</p><p>H1:因素A不同水平下观测变量的总体均值均存在显著差异</p><p>要说明因素B有无显著影响，就是检验以下假设：</p><p>H0: 因素B不同水平下观测变量的总体均值无显著差异</p><p>H1: 因素B不同水平下观测变量的总体均值存在显著差异</p><p>在有交互效应的双因素方差中，要说明两个因素的交互效应是否显著，还要检验第三组零假设和备择假设：</p><p>H0:因素A和因素B的交互效应对观测变量的总体均值无显著差异</p><p>H1:因素A和因素B的交互效应对观测变量的总体均值存在显著差异</p><p>构造统计量：在原假设成立的情况下，三个统计量分别服从自由度为（r-1,rs(m-1)）、（s-1,rs(m-1)）、（(r-1)(s-1),rs(m-1)）的F分布。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg"></p><p>利用原假设和样本数据分别计算3个F统计量的值和其对应的p值,对比p值和α，结合原假设作出推断。若p&lt;α，则拒绝关于这个因素的原假设，得出此因素不同水平下观测变量各总体均值存在显著差异的结论。</p><p><strong>实例：</strong></p><p>有四个品牌的彩电在五个地区销售，为分析彩电的品牌(品牌因素)和销售地区(地区因素)对销售量是否有影响，对每个品牌在各地区的销售量取得以下数据。试分析品牌和销售地区对彩电的销售量是否有显著影响？(α=0.05)</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg"></p><p><strong>提出假设：</strong></p><p>对行因素提出的假设为：H0: μ1 = μ2 = … = μi = …= μk (μi为第i个水平的均值)H1: μi (i =1,2, … , k) 不全相等</p><p>对列因素提出的假设为：H0: μ1 = μ2 = … = μj = …= μr (mj为第j个水平的均值)H1: μj (j =1,2,…,r) 不全相等</p><p><strong>计算各平方和</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg"></p><p><strong>计算均方</strong>：误差平方和除以相应的自由度</p><ul><li>总离差平方和SST的自由度为 kr-1</li><li>行因素的离差平方和SSR的自由度为 k-1</li><li>列因素的离差平方和SSC的自由度为 r-1</li><li>随机误差平方和SSE的自由度为 (k-1)×(r-1)</li></ul><p>计算检验统计量(F)：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg"></p><p>检验列因素的统计量：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg"></p><p>FA＝18.10777&gt;Fα＝3.4903，拒绝原假设H0，说明彩电的品牌对销售量有显著影响</p><p>FB＝2.100846&lt; Fα＝3.2592，接受原假设H0，说明销售地区对彩电的销售量没有显著影响</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;方差分析&lt;/strong&gt;：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
     <title>假设检验</title>
     <link href="http://www.appleieye.com/2020/06/27/%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C/"/>
     <id>http://www.appleieye.com/2020/06/27/假设检验/</id>
@@ -141,6 +149,32 @@
       
         &lt;p&gt; 假设：对总体的具体数值(如均值、比例等)所作的陈述，比如新的配方的药效要比原来的更好；推广新的教育方案后，教学效果有所提高；醉驾判定为刑事犯罪后使得交通事故减少；男生和女生在选文理科时存在性别因素影响。&lt;/p&gt;
 &lt;p&gt;  假设检验(也称显著性检验)是对总体数据提出某种假设
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>方差分析</title>
+    <link href="http://www.appleieye.com/2020/06/27/%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90/"/>
+    <id>http://www.appleieye.com/2020/06/27/方差分析/</id>
+    <published>2020-06-27T05:58:10.000Z</published>
+    <updated>2020-06-29T04:38:35.205Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>方差分析</strong>：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。</p><p><strong>使用场景</strong>：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计学方法。</p><p><strong>基本思想</strong>：比较两类误差，以检验均值是否相等，比较的基础是方差比；如果<strong>系统误差</strong>显著地不同于<strong>随机误差</strong>，则均值就是不想等的；反之，均值就是相等的。</p><p><strong>实例</strong>：为了对几个行业的服务质量进行评价，消费者协会在四个行业分别抽取了不同的企业作为样本。最近一年中消费者对总共23家企业投诉的次数如下表：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg"></p><p><strong>结合实例理解相关概念</strong>：</p><ul><li>因素或因子(factor):所要检验的对象，比如在这个例子中，要分析行业对投诉次数是否有影响，行业是要检验的因素或因子</li><li>水平或处理(treatment):因素的不同表现，即每个自变量的不同取值称为因素的水平</li><li>观察值：在每个因素水平下得到的样本值，每个行业被投诉的次数就是观察值</li><li>试验: 这里只涉及一个因素，因此称为单因素四水平的试验</li><li>总体：因素的每一个水平可以看作是一个总体，比如零售业、旅游业、航空公司、家电制造业可以看作是四个总体</li><li>样本数据: 被投诉次数可以看作是从这四个总体中抽取的样本数据</li><li>随机误差: 因素的<strong>同一水平或总体</strong>下，样本各观察值之间的差异，比如，<strong>同一行业</strong>下不同企业被投诉次数是不同的，这种差异可以看成是随机因素的影响，称为随机误差</li><li>系统误差：因素的不同水平或不同总体下，各观察值之间的差异，比如不同行业之间的被投诉次数之间的差异，这种差异可能是由于抽样的随机性所造成的，也可能是由于行业本身所造成的，后者所形成的误差是由系统性因素造成的，称为系统误差</li><li>组内方差: 因素的同一水平或同一个总体下样本数据的方差，比如零售业被投诉次数的方差，组内方差只包含随机误差</li><li>组间方差：因素的不同水平或不同总体下各样本之间的方差；比如四个行业被投诉次数之间的方差，组间方差包括随机误差，也包括系统误差</li></ul><p><strong>方差的比较</strong>：</p><ul><li>若不同行业对投诉次数没有影响，则组间误差中只包含随机误差，没有系统误差。这时，组间误差与组内误差经过平均后的数值就应该很接近，它们的比值就会接近1</li><li>若不同行业对投诉次数有影响，在组间误差中除了包含随机误差外，还会包含有系统误差，这时组间误差平均后的数值就会大于组内误差平均后的数值，它们之间的比值就会大于1</li><li>这个比值大到某种程度时，就可以说不同水平之间存在显著差异，也就是自变量对因变量有影响</li><li>判断行业对投诉次数是否有显著影响，实际上也就是检验被投诉次数的差异主要是由于什么原因所引起的。如果这种差异主要是系统误差，说明不同行业对被投诉次数有显著影响</li></ul><hr><hr><p>单因素方差分析：模型中有一个自变量(因素)和一个观测变量，其实就是在一个因素的不同水平下，观测变量均值差异的显著性检验。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg"></p><p><strong>提出假设</strong>：</p><ul><li>H0: u1 = u2 = … = uk, 自变量对因变量没有显著影响</li><li>H1: u1, u2…u4不完全相等，自变量对因变量有显著影响</li><li>拒绝原假设，只表明至少有两个总体的均值不相等，并不意味着所有的均值都不相等。</li></ul><hr><p><strong>检验统计量</strong></p><ul><li><p>水平的均值</p></li><li><p>全部观察值的总均值</p></li><li><p>误差平方和</p></li><li><p>均方(MS)</p><p><strong>水平的均值</strong>：假定从第i个总体中抽取一个容量为ni的简单随机样本，第i个总体的样本均值为该样本的<strong><em>全部观察值总和除以观察值的个数</em></strong></p></li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg"></p><p><strong>全部观察值的总均值</strong>：全部观察值的总和除以观察值的总个数</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg"></p><p><strong>均值计算结果：</strong></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg"></p><p><strong><em>总误差平方和SST：</em></strong>全部观察值与总平均值的离差平方和，反应全部观察值的离散状况</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg"></p><p><strong>水平项平方和SSA</strong>：各组平均值与总平均值的离差平方和，反映各总体的样本均值之间的离异程度，又称组建平方和，该平方和既包括随机误差，也包括系统误差。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg"></p><p><strong>误差项平方和SSE</strong>：每个水平或组的各样本数据与其组平均值的离差平方和，反映每个样本各观察值的离散状况，又称组内平方和，该平方和反映的是随机误差的大小。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg"></p><p><strong>平方和之间的关系</strong>：总离差平方和SST、误差项离差平方和SSE、水平项离差平方和SSA之间的关系</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg"></p><p>SST反映全部数据总的误差程度，SSE反映随机误差的大小，SSA反映随机误差和系统误差的大小。如果原假设成立，则表明没有系统误差，组间平房和SSA除以自由度后的均方与组内平方和SSE除以自由度后的均方差异就不会太大；如果组间均方显著地大于组内均方，说明各水平(总体)之间的差异不仅有随机误差，还有系统误差，判断因素的水平是否对其观察值有影响，实际上就是比较组间方差与组内方差之间差异的大小。</p><p><strong>均方</strong>：各误差平方和的大小与观察值的多少有关，为消除观察值多少对误差平方和大小的影响，需要将其平均，这就是均方，也称为方差，计算方法是用误差平方和除以相应的自由度。</p><p><strong>各自由度</strong>：SST的自由度为n-1，其中n为全部观察值的个数；SSA的自由度为k-1，其中k为因素水平(总体)的个数；SSE的自由度为n-k</p><p><strong>F统计量</strong>：将MSA(组间方差，SSA的均方，记为MSA)和MSE(组内方差，SSE的均方，记为MSE)进行对比，即得到所需要的检验统</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg"></p><p>根据给定的显著性水平，在F分布表中查找与第一自由度df1=k-1，第二自由度df2=n-k相应的临界值</p><p>若F&gt;Fa,则拒绝原假设H0，表明均值之间的差异是显著的，所检验的因素对观察值有显著影响</p><p>若F&lt;Fa,则不拒绝原假设H0，不能认为所检验的因素对观察值有显著影响。</p><p><strong>方差分析表</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg"></p><p><strong><em>实例：</em></strong>在评价某药物耐受性及安全性的I期临床试验中，对符合纳入标准的30名健康自愿者随机分为3组每组10名，各组注射剂量分别为0.5U、1U、2U，观察48小时部分凝血活酶时间（s）试问不同剂量的部分凝血活酶时间有无不同？</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg"></p><p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p><p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p><hr><p><strong>方差分析中的多重比较</strong>：通过对总体均值之间的<strong>配对</strong>比较来进一步检验到底哪些均值之间存在差异，可采用Fisher提出的最小显著差异方法(简写为LSD)，LSD方法是对检验两个总体均值是否相等的T检验方法的总体方差估计而得到的。</p><p><strong><em>LSD方法：</em></strong>对k组中的两组的平均数进行比较，当两组样本容量分别为ni，nj都为时，有</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg"></p><p><strong><em>实例：</em></strong>颜色对销售额的影响</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg"></p><hr><p><strong><em>多因素方差分析：</em></strong>无交互效应的多因素方差分析；有交互效应的多因素方差分析</p><p><strong>主效应与交互效应</strong>：各个因素对观测变量的单独影响称为主效应；各个因素不同水平的搭配所产生的新的影响称为交互效应。</p><p><strong>双因素方差分析</strong>：双因素方差分析中因素A和B对结果的影响相互独立时称为<em>无交互效应的双因素方差分析；**如果除了A和B对结果的单独影响之外还存在交互效应，这时的双因素方差分析称为<strong>有交互效应的双因素方差分析</strong></em></p><p>无<strong><em>交互效应的双因素方差分析模型</em></strong>：</p><p>离差平方和的分解：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg"></p><p><strong>有交互效应的双因素方差分析模型</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg"></p><p><strong>双因素方差分析的步骤</strong>：</p><p><strong>提出假设</strong>：</p><p>要说明因素A有无显著影响，需要检验以下假设：</p><p>H0:因素A不同水平下观测变量的总体均值无显著差异</p><p>H1:因素A不同水平下观测变量的总体均值均存在显著差异</p><p>要说明因素B有无显著影响，就是检验以下假设：</p><p>H0: 因素B不同水平下观测变量的总体均值无显著差异</p><p>H1: 因素B不同水平下观测变量的总体均值存在显著差异</p><p>在有交互效应的双因素方差中，要说明两个因素的交互效应是否显著，还要检验第三组零假设和备择假设：</p><p>H0:因素A和因素B的交互效应对观测变量的总体均值无显著差异</p><p>H1:因素A和因素B的交互效应对观测变量的总体均值存在显著差异</p><p>构造统计量：在原假设成立的情况下，三个统计量分别服从自由度为（r-1,rs(m-1)）、（s-1,rs(m-1)）、（(r-1)(s-1),rs(m-1)）的F分布。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg"></p><p>利用原假设和样本数据分别计算3个F统计量的值和其对应的p值,对比p值和α，结合原假设作出推断。若p&lt;α，则拒绝关于这个因素的原假设，得出此因素不同水平下观测变量各总体均值存在显著差异的结论。</p><p><strong>实例：</strong></p><p>有四个品牌的彩电在五个地区销售，为分析彩电的品牌(品牌因素)和销售地区(地区因素)对销售量是否有影响，对每个品牌在各地区的销售量取得以下数据。试分析品牌和销售地区对彩电的销售量是否有显著影响？(α=0.05)</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg"></p><p><strong>提出假设：</strong></p><p>对行因素提出的假设为：H0: μ1 = μ2 = … = μi = …= μk (μi为第i个水平的均值)H1: μi (i =1,2, … , k) 不全相等</p><p>对列因素提出的假设为：H0: μ1 = μ2 = … = μj = …= μr (mj为第j个水平的均值)H1: μj (j =1,2,…,r) 不全相等</p><p><strong>计算各平方和</strong>：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg"></p><p><strong>计算均方</strong>：误差平方和除以相应的自由度</p><ul><li>总离差平方和SST的自由度为 kr-1</li><li>行因素的离差平方和SSR的自由度为 k-1</li><li>列因素的离差平方和SSC的自由度为 r-1</li><li>随机误差平方和SSE的自由度为 (k-1)×(r-1)</li></ul><p>计算检验统计量(F)：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg"></p><p>检验列因素的统计量：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg"></p><p>FA＝18.10777&gt;Fα＝3.4903，拒绝原假设H0，说明彩电的品牌对销售量有显著影响</p><p>FB＝2.100846&lt; Fα＝3.2592，接受原假设H0，说明销售地区对彩电的销售量没有显著影响</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;方差分析&lt;/strong&gt;：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用场景&lt;/strong&gt;：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计
       
     
     </summary>
@@ -433,32 +467,6 @@
   </entry>
   
   <entry>
-    <title>spring与amqp</title>
-    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
-    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
-    <published>2018-05-26T05:58:10.000Z</published>
-    <updated>2018-05-26T09:50:12.845Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>RabbitMQ常用命令</title>
     <link href="http://www.appleieye.com/2018/05/26/rabbitmq/"/>
     <id>http://www.appleieye.com/2018/05/26/rabbitmq/</id>
@@ -486,6 +494,32 @@
   </entry>
   
   <entry>
+    <title>spring与amqp</title>
+    <link href="http://www.appleieye.com/2018/05/26/springandamqp/"/>
+    <id>http://www.appleieye.com/2018/05/26/springandamqp/</id>
+    <published>2018-05-26T05:58:10.000Z</published>
+    <updated>2018-05-26T09:50:12.845Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol><li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li></ol><p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p><p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p><p> 3.amqp的一种实现–rabbitmq</p><blockquote><ul><li>配置spring支持rabbitmq</li><li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li><li>声明rabbittemplate</li><li>使用rabbittemplate发送消息<ul><li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li><li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li></ul></li><li>接收消息(异步)<ul><li>consumer端配置</li><li>实现消费消息的代码，如下</li></ul></li></ul></blockquote><pre><code>    public class MessageReceiver implements MessageListener {    public void onMessage(Message message) {        System.out.println(message);    }    public static void main(String[]args){        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springMVC示例之hello world</title>
     <link href="http://www.appleieye.com/2018/04/30/springMVChello%20world/"/>
     <id>http://www.appleieye.com/2018/04/30/springMVChello world/</id>
@@ -499,31 +533,6 @@
       
       
         &lt;h3 id=&quot;springMVC示例之hello-world&quot;&gt;&lt;a href=&quot;#springMVC示例之hello-world&quot; class=&quot;headerlink&quot; title=&quot;springMVC示例之hello world&quot;&gt;&lt;/a&gt;springMVC示例之hello
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring面向切面编程示例之打印日志</title>
-    <link href="http://www.appleieye.com/2018/04/22/springaop/"/>
-    <id>http://www.appleieye.com/2018/04/22/springaop/</id>
-    <published>2018-04-22T07:58:10.000Z</published>
-    <updated>2018-04-22T03:57:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p><p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul><li><p>pom中添加依赖</p><pre><code>&lt;dependency&gt; &lt;groupId&gt;org.aspectj&lt;/groupId&gt; &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt; &lt;version&gt;1.8.13&lt;/version&gt;&lt;/dependency&gt;</code></pre></li><li><p>添加切面的实现</p></li></ul><pre><code>public class LogHelper {public LogHelper() {    }public void sayBefore(){    System.out.println(&quot;before saying hello world&quot;);    }public void sayAfter(){    System.out.println(&quot;after saying hello world&quot;);        }      }</code></pre><ul><li><p>配置切面</p><pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;&lt;/bean&gt;&lt;aop:config&gt;&lt;aop:aspect ref=&quot;logHelper&quot;&gt;&lt;!--定义切点--&gt;&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;&lt;!--定义前置通知--&gt;&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;&lt;!--定义后置通知--&gt;&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;</code></pre></li></ul><p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;a href=&quot;#spring面向切面编程示例之打印日志&quot; class=&quot;headerlink&quot; title=&quot;spring面向切面编程示例之打印日志&quot;&gt;&lt;/a&gt;spring面向切面编程示例之打印日志&lt;/h3&gt;&lt;h3 i
       
     
     </summary>

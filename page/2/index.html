@@ -271,6 +271,134 @@
             
               
                 
+                <a class="post-title-link" href="/2018/10/07/Spring/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-10-07T21:37:11+08:00" content="2018-10-07">
+              2018-10-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><ol>
+<li><p>核心：依赖注入和面向切面</p>
+</li>
+<li><p>思想：</p>
+<ul>
+<li>基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类</li>
+<li></li>
+<li><p>通过依赖注入和面向接口实现松耦合</p>
+</li>
+<li>基于切面和惯例进行声明式编程</li>
+<li>通过切面和模版减少版式代码</li>
+</ul>
+</li>
+<li><p>依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系自动注入到需要他们的对象中去。</p>
+</li>
+<li><p>装配：创建应用组件之间协作的行为，即装配。配置类之间的依赖关系</p>
+</li>
+<li><p>Spring容器：负责创建对象，管理它们，配置它们并且管理它们的整个生命周期。Spring自带了多种容器的实现，可以归为以下两种类型</p>
+<ul>
+<li><p>bean工厂：由org.springframework.beans.factory.BeanFactory接口定义，是最简单的容器，提供基本的依赖注入支持</p>
+</li>
+<li><p>应用上下文：由org.springframework.context.ApplicationContext接口定义，基于BeanFactoy构建，提供框架级服务。应用上下文要比bean工厂更受欢迎。</p>
+</li>
+<li><p>5种应用上下文：</p>
+<p>a. AnnotationConfigApplicationContext:从一个或多个基于Java的配置类中加载Spring应用上下文</p>
+<p>b. AnnotationConfigWebApplicationContext:从一个或多个基于Java的配置类中加载Spring web应用上下文</p>
+<p>c. ClassPathXmlApplicationContext:从类路径下的一个或多个xml配置文件中加载上下文定义，把应用上下文的定义文件作为类资源</p>
+<p>d. FileSystemXmlApplicationContext:从文件系统下的一个或多个xml配置文件中加载上下文定义</p>
+<p>e. XmlWebApplicationContext:从web应用下的一个或多个xml文件中加载应用上下文</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Spring生命周期</strong> </p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/09/16/Spring容器启动流程/" itemprop="url">
                   Spring容器启动流程
                 </a>
@@ -1133,6 +1261,139 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
+                  RabbitMQ常用命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
+              2018-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
+<ul>
+<li>启动节点：rabbitmq-server</li>
+<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
+<li>停止节点：rabbitmqctl stop</li>
+<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
+<li>停止应用程序 rabbitmqctl stop_app </li>
+<li>启动应用程序 rabbitmqctl start_app</li>
+<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
+<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
+<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
+<li>列出绑定：rabbitmqctl list_bindings</li>
+<li>添加用户: rabbitmqctl add_user username password</li>
+<li>删除用户：rabbitmqctl delete_user </li>
+<li>列出所有用户：rabbitmqctl list_users</li>
+<li>修改密码 rabbitmqctl change_password username newpassword</li>
+<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
+<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
+<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
                   spring与amqp
                 </a>
@@ -1229,139 +1490,6 @@
     }
 }
 </code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
-                  RabbitMQ常用命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
-              2018-05-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
-<ul>
-<li>启动节点：rabbitmq-server</li>
-<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
-<li>停止节点：rabbitmqctl stop</li>
-<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
-<li>停止应用程序 rabbitmqctl stop_app </li>
-<li>启动应用程序 rabbitmqctl start_app</li>
-<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
-<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
-<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
-<li>列出绑定：rabbitmqctl list_bindings</li>
-<li>添加用户: rabbitmqctl add_user username password</li>
-<li>删除用户：rabbitmqctl delete_user </li>
-<li>列出所有用户：rabbitmqctl list_users</li>
-<li>修改密码 rabbitmqctl change_password username newpassword</li>
-<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
-<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
-<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
-</ul>
-</blockquote>
-
           
         
       
@@ -1638,158 +1766,6 @@ public String hello(){
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
-                  spring面向切面编程示例之打印日志
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
-<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
-<li><p>pom中添加依赖</p>
-<pre><code>&lt;dependency&gt;
- &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
- &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
- &lt;version&gt;1.8.13&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre></li>
-<li><p>添加切面的实现</p>
-</li>
-</ul>
-<pre><code>public class LogHelper {
-public LogHelper() {
-    }
-public void sayBefore(){
-    System.out.println(&quot;before saying hello world&quot;);
-    }
-public void sayAfter(){
-    System.out.println(&quot;after saying hello world&quot;);
-        }
-      }
-</code></pre><ul>
-<li><p>配置切面</p>
-<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
-&lt;/bean&gt;
-&lt;aop:config&gt;
-&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
-&lt;!--定义切点--&gt;
-&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
-&lt;!--定义前置通知--&gt;
-&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
-&lt;!--定义后置通知--&gt;
-&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
-&lt;/aop:aspect&gt;
-&lt;/aop:config&gt;
-</code></pre></li>
-</ul>
-<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1835,7 +1811,7 @@ public void sayAfter(){
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">111</span>
+              <span class="site-state-item-count">112</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
