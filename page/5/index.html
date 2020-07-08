@@ -271,6 +271,268 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/10/Iterator/" itemprop="url">
+                  Iterator接口及其在ArrayList中的实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-10T15:58:10+08:00" content="2017-11-10">
+              2017-11-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Iterator接口及其在ArrayList中的实现</p>
+<p>###继承关系如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/iterator.png" alt="此处输入图片的描述"></p>
+<h3 id="Itr类分析"><a href="#Itr类分析" class="headerlink" title="Itr类分析"></a>Itr类分析</h3><p>####成员变量</p>
+<blockquote>
+<ul>
+<li>cursor:下一个返回元素的序号</li>
+<li>lastRet:上次返回的元素的序号</li>
+<li>expectedModCount = modCount,修改次数</li>
+</ul>
+</blockquote>
+<p>####方法</p>
+<blockquote>
+<ul>
+<li>判断是否还有下一个元素，依据：元素的index是否等于最后一个元素的index</li>
+</ul>
+</blockquote>
+<p>   public boolean hasNext() {<br>            return cursor != size;<br>        }</p>
+<blockquote>
+<ul>
+<li>每个迭代器检查自己改写操作的计数值是否与集合的改写操作计数值一致。如果不一致，则抛出ConcurrentModificationException</li>
+</ul>
+</blockquote>
+<pre><code>final void checkForComodification() {
+       if (modCount != expectedModCount)
+           throw new ConcurrentModificationException();
+   }
+</code></pre><blockquote>
+<ul>
+<li>返回cursor指向的元素，然后cursor加1.这个方法会迷惑人，从字面意义上觉得是返回下一个元素，但事实却是返回当前元素，然后将cursor指向下一个元素。所以，next可以理解为将cursor指向next。</li>
+</ul>
+</blockquote>
+<pre><code>public E next() {
+        checkForComodification();
+        int i = cursor;
+        if (i &gt;= size)
+            throw new NoSuchElementException();
+        Object[] elementData = ArrayList.this.elementData;
+        if (i &gt;= elementData.length)
+            throw new ConcurrentModificationException();
+        cursor = i + 1;
+        return (E) elementData[lastRet = i];
+    }
+</code></pre><blockquote>
+<ul>
+<li>remove方法：在调用remove方法之前，如果没有调用next方法，将会抛出IllegalStateException,原因是lastRet初始值为-1，小于0，抛出IllegalStateException;而调用next方法后，将lastRet赋值为cursor，即当前访问的元素，这样lastRet大于或等于0，不会抛出异常。然后调用ArrayList的remove方法删除元素；又将lastRest复位为-1，所以下次remove时，需要再次调用next</li>
+</ul>
+</blockquote>
+<pre><code>public void remove() {
+        if (lastRet &lt; 0)
+            throw new IllegalStateException();
+        checkForComodification();
+
+        try {
+            ArrayList.this.remove(lastRet);
+            cursor = lastRet;
+            lastRet = -1;
+            expectedModCount = modCount;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+</code></pre><blockquote>
+<ul>
+<li>forEachRemaining方法，java8中的新特性。以后补充。</li>
+</ul>
+</blockquote>
+<p>###ListItr类分析：继承了Itr类，实现了ListIterator接口<br>方法如下：</p>
+<blockquote>
+<ul>
+<li>构造方法：将cursor初始化为index，默认值为0</li>
+</ul>
+</blockquote>
+<pre><code>ListItr(int index) {
+    super();
+    cursor = index;
+}
+</code></pre><blockquote>
+<ul>
+<li>判断是否有前一个元素：依据：cursor是否等于0</li>
+</ul>
+</blockquote>
+<pre><code>public boolean hasPrevious() {
+       return cursor != 0;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取下一个元素的序号(cursor指向下一个元素的序号)</li>
+</ul>
+</blockquote>
+<pre><code>public int nextIndex() {
+       return cursor;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取上一个元素的序号(cursor指向下一个元素的序号)</li>
+</ul>
+</blockquote>
+<pre><code>public int previousIndex() {
+       return cursor - 1;
+   }
+</code></pre><blockquote>
+<ul>
+<li>获取前一个元素：如果当前元素(序号为cursor-1)为第一个元素，则抛出NoSuchElementException；将cursor指向当前元素(正常情况指向下一个元素)，返回当前元素</li>
+</ul>
+</blockquote>
+<pre><code>public E previous() {
+        checkForComodification();
+        int i = cursor - 1;
+        if (i &lt; 0)
+            throw new NoSuchElementException();
+        Object[] elementData = ArrayList.this.elementData;
+        if (i &gt;= elementData.length)
+            throw new ConcurrentModificationException();
+        cursor = i;
+        return (E) elementData[lastRet = i];
+    }
+</code></pre><blockquote>
+<ul>
+<li>用元素e取代next或previous返回的元素:在调用该方法前，必须先调用previous或next方法。否则,lastRet为-1，小于0，抛出异常。set方法并没有导致modCount加1操作，所以set方法不被视为结构性修改</li>
+</ul>
+</blockquote>
+<pre><code>public void set(E e) {
+        if (lastRet &lt; 0)
+            throw new IllegalStateException();
+        checkForComodification();
+
+        try {
+            ArrayList.this.set(lastRet, e);
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+</code></pre><blockquote>
+<ul>
+<li>添加元素:ArrayList的add方法导致modCount次数加1，所以此操作会修改结构。当一个iter对集合进行遍历，而另一个对其修改时，则会抛出ConcurrentModificationException</li>
+</ul>
+</blockquote>
+<pre><code>public void add(E e) {
+     checkForComodification();
+
+     try {
+         int i = cursor;
+         ArrayList.this.add(i, e);
+         cursor = i + 1;
+         lastRet = -1;
+         expectedModCount = modCount;
+     } catch (IndexOutOfBoundsException ex) {
+         throw new ConcurrentModificationException();
+     }
+ }
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/09/ArrayListInterface/" itemprop="url">
                   Java ArrayList源码阅读
                 </a>
@@ -1897,219 +2159,6 @@ Func()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/26/python2/" itemprop="url">
-                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(上）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-26T09:13:38+08:00" content="2017-07-26">
-              2017-07-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###python源码中的PyCodeObject<br>源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodeobject.png" alt="此处输入图片的描述"></p>
-<p>各字段定义如下：</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th style="text-align:right">意义</th>
-<th style="text-align:center"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>co_argcount</td>
-<td style="text-align:right">位置参数的个数</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_nlocals</td>
-<td style="text-align:right">局部变量的个数</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_stacksize</td>
-<td style="text-align:right">所需要的栈空间</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_flags</td>
-<td style="text-align:right">N/A</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_code</td>
-<td style="text-align:right">字节码指令序列</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_consts</td>
-<td style="text-align:right">保存所有常量</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_names</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_varnames</td>
-<td style="text-align:right">局部变量名集合</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_freevars</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_cellvars</td>
-<td style="text-align:right"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_filename</td>
-<td style="text-align:right">.py文件的完整路径</td>
-</tr>
-<tr>
-<td>co_name</td>
-<td style="text-align:right">函数名或类名</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>co_firs</td>
-<td style="text-align:right">tlineno</td>
-<td style="text-align:center">Code Block 在对应的.py文件中起始行</td>
-</tr>
-<tr>
-<td>co_lnotab</td>
-<td style="text-align:right">字节码指令与.pywenj文件中source code行号的对应关系</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>###pyc文件：<br>PyCodeObject对象中都包含了每一个Code Block中所有python源代码经过编译后得到的byte code序列，python会将这些字节码序列和PyCodeObject对象一起存储在pyc文件中。但是并不是每次都会生成pyc文件。</p>
-<blockquote>
-<ul>
-<li>不会生成pyc的情况：某些python程序只是临时完成一些琐碎的工作，可能仅仅运行一次，然后就再也没有用了，所以没必要保存其对应的pyc文件</li>
-<li>需要生成pyc文件的情况：若某个程序需要被重用，比如通过import语句被加载，这时候就需要存储其对应的PyCodeObject对象，生成pyc文件，这样下次python就不会再次进行编译了。这意味着Python的import机制会触发pyc文件的生成，实际上，在python运行过程中，如果碰到import  abc这样的语句，python将到设定好的path中寻找abc.pyc或abc.dll文件，如果没有这些文件，而只是发现了abc.py文件，那么python会首先将abc.py编译成相应的PyCodeObject的中间结果，然后创建abc.pyc文件，并将中间结果写入该文件。jiaxial接下来，python会对abc.pyc进行import的动作。实际上也就是将abc.pyc文件中的PyCodeObject重新在内存中复制出来。</li>
-</ul>
-</blockquote>
-<p>###pyc文件生成过程</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycwriteobject.png" alt="此处输入图片的描述"></p>
-<p> 从write_compiled_module中可以发现，一个pyc文件中实际上包含了三部分独立的信息：magic number、pyc文件创建的时间信息，以及PyCodeObject对象。<br> 过程如下：</p>
-<blockquote>
-<ul>
-<li>首先，python会将pyc_magic这个值写入文件开头。实际上，pyc_magic是python所定义的这个整数值，一般来说，不同版本的Python实现都会定义不同的magic number，用来保证python兼容性。比如说要要防止python2.5的环境加载由python1.5产生的pyc文件，那么只需要将python2.5和python1.5的magic number设为不同的值就可以了，因为python在加载pyc文件时会首先检查这个magic number，如果发现python自身的magic number与待加载的pyc文件中记录的magic number不同，则会拒绝加载不兼容的pyc文件</li>
-<li>写入pyc文件创建的时间信息。在pyc文件中包含时间信息可以使python自动将pyc文件与最新的py文件进行同步。在加载pyc文件中，如果python发现pyc文件的时间早于py文件，会重新编译py文件，生成新的pyc。</li>
-<li>将内存中的PyCodeObject对象写入pyc文件。</li>
-</ul>
-</blockquote>
-<p>在调用PyMarshl_WriteLongToFile时，会直接调用w_long,w_long会将需要写入的数据一个字节一个字节地写入到文件中。而在调用PyMarshal_WriteObjectToFile时，python会借助于另一个辅助的函数w_object来完成将PyCodeObject对象写入到pyc文件中的操作。PyMarshal_WriteObjectToFile的第一个参数是python编译出来的PyCodeObject对象。w_object对应不同的对象，比如string、int、list、dict等，会有不同的写操作，最终是通过基本的w_long、w_string将整个PyCodeObject写入到pyc文件中去的。</p>
-<p>举个例子，python在向pyc写入list对象时，只是将list中所包含的数值或字符串写入pyc文件。同时也意味着，python在加载pyc文件时，必须基于这些数值或字符串重新构造出list对象。这就要求在w_object写入对象之前，先写入TYPE_LIST、TYPE_CODE或者TYPE_INT这样的标识。这些标识对于pyc文件的再次加载具有至关重要的作用。<br>在前面说过，python最终仅仅会将数值和字符串写入到pyc文件中。当PyCodeObject对象写入到pyc文件之后，所有的数据都变成了字节流，类型信息都丢失了。如果没有类型信息，python再次加载pyc文件时，就再也没有办法知道这些字节流隐藏的结构和蕴含的信息了，所以Python必须将对象的类型信息也写入到pyc文件中，这些标识正是python定义的类型信息，如果python在pyc文件中发现 这样的标识，则预示着上一个对象结束，新的对象开始，而且也知道了新对象是什么类型的对象。只有这样，当python加载pyc文件时，加载器才能知道在什么时候应该进行什么样的加载操作。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2155,7 +2204,7 @@ Func()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-count">113</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

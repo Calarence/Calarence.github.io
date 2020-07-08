@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-07T14:54:42.115Z</updated>
+  <updated>2020-07-08T09:49:21.016Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>正态分布</title>
+    <link href="http://www.appleieye.com/2020/07/08/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/"/>
+    <id>http://www.appleieye.com/2020/07/08/正态分布/</id>
+    <published>2020-07-08T05:58:10.000Z</published>
+    <updated>2020-07-08T09:49:21.016Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>本文主要内容</strong>：</p><ol><li>离散变量与连续性变量</li><li>概率密度函数</li><li>正态分布</li></ol><hr><p>一、<strong>离散变量与连续性变量</strong></p><p>我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg"></p><p>相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能是0与1之间的任意数字，要知道0与1的之间的数字是无限的。我们这篇文章就是要关注这类变量的概率分布。</p><hr><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg"></p><p>二、<strong>概率密度函数</strong></p><p>茱莉是个女学生，她想通过相亲的方式寻找她心目中的白马王子。她给自己定下来一条规则，就是“如果她的约会对象在20分钟之内没有出现，她将会离开”。</p><p>现在有一个问题：她想知道20分钟内，她等待超过5分钟的概率。</p><p>这个问题是求连续性变量的概率。为什么是连续的？因为约会对象可以在5分钟之内的任意一秒、任意一毫秒、任意一微妙内到达，5分钟内这个范围可以切割成无数，因而是不可数的，它是一个范围。因此，与离散变量针对某个特定值求概率不同的是，连续性变量是针对某个范围求概率。</p><p>这种情况下，我们可以使用<strong><em>概率密度函数</em></strong>来计算某一范围内连续变量的概率值，它告诉我们了概率分布是什么形状的。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn2znghhj31620gu43g.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn2znghhj31620gu43g.jpg"></p><p>等待五分钟以上的概率分布情况</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn886ppaj30ua0f2773.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn886ppaj30ua0f2773.jpg"></p><p>为了计算这部分范围的概率，我们首先需要弄清楚f(x)是什么？很明显f(x)是一条水平线，所以它是一个常数函数。又因为整块面积(概率)等于1，所以f(x)=1/20=0.05; 所以P(X &gt; 5) = (20 - 5) × 0.05=0.75。</p><p>再来看一个概率密度函数的例子。f(x) = 0.1 – 0.005x where 0 &lt; x &lt; 20 Find P(X &gt; 5)</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnoephu8j30uk0nstem.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnoephu8j30uk0nstem.jpg"></p><hr><p>三、正态分布</p><p>茱莉喜欢穿高跟鞋，并且鞋跟越高，她越高兴；但是，她不想男生比她穿高跟鞋时矮。她问，满足她这个条件的概率有多大？</p><p>男性身高的分布状况如下图所示：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnykk5d3j318o0kejxz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnykk5d3j318o0kejxz.jpg"></p><p>有少量的特别矮的人，同时也有少量的特别高的人，大多数的人都是在平均身高附近波动。</p><p>像身高这样的分布，称为<strong><em>正态分布。</em></strong></p><p>正态分布由两个值决定：μ 和 σ2。μ告诉我们曲线的中心在哪里，而σ告诉我们分布是怎么样的(如下图所示)。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjo3p11sgj30qm0jqdk2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjo3p11sgj30qm0jqdk2.jpg"></p><p>既然我们知道了男性身高是正态分布，那么我们如何计算它的概率呢？</p><p><strong>计算正态分布的概率有三步：</strong></p><ol><li>获得正态分布(即知道均值和方差)，并知道要求概率的范围</li><li>将我们自己的正态分布进行标准化，即把它转变为符合N(0, 1)的分布</li><li>查表，获得概率值</li></ol><p>第一步：获得我们的正态分布。茱莉国家男性身高的均值为71英寸，方差为20.25英寸，因此，我们可以得到以下的正态分布图：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjoksqwy6j30wk0ag76f.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjoksqwy6j30wk0ag76f.jpg"></p><p>然后我们要确定要求概率值的范围，即身高高于茱莉的范围的概率值，茱莉身高为64英寸，因此，我们得到了如下的图：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjonenehtj30re0f8wi7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjonenehtj30re0f8wi7.jpg"></p><p>至此，第一步已经完成。</p><p>第二步，将我们的正态分布转化为N(0, 1)。</p><p><strong>为什么要这样做</strong>？这是因为概率表只告诉了我们0—1范围内的概率值。想一下，范围是无限的，取值也是无限的，因此不可能列出所有值的概率，所以只给了0—-1这一范围内的概率值。</p><p><strong>那么如何转换呢</strong>？两者之间的转换通过下面的公式进行：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp5svdexj30u409wq4x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp5svdexj30u409wq4x.jpg"></p><p>根据这个公式，64对应的z值计算过程如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg"></p><p>第三步：<strong><em>根据z值查询概率值表</em></strong></p><p>概率表的第一列为z值及其第一位小数，第一行为第二位小数，两者交叉点即为概率值。以P(Z &lt; –3.27)为例，查找过程如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg"></p><p>计算Z&gt;z的概率如下：</p><p>P(Z &gt; z) = 1 - P(Z &lt; z)</p><p>计算P(a &lt; Z &lt; b)：P(a &lt; Z &lt; b) = P(Z &lt; b) - P(Z &lt; a)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;本文主要内容&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;离散变量与连续性变量&lt;/li&gt;
+&lt;li&gt;概率密度函数&lt;/li&gt;
+&lt;li&gt;正态分布&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;一、&lt;strong&gt;离散变量与连续性变量&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>几何分布、二项分布、泊松分布</title>
@@ -508,31 +541,6 @@
       
         &lt;h3 id=&quot;Spring与AMQP&quot;&gt;&lt;a href=&quot;#Spring与AMQP&quot; class=&quot;headerlink&quot; title=&quot;Spring与AMQP&quot;&gt;&lt;/a&gt;Spring与AMQP&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;amqp工作流程：&lt;br&gt;&lt;img src=&quot;http:
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springMVC示例之hello world</title>
-    <link href="http://www.appleieye.com/2018/04/30/springMVChello%20world/"/>
-    <id>http://www.appleieye.com/2018/04/30/springMVChello world/</id>
-    <published>2018-04-30T05:58:10.000Z</published>
-    <updated>2018-04-30T03:36:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="springMVC示例之hello-world"><a href="#springMVC示例之hello-world" class="headerlink" title="springMVC示例之hello world"></a>springMVC示例之hello world</h3><h3 id="Spring-MVC对请求的处理流程"><a href="#Spring-MVC对请求的处理流程" class="headerlink" title="Spring MVC对请求的处理流程"></a>Spring MVC对请求的处理流程</h3><p>流程图如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png" alt="springMVC请求处理流程"></p><ol><li>DispatcherServlet称为前端控制器，它根据处理器映射将请求发送给对应的控制器</li><li>处理器映射：记录请求和它对应的控制器</li><li>请求的实际处理者。它将业务逻辑委托给一个或多个服务对象进行处理，产生信息(model)和视图(view), </li><li>控制器将模型数据打包，标注视图名，然后将请求连同模型和数据发送回DispatcherServlet.</li><li>视图解析器将视图名匹配为一个真正的视图，可能是jsp或html</li><li>将模型数据渲染到视图</li><li>返回响应</li></ol><p><strong><em>MVC的核心思想是业务数据抽取与业务数据呈现相分离</em></strong></p><h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://7pn53u.com1.z0.glb.clouddn.com/springMVC.png" alt="此处输入图片的描述"></h2><h3 id="springMVC-hello-world实现"><a href="#springMVC-hello-world实现" class="headerlink" title="springMVC hello world实现"></a>springMVC hello world实现</h3><ol><li>新建maven spring webapp工程，命名为springMVC</li><li>在pom中添加相关spring依赖</li><li>在web.xml中配置DispatcherServlet</li></ol><pre><code> &lt;!DOCTYPE web-app PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot; &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt; &lt;web-app&gt;    &lt;context-param&gt;        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;        &lt;param-value&gt;classpath:application-context.xml&lt;/param-value&gt;    &lt;/context-param&gt;&lt;listener&gt;     &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;&lt;/listener&gt;&lt;servlet&gt;    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;    &lt;servlet-class&gt;    org.springframework.web.servlet.DispatcherServlet    &lt;/servlet-class&gt;    &lt;init-param&gt;    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;    &lt;param-value&gt;classpath:springMVC-context.xml&lt;/param-value&gt;&lt;/init-param&gt;&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;&lt;/servlet&gt;&lt;servlet-mapping&gt;    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;    &lt;url-pattern&gt;/&lt;/url-pattern&gt;&lt;/servlet-mapping&gt;&lt;/web-app&gt;</code></pre><p>  简单理解该配置文件：</p><blockquote><ul><li>servlet:load-on-startup元素标记容器是否在启动的时候就加载这个servlet，正数值越小，该servlet优先级越高，在容器启动时，就应该越先加载</li><li>servlet映射的是“/”，这表示它会是应用的默认Servlet。 它会处理进入 应用的所有请求</li><li>Spring context:由DispatcherServlet创建，用于加载web组件，如控制器、视图解析器和处理器映射。</li><li>Application context:由ContextLoaderListener创建，用来控制spring全局的特性,它是执行的是spring的上下文，用户加载bean，service，dao，数据库等配置信息</li></ul></blockquote><ol start="4"><li><p>springMVC-context.xml配置</p><blockquote><ul><li>启用spring</li><li>启用组件扫描</li><li>配置视图解析器</li><li>静态资源的处理</li></ul></blockquote><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsdhttp://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsdhttp://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;&lt;!--启用Spring基于annotation的D，使用户可以在spring中使用Spring的强大功能激活@Required @Autowired @PostConstruct @PreDestroy @Resource等标注--&gt;&lt;context:annotation-config /&gt;&lt;!--启用注解--&gt;&lt;mvc:annotation-driven /&gt; &lt;!--组件扫描--&gt;&lt;context:component-scan base-package=&quot;com.appleieye.maya.web.controller&quot; /&gt; &lt;!--视图解析器--&gt; &lt;bean id=&quot;defaultViewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;&lt;property name=&quot;viewClass&quot; value=&quot;org.springframework.web.servlet.view.JstlView&quot;/&gt;&lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;&lt;!--设置JSP文件的目录位置--&gt;&lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt; &lt;/bean&gt;&lt;!--静态资源映射--&gt;&lt;!--项目一般是前后端分离,所以不需要关心这部分--&gt;&lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/WEB-INF/statics/css/&quot;/&gt;&lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/WEB-INF/statics/js/&quot;/&gt;&lt;mvc:resources mapping=&quot;/image/**&quot; location=&quot;/WEB-INF/statics/image/&quot;/&gt;&lt;/beans&gt;</code></pre></li><li><p>application-context.xml配置</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beanshttp://www.springframework.org/schema/beans/spring-beans-3.0.xsdhttp://www.springframework.org/schema/contexthttp://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;&gt;&lt;context:annotation-config/&gt;&lt;context:component-scan base-package=&quot;com.appleieye.maya&quot; &gt;&lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot; /&gt;&lt;/context:component-scan&gt;&lt;/beans&gt;</code></pre></li></ol><ol start="5"><li><p>编写控制器</p><pre><code>package com.appleieye.maya.web.controller;import org.springframework.stereotype.Controller;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RequestMethod;import org.springframework.web.bind.annotation.ResponseBody;        @Controllerpublic class HelloWorldController {@RequestMapping(value = &quot;helloWorld&quot;,method = RequestMethod.GET)@ResponseBodypublic String hello(){    return &quot;helloWorld&quot;;    }}</code></pre><p>@Controller注解基于@Component,在组件扫描时，会将其声明为Spring应用上下文中的一个bean；<br>@RequestMapping注解，它的value属性指定了这个方法要处理的请求路径，method指定了它所处理的http方法。当收到对“/helloWorld”的http get请求时，会调用hello方法，方法返回名为helloWorld的视图</p></li><li><p>建立视图:在WEB-INF/views下新建helloWorld.jsp</p><pre><code> &lt;html&gt;     &lt;body&gt;       &lt;h2&gt;Hello World!&lt;/h2&gt;     &lt;/body&gt;&lt;/html&gt;</code></pre></li><li><p>部署及访问：访问路径为“springMVC/helloWorld”</p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;springMVC示例之hello-world&quot;&gt;&lt;a href=&quot;#springMVC示例之hello-world&quot; class=&quot;headerlink&quot; title=&quot;springMVC示例之hello world&quot;&gt;&lt;/a&gt;springMVC示例之hello
       
     
     </summary>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="读书笔记之the-hacker-guide-to-python第九章," />
+  <meta name="keywords" content="数据科学," />
 
 
 
@@ -86,20 +86,32 @@
 
 
 
-<meta name="description" content="The AST   AST是Abstract Syntax Tree的缩写。它是一种程序语言源代码的抽象表达方式–树形表示。Python通过解析其源文件建立起自己的AST。 python提供了ast模块来处理AST相关内容 AST用法示例：import ast  ast.parse &amp;lt;function parse at 0x7f062731d950&amp;gt; ast.parse(&amp;quot;x">
-<meta name="keywords" content="读书笔记之the-hacker-guide-to-python第九章">
+<meta name="description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
+<meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="the-hacker-guide-to-python 第九章读书笔记">
-<meta property="og:url" content="http://www.appleieye.com/2015/12/24/the-hacker-guide-to-python9/index.html">
+<meta property="og:title" content="正态分布">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/08/正态分布/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="The AST   AST是Abstract Syntax Tree的缩写。它是一种程序语言源代码的抽象表达方式–树形表示。Python通过解析其源文件建立起自己的AST。 python提供了ast模块来处理AST相关内容 AST用法示例：import ast  ast.parse &amp;lt;function parse at 0x7f062731d950&amp;gt; ast.parse(&amp;quot;x">
+<meta property="og:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/ast.png">
-<meta property="og:updated_time" content="2015-12-24T08:19:04.000Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn2znghhj31620gu43g.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn886ppaj30ua0f2773.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnoephu8j30uk0nstem.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnykk5d3j318o0kejxz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjo3p11sgj30qm0jqdk2.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjoksqwy6j30wk0ag76f.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjonenehtj30re0f8wi7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp5svdexj30u409wq4x.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg">
+<meta property="og:updated_time" content="2020-07-08T09:49:21.016Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="the-hacker-guide-to-python 第九章读书笔记">
-<meta name="twitter:description" content="The AST   AST是Abstract Syntax Tree的缩写。它是一种程序语言源代码的抽象表达方式–树形表示。Python通过解析其源文件建立起自己的AST。 python提供了ast模块来处理AST相关内容 AST用法示例：import ast  ast.parse &amp;lt;function parse at 0x7f062731d950&amp;gt; ast.parse(&amp;quot;x">
-<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/ast.png">
+<meta name="twitter:title" content="正态分布">
+<meta name="twitter:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg">
 
 
 
@@ -120,9 +132,9 @@
 
 
 
-  <link rel="canonical" href="http://www.appleieye.com/2015/12/24/the-hacker-guide-to-python9/"/>
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/08/正态分布/"/>
 
-  <title> the-hacker-guide-to-python 第九章读书笔记 | Clarence's blog </title>
+  <title> 正态分布 | Clarence's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -272,7 +284,7 @@
             
             
               
-                the-hacker-guide-to-python 第九章读书笔记
+                正态分布
               
             
           </h1>
@@ -284,8 +296,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-12-24T16:19:04+08:00" content="2015-12-24">
-              2015-12-24
+            <time itemprop="dateCreated" datetime="2020-07-08T13:58:10+08:00" content="2020-07-08">
+              2020-07-08
             </time>
           </span>
 
@@ -298,8 +310,8 @@
               <span class="post-meta-item-text">分類於</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
                   </a>
                 </span>
 
@@ -331,26 +343,64 @@
       
 
       
-        <p><strong><em>The AST</em></strong></p>
-<hr>
+        <p><strong>本文主要内容</strong>：</p>
 <ol>
-<li>AST是Abstract Syntax Tree的缩写。它是一种程序语言源代码的抽象表达方式–树形表示。Python通过解析其源文件建立起自己的AST。</li>
-<li>python提供了ast模块来处理AST相关内容</li>
-<li>AST用法示例：<br><code>import ast 
-ast.parse
-&lt;function parse at 0x7f062731d950&gt;
-ast.parse(&quot;x = 42&quot;)
-&lt;_ast.Module object at 0x7f0628a5ad10&gt;
-ast.dump(ast.parse(&quot;x = 42&quot;))
-&quot;Module(body=[Assign(targets=[Name(id=&#39;x&#39;,ctx=Store())],value=Num(n=42)])&quot;</code></li>
+<li>离散变量与连续性变量</li>
+<li>概率密度函数</li>
+<li>正态分布</li>
 </ol>
-<p>ast.parse函数返回一个_ast.Module对象，它是树的根.可以通过ast.dump模块来建立完整的树，如下图所示</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/ast.png" alt="ast"></p>
-<ol start="4">
-<li>AST以一个根元素开始，该元素通常是ast.Module对象。这个对象包含语句或表达式的列表来计算它body属性值。ast.Assign对象代表赋值，在Python语法中映射为“=”，Assign包含target列表和赋给target的值。这个例子中target列表中包含一个对象，ast.Name，代表名为x的变量。值为42</li>
-<li>AST可以传递给Python进行编译和计算。compile函数提供了支持</li>
-<li>需要了解的两类对象列表：statement：如assert、assign(=)、augmented assigned(+=,/=)、global、if、return、class、pass、import等。他们全部从ast.stmt继承而来。Expression:lambda、number、yield,name,compare、call.他们从ast.expr继承而来</li>
+<hr>
+<p>一、<strong>离散变量与连续性变量</strong></p>
+<p>我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg"></p>
+<p>相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能是0与1之间的任意数字，要知道0与1的之间的数字是无限的。我们这篇文章就是要关注这类变量的概率分布。</p>
+<hr>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg"></p>
+<p>二、<strong>概率密度函数</strong></p>
+<p>茱莉是个女学生，她想通过相亲的方式寻找她心目中的白马王子。她给自己定下来一条规则，就是“如果她的约会对象在20分钟之内没有出现，她将会离开”。</p>
+<p>现在有一个问题：她想知道20分钟内，她等待超过5分钟的概率。</p>
+<p>这个问题是求连续性变量的概率。为什么是连续的？因为约会对象可以在5分钟之内的任意一秒、任意一毫秒、任意一微妙内到达，5分钟内这个范围可以切割成无数，因而是不可数的，它是一个范围。因此，与离散变量针对某个特定值求概率不同的是，连续性变量是针对某个范围求概率。</p>
+<p>这种情况下，我们可以使用<strong><em>概率密度函数</em></strong>来计算某一范围内连续变量的概率值，它告诉我们了概率分布是什么形状的。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn2znghhj31620gu43g.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn2znghhj31620gu43g.jpg"></p>
+<p>等待五分钟以上的概率分布情况</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn886ppaj30ua0f2773.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjn886ppaj30ua0f2773.jpg"></p>
+<p>为了计算这部分范围的概率，我们首先需要弄清楚f(x)是什么？很明显f(x)是一条水平线，所以它是一个常数函数。又因为整块面积(概率)等于1，所以f(x)=1/20=0.05; 所以P(X &gt; 5) = (20 - 5) × 0.05=0.75。</p>
+<p>再来看一个概率密度函数的例子。f(x) = 0.1 – 0.005x where 0 &lt; x &lt; 20 Find P(X &gt; 5)</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnoephu8j30uk0nstem.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnoephu8j30uk0nstem.jpg"></p>
+<hr>
+<p>三、正态分布</p>
+<p>茱莉喜欢穿高跟鞋，并且鞋跟越高，她越高兴；但是，她不想男生比她穿高跟鞋时矮。她问，满足她这个条件的概率有多大？</p>
+<p>男性身高的分布状况如下图所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnykk5d3j318o0kejxz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjnykk5d3j318o0kejxz.jpg"></p>
+<p>有少量的特别矮的人，同时也有少量的特别高的人，大多数的人都是在平均身高附近波动。</p>
+<p>像身高这样的分布，称为<strong><em>正态分布。</em></strong></p>
+<p>正态分布由两个值决定：μ 和 σ2。μ告诉我们曲线的中心在哪里，而σ告诉我们分布是怎么样的(如下图所示)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjo3p11sgj30qm0jqdk2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjo3p11sgj30qm0jqdk2.jpg"></p>
+<p>既然我们知道了男性身高是正态分布，那么我们如何计算它的概率呢？</p>
+<p><strong>计算正态分布的概率有三步：</strong></p>
+<ol>
+<li>获得正态分布(即知道均值和方差)，并知道要求概率的范围</li>
+<li>将我们自己的正态分布进行标准化，即把它转变为符合N(0, 1)的分布</li>
+<li>查表，获得概率值</li>
 </ol>
+<p>第一步：获得我们的正态分布。茱莉国家男性身高的均值为71英寸，方差为20.25英寸，因此，我们可以得到以下的正态分布图：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjoksqwy6j30wk0ag76f.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjoksqwy6j30wk0ag76f.jpg"></p>
+<p>然后我们要确定要求概率值的范围，即身高高于茱莉的范围的概率值，茱莉身高为64英寸，因此，我们得到了如下的图：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjonenehtj30re0f8wi7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjonenehtj30re0f8wi7.jpg"></p>
+<p>至此，第一步已经完成。</p>
+<p>第二步，将我们的正态分布转化为N(0, 1)。</p>
+<p><strong>为什么要这样做</strong>？这是因为概率表只告诉了我们0—1范围内的概率值。想一下，范围是无限的，取值也是无限的，因此不可能列出所有值的概率，所以只给了0—-1这一范围内的概率值。</p>
+<p><strong>那么如何转换呢</strong>？两者之间的转换通过下面的公式进行：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp5svdexj30u409wq4x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp5svdexj30u409wq4x.jpg"></p>
+<p>根据这个公式，64对应的z值计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg"></p>
+<p>第三步：<strong><em>根据z值查询概率值表</em></strong></p>
+<p>概率表的第一列为z值及其第一位小数，第一行为第二位小数，两者交叉点即为概率值。以P(Z &lt; –3.27)为例，查找过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg"></p>
+<p>计算Z&gt;z的概率如下：</p>
+<p>P(Z &gt; z) = 1 - P(Z &lt; z)</p>
+<p>计算P(a &lt; Z &lt; b)：P(a &lt; Z &lt; b) = P(Z &lt; b) - P(Z &lt; a)</p>
 
       
     </div>
@@ -373,7 +423,7 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
       
         <div class="post-tags">
           
-            <a href="/tags/读书笔记之the-hacker-guide-to-python第九章/" rel="tag">#读书笔记之the-hacker-guide-to-python第九章</a>
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
           
         </div>
       
@@ -382,17 +432,13 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/23/the-hacker-guide-to-python78/" rel="next" title="the-hacker-guide-python 第七、八章读书笔记">
-                <i class="fa fa-chevron-left"></i> the-hacker-guide-python 第七、八章读书笔记
+              <a href="/2020/07/07/几何分布二项分布泊松分布/" rel="next" title="几何分布、二项分布、泊松分布">
+                <i class="fa fa-chevron-left"></i> 几何分布、二项分布、泊松分布
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/25/the-hacker-guide-to-python10/" rel="prev" title="the-hacker-guide-to-python 第十章读书笔记">
-                the-hacker-guide-to-python 第十章读书笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

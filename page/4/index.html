@@ -271,6 +271,149 @@
             
               
                 
+                <a class="post-title-link" href="/2018/03/06/javaLock2/" itemprop="url">
+                  Java中锁的基本概念
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T15:58:10+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="java中锁的基本知识"><a href="#java中锁的基本知识" class="headerlink" title="java中锁的基本知识"></a>java中锁的基本知识</h3><blockquote>
+<ul>
+<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>Lock的使用方式（代码如下）</li>
+</ul>
+</blockquote>
+<pre><code>/*
+*注意获取锁与释放锁的位置
+*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
+*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
+**/
+Lock lock = new ReentrantLock();
+lock.lock();
+try{
+}finally{
+lock.unlock();
+}
+</code></pre><h3 id="在synchronized与Lock之间进行选择"><a href="#在synchronized与Lock之间进行选择" class="headerlink" title="在synchronized与Lock之间进行选择"></a>在synchronized与Lock之间进行选择</h3><p>   Lock接口在锁操作上提供的语义与synchronized相同，不过除此之外，Lock接口还提供了其他特性：可中断获取锁，非阻塞获取锁，超时获取锁等；但在使用Lock接口时会有很大的风险，如忘记在finally块中调用unlock，虽然代码表面上可以运行，但实际上已经埋下了一颗定时炸弹，并且很有可能伤及其他代码。仅当synchronized不能满足需求时，才考虑使用Lock。这些场景包括可定时的、可轮询的与可中断的锁获取操作、公平队列、以及非机构的锁。否则，应该是优先使用synchronized。</p>
+<hr>
+<p>参考《Java并发编程的艺术》《Java并发编程实践》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/02/27/javaLock1/" itemprop="url">
                   Java中锁的基本概念
                 </a>
@@ -1725,268 +1868,6 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/10/Iterator/" itemprop="url">
-                  Iterator接口及其在ArrayList中的实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-10T15:58:10+08:00" content="2017-11-10">
-              2017-11-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Iterator接口及其在ArrayList中的实现</p>
-<p>###继承关系如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/iterator.png" alt="此处输入图片的描述"></p>
-<h3 id="Itr类分析"><a href="#Itr类分析" class="headerlink" title="Itr类分析"></a>Itr类分析</h3><p>####成员变量</p>
-<blockquote>
-<ul>
-<li>cursor:下一个返回元素的序号</li>
-<li>lastRet:上次返回的元素的序号</li>
-<li>expectedModCount = modCount,修改次数</li>
-</ul>
-</blockquote>
-<p>####方法</p>
-<blockquote>
-<ul>
-<li>判断是否还有下一个元素，依据：元素的index是否等于最后一个元素的index</li>
-</ul>
-</blockquote>
-<p>   public boolean hasNext() {<br>            return cursor != size;<br>        }</p>
-<blockquote>
-<ul>
-<li>每个迭代器检查自己改写操作的计数值是否与集合的改写操作计数值一致。如果不一致，则抛出ConcurrentModificationException</li>
-</ul>
-</blockquote>
-<pre><code>final void checkForComodification() {
-       if (modCount != expectedModCount)
-           throw new ConcurrentModificationException();
-   }
-</code></pre><blockquote>
-<ul>
-<li>返回cursor指向的元素，然后cursor加1.这个方法会迷惑人，从字面意义上觉得是返回下一个元素，但事实却是返回当前元素，然后将cursor指向下一个元素。所以，next可以理解为将cursor指向next。</li>
-</ul>
-</blockquote>
-<pre><code>public E next() {
-        checkForComodification();
-        int i = cursor;
-        if (i &gt;= size)
-            throw new NoSuchElementException();
-        Object[] elementData = ArrayList.this.elementData;
-        if (i &gt;= elementData.length)
-            throw new ConcurrentModificationException();
-        cursor = i + 1;
-        return (E) elementData[lastRet = i];
-    }
-</code></pre><blockquote>
-<ul>
-<li>remove方法：在调用remove方法之前，如果没有调用next方法，将会抛出IllegalStateException,原因是lastRet初始值为-1，小于0，抛出IllegalStateException;而调用next方法后，将lastRet赋值为cursor，即当前访问的元素，这样lastRet大于或等于0，不会抛出异常。然后调用ArrayList的remove方法删除元素；又将lastRest复位为-1，所以下次remove时，需要再次调用next</li>
-</ul>
-</blockquote>
-<pre><code>public void remove() {
-        if (lastRet &lt; 0)
-            throw new IllegalStateException();
-        checkForComodification();
-
-        try {
-            ArrayList.this.remove(lastRet);
-            cursor = lastRet;
-            lastRet = -1;
-            expectedModCount = modCount;
-        } catch (IndexOutOfBoundsException ex) {
-            throw new ConcurrentModificationException();
-        }
-    }
-</code></pre><blockquote>
-<ul>
-<li>forEachRemaining方法，java8中的新特性。以后补充。</li>
-</ul>
-</blockquote>
-<p>###ListItr类分析：继承了Itr类，实现了ListIterator接口<br>方法如下：</p>
-<blockquote>
-<ul>
-<li>构造方法：将cursor初始化为index，默认值为0</li>
-</ul>
-</blockquote>
-<pre><code>ListItr(int index) {
-    super();
-    cursor = index;
-}
-</code></pre><blockquote>
-<ul>
-<li>判断是否有前一个元素：依据：cursor是否等于0</li>
-</ul>
-</blockquote>
-<pre><code>public boolean hasPrevious() {
-       return cursor != 0;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取下一个元素的序号(cursor指向下一个元素的序号)</li>
-</ul>
-</blockquote>
-<pre><code>public int nextIndex() {
-       return cursor;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取上一个元素的序号(cursor指向下一个元素的序号)</li>
-</ul>
-</blockquote>
-<pre><code>public int previousIndex() {
-       return cursor - 1;
-   }
-</code></pre><blockquote>
-<ul>
-<li>获取前一个元素：如果当前元素(序号为cursor-1)为第一个元素，则抛出NoSuchElementException；将cursor指向当前元素(正常情况指向下一个元素)，返回当前元素</li>
-</ul>
-</blockquote>
-<pre><code>public E previous() {
-        checkForComodification();
-        int i = cursor - 1;
-        if (i &lt; 0)
-            throw new NoSuchElementException();
-        Object[] elementData = ArrayList.this.elementData;
-        if (i &gt;= elementData.length)
-            throw new ConcurrentModificationException();
-        cursor = i;
-        return (E) elementData[lastRet = i];
-    }
-</code></pre><blockquote>
-<ul>
-<li>用元素e取代next或previous返回的元素:在调用该方法前，必须先调用previous或next方法。否则,lastRet为-1，小于0，抛出异常。set方法并没有导致modCount加1操作，所以set方法不被视为结构性修改</li>
-</ul>
-</blockquote>
-<pre><code>public void set(E e) {
-        if (lastRet &lt; 0)
-            throw new IllegalStateException();
-        checkForComodification();
-
-        try {
-            ArrayList.this.set(lastRet, e);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new ConcurrentModificationException();
-        }
-    }
-</code></pre><blockquote>
-<ul>
-<li>添加元素:ArrayList的add方法导致modCount次数加1，所以此操作会修改结构。当一个iter对集合进行遍历，而另一个对其修改时，则会抛出ConcurrentModificationException</li>
-</ul>
-</blockquote>
-<pre><code>public void add(E e) {
-     checkForComodification();
-
-     try {
-         int i = cursor;
-         ArrayList.this.add(i, e);
-         cursor = i + 1;
-         lastRet = -1;
-         expectedModCount = modCount;
-     } catch (IndexOutOfBoundsException ex) {
-         throw new ConcurrentModificationException();
-     }
- }
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2032,7 +1913,7 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-count">113</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
