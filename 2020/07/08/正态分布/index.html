@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
 
@@ -86,13 +88,13 @@
 
 
 
-<meta name="description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
+<meta name="description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布 正态分布扩展   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如">
 <meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
 <meta property="og:title" content="正态分布">
 <meta property="og:url" content="http://www.appleieye.com/2020/07/08/正态分布/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
+<meta property="og:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布 正态分布扩展   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如">
 <meta property="og:locale" content="zh-hk">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl82evhqj316a0nowlt.jpg">
@@ -107,10 +109,14 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp7tz4e4j30jm0e2ab6.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjp9elxvuj31am0es469.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjpe2r7elj310e0gy114.jpg">
-<meta property="og:updated_time" content="2020-07-08T09:49:21.016Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg">
+<meta property="og:updated_time" content="2020-07-11T01:33:50.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正态分布">
-<meta name="twitter:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如，它的取值可能">
+<meta name="twitter:description" content="本文主要内容：  离散变量与连续性变量 概率密度函数 正态分布 正态分布扩展   一、离散变量与连续性变量 我们之前的例子中所涉及到的变量都是离散变量，例如滑雪成功的次数、答对的题目数、赢得的奖金数等等。离散变量都是确切的数字，他们在某种程度上都是可数的，像1，2，3…；我们之前所提到的概率计算都是针对这类变量的。  相反，连续性变量是不可数的，它们是用某种方式测量的，并且它们的取值是无限的；比如">
 <meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggjl0w77fwj30zw0tajyf.jpg">
 
 
@@ -348,6 +354,7 @@
 <li>离散变量与连续性变量</li>
 <li>概率密度函数</li>
 <li>正态分布</li>
+<li>正态分布扩展</li>
 </ol>
 <hr>
 <p>一、<strong>离散变量与连续性变量</strong></p>
@@ -401,6 +408,36 @@
 <p>计算Z&gt;z的概率如下：</p>
 <p>P(Z &gt; z) = 1 - P(Z &lt; z)</p>
 <p>计算P(a &lt; Z &lt; b)：P(a &lt; Z &lt; b) = P(Z &lt; b) - P(Z &lt; a)</p>
+<p>四、正态分布扩展</p>
+<ol>
+<li><p>若X ~ N(μx, σx 2)，Y ~ N(μy, σy 2)，则有X - Y ~ N(μ, σ2)，X+Y~ N(μ, σ2)</p>
+</li>
+<li><p>线性变换。若一个人的体重X服从正态分布，X ~ N(μx, σx 2)，试问这个人体重变为4X后服从什么分布。从X到4X的变换称为线性变换，线性变换改变的是最底层的值。线性变换后的正态分布aX + b ~ N(aμ + b, a2σ2)</p>
+</li>
+<li><p>独立观测值。若一个人的体重X服从正态分布，X ~ N(μx, σx 2)。若X1，X2，X3，X4是X的四个独立观测值，试问X1+X2+X3+X4服从怎么样的分布？X1 + X2 + … + Xn ~ N(nμ, nσ2)</p>
+</li>
+<li><p>使用正态分布代替泊松分布: X ~ Po(λ) 并且 λ &gt; 15, 可以使用 X ~ N (λ, λ)来代替泊松分布；但这个时候会存在偏差，需要进行continuity correction调整，调整方法见下面。</p>
+</li>
+<li><p>使用正态分布代替二项分布：在泊松分布那篇文章中，提高了泊松分布在满足条件n&gt;50,p&lt;0.1的时候可以替代二项分布，以方便概率的计算。而正态分布在一定条件下也可以代替二项分布，这两个条件就是np &gt; 5 并且 nq &gt; 5。但通过正态分布计算的结果可能偏大，因为正态分布针对的是连续性变量，而二项分布针对的是离散变量。下面通过一个例子来说明这个问题。</p>
+<p>假设有12道判断题，每道题的正确率为50%，问答对5道及更少的概率为多少</p>
+<p><strong><em>二项分布</em></strong>的计算过程如下：</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6fkc6o3j30xo0u079r.jpg"></p>
+<p> <strong><em>正态分布</em></strong>的计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggm6v2e8rfj31jg0oyn0y.jpg"></p>
+<p>由上面的计算结果可以看出，用正态分布得到的结果要比二项分布的大一些，那么，这又是为什么呢？</p>
+<p>以数字6为例，在我们将它转化为连续变量时，我们需要考虑它“附近范围“的数字，可能是从5.5到6.5这个范围内，这样一来，得到的概率值就大了。通过计算X&lt;5.5的概率为0.3859，约等于0.387了。这说明我们不可以直接计算X&lt;6,而需要对范围做一个调整</p>
+<p>这个调整叫作continuity correction; 它根据不同的情况取舍不一样。</p>
+<ul>
+<li>当计算P(X ≤ a)时，我们要保证a值能够取到，所以要计算正态分布的P(X &lt; a + 0.5)</li>
+<li>当计算P(X ≥ b)时，我们要保证b值能够取到，所以要计算正态分布的P(X &gt; b - 0.5)</li>
+<li>当计算P(a ≤ X ≤ b)时，我们要a,b值同时能够取到，所以要计算正态分布的P(a - 0.5 &lt; X &lt; b + 0.5)</li>
+<li>当计算P(X&lt;a)时，我们要保证a值取不到，所以要计算正态分布的P(X&lt;a-0.5)</li>
+<li>当计算P(X&gt;a)时，我们要保证a值取不到，所以要计算正态分布的P(X&gt;a+0.5)</li>
+</ul>
 
       
     </div>
