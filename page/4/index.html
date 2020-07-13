@@ -271,6 +271,255 @@
             
               
                 
+                <a class="post-title-link" href="/2018/03/06/extends/" itemprop="url">
+                  Java继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T19:49:32+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h3><h3 id="子类构造器："><a href="#子类构造器：" class="headerlink" title="子类构造器："></a>子类构造器：</h3><p>使用super调用构造器的语句必须是子类构造器的第一条语句。</p>
+<blockquote>
+<ul>
+<li>this的作用：一是引用隐式参数；二是调用该类其他的构造器</li>
+<li>super的作用:一是调用超类的方法；二是调用超类的构造器</li>
+</ul>
+</blockquote>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>程序中出现超类对象的任何地方都可以用子类对象替换。一个变量既可以引用自己类的对象，也可以引用其任何一个子类的对象。<br><strong>不能将超类的引用赋给子类变量</strong></p>
+<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><h3 id="强制类型转换："><a href="#强制类型转换：" class="headerlink" title="强制类型转换："></a>强制类型转换：</h3><p>将一个子类的引用赋给一个超类变量，编译器是允许的；但将一个超类的引用赋给一个子类变量，必须进行类型转换。<br>在进行类型转换时，需要注意以下两点：</p>
+<blockquote>
+<ul>
+<li>只能在继承层次内进行类型转换</li>
+<li>在将超类转换成子类之前，应该使用instancef进行检查</li>
+</ul>
+</blockquote>
+<h3 id="抽象类："><a href="#抽象类：" class="headerlink" title="抽象类："></a>抽象类：</h3><blockquote>
+<ul>
+<li>包含一个或多个抽象方法</li>
+<li>可以包含具体数据和具体方法</li>
+<li>抽象类不能被实例化，但可以定义一个抽象类的对象变量，只能引用非抽象子类的对象</li>
+</ul>
+</blockquote>
+<h3 id="4个访问修饰符"><a href="#4个访问修饰符" class="headerlink" title="4个访问修饰符"></a>4个访问修饰符</h3><blockquote>
+<ul>
+<li>private：仅本类可见</li>
+<li>public：对所有类可见</li>
+<li>protected:对本包和所有子类可见</li>
+<li>default：对本包可见</li>
+</ul>
+</blockquote>
+<h3 id="Object：所有类的超类"><a href="#Object：所有类的超类" class="headerlink" title="Object：所有类的超类"></a>Object：所有类的超类</h3><p>1、equals方法：在Object类中，equals用于判断两个对象是否有相同的引用；如果两个对象具有相同的引用，则两者一定是相同的。然而，经常需要检测两个对象状态的相等性，如果两个对象的状态相同，则认为两个对象是相等的</p>
+<p>  编写合格的equals方法：</p>
+<blockquote>
+<ul>
+<li>参数命名为otherObject，稍后将其转换成另一个叫做other的变量</li>
+<li>检测this与otherObject是否引用同一个对象<pre><code>if(this==otherObject) return true
+</code></pre></li>
+<li>检测otherObject是否为null<pre><code>if(otherObject==null) return false
+</code></pre></li>
+<li>比较this与otherObject是否属于同一个类。如果equals的语义在每个子类中有所改变，就使用getClass检测：<br>   if(getClass()!=otherObject.getClass()) return false;</li>
+<li>如果所有子类拥有统一的语义，则使用instanceof检测：<br>   if(!(otherObject instanceof ClassName)) return false;</li>
+<li>如果在子类中重新定义了equals，就要在其中包含调用super.equals(otherObject)</li>
+<li>将ohterObject转换为相应的类的类型变量<br>  ClassName other = (ClassName)otherObject;</li>
+<li>对所有需要比较的域进行比较。使用==比较基本类型域，使用equals比较对象域；如果所有的域都匹配，就返回true；否则返回false<br>  return field1 == other.field1 &amp;&amp; Objects.equals(field2,other.field2)</li>
+</ul>
+</blockquote>
+<p>2、hashCode方法<br>hash code是由对象导出的一个整形值。散列码是没有规律的，如果x和y是不同的对象，x.hashCode()与y.hashCode()基本不会相同。<br>Equals方法与hashCode的定义必须保持一致。如果x.equals(y)返回true，那么x.hashCode()与y.hashCode()必须具有相同的值。例如，如果在equals方法中用name这个属性去做判断，那么hashCode方法就需要散列name，而不是其他属性。</p>
+<p>3、toString方法：用于返回标识对象的字符串值，形式:类的名字，随后是一对方括号括起来的域值</p>
+<p>接下来是一个demo，实现了equals、hashCode、toString方法。</p>
+<p>父类:Employee</p>
+<pre><code>import java.util.Objects;
+public class Employee {
+
+private String name;
+private double salary;
+
+
+
+public Employee(String name, double salary) {
+    this.name = name;
+    this.salary = salary;
+}
+
+public String getName(){
+    return name;
+}
+
+public double getSalary(){
+    return salary;
+}
+
+public void raiseSalry(double byPercent){
+    double raise = salary * byPercent / 100;
+    salary += raise;
+}
+
+public boolean equals(Object otherObject){
+    if(this == otherObject) return true;
+    if(otherObject == null) return  false;
+    if(getClass()!=otherObject.getClass()) return false;
+    Employee other = (Employee) otherObject;
+    return Objects.equals(name, other.name) &amp;&amp; salary == other.salary;
+}
+
+public int hashCode(){
+    return Objects.hash(name,salary);
+}
+
+public String toString(){
+    return getClass().getName()+&quot;[name=&quot;+name+&quot;,salary=&quot;+salary+&quot;]&quot;;
+}
+}
+</code></pre><p>子类Manager</p>
+<pre><code>public class Manager extends Employee {
+
+private  double bouns;
+
+public Manager(String name,double salary){
+    super(name,salary);//调用父类构造方法必须写在第一行
+    bouns =  0;
+}
+
+public double getSalary(){
+    double salary = super.getSalary();//使用super.getSalary()访问继承自父类的成员变量
+    return salary + bouns;
+}
+
+public void setBouns(double bouns){
+    this.bouns = bouns;
+}
+
+public boolean equals(Object otherObject){
+    if(!super.equals(otherObject)) return false;
+    Manager other = (Manager) otherObject;
+    return bouns == other.bouns;
+}
+
+public int hashCode(){
+    return super.hashCode()+17 * new Double(bouns).hashCode();
+}
+
+public String toString(){
+    return super.toString()+&quot;[bouns=&quot;+bouns+&quot;]&quot;;
+}
+
+}
+</code></pre><h3 id="参数数量可变的方法"><a href="#参数数量可变的方法" class="headerlink" title="参数数量可变的方法"></a>参数数量可变的方法</h3><pre><code>示例如下：
+
+public static double max(double... values)
+{
+double largest = Double.NEGATIVE_INFINITY;
+for(double d:values)
+    if(d&gt;largest)
+        largest = v;
+return v;
+}
+</code></pre><p>上面代码中“…”表示可接收任意数量的参数，values是一个double类型的数组，存储着所有参数。可将double换为其他类型。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/03/06/javaLock2/" itemprop="url">
                   Java中锁的基本概念
                 </a>
@@ -1688,186 +1937,6 @@ tripleSalary(harry);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/14/djangosql/" itemprop="url">
-                  djano执行原生sql语句
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-14T15:58:10+08:00" content="2017-11-14">
-              2017-11-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###为什么需要Django执行SQL<br>使用Django自带的ORM机制做查询有时会满足不了我们的需求， 例如某些查询没有对应的model；或者只想执行UPDATE、INSERT、或DELETE语句。在这些情况下，我们需要直接访问数据库，并想绕过model层。那么，我们应该如何做呢？<br>django.db.connection表示当前默认数据库的连接。如果想使用该连接，调用connection.cursor()来获得一个cursor对象；接着，调用cursor.execute(sql, [params])来执行SQL语句；然后使用cursor.fetchone()或cursor.fetchall()来返回查询结果。<br>示例如下：<br>from django.db import connection</p>
-<pre><code>def my_custom_sql(self):
-    with connection.cursor() as cursor:
-        cursor.execute(&quot;UPDATE bar SET foo = 1 WHERE baz = %s&quot;, [self.baz])
-        cursor.execute(&quot;SELECT foo FROM bar WHERE baz = %s&quot;, [self.baz])
-        row = cursor.fetchone()
-    return row
-</code></pre><p><strong>注意：如果想在查询语句中包含百分号，必须写两个，示例如下</strong></p>
-<pre><code>cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%&apos;&quot;)
-cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%%&apos; AND id = %s&quot;, [self.id])
-</code></pre><p>如果正在使用<a href="https://docs.djangoproject.com/en/1.11/topics/db/multi-db/" target="_blank" rel="noopener">多个数据库</a>，可以使用django.db.connections来获取指定数据库的连接（和cursor）。 django.db.connections是一个类似字典的对象，可以使用别名来获取指定的连接。</p>
-<pre><code>from django.db import connections
-cursor = connections[&apos;my_db_alias&apos;].cursor()
-# Your code here...
-</code></pre><p>默认情况下，Python DB API返回的结果中不包含字段名，这表示最终结果是值的list，而不是dict。可以使用以下代码返回一个dict。</p>
-<pre><code>def dictfetchall(cursor):
-    &quot;Return all rows from a cursor as a dict&quot;
-    columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
-</code></pre><p>另一个选择是使用python标准库 collections.namedtuple()。namedtuple是类似tuple的对象，支持属性查询来访问字段；同时也支持索引和迭代。结果是不可变的，并且可通过字段名或切片访问，这两个特性可能会比较有用。</p>
-<pre><code>from collections import namedtuple
-
-def namedtuplefetchall(cursor):
-&quot;Return all rows from a cursor as a namedtuple&quot;
-    desc = cursor.description
-    nt_result = namedtuple(&apos;Result&apos;, [col[0] for col in desc])
-    return [nt_result(*row) for row in cursor.fetchall()]
-</code></pre><p>以上三种情况的差别如下所示：</p>
-<pre><code>&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; cursor.fetchall()
-((54360982, None), (54360880, None))
-
-&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; dictfetchall(cursor)
-{&apos;parent_id&apos;: None, &apos;id&apos;: 54360982}, {&apos;parent_id&apos;: None, &apos;id&apos;: 54360880}]
-
-&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
-&gt;&gt;&gt; results = namedtuplefetchall(cursor)
-&gt;&gt;&gt; results
-[Result(id=54360982, parent_id=None), Result(id=54360880, parent_id=None)]
-&gt;&gt;&gt; results[0].id
-54360982
-&gt;&gt;&gt; results[0][0]
-54360982
-</code></pre><p>###Connections 和 cursors<br>connection和cursor在大多数情况下都实现了<a href="https://www.python.org/dev/peps/pep-0249" target="_blank" rel="noopener">PEP 249</a>所描述的Python DB-API，除了事务处理。<br>如果对python DB-API不熟悉的话，要注意到cursor.execute()中的SQL语句使用了占位符”%s”,而不是SQL内直接添加参数。如果你使用这种机制，底层的数据库类库必要时将自动对参数进行转义。<br>同时也要注意，Djano使用”%s”作为占位符，而SQLite使用”?”做占位符。<br>将cursor用作上下文管理器</p>
-<pre><code>with connection.cursor() as c:
-    c.execute(...)
-</code></pre><p>等同于</p>
-<pre><code>c = connection.cursor()
-    try:
-        c.execute(...)
-    finally:
-        c.close()
-</code></pre><p>###调用存储过程<br>CursorWrapper.callproc(procname, params=None)<br>使用给定的名称或可选的输入参数来调用存储过程<br>例如，Oracle的一个存储过程如下</p>
-<pre><code>CREATE PROCEDURE &quot;TEST_PROCEDURE&quot;(v_i INTEGER, v_text NVARCHAR2(10)) AS
-    p_i INTEGER;
-    p_text NVARCHAR2(10);
-BEGIN
-    p_i := v_i;
-    p_text := v_text;
-    ...
-END;
-</code></pre><p>使用如下方式调用：</p>
-<pre><code>with connection.cursor() as cursor:
-cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1913,7 +1982,7 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">113</span>
+              <span class="site-state-item-count">114</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

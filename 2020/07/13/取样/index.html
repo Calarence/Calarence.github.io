@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="rabbitmq," />
+  <meta name="keywords" content="数据科学," />
 
 
 
@@ -86,20 +86,18 @@
 
 
 
-<meta name="description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
-<meta name="keywords" content="rabbitmq">
+<meta name="description" content="本文重点：  总体 样本 如何设计取样 偏差的来源 取样的几种方式   背景：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。 很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？ 这就引出了这篇文章的中心内容，取样，即测">
+<meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RabbitMQ通信过程分析">
-<meta property="og:url" content="http://www.appleieye.com/2018/05/27/RabbitMQ通信过程分析/index.html">
+<meta property="og:title" content="取样">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/13/取样/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
+<meta property="og:description" content="本文重点：  总体 样本 如何设计取样 偏差的来源 取样的几种方式   背景：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。 很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？ 这就引出了这篇文章的中心内容，取样，即测">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png">
-<meta property="og:updated_time" content="2018-05-27T23:03:27.675Z">
+<meta property="og:updated_time" content="2020-07-13T10:06:13.322Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RabbitMQ通信过程分析">
-<meta name="twitter:description" content="RabbitMQ通信过程分析总体流程概述：生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。 关键词：交换器、队列、绑定、路由键具体流程如下： 生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创">
-<meta name="twitter:image" content="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png">
+<meta name="twitter:title" content="取样">
+<meta name="twitter:description" content="本文重点：  总体 样本 如何设计取样 偏差的来源 取样的几种方式   背景：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。 很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？ 这就引出了这篇文章的中心内容，取样，即测">
 
 
 
@@ -120,9 +118,9 @@
 
 
 
-  <link rel="canonical" href="http://www.appleieye.com/2018/05/27/RabbitMQ通信过程分析/"/>
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/13/取样/"/>
 
-  <title> RabbitMQ通信过程分析 | Clarence's blog </title>
+  <title> 取样 | Clarence's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -272,7 +270,7 @@
             
             
               
-                RabbitMQ通信过程分析
+                取样
               
             
           </h1>
@@ -284,8 +282,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-27T13:58:10+08:00" content="2018-05-27">
-              2018-05-27
+            <time itemprop="dateCreated" datetime="2020-07-13T13:58:10+08:00" content="2020-07-13">
+              2020-07-13
             </time>
           </span>
 
@@ -331,16 +329,49 @@
       
 
       
-        <h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
-<h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol>
-<li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li>
-<li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li>
-<li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li>
-<li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li>
-<li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li>
-<li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li>
+        <p>本文重点：</p>
+<ol>
+<li>总体</li>
+<li>样本</li>
+<li>如何设计取样</li>
+<li>偏差的来源</li>
+<li>取样的几种方式</li>
 </ol>
-<h3 id="消息投递流程补充"><a href="#消息投递流程补充" class="headerlink" title="消息投递流程补充"></a>消息投递流程补充</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png" alt="rabbitmq消息投递流程"></p>
+<hr>
+<p><strong>背景</strong>：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。</p>
+<p>很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？</p>
+<p>这就引出了这篇文章的中心内容，<strong><em>取样，</em></strong>即测试一些口香糖样本，而不是所有的口香糖。</p>
+<hr>
+<p>一、<strong>总体—population</strong></p>
+<p>统计意义上的总体是指我们试图测量、研究、分析的所有总体事物。例如，我们想进行人口普查，看看我们国家现在到底有多少人，这时候，总体就是国内全部的人。</p>
+<hr>
+<p>二、<strong><em>样本—-sample</em></strong></p>
+<p>统计意义上的样本就是从总体中选取的部分。   我们可以从总体中选取样本来代表总体，因为这比较可行，耗费的时间、金钱、精力相对采用总体来说，也是非常少的，总而言之来说是可行的。</p>
+<p>选取好的样本的关键是选择那些尽可能贴近总体的，这样样本所有具有代表性，这样样本与总体之间才有相似的特征。只有这样，我们才可以用样本来预测总体的一些特征。</p>
+<hr>
+<p>三、<strong><em>如何设计取样</em></strong></p>
+<ol>
+<li>确定目标总体(target population)。首先要确定target population，这样才能知道样本是从哪里来的。通过target population，我们明确了要研究的事物。例如，我们想收集世界上所有的口香糖的数据，我们关心的是某种品牌的口香糖还是某种类型的口香糖，这个要弄清楚。</li>
+<li>确定取样单位。在这个例子中，我们是想以每个口香糖为单位，还是以每盒口香糖为单位</li>
+<li>定义取样框架。它基本上是一个列表，里面的每个样本都被命名或编号，你可以从中选择样本</li>
+</ol>
+<hr>
+<p>四、<strong><em>偏差的来源</em></strong></p>
+<p>如果我们在进行取样时，没有客观公正的进行选择样本，而是有偏差的选择了一些样本，这样我们就会对总体产生错误的印象，进而做出错误的推断。一般来说，偏差的来源有这么几方面：</p>
+<ol>
+<li>取样框架中一些样本被漏掉了，如果样本没有放在取样框架中，它们也不会进入你的样本中</li>
+<li>不正确的取样单位。有时候以每个口香糖为单位是合适的，但有时候要考虑以每盒为单位</li>
+<li>问卷调查中存在设计不好的问题。</li>
+<li>取样时没有做的随机取样，而是以个人的主观判断去取样</li>
+</ol>
+<hr>
+<p>五、<strong><em>几种取样方式</em></strong></p>
+<ol>
+<li>简单随机取样，从N个取样单位中随机选择n个取样单位，所有样本都有同样被选择到的可能性。简单随机取样又分为有放回和无放回。简单随机抽样可以通过抽签或者随机数生成器来实现。</li>
+<li>分层抽样：把样本分成几个组，每个组都有类似的特征，然后从每个组中进行随机抽样。如口香糖可以按颜色分为黄色、绿色、红色、和粉色，每一种颜色叫作一层。</li>
+<li>整群抽样：如口香糖可能分装成了一包一包的，可以随机选择几包，然后对每包里的口香糖进行试验</li>
+<li>系统抽样：每隔几个样本选择一个样本。</li>
+</ol>
 
       
     </div>
@@ -363,7 +394,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/rabbitmq/" rel="tag">#rabbitmq</a>
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
           
         </div>
       
@@ -372,17 +403,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/26/rabbitmq/" rel="next" title="RabbitMQ常用命令">
-                <i class="fa fa-chevron-left"></i> RabbitMQ常用命令
+              <a href="/2020/07/08/正态分布/" rel="next" title="正态分布">
+                <i class="fa fa-chevron-left"></i> 正态分布
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/28/RabbitMQ高可用方案/" rel="prev" title="RabbitMQ高可用方案">
-                RabbitMQ高可用方案 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -514,7 +541,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ通信过程分析"><span class="nav-number">1.</span> <span class="nav-text">RabbitMQ通信过程分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总体流程概述："><span class="nav-number">2.</span> <span class="nav-text">总体流程概述：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关键词：交换器、队列、绑定、路由键"><span class="nav-number">2.1.</span> <span class="nav-text">关键词：交换器、队列、绑定、路由键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体流程如下："><span class="nav-number">3.</span> <span class="nav-text">具体流程如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息投递流程补充"><span class="nav-number">4.</span> <span class="nav-text">消息投递流程补充</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目錄</p>
             
           </div>
         </section>
