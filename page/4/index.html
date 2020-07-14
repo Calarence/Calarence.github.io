@@ -271,6 +271,149 @@
             
               
                 
+                <a class="post-title-link" href="/2018/03/06/JavaLock3/" itemprop="url">
+                  Java中锁的实现原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-03-06T21:02:08+08:00" content="2018-03-06">
+              2018-03-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Java中锁的实现原理"><a href="#Java中锁的实现原理" class="headerlink" title="Java中锁的实现原理"></a>Java中锁的实现原理</h3><blockquote>
+<ul>
+<li>原理<br>Lock接口的实现是通过聚合了一个队列同步器，利用同步器实现锁的语义。或者可以理解为Lock接口是通过队列同步器实现的。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>队列同步器的使用方式<br>同步器的主要使用方式是继承，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器的模版方法，而这些模版方法将会调用使用者重写的方法。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>队列同步器的API或模版方法</li>
+<li>队列同步器的实现分析<ul>
+<li>同步队列：同步器依赖内部的同步队列，FIFO双向队列来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成为一个节点，将其加入队列尾部，并阻塞当前线程；当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</li>
+<li>入队：当一个线程成功获取了同步状态后，其他线程无法获取到同步状态，转而被构造成为节点，添加到尾部，然而加入到队列的过程必须要<strong>保证线程安全</strong>，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Node uodate),它需要传递当前线程认为的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。</li>
+<li>出队：首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设为首节点，因为只有一个线程能够获取到同步状态，因此不需要CAS来设置。</li>
+<li>独占式同步状态获取与释放<ul>
+<li>获取流程如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/system.png" alt="此处输入图片的描述"></li>
+<li>释放：释放同步状态，并唤醒下一个节点    </li>
+</ul>
+</li>
+<li>共享式同步状态获取与释放<ul>
+<li>获取：与独占式的区别：共享式创建的Node的nextWaiter是一个SHARED常量来标志，而独占式标志是一个NULL节点；在队列等待时，独占式如果改变Status成功则就直接设置为头结点就返回了，但是共享式会进行判断，如果是SHARED并且Status&gt;=0则会设置头结点并且直接将下一个节点也unpark唤醒以便传递下去；</li>
+<li>释放：因为释放同步状态的操作会同时来自多个线程，所以一般通过循环和CAS来保证释放。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/03/06/extends/" itemprop="url">
                   Java继承
                 </a>
@@ -1730,213 +1873,6 @@ while (true) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/19/JavaObject/" itemprop="url">
-                  Java对象与类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-19T13:08:34+08:00" content="2017-11-19">
-              2017-11-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Java对象与类"><a href="#Java对象与类" class="headerlink" title="Java对象与类"></a>Java对象与类</h2><h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><h3 id="对象：三个主要特性：行为、状态、标识"><a href="#对象：三个主要特性：行为、状态、标识" class="headerlink" title="对象：三个主要特性：行为、状态、标识"></a>对象：三个主要特性：行为、状态、标识</h3><h3 id="类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小"><a href="#类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小" class="headerlink" title="类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小"></a>类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小</h3><h3 id="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"><a href="#隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值" class="headerlink" title="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"></a>隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值</h3><h3 id="方法参数：Java采用按值调用。"><a href="#方法参数：Java采用按值调用。" class="headerlink" title="方法参数：Java采用按值调用。"></a>方法参数：Java采用按值调用。</h3><p>方法得到的是参数值的一个拷贝，方法不能修改传递给它的任何参数变量的内容。<br>举例如下：</p>
-<pre><code>public static void tripleValue(double x)
-    {
-     x = 3 * ;
-
-    }
-//调用该方法
-double percent = 10;
-tripleValue(percent);
-</code></pre><p>执行完后，发现percent的值还是为10，具体执行过程如下:</p>
-<blockquote>
-<ul>
-<li>x被初始化为percent的一个copy，也就是10</li>
-<li>x被乘以3后等于30，但percent仍然是10</li>
-<li>该方法结束后，x不被使用</li>
-<li>percent仍为10</li>
-</ul>
-</blockquote>
-<p>方法参数共有两种类型：基本数据类型；对象引用。在上面例子中，已经看到了一个方法不能改变一个基本数据类型的参数，那么对象引用类型的参数呢？</p>
-<pre><code>public static void tripleSalary(Employee x)
-{
- x.raiseSalary(200);
-} 
-当调用：
-harry = new Employee();
-tripleSalary(harry);
-</code></pre><p>具体过程如下:</p>
-<blockquote>
-<ul>
-<li>x被初始化为harry值的一个copy，这里是同一个对象的引用。</li>
-<li>raiseSalary应用于这个对象的引用。x和harry同时引用的那个Employee对象的salary改变</li>
-<li>方法结束后，参数x不被使用，对象变量harry继续引用salary改变的对象</li>
-</ul>
-</blockquote>
-<p>参数得到是对象引用的copy，对象引用以及他的copy同时引用同一个对象。</p>
-<p>java中的引用不是按引用调用，反例如下:</p>
-<pre><code>public staic void swap(Employee x,Employee y)
- {
-   Employee temp = x;
-   x =  y;
-   y = temp；
- }
-</code></pre><p>如果java对对象采用的是按引用调用，那么上面的方法就能实现交换数据的效果，但是实际上并没有改变存储在变量a和b中的的对象引用。swap方法的参数x和y被初始化为两个对象应用的copy，这个方法交换的是两个copy</p>
-<p>总结：</p>
-<blockquote>
-<ul>
-<li>一个方法不能修改一个基本数据类型的参数</li>
-<li>一个方法可以改变一个对象参数的状态</li>
-<li>一个方法不能让对象参数引用一个新的对象</li>
-</ul>
-</blockquote>
-<h3 id="重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"><a href="#重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。" class="headerlink" title="重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"></a>重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。<strong>返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。</strong></h3><h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>静态方法是一种不能向对象实施操作的方法。静态方法不能访问成员变量，因为它不能操作对象。<br>在下面两种情况使用静态方法：</p>
-<blockquote>
-<ul>
-<li>一个方法不需要访问对象状态，其所需参数都是通过显式参数提供</li>
-<li>一个方法只需要访问类的静态域</li>
-</ul>
-</blockquote>
-<h3 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h3><p>初始化数据的方法：</p>
-<blockquote>
-<ul>
-<li>在构造器中赋值</li>
-<li>在声明中赋值</li>
-<li>初始化块：首先运行初始化块，然后才运行构造器的主体部分。</li>
-</ul>
-</blockquote>
-<p>调用构造器的处理步骤;</p>
-<blockquote>
-<ul>
-<li>所有数据被初始化默认值（0，null或false）</li>
-<li>按照在类声明中出现的次序，依次执行所有域初始化语句和初始化块</li>
-<li>如果构造器中第一行调用了第二个构造器，则执行第二个构造器主体</li>
-<li>执行这个构造器主体</li>
-</ul>
-</blockquote>
-<p>对静态变量的初始化：静态的初始化块，在类第一次加载的时候，会进行静态域的初始化，所有静态初始化语句以及静态初始化块都依照类定义的顺序执行。</p>
-<h3 id="类设计技巧"><a href="#类设计技巧" class="headerlink" title="类设计技巧"></a>类设计技巧</h3><blockquote>
-<ul>
-<li>要保证成员变量私有</li>
-<li>要对成员变量初始化</li>
-<li>不要在类中使用过多的基本类型，可用其他类代替多个相关的基本类型的使用</li>
-<li>将职责过多的类进行分解</li>
-<li>不是所有的域都需要独立的get和set方法</li>
-<li>类名和方法名要能体现他们的职责</li>
-<li>优先使用不可的类</li>
-</ul>
-</blockquote>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><blockquote>
-<ul>
-<li>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象</li>
-<li>在java中，任何对象变量的值都是对存储在另外一个地方的一个对象的引用。new 操作符的返回值也是一个引用</li>
-<li>在一个源文件中，只能有一个public类，但可以有任意数目的非公有类</li>
-</ul>
-</blockquote>
-<p>参考：《java核心技术卷一》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1982,7 +1918,7 @@ tripleSalary(harry);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">114</span>
+              <span class="site-state-item-count">115</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

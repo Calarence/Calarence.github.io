@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="数据科学," />
 
 
 
@@ -86,18 +86,27 @@
 
 
 
-<meta name="description" content="python编码：计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。由于中文用一字节（128）表示不了，UnicodeDec">
-<meta name="keywords" content="python">
+<meta name="description" content="本文主要内容：  使用样本的均值和方差估计总体的均值和方差 使用样本数据估计总体某一事件比例 使用总体的概率估计样本某一事件的概率 使用总体的数据估计样本均值的概率   一、使用样本的均值和方差估计总体的均值和方差 样本的均值与总体的均值近似相等；样本的方差与总体的方差并不是近似相等，这是因为当我们选择样本时，与总体相比，我们有数量更少的数值；因为有更少的数值，在均值附近的聚集程度要比在总体中更加">
+<meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python编码与解码">
-<meta property="og:url" content="http://www.appleieye.com/2017/03/13/pythonCode/index.html">
+<meta property="og:title" content="预估:估计总体和样本">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/14/估计/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="python编码：计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。由于中文用一字节（128）表示不了，UnicodeDec">
+<meta property="og:description" content="本文主要内容：  使用样本的均值和方差估计总体的均值和方差 使用样本数据估计总体某一事件比例 使用总体的概率估计样本某一事件的概率 使用总体的数据估计样本均值的概率   一、使用样本的均值和方差估计总体的均值和方差 样本的均值与总体的均值近似相等；样本的方差与总体的方差并不是近似相等，这是因为当我们选择样本时，与总体相比，我们有数量更少的数值；因为有更少的数值，在均值附近的聚集程度要比在总体中更加">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:updated_time" content="2017-03-13T02:30:28.000Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggq8ngwyazj31ig09sads.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhx5gwp0j30di0awaao.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhxpzyoqj30ji0d40tk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi2db1gaj30zo0c4wgq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi6w99vzj30ki0fiab8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjxb3b2vj30tg0tcn26.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjyed096j30zy0f2tb1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqk87ugu2j30zs0u0n7t.jpg">
+<meta property="og:updated_time" content="2020-07-14T08:28:29.488Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python编码与解码">
-<meta name="twitter:description" content="python编码：计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。由于中文用一字节（128）表示不了，UnicodeDec">
+<meta name="twitter:title" content="预估:估计总体和样本">
+<meta name="twitter:description" content="本文主要内容：  使用样本的均值和方差估计总体的均值和方差 使用样本数据估计总体某一事件比例 使用总体的概率估计样本某一事件的概率 使用总体的数据估计样本均值的概率   一、使用样本的均值和方差估计总体的均值和方差 样本的均值与总体的均值近似相等；样本的方差与总体的方差并不是近似相等，这是因为当我们选择样本时，与总体相比，我们有数量更少的数值；因为有更少的数值，在均值附近的聚集程度要比在总体中更加">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggq8ngwyazj31ig09sads.jpg">
 
 
 
@@ -118,9 +127,9 @@
 
 
 
-  <link rel="canonical" href="http://www.appleieye.com/2017/03/13/pythonCode/"/>
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/14/估计/"/>
 
-  <title> python编码与解码 | Clarence's blog </title>
+  <title> 预估:估计总体和样本 | Clarence's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -270,7 +279,7 @@
             
             
               
-                python编码与解码
+                预估:估计总体和样本
               
             
           </h1>
@@ -282,8 +291,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-03-13T10:30:28+08:00" content="2017-03-13">
-              2017-03-13
+            <time itemprop="dateCreated" datetime="2020-07-14T13:58:10+08:00" content="2020-07-14">
+              2020-07-14
             </time>
           </span>
 
@@ -296,8 +305,8 @@
               <span class="post-meta-item-text">分類於</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
                   </a>
                 </span>
 
@@ -329,18 +338,53 @@
       
 
       
-        <h3 id="python编码："><a href="#python编码：" class="headerlink" title="python编码："></a>python编码：</h3><p>计算机是以0-1的方式存储数据的，8比特（8个1）为一个字节，一个字节（11111111）所能表示的最大数字为255，两个字节（11111111 11111111）所能表示的最大数字为65535.<br>美国人最早研制计算机的时候，将128个字符（字母、数字以及特殊符号）保存到计算机里，用一个字节就够了。这种编码成为ASCII编码。<br>由于中文用一字节（128）表示不了，<code>UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe4 in position 0: ordinal not in range(128)</code> 所以会报这个错误。后来中文有了自己的编码–GB2312。<br>为了将所有语言统一编码，Unicode应运而生。<br>Unicode编码用两个字节表示一个字符，这样就会造成一定的浪费：像A完全可以用一个字节表示，第二个字节就浪费掉了。如果表示全英文，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。<br>为了节省空间，UTF-8编码出现了–它是可变长的Unicode编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。<br>ASCII编码实际上可以被看成是UTF-8编码的一部分，所以，大量只支持ASCII编码的历史遗留软件可以在UTF-8编码下继续工作。</p>
+        <p>本文主要内容：</p>
+<ol>
+<li>使用样本的均值和方差估计总体的均值和方差</li>
+<li>使用样本数据估计总体某一事件比例</li>
+<li>使用总体的概率估计样本某一事件的概率</li>
+<li>使用总体的数据估计样本均值的概率</li>
+</ol>
 <hr>
-<p>在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码.<br>由于Python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。<br>以Unicode表示的str通过encode()方法可以编码为指定的bytes</p>
-<pre><code>&gt;&gt;&gt; &apos;ABC&apos;.encode(&apos;ascii&apos;)
-b&apos;ABC&apos;
-&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;utf-8&apos;)
-b&apos;\xe4\xb8\xad\xe6\x96\x87&apos;
-&gt;&gt;&gt; &apos;中文&apos;.encode(&apos;ascii&apos;)
-Traceback (most recent call last):
-  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 0-1: ordinal not in range(128)
-</code></pre><p>纯英文的str可以用ASCII编码为bytes，内容是一样的，含有中文的str可以用UTF-8编码为bytes。含有中文的str无法用ASCII编码，因为中文编码的范围超过了ASCII编码的范围，Python会报错<br>    如果我们从网络或磁盘上读取了字节流，那么读到的数据就是bytes。要把bytes变为str，就需要用decode()方法<br>    str和bytes互相转换时，需要指定编码。最常用的编码是UTF-8</p>
+<p>一、<strong><em>使用样本的均值和方差估计总体的均值和方差</em></strong></p>
+<p>样本的均值与总体的均值近似相等；样本的方差与总体的方差并不是近似相等，这是因为当我们选择样本时，与总体相比，我们有数量更少的数值；因为有更少的数值，在均值附近的聚集程度要比在总体中更加地集中；样本中的极值要比总体少的多，所以不能简单的使用样本的方差去代替总体方差。计算公式为：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggq8ngwyazj31ig09sads.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggq8ngwyazj31ig09sads.jpg"></p>
+<p>与计算总体的方差不一样的是，这里除以的是n-1，而非n，因为总体的方差要比样本的方差大一些</p>
+<hr>
+<p>二、<strong><em>使用样本数据估计总体某一事件比例</em></strong></p>
+<p>背景：某口香糖公司的CEO在一个四十人的样本中发现有三十二人喜欢他们公司的产品，而有八人喜欢他们对手的产品。CEO想知道是否每个人是喜欢自己公司的产品还是对手公司的；假设喜欢自己公司的产品这个事件被认为是一次成功；那么，该如何使用抽样数据来估计总体的成功率呢？像我们之前用样本的均值近似代替总体均值一样，我们也可以认为样本成功事件的概率近似等于总体的成功概率，所以成功概率为32/40=0.8</p>
+<hr>
+<p>三、<strong><em>使用总体的概率估计样本的概率</em></strong></p>
+<p>所有的口香糖中红色的有25%，试问在100颗口香糖中，40%为红色的概率是多少？</p>
+<p>这个场景跟上面的例子都不一样，因为它是用总体来估计样本。</p>
+<p>大致过程如下：</p>
+<ol>
+<li>如果我们的样本的个数为n，我们需要考虑个数为n的所有样本。在这个例子中，每盒有100个口香糖，因此n为100.</li>
+<li>寻找所有样本构成的分布情况，然后找到期望值和方差</li>
+<li>一旦我们知道了比例分布情况，用它来找到概率</li>
+</ol>
+<p>我们用X表示样本中红色口香糖的数量，那么X服从B(n,p)的二项分布，其中n为100，p为0.25；成功概率为Ps = X/n ；</p>
+<p>接下来，我们需要找到Ps的<strong><em>期望</em></strong>。计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhx5gwp0j30di0awaao.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhx5gwp0j30di0awaao.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhxpzyoqj30ji0d40tk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqhxpzyoqj30ji0d40tk.jpg"></p>
+<p><strong><em>方差的计算过程</em></strong>如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi2db1gaj30zo0c4wgq.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi2db1gaj30zo0c4wgq.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi6w99vzj30ki0fiab8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqi6w99vzj30ki0fiab8.jpg"></p>
+<p>当n &gt; 30时，Ps服从N(p, pq/n)正态分布，因此可以用正态分布来计算我们想要的概率，但是我们要做continuity correction，调整方式为±1/2n</p>
+<hr>
+<p>四、<strong>使用总体的数据估计样本均值的概率</strong></p>
+<p><strong><em>背景</em></strong>：该口香糖公司按照一包一包的方式进行销售，每包平均装10个，方差为1；但是公司收到了一个投诉说，他买了30包口香糖，而这30包口香糖每包平均只有8.5个。CEO想知道发生这种情况的概率有多大。在这个例子中，我们知道了总体的均值和方差，然后需要计算样本均值的概率分布情况。</p>
+<p>具体的过程与上一个例子，就是计算均值和方差，然后看均值的概率分布，从而得到概率</p>
+<p>首先，我们需要找到样本均值的期望，计算过程如下：</p>
+<p>X表示每包的口香糖的个数，</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjxb3b2vj30tg0tcn26.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjxb3b2vj30tg0tcn26.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjyed096j30zy0f2tb1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqjyed096j30zy0f2tb1.jpg"></p>
+<p>这说明E(X) = μ，即样本的均值与总体的均值相同。</p>
+<p>X均值的<strong><em>方差</em></strong>的计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqk87ugu2j30zs0u0n7t.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggqk87ugu2j30zs0u0n7t.jpg"></p>
+<p>那么X的均值是如何分布的呢？</p>
+<p>如果X服从正态分布，那么X均值也服从正态分布；如果X不服从正态分布，而n足够大(超过30)，则X均值也服从正态分布(后者称为中心极限定理),并且X均值服从N(μ, σ2/n)。比如，假设X ~ B(n, p)；则有X均值服从N(np, pq)；同样，X ~ Po(λ),则有X均值服从N(λ, λ/n)。</p>
+<p>要注意的一点是，这时候，我们在使用中心极限定理时，并不需要continuity corrections。这是因为我们计算的是X均值的概率，而非X本身，所以不用进行continuity corrections</p>
 
       
     </div>
@@ -363,7 +407,7 @@ UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in posi
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag">#python</a>
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
           
         </div>
       
@@ -372,17 +416,13 @@ UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in posi
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/10/redisquickstart/" rel="next" title="Redis quick start">
-                <i class="fa fa-chevron-left"></i> Redis quick start
+              <a href="/2020/07/13/取样/" rel="next" title="取样">
+                <i class="fa fa-chevron-left"></i> 取样
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/24/RESTfulAPI/" rel="prev" title="RESTful API最佳实践">
-                RESTful API最佳实践 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -514,7 +554,7 @@ UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in posi
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python编码："><span class="nav-number">1.</span> <span class="nav-text">python编码：</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目錄</p>
             
           </div>
         </section>

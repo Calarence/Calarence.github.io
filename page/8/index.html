@@ -271,6 +271,199 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/18/calamari/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-10-18T20:52:28+08:00" content="2016-10-18">
+              2016-10-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="calamari搭建教程"><a href="#calamari搭建教程" class="headerlink" title="calamari搭建教程"></a>calamari搭建教程</h1><p>title: calamari搭建教程<br>标签（空格分隔）： 未分类</p>
+<ul>
+<li>架构: 单节点部署ceph，然后在该节点上安装calamari</li>
+<li><p>环境准备:</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>系统为centos7</li>
+<li>关闭<strong>防火墙</strong> <code>systemctl stop firewalld</code> <code>systemctl disable firewalld</code></li>
+<li>禁用<strong>selinux</strong> <code>sed -i &#39;s/SELINUX=.*/SELINUX=disabled/&#39; /etc/selinux/config</code> <code>setenforce 0</code></li>
+<li>修改<strong><em>/etc/hosts</em></strong>文件，增加ip、hostname映射</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>安装包准备</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>calamari-server rpm包,版本为1.3.3-jewel</li>
+<li>romana rpm 包,版本为1.2.2-36</li>
+<li>salt、salt-master、salt-minion rpm包，版本为2015.8.1-1。高版本会出现发现不了集群的问题</li>
+<li>diamond rpm包</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>安装：</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>安装salt <code>rpm -ivh salt-2015.8.1-1.el7.noarch.rpm</code></li>
+<li>安装salt-master <code>rpm -ivh salt-master-2015.8.1-1.el7.noarch.rpm</code></li>
+<li>安装salt-minion <code>rpm -ivh salt-minion-2015.8.1-1.el7.noarch.rpm</code></li>
+<li>安装calamari-server <code>yum install calamari-server-1.3.3-jewel.el7.centos.x86_64.rpm</code></li>
+<li>安装romana <code>rpm -ivh romana-1.2.2-36_gc62bb5b.el7.centos.x86_64.rpm</code></li>
+<li>安装diamond ‘rpm -ivh diamond-3.4.67-0.noarch.rpm’</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>配置：</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>将diamond.conf.example重命名为diamond.conf <code>cd /etc/diamond</code> <code>mv diamond.conf.example diamond.conf</code></li>
+<li>将salt-minion的master项配置为salt-master所在机器的主机名 <code>vi /etc/salt/minion</code> <code>master: 主机名</code> <code>id: node用于标记salt-minion</code></li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>启动：</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>启动salt-master: <code>systemctl enable salt-master</code> <code>systemctl restart salt-master</code></li>
+<li>calamari初始化 <code>calamarictl initialize</code>,配置用户名密码</li>
+<li>访问ip，即可看到登录界面，输入用户名、密码进入后会提示<strong>New Calamari Installation</strong>,若报500错误，修改cthulhu.log权限<code>cd /var/log/calamari</code> <code>chmod 777 * -R</code></li>
+<li>启动salt-minion：<code>systemctl enable salt-minion</code> <code>systemctl restart salt-minion</code></li>
+<li>启动diamond: <code>systemctl enable diamond</code> <code>systemctl restart diamond</code></li>
+<li>salt-key 认证：<code>salt-key -L</code>,会看到salt-minion的标识符，进行认证<code>salt-key -A</code></li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>验证：</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>salt-minion与master的可达性: <code>salt &#39;*&#39; test.ping</code>,若返回True，则可达</li>
+<li>检查salt-master是否能查询到和获取ceph集群 <code>salt &#39;*&#39; ceph.get_heartbeats</code>,若返回集群信息，则可在dashboard上发现集群</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>日志</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>/var/log/salt/minion</li>
+<li>/var/log/calamari/calamari.log cthulthu.log</li>
+<li>diamond</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>排错</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>安装完后访问页面报500错误，修改<strong>cthulthu.log</strong>权限， <code>cd /var/log/calamari</code> <code>chmod 777 * -R</code></li>
+<li>页面提示Cluster Updates Are Stale. The Cluster isn’t updating Calamari. Please contact Administrator，重启salt服务和cthulhu服务看是否出现，如果一直出现可以定期重启，或者进行数据库的清理 <strong>数据清理</strong> <code>calamarictl clear --yes-i-am-sure</code> ,然后初始化 <code>calamari-ctl initialize</code></li>
+<li>管理平台看不到监控的硬件数据 发现diamond无法启动  <code>rm -rf /var/lock/subsys/diamond</code> <code>service diamond restart</code></li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/18/arch/" itemprop="url">
                   大型网站架构演化发展历程
                 </a>
@@ -1556,128 +1749,6 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/22/devstack/" itemprop="url">
-                  使用devstack安装openstack
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-12-22T18:30:30+08:00" content="2015-12-22">
-              2015-12-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index">
-                    <span itemprop="name">openstack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>使用的环境：Centos7,python2.7</li>
-<li>下载安装git <code>yum install git</code></li>
-<li>下载devstack,<code>cd opt</code>,<code>git clone https://github.com/openstack-dev/devstack.git</code></li>
-<li>创建stack用户 <code>sudo chown –R $USER:$USER /opt/devstack</code> <code>cd /opt/devstack/tools/</code>  <code>./create-stack-user.sh</code></li>
-<li>配置stack用户密码 <code>passwd stack</code></li>
-<li>修改stack权限 <code>sudo chowne -R stack:stack /opt/devstack</code> <code>sudo chown -R stack:stack /opt/stack</code></li>
-<li>提前下载好组件，避免在运行<code>stack.sh</code>下载时速度过慢 <code>git clone git://git.openstack.org/openstack/ceilometer /opt/stack/ceilometer</code> <code>git clone git://git.openstack.org/openstack/cinder /opt/stack/cinder</code> <code>git clone git://git.openstack.org/openstack/glance /opt/stack/glance</code> <code>git clone git://git.openstack.org/openstack/heat /opt/stack/heat</code> <code>git clone git://git.openstack.org/openstack/horizon /opt/stack/horizon</code> <code>git clone git://git.openstack.org/openstack/keystone /opt/stack/keystone</code> <code>git clone git://git.openstack.org/openstack/neutron /opt/stack/neutron</code> <code>git clone git://git.openstack.org/openstack/neutron-fwaas /opt/stack/neutron-fwaas</code> <code>git clone git://git.openstack.org/openstack/neutron-lbaas /opt/stack/neutron-lbaas</code> <code>git clone git://git.openstack.org/openstack/neutron-vpnaas /opt/stack/neutron-vpnaas</code> <code>git clone git://git.openstack.org/openstack/nova /opt/stack/nova</code> <code>git clone git://git.openstack.org/openstack/swift /opt/stack/swift</code> <code>wget --progress=dot:giga -c https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img -O /opt/devstack/files/cirros-0.3.0-x86_64-disk.img</code></li>
-<li>切换到stack用户下 <code>su - stack</code>,运行stack.sh <code>./stack.sh</code>进行安装</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1723,7 +1794,7 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">114</span>
+              <span class="site-state-item-count">115</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
