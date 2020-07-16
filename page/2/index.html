@@ -271,6 +271,137 @@
             
               
                 
+                <a class="post-title-link" href="/2020/06/22/描述统计上/" itemprop="url">
+                  描述统计—上
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-06-22T13:58:10+08:00" content="2020-06-22">
+              2020-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在我们拿到数据后，需要对数据的样貌或概况(比如数据分布情况、均值、中位数、众数)有所了解，这个过程叫作描述统计。“描述统计是通过图表或数学方法，对数据资料进行整理、分析，并对数据的分布状态、数字特征和随机变量之间关系进行估计和描述的方法”，通过描述统计，可以让我们对数据有初步的了解，并且很有可能得出初步的结论并提出假设。</p>
+<p>第一个比较有用的图表是histogram——直方图。它的每一直条的面积等于该段范围的频率。它的计算方法不再赘述，重点是我们能从图中得到什么信息。</p>
+<p>直方图可以告诉我们数据的两个重要特性：集中趋势(即越靠近中央部分，频率越高)和离中趋势(绝大多数个体值并不与平均水平完全重合，而是不同程度地偏离平局水平)。根据集中和离散的程度，数据分布类型可以分为对称分布和偏态分布(右偏态分布和左偏态分布)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txptm0pj30vc0kuac8.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对称分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txqae60j30v80k6whc.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">右偏态分布</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0txq2powj30qk0luwh4.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">左偏态分布</span><br></pre></td></tr></table></figure>
+<p>区分左右偏态分布的方法很简单，看尾巴在哪边就是什么偏态分布。导致分布偏离中央的数据称为outliers(离群值)，这个离群值很重要，因为它决定了average的选择，比如选择用mean(平均数)、median(中位数)、还是mode(众数)。</p>
+<p>下面用例子说明离群值对average的选择。</p>
+<p>一个老者去健身房锻炼身体，但他不知道自己适合项目，于是工作人员根据每个项目参与人年龄的mean值(平均数)给老爷爷推荐了武术班。上完课后，老爷爷的体会是：“I ended up in the Kung Fu class with lots of young ‘uns and a few ancient masters. My back will never be the same again“。很明显，工作人员给老爷爷推荐了一个不适合他这个年龄的项目，那么，问题出在哪里？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg0vuzda1sj30om072js5.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">功夫班学员的平均年龄</span><br></pre></td></tr></table></figure>
+<p>如果将上图画成直方图的话，很明显是一个右偏态分布(因为145、147的存在)，145、147这两个极值将平均值拉高到了38岁，然而除了这两个极值，没有一个人能达到38岁，这就是我们所熟悉的“被平均”。所以当我们看到“平均“字眼，如平均工资，一定要提高警惕，不然很有可能被平均。像这种情况，我们可以选择中位数作为average。</p>
+<p>引申：当一组数据包含两类数据时，不可以直接使用mean或median。下图是家长和孩子参加活动时的年龄分布图</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg159jfr35j31d80dg77o.jpg"></p>
+<p>均值和中位数都是17，但是这个值不可以用，因为没有一个孩子的年龄是17岁，也没有一个家长的年龄是17岁。很明显，这是两组或者说两类数据，这种情况，我们可以统计年龄的频数，然后选取频数最大的，这个值称为众数。</p>
+<p><strong>总结：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">对称分布的平均水平使用均值来描述</span><br><span class="line"></span><br><span class="line">偏态分布的平均水平使用中位数来描述</span><br><span class="line"></span><br><span class="line">当多组数据存在时，考虑众数</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/06/09/Three_mechanisms_to_become_a_liar/" itemprop="url">
                   Three mechanisms to become a good liar
                 </a>
@@ -1489,128 +1620,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/27/RabbitMQ通信过程分析/" itemprop="url">
-                  RabbitMQ通信过程分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-27T13:58:10+08:00" content="2018-05-27">
-              2018-05-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="RabbitMQ通信过程分析"><a href="#RabbitMQ通信过程分析" class="headerlink" title="RabbitMQ通信过程分析"></a>RabbitMQ通信过程分析</h3><h3 id="总体流程概述："><a href="#总体流程概述：" class="headerlink" title="总体流程概述："></a>总体流程概述：</h3><p>生产者创建消息，并将消息投递给RabbitMq,具体来说，应该是RabbitMQ的交换器(Exchange),然后交换器根据规则(routing key),决定将消息投递到对应的队列(queues),这时候，监听队列的消费者就可以获取到消息了。</p>
-<h4 id="关键词：交换器、队列、绑定、路由键"><a href="#关键词：交换器、队列、绑定、路由键" class="headerlink" title="关键词：交换器、队列、绑定、路由键"></a>关键词：交换器、队列、绑定、路由键</h4><h3 id="具体流程如下："><a href="#具体流程如下：" class="headerlink" title="具体流程如下："></a>具体流程如下：</h3><ol>
-<li>生产者建立到RabbitMQ的TCP连接。在TCP的基础上，创建信道。信道是在建立在“真实的”TCP连接内的虚拟连接。不论是发布消息、订阅队列或是接收消息，这些动作都是通过信道完成的。可以把TCP想象成为一束光纤电缆，而信道是电缆中每条光纤。</li>
-<li>生产者发送消息。消息包括两部分内容：有效荷载和标签。有效荷载是生产者要发送的数据，而标签对有效荷载的描述，它决定了谁将获得这些消息，具体内容包括交换器名称、路由键名称、编码、content-type、数据类型(如字符串还是自定义的类型)、delivery_mode等等。可以在管理界面—queues—get message中查看。</li>
-<li>消息路由。路由器实际上只是一张查询表，表中记录了路由模式列表和匹配消息应发往的队列进程ID列表。当发布的消息匹配了交换器中的绑定规则时，实际上是由信道完成了匹配工作，并在匹配后建立到队列PID的连接，然后将消息传送过去。</li>
-<li>队列对消息的处理。如果至少有一个消费者订阅了队列的话，消息会立即发送给订阅的消费者。如果消息到了无人订阅的队列，消息会在队列中等待，一旦有消费者订阅到该队列，队列上的消息就会发送给订阅者；当队列有多个消费者时，队列将消息以循环(round-robin)的方式发送给消费者；</li>
-<li>消费者接收消息。消费者通过两种方式从队列中接收消息：同步(basic.get)和异步(basic.consume)。basic.get只能接收单条消息，如果想要获得更多的消息，需要再次发送basic.get命令，或者放在一个循环里，但是这样的性能不好，建议使用basic.consume。basic.consume模式，会在消息到达队列后，消费者自动接收消息，提高吞吐量。</li>
-<li>消费者对消息的确认。消费者可以选择在接收到消息后对消息进行确认，这样是为了保证可靠性，但会带来性能上的损耗。可以设置auto_ack为true，一旦消费者接收到消息后，RabbitMQ就自动确认该消息；也可以手动进行确认。如果应用程序崩溃了导致没有确认消息，Rabbit会将消息发送给其他消费者；另一方面，如果没有确认消息的话，Rabbit将不会给该消费者发送更多的消息了，这是因为在上一条消息确认前，Rabbit认为这个消费者还没有准备好接收下一条消息。如果消费者想拒绝消息的话，可以使用reject命令。如果reject命令的requeue参数为true，RabbitMQ会将消息发送给下一个订阅的消费者；如果设为false的话，会将消息从队列中移除。</li>
-</ol>
-<h3 id="消息投递流程补充"><a href="#消息投递流程补充" class="headerlink" title="消息投递流程补充"></a>消息投递流程补充</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E6%B5%81%E7%A8%8B.png" alt="rabbitmq消息投递流程"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1656,7 +1665,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">115</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

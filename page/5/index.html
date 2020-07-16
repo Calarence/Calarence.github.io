@@ -271,6 +271,145 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/27/interface/" itemprop="url">
+                  Java接口
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-27T21:07:38+08:00" content="2017-11-27">
+              2017-11-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="接口基本特性"><a href="#接口基本特性" class="headerlink" title="接口基本特性"></a>接口基本特性</h3><blockquote>
+<ul>
+<li>接口中所有的方法默认为public</li>
+<li>接口中可以定义常量，自动设为public static final</li>
+<li>接口中不能含有实例域，因为接口没有实例</li>
+<li>java8之前，接口中不能定义简单方法</li>
+<li>在实现接口时，必须把方法声明为public，否则，编译器会认为这个方法的访问属性是包可见性，即类的默认访问属性，之后编译器就会给出试图提供更严格的访问权限的警告信息。</li>
+<li>不能使用new来构造接口的对象，但可以声明接口的变量，接口变量必须引用实现了接口的类对象</li>
+<li>可以使用instanceof来检查一个对象是否实现了某个特定的接口</li>
+<li>每个类只能继承一个超类，但可以实现多个接口</li>
+<li>java8中，允许在接口中增加静态方法。之前都是将静态方法放在伴随类中，出现接口和使用工具类，如Collection/Collections,现在可以在接口中定义静态方法了</li>
+<li>默认方法：可以为接口方法提供一个默认实现，必须用default修饰符 标记这样一个方法；默认方法可以调用任何其他方法</li>
+</ul>
+</blockquote>
+<h3 id="接口与抽象类"><a href="#接口与抽象类" class="headerlink" title="接口与抽象类"></a>接口与抽象类</h3><blockquote>
+<ul>
+<li>在java中，每个类只能继承一个类，即不支持多重继承，其主要原因是多重继承会让语言本身变得非常复杂（如同C++），效率也会降低（如同Eiffel）</li>
+<li>接口可以提供多重继承的大多数好处，同时还能避免多重继承的复杂性和低效性</li>
+</ul>
+</blockquote>
+<h3 id="解决默认方法冲突"><a href="#解决默认方法冲突" class="headerlink" title="解决默认方法冲突"></a>解决默认方法冲突</h3><p>如果现在一个接口中将一个方法定义为默认方法，然后又在超类或另一个接口中定义了同样的方法，那么子类会如何出现这种二义性的冲突。</p>
+<blockquote>
+<ul>
+<li>超类优先。如果超类提供了一个具体方法，同名而且有相同参数类型的默认方法会被忽略</li>
+<li>接口冲突：如果一个接口提供了一个默认方法，另一个接口提供了一个同名而且参数类型（不论是否是默认参数）相同的方法，必须覆盖这个方法来解决冲突</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/19/JavaObject/" itemprop="url">
                   Java对象与类
                 </a>
@@ -2053,125 +2192,6 @@ while(in.hasNext())
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/20/os/" itemprop="url">
-                  操作系统内存管理总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-08-20T11:56:58+08:00" content="2017-08-20">
-              2017-08-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在重温操作系统相关内容，整理了一下内存管理相关知识，<a href="http://www.jianshu.com/p/50c103fc8a14" target="_blank" rel="noopener">链接在此</a><br>参考书籍</p>
-<blockquote>
-<ul>
-<li>《操作系统精髓与设计原理》</li>
-<li>《现代操作系统》</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2217,7 +2237,7 @@ while(in.hasNext())
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">115</span>
+              <span class="site-state-item-count">116</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
