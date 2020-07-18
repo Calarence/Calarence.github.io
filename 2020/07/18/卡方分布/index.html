@@ -1,0 +1,716 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本文主要内容： 卡方分布的两个作用  拟合优度检验(goodness of fit test)：某组数据是否与某个分布吻合 两变量的独立性检验   一、拟合优度检验 背景：假设我们有两组数据，一组是期望值，一组是观测值，我们想对比这两组数据，来判断这两组数据的差距是正常的波动，还是底层概率模型出现了问题。这两组数据如下： 第一组是期望的概率值  第二组是实际观察到频数值  第三组是期望的概率值在重">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卡方分布">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/18/卡方分布/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="本文主要内容： 卡方分布的两个作用  拟合优度检验(goodness of fit test)：某组数据是否与某个分布吻合 两变量的独立性检验   一、拟合优度检验 背景：假设我们有两组数据，一组是期望值，一组是观测值，我们想对比这两组数据，来判断这两组数据的差距是正常的波动，还是底层概率模型出现了问题。这两组数据如下： 第一组是期望的概率值  第二组是实际观察到频数值  第三组是期望的概率值在重">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ynn0j31360740ty.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3qqk1fuj316e0figo1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4a4lpb5j313w07swgo.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4c58fxnj31b20dqwj1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutnb97hvj309804cwep.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutof5di5j30tw0l6n3h.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguttp50q8j31gs0k2n77.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguue7wledj31250u0axn.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguuon6wgwj30uq0aagot.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguvryzh6uj31ae0c841m.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxeirefxj31d20aq794.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxf8e9x8j313009ejua.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxg0h05gj31ha07kacv.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxgjku5tj31420bi414.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxpcggnkj316i0900u0.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxszgjnhj31ny0n0n8r.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxzjsb12j31dp0u0k5m.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gguy2j76vlj31mq0n2449.jpg">
+<meta property="og:updated_time" content="2020-07-18T03:12:23.273Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="卡方分布">
+<meta name="twitter:description" content="本文主要内容： 卡方分布的两个作用  拟合优度检验(goodness of fit test)：某组数据是否与某个分布吻合 两变量的独立性检验   一、拟合优度检验 背景：假设我们有两组数据，一组是期望值，一组是观测值，我们想对比这两组数据，来判断这两组数据的差距是正常的波动，还是底层概率模型出现了问题。这两组数据如下： 第一组是期望的概率值  第二组是实际观察到频数值  第三组是期望的概率值在重">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/18/卡方分布/"/>
+
+  <title> 卡方分布 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                卡方分布
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-18T13:58:10+08:00" content="2020-07-18">
+              2020-07-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要内容：</p>
+<p>卡方分布的两个作用</p>
+<ol>
+<li>拟合优度检验(goodness of fit test)：某组数据是否与某个分布吻合</li>
+<li>两变量的独立性检验</li>
+</ol>
+<hr>
+<p>一、<strong><em>拟合优度检验</em></strong></p>
+<p>背景：假设我们有两组数据，一组是期望值，一组是观测值，我们想对比这两组数据，来判断这两组数据的差距是正常的波动，还是底层概率模型出现了问题。这两组数据如下：</p>
+<p>第一组是<strong><em>期望</em></strong>的概率值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg"></p>
+<p>第二组是<strong><em>实际</em></strong>观察到频数值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ynn0j31360740ty.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ynn0j31360740ty.jpg"></p>
+<p>第三组是期望的概率值在重复1000次试验后得到的频数值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3qqk1fuj316e0figo1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3qqk1fuj316e0figo1.jpg"></p>
+<p>通过上图频数值的对比，能够发现期望值与观测值存在差异。那么这些差异到底是正常的波动(或随机)还是其他因素影响？还有就是这种假设该用什么样的分布来验证？</p>
+<p>卡方分布可以用在这个场景中，它用一个统计值来衡量观测值与期望值之间差异大小，公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4a4lpb5j313w07swgo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4a4lpb5j313w07swgo.jpg"></p>
+<p>在我们这个例子中，计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4c58fxnj31b20dqwj1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4c58fxnj31b20dqwj1.jpg"></p>
+<p>计算结果越小，说明观测值与期望值差异越小；反之，说明两者差异越大。</p>
+<p>但是，我们需要一个<strong><em>界定值</em></strong>，来判断是什么时候两者差异是偶然或随机因素引起的，什么时候确实是非随机因素引起。</p>
+<p>像之前的假设检验一样，需要显著性水平和临界域进行判断。</p>
+<p>显著性水平为α，自由度为v的卡方分布可以表示如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutnb97hvj309804cwep.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutnb97hvj309804cwep.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutof5di5j30tw0l6n3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutof5di5j30tw0l6n3h.jpg"></p>
+<p>通过查表确定临界值，自由度和显著性水平交叉的点即为临界值。</p>
+<p>下图为自由度为8，与显著性水平0.05下的临界值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguttp50q8j31gs0k2n77.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguttp50q8j31gs0k2n77.jpg"></p>
+<p>然后将我们的统计值与临界值进行对比，发现统计值要大于临界值，因此落在临界域，拒绝原假设。</p>
+<p>卡方检验其实是一种特殊的假设检验。它检验了观察的频数与我们假设的概率分布是否相符合。当我们有一系列数据时，我们可以用卡方检验来检测它们是否与某个分布相吻合。</p>
+<p>几种常见分布下的自由度值计算：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguue7wledj31250u0axn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguue7wledj31250u0axn.jpg"></p>
+<hr>
+<p>二、<strong><em>两变量的独立性检验</em></strong></p>
+<p>卡方检验也可以用来检验两个因素是否独立或者它们之间是否有某种联系。检验步骤与上一个例子的假设检验完全一样，首先设定假设，然后用观察值和期望值计算统计值，然后判断它是否落在临界域中。</p>
+<p>下图是三个发牌人所对应的顾客胜负的次数，分别是胜利、平局、失败。现在我们想判断一下这三个发牌人之间是否是相互独立的。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguuon6wgwj30uq0aagot.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguuon6wgwj30uq0aagot.jpg"></p>
+<p>我们现在已经有了观测值，接下来需要得到期望值，计算过程如下：</p>
+<p>首先，需要用到contingency table(列联表)，如下图所示</p>
+<p>它通过两个维度(横向和纵向)对数据进行了求和</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguvryzh6uj31ae0c841m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguvryzh6uj31ae0c841m.jpg"></p>
+<p>然后根据上面这个图对每个“指标”求它的期望值，如A胜利的期望值、A平局的期望值、A失败的期望值、B胜利的期望值、以此类推</p>
+<p>以A胜利期望值计算为例，说明如何获得期望值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxeirefxj31d20aq794.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxeirefxj31d20aq794.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxf8e9x8j313009ejua.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxf8e9x8j313009ejua.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxg0h05gj31ha07kacv.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxg0h05gj31ha07kacv.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxgjku5tj31420bi414.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxgjku5tj31420bi414.jpg"></p>
+<p>推广开来，每一行的期望值计算公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxpcggnkj316i0900u0.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxpcggnkj316i0900u0.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxszgjnhj31ny0n0n8r.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxszgjnhj31ny0n0n8r.jpg"></p>
+<p>得到期望值后，需要计算统计值，过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxzjsb12j31dp0u0k5m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxzjsb12j31dp0u0k5m.jpg"></p>
+<p>得到统计值后，需要计算自由度：</p>
+<p>若有一个h行、k列的表格，则自由度计算公式是如下</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguy2j76vlj31mq0n2449.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguy2j76vlj31mq0n2449.jpg"></p>
+<p>假设显著性水平为1%，则在该显著性水平下，自由度为4的临界值为13.28，临界域为X2 &gt; 13.28，但我们的统计值为5.004要小于该临界值，说明不能拒绝原假设。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/16/置信区间/" rel="next" title="置信区间">
+                <i class="fa fa-chevron-left"></i> 置信区间
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
