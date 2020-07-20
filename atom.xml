@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-18T03:12:23.273Z</updated>
+  <updated>2020-07-20T03:14:24.018Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>相关和回归</title>
+    <link href="http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/"/>
+    <id>http://www.appleieye.com/2020/07/20/相关和回归/</id>
+    <published>2020-07-20T05:58:10.000Z</published>
+    <updated>2020-07-20T03:14:24.018Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>背景</strong>：有个乐队想举行室外演唱会，但是他们担心天气情况，因为天气会影响到场人数。现在有一组数据，第一种是光照时间，第二种是观众数量，他们想研究一下这两者之间是否有联系，或者说能否根据光照时间推测出到场人数。数据如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg"></p><p>像这样的数据称为<strong><em>bivariate data</em></strong>(二变量数据)，二变量数据是指在一次观察中有两个变量，而非一个变量。这两类变量，一类叫作independent 或 explanatory variable；另一类叫作dependent or response variable；例如，在这个例子中，光照时间就是independent 或 explanatory variable，而到场人数是dependent 或response variable。</p><p>我们可以使用scatter diagram(散点图)对这组数据进行可视化。一般来说，在对二变量数据进行可视化时，通常选用independent(或 explanatory)variable作x轴，而dependent(或response)variable作y轴。在我们这个例子中，就是光照时间作x轴，到场人数作y轴，散点图如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg"></p><p>从上图中，我们可以大致看出如下趋势：观众人数随着光照时间的变长而增多，随着光照时间的变短而减少。像这样的一种趋势，称为<strong><em>correlation</em></strong>(相关)；上图中，散点的形状像一条直线，因此又叫作linear correlation(线性相关)。线性相关分为Positive linear correlation(正线性相关)、Negative linear correlation(负线性相关)、No correlation(无相关)。三种相关的散点图如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg"></p><p><strong><em>注意</em></strong>⚠️：若两个变量存在相关性，我们不能说两者之间存在因果关系或者说他们实际在生活中有关系，因为他们之间只是数学关系。比如在一个小镇中，咖啡店的数量上升了，而音像店的数量下降了。但我们不能说在这两个店的数量之间存在现实意义上的关系，我们只能说咖啡店数量上升了，而 音像店数量下降了。</p><hr><p>那么我们该如何使用给定的光照时间，来预测观众人数呢？</p><p>我们可以在这些散点中画一条直线，使得这条直线尽可能的靠近这些点。最适合这些点的线称为line of best fit(最佳拟合线)。</p><p>我们可以在这些点中画出很多线，但哪一条是最佳的呢？</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg"></p><p>我们可以从数学或统计的角度来衡量这些直线，从而判断哪一条是最佳的。</p><p>这些直线可以用等式y = a + bx来表示。如果我们能够使用已有数据找到最合适的a、b值，我们将会得到一个很可靠的公式，进而根据光照时间更加可靠的预测现场人数。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg"></p><p>y的实际值与观测值距离越近，说明直线越适合。实际值与观测值之间的差距可以用以下SSE(sum of squared errors)公式表示：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg"></p><p>所以，问题转换为要找到最合适的a和b，使得SSE值最小。</p><p>b的计算公式为：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg"></p><p>在这个例子中，计算过程如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg"></p><p>现在已经有了b值了， 那么该如何计算a值呢？该直线必过点(x均值,y均值)，因此可以用这一点计算出a值</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg"></p><p>直线y = a + bx 称为回归线。</p><hr><p>现在我们已经得到了回归线，那么这条线到底有多么准确，或者说这条线与三点的契合度有多高呢？我们可以用correlation coefficient(相关系数)来衡量，它用r来表示。相关系数是一个介于(包含)-1到1的值。如果r为-1，说明是完全的负相关；如果r为1，则是完全的正相关；如果r为0，则没有关系。</p><p>它的计算公式如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg"></p><p>至此，这篇文章把相关、线性回归及相关系数简单的介绍了一下。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;背景&lt;/strong&gt;：有个乐队想举行室外演唱会，但是他们担心天气情况，因为天气会影响到场人数。现在有一组数据，第一种是光照时间，第二种是观众数量，他们想研究一下这两者之间是否有联系，或者说能否根据光照时间推测出到场人数。数据如下：&lt;/p&gt;
+&lt;p&gt;&lt;img 
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>卡方分布</title>
@@ -550,34 +576,6 @@
     
     
       <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql的几种日志</title>
-    <link href="http://www.appleieye.com/2018/06/04/Mysql%E7%9A%84%E5%87%A0%E7%A7%8D%E6%97%A5%E5%BF%97/"/>
-    <id>http://www.appleieye.com/2018/06/04/Mysql的几种日志/</id>
-    <published>2018-06-04T05:58:10.000Z</published>
-    <updated>2018-06-03T23:53:05.096Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Mysql的几种日志"><a href="#Mysql的几种日志" class="headerlink" title="Mysql的几种日志"></a>Mysql的几种日志</h3><ul><li>错误日志</li><li>慢查询日志</li><li>查询日志</li><li>二进制日志</li></ul><h3 id="错误日志："><a href="#错误日志：" class="headerlink" title="错误日志："></a>错误日志：</h3><p>对mysql的启动、运行、关闭过程进行了记录；不仅记录了所有错误信息，也记录一些警告信息或正确的信息。通过<em>show variables like ‘log_error’ \G</em> 命令来定位错误日志</p><h3 id="慢查询日志："><a href="#慢查询日志：" class="headerlink" title="慢查询日志："></a>慢查询日志：</h3><p>可以为mysql设定一个阀值，将运行时间超过该值的所有sql语句都记录到慢查询日志。</p><ol><li>开启慢查询日志。慢查询日志默认是关闭的，其状态可以通过<em>show variables like ‘slow_query_log’;</em> 将其打开<em>set global slow_query_log=1;</em>，1代表打开，0代表关闭；使用set global slow_query_log=1开启了慢查询日志只对当前数据库生效，如果MySQL重启后则会失效。如果要永久生效，就必须修改配置文件my.cnf（其它系统变量也是如此）；</li><li>设置阀值。使用<em>show variables like ‘long_query_time’;</em>,查看当前阀值，默认是10秒；设置阀值<em>set global long_query_time=4;</em></li><li>mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。log_out参数指定了慢查询输出的格式，默认为FILE,可以将它设为TABLE,就可以查询slow_log这张表了。命令如下：<em>show variables like ‘log_output’ \G; set global log_out=’TABLE’</em> 。(日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，又需要能够获得更高的系统性能，那么建议优先记录到文件)</li><li>测试慢查询。执行select sleep(10);</li><li>查询慢查询日志。mysql在mysql.slow_log这张表中存放了慢查询的日志记录，可以通过这张表查询慢查询操作。</li><li>优化：slow_log表默认的存储引擎是CVS引擎，对大数据量下的查询效率可能不高，可以将其转换为MyISAM。<ul><li>停用慢查询 <em>set global slow_query_log = off;</em></li><li>更改引擎：alter table slow_log engine = MyISAM;</li><li>启用慢查询： set global slow_query_log = on;</li></ul></li><li>在配置文件中修改参数</li><li>其他：<ul><li>log_queries_not_using_indexes:</li><li>Log_throttle_queries_not_using_indexes:</li></ul></li></ol><h3 id="查询日志"><a href="#查询日志" class="headerlink" title="查询日志"></a>查询日志</h3><p>查询日志记录了所有对mysql数据库请求对信息，无论这些请求是否得到了执行。通过查询mysql.general_log来获取这些记录。general_log默认也是关闭的，需要设置为开启状态。</p><h3 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h3><p>二进制日志记录了对mysql数据库执行更改的所有操作。</p><h4 id="二进制日志的作用："><a href="#二进制日志的作用：" class="headerlink" title="二进制日志的作用："></a>二进制日志的作用：</h4><ul><li>恢复：某些数据的恢复需要二进制文件</li><li>复制：通过复制和执行二进制日志使一台从数据库与一台主数据库进行实时同步</li><li>审计：通过二进制日志中的信息来进行审计，判断是否有对数据库执行注入的攻击</li></ul><h4 id="开启二进制日志："><a href="#开启二进制日志：" class="headerlink" title="开启二进制日志："></a>开启二进制日志：</h4><p>二进制日志默认情况下是关闭的，需要通过修改配置文件并重启服务的方式，开启二进制日志。</p><h4 id="几个参数："><a href="#几个参数：" class="headerlink" title="几个参数："></a>几个参数：</h4><ul><li>max_binglog_size:指定了单个二进制日志文件的最大值，如果超过该值，则产生新的二进制日志文件，后缀名+1，并记录到.index文件。</li><li>Bingo_cache_size:当使用事务时，所有未提交的二进制日志会被记录到一个缓存中去，等该事务提交时直接将缓冲的中的二进制日志写入二进制日志文件，而该缓冲的大小由binlog_cache_size决定，默认大小为32k；</li><li>Bingo_do_db和binlog_ignore_db表示需要写入或忽略写入哪些库的日志。默认为空，表示需哟啊同步所有库的日志到二进制日志。</li><li>log_slave_update:设置从库从master取得并执行二进制日志到自己的二进制日志文件中去</li><li>binlog_format:记录二进制日志的格式。通常将其设置为row格式，在这种情况下，二进制日志记录的不再是简单的sql语句，而是记录表的行更改情况。这可以为数据库的恢复和复制带来更好的可靠性。</li><li>sync_binlog:二进制日志是否同步写磁盘。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;Mysql的几种日志&quot;&gt;&lt;a href=&quot;#Mysql的几种日志&quot; class=&quot;headerlink&quot; title=&quot;Mysql的几种日志&quot;&gt;&lt;/a&gt;Mysql的几种日志&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;错误日志&lt;/li&gt;
-&lt;li&gt;慢查询日志&lt;/li&gt;
-&lt;li&gt;查询日
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="mysql" scheme="http://www.appleieye.com/tags/mysql/"/>
     
   </entry>
   

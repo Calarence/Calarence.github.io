@@ -271,6 +271,156 @@
             
               
                 
+                <a class="post-title-link" href="/2020/07/20/相关和回归/" itemprop="url">
+                  相关和回归
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-20T13:58:10+08:00" content="2020-07-20">
+              2020-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>背景</strong>：有个乐队想举行室外演唱会，但是他们担心天气情况，因为天气会影响到场人数。现在有一组数据，第一种是光照时间，第二种是观众数量，他们想研究一下这两者之间是否有联系，或者说能否根据光照时间推测出到场人数。数据如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg"></p>
+<p>像这样的数据称为<strong><em>bivariate data</em></strong>(二变量数据)，二变量数据是指在一次观察中有两个变量，而非一个变量。这两类变量，一类叫作independent 或 explanatory variable；另一类叫作dependent or response variable；例如，在这个例子中，光照时间就是independent 或 explanatory variable，而到场人数是dependent 或response variable。</p>
+<p>我们可以使用scatter diagram(散点图)对这组数据进行可视化。一般来说，在对二变量数据进行可视化时，通常选用independent(或 explanatory)variable作x轴，而dependent(或response)variable作y轴。在我们这个例子中，就是光照时间作x轴，到场人数作y轴，散点图如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg"></p>
+<p>从上图中，我们可以大致看出如下趋势：观众人数随着光照时间的变长而增多，随着光照时间的变短而减少。像这样的一种趋势，称为<strong><em>correlation</em></strong>(相关)；上图中，散点的形状像一条直线，因此又叫作linear correlation(线性相关)。线性相关分为Positive linear correlation(正线性相关)、Negative linear correlation(负线性相关)、No correlation(无相关)。三种相关的散点图如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg"></p>
+<p><strong><em>注意</em></strong>⚠️：若两个变量存在相关性，我们不能说两者之间存在因果关系或者说他们实际在生活中有关系，因为他们之间只是数学关系。比如在一个小镇中，咖啡店的数量上升了，而音像店的数量下降了。但我们不能说在这两个店的数量之间存在现实意义上的关系，我们只能说咖啡店数量上升了，而 音像店数量下降了。</p>
+<hr>
+<p>那么我们该如何使用给定的光照时间，来预测观众人数呢？</p>
+<p>我们可以在这些散点中画一条直线，使得这条直线尽可能的靠近这些点。最适合这些点的线称为line of best fit(最佳拟合线)。</p>
+<p>我们可以在这些点中画出很多线，但哪一条是最佳的呢？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg"></p>
+<p>我们可以从数学或统计的角度来衡量这些直线，从而判断哪一条是最佳的。</p>
+<p>这些直线可以用等式y = a + bx来表示。如果我们能够使用已有数据找到最合适的a、b值，我们将会得到一个很可靠的公式，进而根据光照时间更加可靠的预测现场人数。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg"></p>
+<p>y的实际值与观测值距离越近，说明直线越适合。实际值与观测值之间的差距可以用以下SSE(sum of squared errors)公式表示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg"></p>
+<p>所以，问题转换为要找到最合适的a和b，使得SSE值最小。</p>
+<p>b的计算公式为：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg"></p>
+<p>在这个例子中，计算过程如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg"></p>
+<p>现在已经有了b值了， 那么该如何计算a值呢？该直线必过点(x均值,y均值)，因此可以用这一点计算出a值</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg"></p>
+<p>直线y = a + bx 称为回归线。</p>
+<hr>
+<p>现在我们已经得到了回归线，那么这条线到底有多么准确，或者说这条线与三点的契合度有多高呢？我们可以用correlation coefficient(相关系数)来衡量，它用r来表示。相关系数是一个介于(包含)-1到1的值。如果r为-1，说明是完全的负相关；如果r为1，则是完全的正相关；如果r为0，则没有关系。</p>
+<p>它的计算公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg"></p>
+<p>至此，这篇文章把相关、线性回归及相关系数简单的介绍了一下。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/07/18/卡方分布/" itemprop="url">
                   卡方分布
                 </a>
@@ -1800,251 +1950,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/06/27/方差分析/" itemprop="url">
-                  方差分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-06-27T13:58:10+08:00" content="2020-06-27">
-              2020-06-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>方差分析</strong>：检验多个总体均值是否相等，通过分析观察数据的误差判断总体均值是否相等。</p>
-<p><strong>使用场景</strong>：需要对比多个包含数值型数据的组，比如A，B，C，D；方差分析是一种检验多个组之间统计显著性差异的统计学方法。</p>
-<p><strong>基本思想</strong>：比较两类误差，以检验均值是否相等，比较的基础是方差比；如果<strong>系统误差</strong>显著地不同于<strong>随机误差</strong>，则均值就是不想等的；反之，均值就是相等的。</p>
-<p><strong>实例</strong>：为了对几个行业的服务质量进行评价，消费者协会在四个行业分别抽取了不同的企业作为样本。最近一年中消费者对总共23家企业投诉的次数如下表：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7sjfuldqj30ss0dcjrz.jpg"></p>
-<p><strong>结合实例理解相关概念</strong>：</p>
-<ul>
-<li>因素或因子(factor):所要检验的对象，比如在这个例子中，要分析行业对投诉次数是否有影响，行业是要检验的因素或因子</li>
-<li>水平或处理(treatment):因素的不同表现，即每个自变量的不同取值称为因素的水平</li>
-<li>观察值：在每个因素水平下得到的样本值，每个行业被投诉的次数就是观察值</li>
-<li>试验: 这里只涉及一个因素，因此称为单因素四水平的试验</li>
-<li>总体：因素的每一个水平可以看作是一个总体，比如零售业、旅游业、航空公司、家电制造业可以看作是四个总体</li>
-<li>样本数据: 被投诉次数可以看作是从这四个总体中抽取的样本数据</li>
-<li>随机误差: 因素的<strong>同一水平或总体</strong>下，样本各观察值之间的差异，比如，<strong>同一行业</strong>下不同企业被投诉次数是不同的，这种差异可以看成是随机因素的影响，称为随机误差</li>
-<li>系统误差：因素的不同水平或不同总体下，各观察值之间的差异，比如不同行业之间的被投诉次数之间的差异，这种差异可能是由于抽样的随机性所造成的，也可能是由于行业本身所造成的，后者所形成的误差是由系统性因素造成的，称为系统误差</li>
-<li>组内方差: 因素的同一水平或同一个总体下样本数据的方差，比如零售业被投诉次数的方差，组内方差只包含随机误差</li>
-<li>组间方差：因素的不同水平或不同总体下各样本之间的方差；比如四个行业被投诉次数之间的方差，组间方差包括随机误差，也包括系统误差</li>
-</ul>
-<p><strong>方差的比较</strong>：</p>
-<ul>
-<li>若不同行业对投诉次数没有影响，则组间误差中只包含随机误差，没有系统误差。这时，组间误差与组内误差经过平均后的数值就应该很接近，它们的比值就会接近1</li>
-<li>若不同行业对投诉次数有影响，在组间误差中除了包含随机误差外，还会包含有系统误差，这时组间误差平均后的数值就会大于组内误差平均后的数值，它们之间的比值就会大于1</li>
-<li>这个比值大到某种程度时，就可以说不同水平之间存在显著差异，也就是自变量对因变量有影响</li>
-<li>判断行业对投诉次数是否有显著影响，实际上也就是检验被投诉次数的差异主要是由于什么原因所引起的。如果这种差异主要是系统误差，说明不同行业对被投诉次数有显著影响</li>
-</ul>
-<hr>
-<hr>
-<p>单因素方差分析：模型中有一个自变量(因素)和一个观测变量，其实就是在一个因素的不同水平下，观测变量均值差异的显著性检验。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7tyuwchhj30s20f3aac.jpg"></p>
-<p><strong>提出假设</strong>：</p>
-<ul>
-<li>H0: u1 = u2 = … = uk, 自变量对因变量没有显著影响</li>
-<li>H1: u1, u2…u4不完全相等，自变量对因变量有显著影响</li>
-<li>拒绝原假设，只表明至少有两个总体的均值不相等，并不意味着所有的均值都不相等。</li>
-</ul>
-<hr>
-<p><strong>检验统计量</strong></p>
-<ul>
-<li><p>水平的均值</p>
-</li>
-<li><p>全部观察值的总均值</p>
-</li>
-<li><p>误差平方和</p>
-</li>
-<li><p>均方(MS)</p>
-<p><strong>水平的均值</strong>：假定从第i个总体中抽取一个容量为ni的简单随机样本，第i个总体的样本均值为该样本的<strong><em>全部观察值总和除以观察值的个数</em></strong></p>
-</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u7bp0f9j30jf08nt9x.jpg"></p>
-<p><strong>全部观察值的总均值</strong>：全部观察值的总和除以观察值的总个数</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y0t4i22j30jc08t74n.jpg"></p>
-<p><strong>均值计算结果：</strong></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7u9ri03wj30v70hwdi1.jpg"></p>
-<p><strong><em>总误差平方和SST：</em></strong>全部观察值与总平均值的离差平方和，反应全部观察值的离散状况</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7y84ok3rj30ba040t8q.jpg"></p>
-<p><strong>水平项平方和SSA</strong>：各组平均值与总平均值的离差平方和，反映各总体的样本均值之间的离异程度，又称组建平方和，该平方和既包括随机误差，也包括系统误差。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7ybim5ebj30gh02xaa3.jpg"></p>
-<p><strong>误差项平方和SSE</strong>：每个水平或组的各样本数据与其组平均值的离差平方和，反映每个样本各观察值的离散状况，又称组内平方和，该平方和反映的是随机误差的大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yfu5t8sj30at03b3yh.jpg"></p>
-<p><strong>平方和之间的关系</strong>：总离差平方和SST、误差项离差平方和SSE、水平项离差平方和SSA之间的关系</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yi5g2j7j30mb06zq3b.jpg"></p>
-<p>SST反映全部数据总的误差程度，SSE反映随机误差的大小，SSA反映随机误差和系统误差的大小。如果原假设成立，则表明没有系统误差，组间平房和SSA除以自由度后的均方与组内平方和SSE除以自由度后的均方差异就不会太大；如果组间均方显著地大于组内均方，说明各水平(总体)之间的差异不仅有随机误差，还有系统误差，判断因素的水平是否对其观察值有影响，实际上就是比较组间方差与组内方差之间差异的大小。</p>
-<p><strong>均方</strong>：各误差平方和的大小与观察值的多少有关，为消除观察值多少对误差平方和大小的影响，需要将其平均，这就是均方，也称为方差，计算方法是用误差平方和除以相应的自由度。</p>
-<p><strong>各自由度</strong>：SST的自由度为n-1，其中n为全部观察值的个数；SSA的自由度为k-1，其中k为因素水平(总体)的个数；SSE的自由度为n-k</p>
-<p><strong>F统计量</strong>：将MSA(组间方差，SSA的均方，记为MSA)和MSE(组内方差，SSE的均方，记为MSE)进行对比，即得到所需要的检验统</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynozo8j30e303w0st.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yynhp5tj30d8034wek.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7yync60fj30h10d0q3s.jpg"></p>
-<p>根据给定的显著性水平，在F分布表中查找与第一自由度df1=k-1，第二自由度df2=n-k相应的临界值</p>
-<p>若F&gt;Fa,则拒绝原假设H0，表明均值之间的差异是显著的，所检验的因素对观察值有显著影响</p>
-<p>若F&lt;Fa,则不拒绝原假设H0，不能认为所检验的因素对观察值有显著影响。</p>
-<p><strong>方差分析表</strong>：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7z5nzpv3j30tg08gmxi.jpg"></p>
-<p><strong><em>实例：</em></strong>在评价某药物耐受性及安全性的I期临床试验中，对符合纳入标准的30名健康自愿者随机分为3组每组10名，各组注射剂量分别为0.5U、1U、2U，观察48小时部分凝血活酶时间（s）试问不同剂量的部分凝血活酶时间有无不同？</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zwv6a1ej30lg0fumzo.jpg"></p>
-<p>提出假设：H0: u1=u2=u3 H1:u1,u2,u3不全相同。显著水平：a=0.05</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg7zyh4ei0j30nh08dq4p.jpg"></p>
-<p>F0.05(2，26) =2.52，F&gt;F0.05(2，26) ，P&lt;0.05；拒绝 H0。 三种不同剂量48小时部分凝血活酶时间不全相同</p>
-<hr>
-<p><strong>方差分析中的多重比较</strong>：通过对总体均值之间的<strong>配对</strong>比较来进一步检验到底哪些均值之间存在差异，可采用Fisher提出的最小显著差异方法(简写为LSD)，LSD方法是对检验两个总体均值是否相等的T检验方法的总体方差估计而得到的。</p>
-<p><strong><em>LSD方法：</em></strong>对k组中的两组的平均数进行比较，当两组样本容量分别为ni，nj都为时，有</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg8zpzxbk6j30gq0813yh.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg904nkbkxj30nf0bbq3h.jpg"></p>
-<p><strong><em>实例：</em></strong>颜色对销售额的影响</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a36osxj30rp0ff0tk.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg909yk0jgj30f70cjmxf.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90a43k59j30kw0fa3yy.jpg"></p>
-<hr>
-<p><strong><em>多因素方差分析：</em></strong>无交互效应的多因素方差分析；有交互效应的多因素方差分析</p>
-<p><strong>主效应与交互效应</strong>：各个因素对观测变量的单独影响称为主效应；各个因素不同水平的搭配所产生的新的影响称为交互效应。</p>
-<p><strong>双因素方差分析</strong>：双因素方差分析中因素A和B对结果的影响相互独立时称为<em>无交互效应的双因素方差分析；**如果除了A和B对结果的单独影响之外还存在交互效应，这时的双因素方差分析称为<strong>有交互效应的双因素方差分析</strong></em></p>
-<p>无<strong><em>交互效应的双因素方差分析模型</em></strong>：</p>
-<p>离差平方和的分解：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90uxr3gvj30lu0ey0t4.jpg"></p>
-<p><strong>有交互效应的双因素方差分析模型</strong>：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg90waix0cj30mh0hpaak.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91f20pmbj30tt0eu3zg.jpg"></p>
-<p><strong>双因素方差分析的步骤</strong>：</p>
-<p><strong>提出假设</strong>：</p>
-<p>要说明因素A有无显著影响，需要检验以下假设：</p>
-<p>H0:因素A不同水平下观测变量的总体均值无显著差异</p>
-<p>H1:因素A不同水平下观测变量的总体均值均存在显著差异</p>
-<p>要说明因素B有无显著影响，就是检验以下假设：</p>
-<p>H0: 因素B不同水平下观测变量的总体均值无显著差异</p>
-<p>H1: 因素B不同水平下观测变量的总体均值存在显著差异</p>
-<p>在有交互效应的双因素方差中，要说明两个因素的交互效应是否显著，还要检验第三组零假设和备择假设：</p>
-<p>H0:因素A和因素B的交互效应对观测变量的总体均值无显著差异</p>
-<p>H1:因素A和因素B的交互效应对观测变量的总体均值存在显著差异</p>
-<p>构造统计量：在原假设成立的情况下，三个统计量分别服从自由度为（r-1,rs(m-1)）、（s-1,rs(m-1)）、（(r-1)(s-1),rs(m-1)）的F分布。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91flu87lj30kd03s0sm.jpg"></p>
-<p>利用原假设和样本数据分别计算3个F统计量的值和其对应的p值,对比p值和α，结合原假设作出推断。若p&lt;α，则拒绝关于这个因素的原假设，得出此因素不同水平下观测变量各总体均值存在显著差异的结论。</p>
-<p><strong>实例：</strong></p>
-<p>有四个品牌的彩电在五个地区销售，为分析彩电的品牌(品牌因素)和销售地区(地区因素)对销售量是否有影响，对每个品牌在各地区的销售量取得以下数据。试分析品牌和销售地区对彩电的销售量是否有显著影响？(α=0.05)</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91i61icej30so0bagmc.jpg"></p>
-<p><strong>提出假设：</strong></p>
-<p>对行因素提出的假设为：H0: μ1 = μ2 = … = μi = …= μk (μi为第i个水平的均值)H1: μi (i =1,2, … , k) 不全相等</p>
-<p>对列因素提出的假设为：H0: μ1 = μ2 = … = μj = …= μr (mj为第j个水平的均值)H1: μj (j =1,2,…,r) 不全相等</p>
-<p><strong>计算各平方和</strong>：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91lgyggwj30nx0ddmyh.jpg"></p>
-<p><strong>计算均方</strong>：误差平方和除以相应的自由度</p>
-<ul>
-<li>总离差平方和SST的自由度为 kr-1</li>
-<li>行因素的离差平方和SSR的自由度为 k-1</li>
-<li>列因素的离差平方和SSC的自由度为 r-1</li>
-<li>随机误差平方和SSE的自由度为 (k-1)×(r-1)</li>
-</ul>
-<p>计算检验统计量(F)：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91nretxqj30iw03cq32.jpg"></p>
-<p>检验列因素的统计量：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91ohv9u8j30io03fdfy.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gg91owsmvhj30f103hdfs.jpg"></p>
-<p>FA＝18.10777&gt;Fα＝3.4903，拒绝原假设H0，说明彩电的品牌对销售量有显著影响</p>
-<p>FB＝2.100846&lt; Fα＝3.2592，接受原假设H0，说明销售地区对彩电的销售量没有显著影响</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2090,7 +1995,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

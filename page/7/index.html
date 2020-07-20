@@ -271,6 +271,142 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/05/python9/" itemprop="url">
+                  python源码剖析读书笔记三--python中的整数对象（下）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-05T17:32:56+08:00" content="2017-07-05">
+              2017-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###从PyInt_FromLong看PyIntObject是如何被创建的</p>
+<p><em>PyInt_FromLong源码如下：</em><br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PyIntFromLong.png" alt="此处输入图片的描述"></p>
+<p>过程如下</p>
+<blockquote>
+<ul>
+<li>如果所创建的整数在小整数对象范围内，在使用小整数对象池。</li>
+<li>如果不能使用小整数对象池，则使用通用的整数对象池。<ul>
+<li>当第一次调用PyInt_FromLong时，free_list必定为NULL，这时候调用fill_free_list,创建新的block，从而创建新的空闲内存。（注意：只要所有block的空闲内存都被使用完了，就会导致free_list变为NULL，从而在下一次PyInt_FromLong的调用时激发对fill_free_list的调用）</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>fill_free_list源码如下：</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/fill_free_list.png" alt="此处输入图片的描述"></p>
+<p>其过程如下：</p>
+<blockquote>
+<ul>
+<li>申请大小为sizeof（PyIntBlock）的内存空间，并连接到现有的block list中去。</li>
+<li>python将objects中的所有PyIntObject对象通过指针连接起来，从而将数组转变成一个单向列表</li>
+<li>free_list指向空闲的内存</li>
+<li>在空间被申请之后，Python会从当前free_list所维护的自由内存链表中划出一块，并在这块内存上创建所需要的新的PyIntObject对象，同时，还会对PyIntObject对象完成必要的初始化工作。Python还将调整free_list指针，使其指向下一块还没有被使用的内存</li>
+</ul>
+</blockquote>
+<p>###小整数对象池的初始化：<br>小整数对象生存在由block_list所维护的内存上。在python初始化的时候，_PyInt_init被调用，内存被申请，小整数对象被创建，然后在小整数池中共享。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/05/python8/" itemprop="url">
                   python源码剖析读书笔记三--python中的整数对象（上）
                 </a>
@@ -1687,180 +1823,6 @@ redis 127.0.0.1:6379&gt; get mykey
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/03/centos-django/" itemprop="url">
-                  centos7下使用nginx+uwsgi部署django项目
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-03-03T10:39:38+08:00" content="2017-03-03">
-              2017-03-03
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong><em>生产环境搭建：</em></strong></p>
-<ol>
-<li><strong>nginx安装</strong>：<code>yum install -y nginx</code>,启动nginx：<code>nginx</code>,访问本机ip地址即可看到nginx欢迎界面</li>
-<li><strong>mysql的安装和配置</strong>: <a href="http://www.appleieye.com/2017/02/11/centos7%E4%B8%8Bmysql%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">链接</a></li>
-<li><strong>virtualenv安装和使用</strong>：<br> <code>pip install virtualenv</code><br> 创建虚拟环境testEnv（在当前目录创建，也可指定其他目录） <code>virtualenv testEnv</code><br> 进入虚机环境 <code>source testEnv/bin/activate</code><br> 退出虚拟环境 <code>deactivate</code></li>
-<li><strong>导出项目依赖项</strong>：<code>pip freeze &gt; requirements.txt</code></li>
-<li><strong>虚拟环境中安装依赖项</strong>（将第四步导出的txt导入centos中）:<code>pip install -r requirements.txt</code>若某些依赖项安装较慢，可使用源<br>  pip源设置： <code>vi ~/.pip/pip.conf</code> 内容：<br>  <code>[global]
-   trusted-host=mirrors.aliyun.com  
-   index-url = http://mirrors.aliyun.com/pypi/simple</code></li>
-<li><strong>测试项目可正常运行</strong> <code>python manage.py runserver</code></li>
-<li><strong>安装uwsgi</strong>：<code>pip install  uwsgi</code>,如果报缺少编译器的错误,则安装基础开发包<code>yum groupinstall &quot;Development tools&quot;</code> , <code>yum install -y python-devel</code></li>
-<li><strong>测试uwsgi可启动django项目</strong>:<code>uwsgi --http :8000 --wsgi-file wsgi.py</code>或<code>uwsgi --http :8000 --module yourporject.wsgi</code><strong>注意两个命令执行时的路径，没有错误可正常访问django应用</strong></li>
-<li><strong>重启uwsgi</strong> <code>pkill -f uwsgi</code></li>
-<li><p><strong>nginx配置</strong>：新建nginx.conf,添加以下内容：<br>`</p>
-<pre><code>   # the upstream component nginx needs to connect to
-   upstream django {
-   # server unix:///path/to/your/mysite/mysite.sock; # for a file socket
-   server 127.0.0.1:8000; # for a web port socket (we&apos;ll use this first)
-   }   
-   # configuration of the server
-   server {
-   # the port your site will be served on
-   listen      80;
-   # the domain name it will serve for
-   server_name 你的ip地址 ; # substitute your machine&apos;s IP address or FQDN
-   charset     utf-8;
-   # max upload size
-   client_max_body_size 75M;   # adjust to taste
-   # Django media
-   location /media  {
-   alias 你的目录/yourproject/media;  # 指向django的media目录
-   }
-   location /static {
-   alias 你的目录/yourproject/static; # 指向django的static目录
-   }
-   # Finally, send all non-media requests to the Django server.
-  location / {
-  uwsgi_pass  django;
-  include     uwsgi_params; # the uwsgi_params file you installed
-   }
-}
-</code></pre><p>   <code>将该配置文件copy到/etc/nginx/conf.d或</code>sudo ln -s     你的目录/yourproject/conf/nginx/uc_nginx.conf /etc/nginx/conf.d/`</p>
-</li>
-<li><p><strong>拉取所有需要的static file 到同一个目录</strong>:<br>settings.py中添加<code>STATIC_ROOT = os.path.join(BASE_DIR, &quot;static/&quot;)</code><br>运行<code>python manage.py collectstatic</code></p>
-</li>
-<li><p>重启nginx:<code>nginx</code></p>
-</li>
-<li><p>通过配置文件启动uwsgi:新建uwsgi.ini 配置文件，内容如下：<br>`</p>
-<pre><code># mysite_uwsgi.ini file
-[uwsgi]
-# Django-related settings
-# the base directory (full path)
-chdir           = 你的目录/yourproject
-# Django&apos;s wsgi file
-module          = yourproject.wsgi
-# the virtualenv (full path)
-# process-related settings
-# master
-master          = true
-# maximum number of worker processes
-processes       = 10
-# the socket (use the full path to be safe
-socket          = 127.0.0.1:8000
-# ... with appropriate permissions - may be needed
-# chmod-socket    = 664
-# clear environment on exit
-vacuum          = true
-virtualenv = 你的目录/testEnv`
-</code></pre><p>   <strong>注意</strong>:</p>
-<pre><code>`
-
-chdir： 表示需要操作的目录，也就是项目的目录
-module： wsgi文件的路径
-processes： 进程数
-virtualenv：虚拟环境的目录
-`
-</code></pre></li>
-<li>启动uwsgi：<strong><em>uwsgi -i 你的目录/uwsgi.ini &amp;</em></strong></li>
-<li>访问：<strong><em>http://你的ip地址/</em></strong></li>
-<li>可能遇到的问题：重启nginx或uwsgi时会有端口占用，执行<code>killall -9 uwsgi（或nginx）</code></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1906,7 +1868,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">117</span>
+              <span class="site-state-item-count">118</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
