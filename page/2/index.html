@@ -271,6 +271,203 @@
             
               
                 
+                <a class="post-title-link" href="/2020/07/01/相关分析/" itemprop="url">
+                  相关分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-01T13:58:10+08:00" content="2020-07-01">
+              2020-07-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>相关分析</strong>：</p>
+<ul>
+<li>无论是在数据科学还是研究中，很多建模项目的探索性数据分析都要检查预测因子之间的相关性，以及预测因子和目标量之间的相关性。给定变量X和Y，它们均有测量数据。如果变量X的高值随变量Y的高值而变化，并且X的低值随Y的低值的变化而变化，那么我们称X和Y是正相关的。如果X的高值随Y的低值的变化而变化，那么我们称变量X和Y是负相关的。</li>
+<li>衡量事物之间或称变量之间<strong><em>线性相关</em></strong>程度的强弱，并用适当的统计指标表示出来的过程</li>
+<li>比如家庭收入和支出、一个人所受教育程度与其收入、子女身高和父母身高等</li>
+</ul>
+<p><strong>相关系数</strong>：</p>
+<ul>
+<li>一种用于测量数值变量间相关程度的度量，取值范围在-1到+1之间</li>
+<li>相关系数r的正负号表示变化方向。“+”号表示变化方向一致，即正相关；“-”号表示变化方向相反，即负相关</li>
+<li>r的绝对值表示变量之间的密切程度(即强度)。绝对值越接近1，表示两个变量之间关系越密切；越接近0，表示两个变量之间关系越不密切</li>
+<li>相关系数的值，仅仅是一个比值。它不是由相等单位度量而来(即不等距)，也不是百分比，因此，不能直接作加、减、乘、除运算</li>
+<li>相关系数只能描述两个变量之间的变化方向及密切程度，并不能揭示两者之间的内在本质联系，即存在相关的两个变量，不一定存在因果关系</li>
+<li></li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg"></p>
+<p><strong>相关分析的分类：</strong></p>
+<ol>
+<li>连续变量的相关分析</li>
+<li>等级变量的相关分析</li>
+<li>质量相关分析</li>
+<li>品质相关分析</li>
+<li>偏相关分析</li>
+</ol>
+<hr>
+<p><strong>连续变量的相关分析：\</strong>连续变量即<strong><em>数据变量,</em></strong>它的取值之间可以比较大小，可以用加减法计算出差异的大小，如年龄、收入、成绩等变量；当两个变量都是正态连续变量，而且两者之间呈线性关系时，通常用Pearson相关数来衡量。</p>
+<p>协方差：协方差是一个反映两个随机变量相关程度的指标，如果一个变量跟随着另一个变量同时变大或变小，那么这两个变量的协方差就是正值。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg"></p>
+<p>虽然协方差能反映两个随机变量的相关程度(协方差大于0的时候表示两者正相关，小于0的时候表示两者负相关)，但是协方差值的大小并不能很好地度量两个随机变量的关联程度。这是因为在二维空间中分布着一些数据，我们想知道数据点坐标X轴和Y轴的相关程度，如果X与Y的相关程度较小但是数据分布的比较离散，这样会导致求出的协方差值较大，用这个值来度量相关程度是不合理的。</p>
+<p>为了更好的衡量两个随机变量的相关程度，引入了Pearson相关系数，其在协方差的基础上除以了两个随机变量的标准差。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg"></p>
+<p>Pearson是一个介于-1和1之间的值，当两个变量的线性关系增强时，相关系数趋于1或-1；当一个变量增大时，另一个变量也增大时，表明它们之间是正相关的，相关系数大于0；如果一个变量增大，另一个变量却减小，表明它们之间是负相关的，相关系数小于0；如果相关系数等于0，表明它们之间不存在线性相关关系。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg"></p>
+<hr>
+<p><strong>等级变量的相关分析</strong></p>
+<p>当测量得到的数据不是等距或等比数据，而是具有<strong><em>等级顺序</em></strong>的数据；或者得到的数据是等距或等比数据，但其所来自的总体分布不是正态分布的，不满足皮尔森相关系数的要求。这时就要运用等级相关系数。</p>
+<p>两个基因A、D，他们的关系是D=A^10，在8个样本中的表达量值如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg"></p>
+<p>皮尔森相关系数是一种线性相关系数，因此如果两个变量呈线性关系的时候，具有最大的显著性。对于非线性关系（例如A、D的幂函数关系），则其对相关性的检测功效会下降。</p>
+<p>这时我们可以考虑另外一个相关系数计算方法：<strong>斯皮尔曼等级相关</strong>。</p>
+<p><strong><em>斯皮尔曼等级相关：</em></strong>当两个变量值以等级次序排列或以等级次序表示时，两个相应总体并不一定呈正态分布，样本容量也不一定大于30，表示这两变量之间的相关，称为Spearman等级相关。无论两个变量的数据如何变化，符合什么样的分布，我们只关心每个数值在变量内的排列顺序。如果两个变量的对应值，在各组内的排列顺位是相同或类似的，则具有显著的相关性。</p>
+<p>计算公式：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg"></p>
+<p>n为等级个数；d为二列成对变量的等级差数。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg"></p>
+<p>利用斯皮尔曼等级相关计算A、D基因表达量的相关性，结果是：r=1，p-value = 4.96e-05</p>
+<p>这里斯皮尔曼等级相关的显著性显然高于皮尔森相关。这是因为虽然两个基因的表达量是非线性关系，但两个基因表达量在所有样本中的排列顺序是完全相同的，因为具有极显著的斯皮尔曼等级相关性。</p>
+<p><strong><em>肯德尔和谐系数(Kendall)：</em></strong>当多个(两个以上)变量值以等级次序排列或以等级次序表示，描述这几个变量之间的一致性程度的量，称为肯德尔和谐系数。它常用来表示几个评定者对同一组学生成绩用等级 先后评定多次之间的一致性程度。</p>
+<p><strong>同一评价者无相同等级评定时</strong>，公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg"></p>
+<ul>
+<li>N——-被评的对象数量</li>
+<li>K——-评分者人数或评分所依据的标准数</li>
+<li>S——-每个被评对象所评等级之和Ri与所有这些和的平均数的离差平凡和</li>
+<li></li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg"></p>
+<p>当评分者意见完全一致时，S取得最大值，和谐系数是实际求得的S与其最大可能取值的比值，故0≤W≤1</p>
+<p>同一评价者有相同等级评定时，计算公式：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg"></p>
+<ul>
+<li>mi为第i个评价者的评定结果中有重复等级的个数。</li>
+<li>nij为第i个评价者的评定结果中第j个重复等级的相同等级数。</li>
+<li>对于评定结果无相同等级的评价者，Ti = 0，因此只须对评定结果有相同等级的评价者计算Ti。</li>
+</ul>
+<hr>
+<p><strong>*质量相关分析：</strong>是指一个变量为质，另一个变量为量，这两个变量之间的相关，如智商、学科分数、身高、体重等是表现为量的变量；男与女，右与劣，及格与不及格等是表现为质的变量。质与量的相关主要包括*<strong>二列相关、点二列相关、多系列相关</strong>。</p>
+<p><strong>二列相关</strong>：当两个变量都是正太连续变量，其中一个变量被人为划分成二分变量(如按一定标准将属于正太连续变量的学科考试分数划分成及格与不及格，录取与未录取，把某一体育项目测验结果划分成通过与未通过，达标与未达标，把健康状况划分成好与差等等)，表示这两个变量之间的相关，称为二列相关。</p>
+<p>二列相关的使用条件：</p>
+<ul>
+<li>两个变量都是连续变量，且总体呈正态分布，或总体接近正态分布，至少是单峰对称分布</li>
+<li>两个变量之间是线性关系</li>
+<li>二分变量是人为划分的，其分界点应尽量靠近中值</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg"></p>
+<p><strong>点二列相关</strong>：当两个变量其中一个是正态连续性变量，另一个是真正的二分名义变量(如男与女，已婚和未婚，色盲和非色盲，生与死)，这时，表示这两个变量之间的相关，称为点二列相关。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg"></p>
+<hr>
+<p><strong>品质相关分析</strong>：两个变量都是按质划分成几种类别，表示这两个变量之间的相关称为品质相关。例如，一个变量按性别划分成男与女，另一个变量按学科成绩划分成及格与不及格；例如，一个变量按学校类别分成重点及非重点，另一个变量按学科成绩分成优良中差等等。</p>
+<p><strong>列相关系数</strong>：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg"></p>
+<p><strong>φ相关</strong></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg"></p>
+<hr>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/06/27/方差分析/" itemprop="url">
                   方差分析
                 </a>
@@ -1649,165 +1846,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/09/Java线程池/" itemprop="url">
-                  Java 线程池
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-06-09T13:58:10+08:00" content="2018-06-09">
-              2018-06-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="为什么需要线程池"><a href="#为什么需要线程池" class="headerlink" title="为什么需要线程池"></a>为什么需要线程池</h4><p>线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？</p>
-<ol>
-<li>降低资源消耗：通过反复使用创建过的线程降低线程创建和销毁的消耗</li>
-<li>提高响应速度：当任务到达时，可以不需要等待线程创建就可以立即执行</li>
-</ol>
-<h4 id="线程池的工作原理："><a href="#线程池的工作原理：" class="headerlink" title="线程池的工作原理："></a>线程池的工作原理：</h4><p>当提交一个任务到线程池时，处理流程如下：</p>
-<ol>
-<li>判断核心线程池是否已满。如果不是，则创建线程，执行任务；否则，进入下个流程。</li>
-<li>判断工作队列是否已满。如果不是，则将任务存储在任务队列里；否则，进入下个流程</li>
-<li>判断线程池是否已满。如果不是，则创建线程，执行任务；否则，交给饱和策略来处理这个任务。</li>
-</ol>
-<h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><p>可以通过ThreadPoolExecutor来创建一个线程池：</p>
-<p>new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,milliseconds,runnableTaskQueue,handler),</p>
-<p>参数说明：</p>
-<ul>
-<li>corePoolSize:线程池基本大小，当提交一个任务到线程池时，线程池会创建一个线程来执行任务，即使其他空闲的基本线程能够执行任务也会创建新线程；等到需要执行的任务数等于线程池基本大小就不再创建。</li>
-<li>runnableTaskQueue：任务队列，用于保存待执行的任务的阻塞队列。有以下几种队列：<ul>
-<li>ArrayBockingQueue:基于数组结构的有界阻塞队列，按照FIFO原则处理任务</li>
-<li>LinkedBlockingQueue:基于链表结构的阻塞队列，按照FIFO原则处理任务，吞吐量高于ArrayBockingQueue。静态工厂方法Executors.newFixedThreadPool()使用了这个队列</li>
-<li>SynchronousQueue:一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了该队列</li>
-<li>PriorityBlockingQueue:一个具有优先级的无限阻塞队列</li>
-</ul>
-</li>
-<li>maximumPoolSize：线程池所允许创建的最大线程数。如果队列满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程任务。如果使用了无界的任务队列，这个参数就没有效果</li>
-<li>keepAliveTime：线程池的工作线程空闲后，保持存活的时间</li>
-<li>milliseconds：线程活动的时间单位：如天、小时、秒、毫秒等。</li>
-<li>RejectedExecutionHandler:饱和策略，当队列和线程池都满了，说明线程池处于饱和状态，必须采取一种策略处理提交的新任务。默认是AbortPolicy。四种策略如下<ul>
-<li>AbortPolicy:直接抛出异常</li>
-<li>CallerRunsPolicy:使用调用者所在线程来运行任务</li>
-<li>DiscardOldestPolicy:丢弃队列里最老的一个任务，执行当前的一个任务</li>
-<li>DiscardPolicy:不处理，丢弃掉</li>
-</ul>
-</li>
-</ul>
-<h4 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h4><p>可以通过execute()和submit()方法向线程池提交任务。</p>
-<ul>
-<li>execute()方法用于提交不需要返回值的任务。输入的参数是Runnable类的实例</li>
-<li>submit()方法用于提交需要返回值的任务。线程池会返回一个future类型的对象，通过该对象判断任务是否执行成功；通过get方法来获取返回值，get()方法会阻塞当前线程直到任务执行成功；get(long timeunit,TimeUnit unit)方法会阻塞当前线程一段时间后返回，这时候任务可能没有执行完</li>
-</ul>
-<h4 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h4><p>通过shutdown或shutdownNow方法来关闭线程池。</p>
-<h4 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h4><ul>
-<li><p>CPU密集型任务应该配置尽可能性小的线程，如配置Ncpu+1个线程的线程池</p>
-</li>
-<li><p>IO密集型则配置尽可能多的线程，如2*Ncpu</p>
-<p>通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1853,7 +1891,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">119</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

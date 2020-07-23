@@ -271,6 +271,142 @@
             
               
                 
+                <a class="post-title-link" href="/2015/09/24/jvmMemory/" itemprop="url">
+                  5分钟快速入门JVM内存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-09-24T22:47:58+08:00" content="2015-09-24">
+              2015-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/总结-整理/" itemprop="url" rel="index">
+                    <span itemprop="name">总结-整理</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>《5分钟快速入门JVM内存》起这个名字实在是“大言不惭”，因为JVM的知识绝不是一天两天弄明白的。之所以叫这个名字，是想用简单明了的话把一些东西解释清楚。我看过很多介绍JVM的文章，写的很长很长，一看就失去了耐心，于是就想简单总结归纳一下</p>
+<hr>
+<ol>
+<li><p><strong>JVM</strong>：java虚拟机，<strong>干啥的呢？</strong>跑java程序的，有了它，不管在Windows还是Linux上都可以运行java程序，<strong>实现了跨平台</strong>。它屏蔽了操作系统的差异性，感觉自己就是一个完整的操作系统，所以叫做虚拟机</p>
+</li>
+<li><p><strong>JVM组成</strong>：列加载器、执行引擎、JVM内存(<strong>重点关注</strong>)、垃圾回收器、本地方法接口、本地方法库。<strong>JVM内存是虚拟机的组成部分</strong>，<a href="www.appleieye.com">其他组成部分介绍</a></p>
+</li>
+<li><p><strong>JVM内存</strong>内存内存，就是存东西的地方。那么，存什么东西呢？存字节码、从已装载的class文件中得到的其他信息、程序创建的对象、传递给方法的参数，返回值、局部变量等等。<strong>所以JVM作用就是存储JAVA程序运行所需的数据和信息</strong></p>
+</li>
+<li><p>既然JVM需要保存的数据种类这么多，那肯定不能都放到一起吧？对了，JVM存东西的有<strong>栈、堆、本地方法栈、方法区</strong>，它们分别存储不同类型的东西；还有一个用于控制的叫作<strong>程序计数器</strong>，所以<strong>JVM内存由栈、堆、本地方法栈、方法区和程序计数器组成</strong></p>
+</li>
+<li><p>程序计数器：作用：记录程序运行到哪里了，指向指令的下一条，就是<strong>告诉java程序下一步干嘛</strong> ，比如说在有循环、嵌套、递归、函数退出啊等等，它得知道自己在哪里了，下一步要干嘛，程序计数器就是给出下一步指令。多线程是每个线程都拥有自己的程序计数器</p>
+</li>
+<li><p>栈： 保存东西的种类：基本类型数据和对象的引用<br><code>(Person person = new   Person()，这里Person是一个类，person是引用，new出来的是对象，
+引用中含有对象的内存地址，通过引用可以找到对象，栈就是保存的引用)</code></p>
+</li>
+<li><p>堆：保存new出来的对象啊， `Person p1 = new Person(‘zhangsan’),zhangsan这个对象就保存到堆里，p1叫引用，两者关系如下图</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/7a83c5f16206f965d7f7ad7ff8f6f130.png" alt="此处输入图片的描述">`</p>
+</li>
+<li><p>方法区：java文件会被编译成class文件，然后加载到JVM内存，方法区就是保存class文件的类型信息（包括类信息、常量、静态变量等），其中方法区有个很重要的部分叫做常量池，用于保存类和接口的全限定名；字段的名称和描述符；方法和名称和描述符</p>
+</li>
+<li>本地方法栈：保存本地方法的调用状态。那么什么是本地方法呢？不是用java写的方法。java调用一个非java语言的方法。。。</li>
+</ol>
+<p>至此，对JVM就有了一个基本的概念，但是与深刻理解JVM内存的工作方式还有很长的路需要走，慢慢地，一步一步来 </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/09/23/cinder-python-sdk1/" itemprop="url">
                   python sdk编写--cinder相关
                 </a>
@@ -1623,137 +1759,6 @@ update t set updata_time = getDate where id = 1</code><br>如果使用replace in
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/30/11/" itemprop="url">
-                  避免3种响应式设计灾祸
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-07-30T14:38:06+08:00" content="2015-07-30">
-              2015-07-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
-                    <span itemprop="name">技术杂文</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://www.webdesignerdepot.com/2015/04/3-responsive-design-disasters-and-how-to-avoid-them/" target="_blank" rel="noopener">原文出处</a>&nbsp;&nbsp;&nbsp;&nbsp; 译文出处:<a href="http://colachan.com/post/3436" target="_blank" rel="noopener">Cola Chain</a> &nbsp;&nbsp;&nbsp;&nbsp; 转自<a href="http://www.jobbole.com/" target="_blank" rel="noopener">伯乐头条</a></p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/001.jpg" alt="此处输入图片的描述"></p>
-<p>  响应式设计方法对开发者非常有用，因为它使我们的内容在各种设备上广为传播。不用保留几个独立版本的网站，也可以摒除诸如缩放和流式布局这些方法的弊端。</p>
-<p>本文重点讨论设计师遇到最多的3个响应式设计问题，也会提供一些规避错误的策略。</p>
-<p>##缩放、流式布局与响应式<br>这些术语容易造成混淆，设计师常常错误地交替互用。实际上，每个都是布局技巧的显著进化过程，像技术演进那样逐一显现。</p>
-<p>缩放布局，旨在相对缩放每一个元素。它们会随着窗口大小变化动态缩放内容，就这方面而言，它们是响应式的。布局本身保持静止，通过改变每一个元素来保持一致的表现。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/002.jpg" alt="不同分辨率下缩放布局"><br><strong>上图：不同分辨率下缩放布局的例子，这种设计为了统一牺牲了易读性。</strong></p>
-<p>流式布局就不一样，因为它们随着窗口尺寸缩放容器元素。通过em这类相对单位可以做到这点，克服了缩小文字的问题。用户主动缩放时，设计就被破坏了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/003.jpg" alt="不同分辨率下流式布局"><br><strong>上图：不同分辨率下流式布局的例子，这种设计为了易读性牺牲了统一。</strong></p>
-<p>响应式设计不会缩放任何东西。相反，它会根据窗口尺寸决定显示哪些内容<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/004.jpg" alt="不同分辨率下响应式布局"><br><strong>上图：不同分辨率下响应式布局的例子</strong></p>
-<p>##灾祸1：菜单折行<br>如果在页面顶部使用了导航栏，当页面展现在小屏幕上时，响应式设计通常会把它“掰”成更紧凑的格式，但这并非总是有效，如果显示区域比断点更宽，又不足以在一行显示所有菜单项的话。结果会导致菜单的折行</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/005.jpg" alt="此处输入图片的描述"></p>
-<p>有些方法可以解决这个问题。其一，减少导航栏中横排菜单项的数量，将它们分门别类。然后选中某类时，你可以通过下拉菜单来显示子类。</p>
-<p>其二，减少断点的数值。应该以导航栏开始出问题的实际数值为准，而非具体设备尺寸。</p>
-<p>其三，不同设备使用不同方式，例如滑动抽屉。</p>
-<p>##灾祸2：使用固定宽度图片<br>内容区域通常都随窗口尺寸变化。所以当固定宽度图片超出显示区域时，图片就被裁剪了。</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/006.jpg" alt="此处输入图片的描述"><br><strong>上图：糟糕的固定宽度图片例子，它太大了。于是出现了滚动条，内容被推到屏幕之外。</strong></p>
-<p>通过给图片设定相对单位，可以避免这个问题。或者使用支持响应式的框架（比如Bootstrap），使用响应式图片class名来控制（例如class=”img-responsive”）。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/007.jpg" alt="此处输入图片的描述"><br><strong>上图：同样的元素，用响应式图片class名的方式，滚动条就不见了</strong></p>
-<p>##灾祸3：元素的扭曲<br>这有点晦涩难懂，但本质上，布局显示在小窗口上的时候，所有未经处理的列都会以行的形式呈现。这是个问题，因为内容的扭曲会不经意地改变设计的层级。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/008.jpg" alt="此处输入图片的描述"><br><strong>上图：列变成了行，扭曲了内容。</strong></p>
-<p>解决方法显而易见，但令人惊奇的是，仍有很多人在纠结它：只要明确地设定元素的宽度、高度、内边距。如果它移出所处位置，盖住了其他元素，可以通过将它包裹在div容器中，设置外边距，迫使它回到原本的地方。</p>
-<p>规划有助于避免问题<br>本文只讨论了3种最普遍遇到的响应式设计灾祸，还有很多其他途径会毁了一个好的设计。预防错误并不难。现代浏览器都有内置的响应式布局测试，好好规划设计，多做测试。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1799,7 +1804,7 @@ update t set updata_time = getDate where id = 1</code><br>如果使用replace in
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">119</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

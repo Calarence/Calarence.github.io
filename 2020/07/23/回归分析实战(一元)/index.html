@@ -86,26 +86,24 @@
 
 
 
-<meta name="description" content="To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been learning how to present and visualize data via various charts, na">
+<meta name="description" content="背景：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：  simple_example.csv 从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。  从散点图可以看出，两者的关系是线性的。根据在之前这篇文章中提到的，这种线性关系可以用以下等式来表示：  其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。">
 <meta name="keywords" content="数据科学">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Three mechanisms to become a good liar">
-<meta property="og:url" content="http://www.appleieye.com/2020/06/09/Three_mechanisms_to_become_a_liar/index.html">
+<meta property="og:title" content="回归分析实战(一元)">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/23/回归分析实战(一元)/index.html">
 <meta property="og:site_name" content="Clarence&#39;s blog">
-<meta property="og:description" content="To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been learning how to present and visualize data via various charts, na">
+<meta property="og:description" content="背景：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：  simple_example.csv 从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。  从散点图可以看出，两者的关系是线性的。根据在之前这篇文章中提到的，这种线性关系可以用以下等式来表示：  其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gl5fwj30ks0fwgr3.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gxuktj30ke0ga0wm.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43ilfpgj30xk0fywnn.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43jlnhqj310e0g0n56.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm4698gx0j30zg0pk46k.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43hcg5sj313c0oc7if.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43i5oo6j313o0nmtxp.jpg">
-<meta property="og:updated_time" content="2020-06-09T08:28:27.558Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg">
+<meta property="og:updated_time" content="2020-07-23T02:45:46.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Three mechanisms to become a good liar">
-<meta name="twitter:description" content="To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been learning how to present and visualize data via various charts, na">
-<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gl5fwj30ks0fwgr3.jpg">
+<meta name="twitter:title" content="回归分析实战(一元)">
+<meta name="twitter:description" content="背景：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：  simple_example.csv 从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。  从散点图可以看出，两者的关系是线性的。根据在之前这篇文章中提到的，这种线性关系可以用以下等式来表示：  其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg">
 
 
 
@@ -126,9 +124,9 @@
 
 
 
-  <link rel="canonical" href="http://www.appleieye.com/2020/06/09/Three_mechanisms_to_become_a_liar/"/>
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/23/回归分析实战(一元)/"/>
 
-  <title> Three mechanisms to become a good liar | Clarence's blog </title>
+  <title> 回归分析实战(一元) | Clarence's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
@@ -278,7 +276,7 @@
             
             
               
-                Three mechanisms to become a good liar
+                回归分析实战(一元)
               
             
           </h1>
@@ -290,8 +288,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-06-09T13:58:10+08:00" content="2020-06-09">
-              2020-06-09
+            <time itemprop="dateCreated" datetime="2020-07-23T13:58:10+08:00" content="2020-07-23">
+              2020-07-23
             </time>
           </span>
 
@@ -337,20 +335,23 @@
       
 
       
-        <p>To be honest, this article is not about how to tell lies as its title; instead, it can help you identify lies. These days, I have been learning how to present and visualize data via various charts, namely, bar chart, line graph and scatter plot. Before I am exposed to many technical details, I knew a fact first which is a significant number of statical charts are incorrect, fake and misleading.  You can see this kind of charts, graphs in different places including news, websites, TV, books and even papers. “However, the mirror image of that awareness, the study of how graphs, charts, maps, and diagrams can be used to deceive, has remained within the boundaries of academic circles in statistics, cartography, and computer science.”</p>
-<p>There are endless reasons why people make misleading charts, however, I don’t want to explore these reasons. I just want to show three mechanisms that they normally use to mislead the public. And what’s more important, I really want to improve your awareness about this problem and introduce something about critical thinking. If you want to know more about critical thinking, you can read the book which is called Asking the Right Questions: A Guide to Critical Thinking. </p>
-<p>Here are three strategies which are used to deceive: Hiding relevant data to highlight what benefits us, Displaying too much data to obscure reality, Using graphic forms in inappropriate ways (distorting the data). I will show some examples to explain these three mechanisms.</p>
-<p>He proudly holds the average sales increase of his company over the last year: 12 %. It is good, isn’t it? Let’s look at the second picture. The fact is that among the ten markets in which this company operates, ﬁve improved, but the other ﬁve shrank.</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gl5fwj30ks0fwgr3.jpg" alt=""><br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43gxuktj30ke0ga0wm.jpg" alt=""></p>
-<p>The most common one is distorting the data. The next picture is the results of the presidential election results in Venezuela. Notice the truncated Y-axis which greatly distorts the difference between the percentages of the vote, and this is because Y-axis does not begin with zero.</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43ilfpgj30xk0fywnn.jpg" alt=""></p>
-<p>If we add a zero-baseline, it will be the next picture. If we add a zero-baseline, it will be the next picture. You can see the difference is extremely small.</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43jlnhqj310e0g0n56.jpg" alt=""></p>
-<p>Here is another example. We can see from this picture that x-axis is not starting from zero, instead, it begins with 0.55%. This way exaggerates 0.1%–a very small value. This article uses blue and red colour to show the figure which can attract readers’ attention easily, and readers may only notice the ‘big’ gap between this two-colour. What’s more, the font of the figures is very small, because of this, readers are more likely to pay little attention to the figure.</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm4698gx0j30zg0pk46k.jpg" alt=""></p>
-<p>The third mechanism is Displaying Too Much Data to Obscure Reality. Similarly, extreme simpliﬁcation can also be an effective way to obfuscate data. You can compare the following charts. The second one would be meaningless without the help of interactive tools such as zooms and filters.</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43hcg5sj313c0oc7if.jpg" alt=""><br><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gfm43i5oo6j313o0nmtxp.jpg" alt=""></p>
-<p>I just cover three mechanisms to illustrate how to use charts to deceive and the explanation is extremely simple. If you want to learn more misleading charts, you can google ‘misleading statistical charts’.</p>
+        <p><strong>背景</strong>：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg"></p>
+<p><a href="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1671b1db-a80e-45dd-baf9-52b21d57c435/simple_example.csv" target="_blank" rel="noopener">simple_example.csv</a></p>
+<p>从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg"></p>
+<p>从散点图可以看出，两者的关系是线性的。根据在<a href="http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/">之前这篇文章</a>中提到的，这种线性关系可以用以下等式来表示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg"></p>
+<p>其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。</p>
+<p>使用statsmodels训练线性回归模型的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">linearModel</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    线性回归统计性质分析步骤</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    参数</span></span><br><span class="line"><span class="string">    ----</span></span><br><span class="line"><span class="string">    data: DataFrame,建模数据</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    labels = [<span class="string">'y'</span>]</span><br><span class="line">    features = [<span class="string">'x'</span>]</span><br><span class="line">    Y = data[labels]</span><br><span class="line">    <span class="comment"># 加入常量变量</span></span><br><span class="line">    X = sm.add_constant(data[features])</span><br><span class="line">    <span class="comment"># 构建模型</span></span><br><span class="line">    results = trainModel(X,Y)</span><br><span class="line">    <span class="comment"># 分析模型效果</span></span><br><span class="line">    modelSummary(results)</span><br><span class="line">    <span class="comment"># 由summary分析可知，常量变量并不显著，所以去掉这个常量变量</span></span><br><span class="line">    resultsNew = trainModel(data[features],Y)</span><br><span class="line">    <span class="comment"># 输出新模型的分析结果</span></span><br><span class="line">    modelSummary(resultsNew)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainModel</span><span class="params">(X,Y)</span>:</span></span><br><span class="line">    <span class="string">"""训练模型"""</span></span><br><span class="line">    model = sm.OLS(Y,X)</span><br><span class="line">    results = model.fit()</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">modelSummary</span><span class="params">(results)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    分析线性回归模型的统计性质</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 整体统计分析结果</span></span><br><span class="line">    print(results.summary())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readData</span><span class="params">(path)</span>:</span></span><br><span class="line">    data = pd.read_csv(path)</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    data = readData(<span class="string">'simple_example.csv'</span>)</span><br><span class="line">    linearModel(data)</span><br></pre></td></tr></table></figure>
+<p>得到的模型整体情况如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg"></p>
+<p>从结果可以看出：const(截距)为-0.9495，标准差为0.934(还是很大的)，P值为0.323，大于了5%的显著水平，因此参数b是不显著的。置信度为95%，说明有95%的可能落在置信区间为[-2.912,1.013]，这个区间还是蛮大的，判断标准是这个区间是否包含0的。也就是说,我们可以通过参数的95%置信区间是否包含0来判断其是否显著(如果包含, 则不显著;如果不包含,则显著，所以应该把参数b排除在外。</p>
+<p>同理，来看一下斜率，取值为1.0330，标准差为0.048(非常小了), P值为0，小于1%，说明非常显著了，置信区间为[0.932,1.134],真实值1落在这个区间内，综上，斜率应该纳入我们的模型之中。</p>
+<p>在排除截距后，重新训练得到的模型summary如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg"></p>
+<p>对比这两个模型发现，新模型置信区间更小，决定系数更大，所以新模型更好。</p>
 
       
     </div>
@@ -382,17 +383,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/18/一条查询语句的执行过程/" rel="next" title="一条查询语句的执行过程">
-                <i class="fa fa-chevron-left"></i> 一条查询语句的执行过程
+              <a href="/2020/07/20/相关和回归/" rel="next" title="相关和回归">
+                <i class="fa fa-chevron-left"></i> 相关和回归
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/06/22/描述统计上/" rel="prev" title="描述统计—上">
-                描述统计—上 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

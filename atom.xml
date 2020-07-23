@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-20T03:14:24.018Z</updated>
+  <updated>2020-07-23T02:45:46.580Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>回归分析实战(一元)</title>
+    <link href="http://www.appleieye.com/2020/07/23/%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98(%E4%B8%80%E5%85%83)/"/>
+    <id>http://www.appleieye.com/2020/07/23/回归分析实战(一元)/</id>
+    <published>2020-07-23T05:58:10.000Z</published>
+    <updated>2020-07-23T02:45:46.580Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>背景</strong>：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg"></p><p><a href="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1671b1db-a80e-45dd-baf9-52b21d57c435/simple_example.csv" target="_blank" rel="noopener">simple_example.csv</a></p><p>从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg"></p><p>从散点图可以看出，两者的关系是线性的。根据在<a href="http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/">之前这篇文章</a>中提到的，这种线性关系可以用以下等式来表示：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg"></p><p>其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。</p><p>使用statsmodels训练线性回归模型的代码如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">linearModel</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    线性回归统计性质分析步骤</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    参数</span></span><br><span class="line"><span class="string">    ----</span></span><br><span class="line"><span class="string">    data: DataFrame,建模数据</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    labels = [<span class="string">'y'</span>]</span><br><span class="line">    features = [<span class="string">'x'</span>]</span><br><span class="line">    Y = data[labels]</span><br><span class="line">    <span class="comment"># 加入常量变量</span></span><br><span class="line">    X = sm.add_constant(data[features])</span><br><span class="line">    <span class="comment"># 构建模型</span></span><br><span class="line">    results = trainModel(X,Y)</span><br><span class="line">    <span class="comment"># 分析模型效果</span></span><br><span class="line">    modelSummary(results)</span><br><span class="line">    <span class="comment"># 由summary分析可知，常量变量并不显著，所以去掉这个常量变量</span></span><br><span class="line">    resultsNew = trainModel(data[features],Y)</span><br><span class="line">    <span class="comment"># 输出新模型的分析结果</span></span><br><span class="line">    modelSummary(resultsNew)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainModel</span><span class="params">(X,Y)</span>:</span></span><br><span class="line">    <span class="string">"""训练模型"""</span></span><br><span class="line">    model = sm.OLS(Y,X)</span><br><span class="line">    results = model.fit()</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">modelSummary</span><span class="params">(results)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    分析线性回归模型的统计性质</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 整体统计分析结果</span></span><br><span class="line">    print(results.summary())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readData</span><span class="params">(path)</span>:</span></span><br><span class="line">    data = pd.read_csv(path)</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    data = readData(<span class="string">'simple_example.csv'</span>)</span><br><span class="line">    linearModel(data)</span><br></pre></td></tr></table></figure><p>得到的模型整体情况如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg"></p><p>从结果可以看出：const(截距)为-0.9495，标准差为0.934(还是很大的)，P值为0.323，大于了5%的显著水平，因此参数b是不显著的。置信度为95%，说明有95%的可能落在置信区间为[-2.912,1.013]，这个区间还是蛮大的，判断标准是这个区间是否包含0的。也就是说,我们可以通过参数的95%置信区间是否包含0来判断其是否显著(如果包含, 则不显著;如果不包含,则显著，所以应该把参数b排除在外。</p><p>同理，来看一下斜率，取值为1.0330，标准差为0.048(非常小了), P值为0，小于1%，说明非常显著了，置信区间为[0.932,1.134],真实值1落在这个区间内，综上，斜率应该纳入我们的模型之中。</p><p>在排除截距后，重新训练得到的模型summary如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg"></p><p>对比这两个模型发现，新模型置信区间更小，决定系数更大，所以新模型更好。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;背景&lt;/strong&gt;：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg&quot; a
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>相关和回归</title>
@@ -550,32 +576,6 @@
     
     
       <category term="mysql" scheme="http://www.appleieye.com/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java 线程池</title>
-    <link href="http://www.appleieye.com/2018/06/09/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
-    <id>http://www.appleieye.com/2018/06/09/Java线程池/</id>
-    <published>2018-06-09T05:58:10.000Z</published>
-    <updated>2018-06-09T08:59:58.224Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="为什么需要线程池"><a href="#为什么需要线程池" class="headerlink" title="为什么需要线程池"></a>为什么需要线程池</h4><p>线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？</p><ol><li>降低资源消耗：通过反复使用创建过的线程降低线程创建和销毁的消耗</li><li>提高响应速度：当任务到达时，可以不需要等待线程创建就可以立即执行</li></ol><h4 id="线程池的工作原理："><a href="#线程池的工作原理：" class="headerlink" title="线程池的工作原理："></a>线程池的工作原理：</h4><p>当提交一个任务到线程池时，处理流程如下：</p><ol><li>判断核心线程池是否已满。如果不是，则创建线程，执行任务；否则，进入下个流程。</li><li>判断工作队列是否已满。如果不是，则将任务存储在任务队列里；否则，进入下个流程</li><li>判断线程池是否已满。如果不是，则创建线程，执行任务；否则，交给饱和策略来处理这个任务。</li></ol><h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><p>可以通过ThreadPoolExecutor来创建一个线程池：</p><p>new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,milliseconds,runnableTaskQueue,handler),</p><p>参数说明：</p><ul><li>corePoolSize:线程池基本大小，当提交一个任务到线程池时，线程池会创建一个线程来执行任务，即使其他空闲的基本线程能够执行任务也会创建新线程；等到需要执行的任务数等于线程池基本大小就不再创建。</li><li>runnableTaskQueue：任务队列，用于保存待执行的任务的阻塞队列。有以下几种队列：<ul><li>ArrayBockingQueue:基于数组结构的有界阻塞队列，按照FIFO原则处理任务</li><li>LinkedBlockingQueue:基于链表结构的阻塞队列，按照FIFO原则处理任务，吞吐量高于ArrayBockingQueue。静态工厂方法Executors.newFixedThreadPool()使用了这个队列</li><li>SynchronousQueue:一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了该队列</li><li>PriorityBlockingQueue:一个具有优先级的无限阻塞队列</li></ul></li><li>maximumPoolSize：线程池所允许创建的最大线程数。如果队列满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程任务。如果使用了无界的任务队列，这个参数就没有效果</li><li>keepAliveTime：线程池的工作线程空闲后，保持存活的时间</li><li>milliseconds：线程活动的时间单位：如天、小时、秒、毫秒等。</li><li>RejectedExecutionHandler:饱和策略，当队列和线程池都满了，说明线程池处于饱和状态，必须采取一种策略处理提交的新任务。默认是AbortPolicy。四种策略如下<ul><li>AbortPolicy:直接抛出异常</li><li>CallerRunsPolicy:使用调用者所在线程来运行任务</li><li>DiscardOldestPolicy:丢弃队列里最老的一个任务，执行当前的一个任务</li><li>DiscardPolicy:不处理，丢弃掉</li></ul></li></ul><h4 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h4><p>可以通过execute()和submit()方法向线程池提交任务。</p><ul><li>execute()方法用于提交不需要返回值的任务。输入的参数是Runnable类的实例</li><li>submit()方法用于提交需要返回值的任务。线程池会返回一个future类型的对象，通过该对象判断任务是否执行成功；通过get方法来获取返回值，get()方法会阻塞当前线程直到任务执行成功；get(long timeunit,TimeUnit unit)方法会阻塞当前线程一段时间后返回，这时候任务可能没有执行完</li></ul><h4 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h4><p>通过shutdown或shutdownNow方法来关闭线程池。</p><h4 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h4><ul><li><p>CPU密集型任务应该配置尽可能性小的线程，如配置Ncpu+1个线程的线程池</p></li><li><p>IO密集型则配置尽可能多的线程，如2*Ncpu</p><p>通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h4 id=&quot;为什么需要线程池&quot;&gt;&lt;a href=&quot;#为什么需要线程池&quot; class=&quot;headerlink&quot; title=&quot;为什么需要线程池&quot;&gt;&lt;/a&gt;为什么需要线程池&lt;/h4&gt;&lt;p&gt;线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？&lt;/p&gt;
-&lt;ol
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="JAVA" scheme="http://www.appleieye.com/tags/JAVA/"/>
     
   </entry>
   

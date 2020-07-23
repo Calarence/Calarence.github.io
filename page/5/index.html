@@ -271,6 +271,209 @@
             
               
                 
+                <a class="post-title-link" href="/2018/01/05/javaMemory/" itemprop="url">
+                  java内存布局
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-01-05T10:41:42+08:00" content="2018-01-05">
+              2018-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#java内存大概分为以下几个区域：</p>
+<blockquote>
+<ul>
+<li>程序计数器：用于记录线程所要执行的字节码指令的地址；程序计数器是一块较小的内存，线程私有；当执行的是java方法是，存储的是字节码指令的地址；如果执行的是native方法，则为空（undefined），该内存区域是唯一一个不会出现OutOfMemoryError的区域。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>虚拟机栈：线程私有；每个方法在执行的时候，都会创建一个栈帧，用于存储局部变量表（基本数据类型、对象引用）、操作数栈、动态链接、方法出口等信息。一个方法从调用到执行完成的过程，对应着一个栈帧在虚拟机栈从入栈到出栈的过程。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>本地方法栈：虚拟机栈用于执行java方法，而本地方法栈用于执行native方法。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>方法区：用于存储加载的类的信息（版本、方法、接口、字段）、常量、静态变量、即时编译器编译后的代码；线程共享。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>运行时常量池：是方法区的一部分，用于存储编译期编译生成的各种字面量和符号引用</li>
+<li>堆：用于存储对象实例以及数组。线程共享</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="OutOfMemeoryError实战"><a href="#OutOfMemeoryError实战" class="headerlink" title="OutOfMemeoryError实战"></a>OutOfMemeoryError实战</h1><ol>
+<li>java堆溢出<br>原理：java堆用于存储对象实例，只要不断地创建对象，并保证GC Roots到对象之间有可达路径来避免垃圾回收机制来清除这些对象，那么在对象数量到达最大堆容量限制后就会产生内存溢出异常。</li>
+</ol>
+<pre><code>    import java.util.ArrayList;
+    import java.util.List;
+    public class HeapOOM {
+    static class OOMObject{
+
+    }
+    public static void main(String[] args) {
+     List&lt;OOMObject&gt; list =new ArrayList&lt;OOMObject&gt;();
+    while(true){
+        list.add(new OOMObject());
+    }
+     }
+   } }
+
+运行方式：java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError
+运行结果：java.lang.OutOfMemoryError: Java heap space
+          Dumping heap to java_pid2644.hprof ...
+          Hep dump file created [28079521  bytes in 0.104 secs]
+</code></pre><ol start="2">
+<li>虚拟机栈和本地方法栈溢出<br>原理：<pre><code>&gt; * 使用-Xss减少栈内存容量
+&gt; * 定义大量的本地变量，增大此方法帧中本地变量表的长度
+</code></pre></li>
+</ol>
+<p>代码如下：</p>
+<pre><code>public class JavaVMStackSOF {
+
+private int statckLength = 1;
+
+public void stackLeak() {
+    statckLength++;
+    stackLeak();
+}
+
+public static void main(String[] args) throws Throwable {
+    JavaVMStackSOF oom = new JavaVMStackSOF();
+    try {
+        oom.stackLeak();
+    } catch (Throwable e) {
+        System.out.println(&quot;statck length:&quot; + oom.statckLength);
+        throw e;
+    }
+
+}
+
+}
+</code></pre><p>运行方式：java -Xss128k JavaVMStackSOF<br>输出结果：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/0Z%5BRN2XK%5DI6N0GT%7D%5D%7B%5DBH%5BR.png" alt="此处输入图片的描述"><br>实验结果：在单线程情况下，无论是栈空间太小还是栈帧太大，当内存无法分配的时候，得到的错误都是StackOverflowError异常。<br>多线程下不断地创建线程可引发OutOfMemoryError</p>
+<ol start="3">
+<li><p>方法区和运行时常量池溢出<br><strong>对常量池的测试</strong><br>原理：String.intern()是一个nanative方法，如果字符串常量池中已经包含一个等于此字符串对象的字符串，则返回代表池中这个字符串的Strig对象；否则，将String对象包含的字符串添加到常量池中，并且返回此Strig对象的引用。<br><strong><em>JDK1.6下</em></strong>：<br>示例代码：</p>
+<p> import java.util.ArrayList;<br> import java.util.List;<br> public class RuntimeConstantPoolOOM {<br> public static void main(String[] args) {</p>
+<pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+int i = 0;
+while (true) {
+    list.add(String.valueOf(i++).intern());
+}
+</code></pre><p> }<br> }<br>运行方式：java -XX:PermSize=10M -XX:MaxPermSize=10M<br>输出结果：Exception in thread “main” java.lang.OutOfMemoryError：PermGen space</p>
+<pre><code>at java.lang.String.intern(Native Method)
+</code></pre></li>
+</ol>
+<p>注意：在JDK1.7下，该程序将一直进行下去。原因是intern方法在JDK1.7中发生了改变。intern方法不再复制实例，只是在常量池中记录首次出现的实例引用。</p>
+<p> <strong><em>对方法区的测试</em></strong><br>    原理：方法区用于存放Class的相关信息，如类名，访问修饰符、方法、接口、字段。基本思路是运行时产生大量的类去填满方法区，直到溢出。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/01/04/jvm/" itemprop="url">
                   java内存布局
                 </a>
@@ -2022,158 +2225,6 @@ private void ensureExplicitCapacity(int minCapacity) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/01/javaCollection/" itemprop="url">
-                  Java集合
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-01T15:58:10+08:00" content="2017-11-01">
-              2017-11-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###集合的接口与具体实现<br>java中集合的接口与实现是分离的。<br>java接口如下图<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/collectionInterface.png" alt="此处输入图片的描述"></p>
-<blockquote>
-<ul>
-<li>List：元素有序</li>
-<li>Set：元素不允许重复。两个元素的hashCode如果一致，则两元素相同</li>
-<li>SortedSet、SortedMap：待补充</li>
-<li>NavigableSet、NavigableMap：待补充</li>
-</ul>
-</blockquote>
-<p>具体的集合：<br>如图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/collction.png" alt="此处输入图片的描述"><br>| 集合类型        | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| ArrayList    |一种可以动态增长和缩减的索引序列 |<br>| LinkedList        |   一种可以在任何位置可以进行高效地插入和删除操作的有序序列   |<br>| ArrayDeque        |    一种用循环数组实现的双端队列    |<br>|HashSet|一种没有重复元素的无序集合|<br>|TreeSet|一种有序集|<br>|EnumSet|一种包含枚举类型值的集|<br>|LinkedHashSet|一种可以记住元素插入顺序的集<br>|PriorityQueue|一种允许高效删除最小元素的集合|<br>|HashMap|一种存储键/值关联的数据结构|<br>|TreeMap|一种键值有序排列的映射表|<br>|EnumMap|一种键值属于枚举类型的映射表<br>|LinkedHashMap|一种可以记住键、值添加次序的映射表|<br>|WeakHashMap|一种其值无用武之地后可以被垃圾回收器回收的映射表|<br>|IdentityHashMap|一种用==而不是equals比较键值的映射表|</p>
-<hr>
-<p>###链表(Java中所有链表都是双向链表）</p>
-<blockquote>
-<ul>
-<li>链表添加元素</li>
-<li>链表删除元素：通过迭代器的remove方法<br>  先添加三个元素，然后将第二个元素删除<br>  List<string> staff = new LinkedList&lt;&gt;();<br>  staff.add(“Amy”);<br>  staff.add(“bob”);<br>  staff.add(“clarence”);<br>  Iterator iter = staff.iterator();<br>  String first = (String) iter.next();<br>  String seconde = (String) iter.next();<br>  iter.remove();//删除上一个元素</string></li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>链表在指定位置添加元素：通过迭代器（listiterator）add方法（示例代码）<br>  先添加三个元素，然后在第一个后面插入一个元素<br>  List<string> staff = new LinkedList&lt;&gt;();<br>  staff.add(“Amy”);<br>  staff.add(“bob”);<br>  staff.add(“clarence”);<br>  ListIterator iter = staff.listIterator();<br>  iter.next();<br>  iter.add(“juliet”);</string></li>
-</ul>
-</blockquote>
-<p>###数组列表–ArrayList</p>
-<blockquote>
-<ul>
-<li>ArrayList封装了一个动态再分配的对象数组，其实现细节是？</li>
-<li>ArrayList与Vector的区别：Vector类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象。但是，如果由一个线程访问Vector，代码要在同步操作上耗费大量的时间。这种情况是很常见的。而ArrayList方法不是同步的，因此，建议在不需要同步时使用ArrayList，而不要使用Vector</li>
-</ul>
-</blockquote>
-<p>###散列集HashSet</p>
-<p>###树集TreeSet</p>
-<blockquote>
-<ul>
-<li>TreeSet是有序的，在对TreeSet积极进行遍历时，每个值将自动地按照排序后的顺序出现（每次将元素放入树集上时，都会被放到正确的排序位置上）</li>
-<li>TreeSet使用的是红黑树</li>
-<li>插入元素时，HashSet要比TreeSet快</li>
-</ul>
-</blockquote>
-<p>###</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2219,7 +2270,7 @@ private void ensureExplicitCapacity(int minCapacity) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">118</span>
+              <span class="site-state-item-count">119</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
