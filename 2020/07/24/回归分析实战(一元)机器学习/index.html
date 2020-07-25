@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="问题背景可以查看这篇文章/) 从机器学习的角度看这个问题 一、确定场景类型 1、现有数据集里，有玩偶的生产个数和生产成本，我们需要根据生产个数的信息去预测生产成本。也就是说在数据里，有需要被模型预测的量：生产成本，所以这是一个监督式学习 2、需要被预测的成本是一个数量，它是连续变化的量，而并非表示类别的离散量，所以这是一个回归问题  二、定义损失函数 1、搭建模型的目标是使得模型预测的生产成本和实">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回归分析实战(一元)-----机器学习">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/24/回归分析实战(一元)机器学习/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="问题背景可以查看这篇文章/) 从机器学习的角度看这个问题 一、确定场景类型 1、现有数据集里，有玩偶的生产个数和生产成本，我们需要根据生产个数的信息去预测生产成本。也就是说在数据里，有需要被模型预测的量：生产成本，所以这是一个监督式学习 2、需要被预测的成本是一个数量，它是连续变化的量，而并非表示类别的离散量，所以这是一个回归问题  二、定义损失函数 1、搭建模型的目标是使得模型预测的生产成本和实">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh188jiybej30ba01wglz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh18ngvll7j30aa01ywet.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tgcsgmlj309802e3yr.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tlba8e2j30li03wwfq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tqack1rj30hm02st9u.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1twa8h3oj30ho09i0vi.jpg">
+<meta property="og:updated_time" content="2020-07-24T09:04:17.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回归分析实战(一元)-----机器学习">
+<meta name="twitter:description" content="问题背景可以查看这篇文章/) 从机器学习的角度看这个问题 一、确定场景类型 1、现有数据集里，有玩偶的生产个数和生产成本，我们需要根据生产个数的信息去预测生产成本。也就是说在数据里，有需要被模型预测的量：生产成本，所以这是一个监督式学习 2、需要被预测的成本是一个数量，它是连续变化的量，而并非表示类别的离散量，所以这是一个回归问题  二、定义损失函数 1、搭建模型的目标是使得模型预测的生产成本和实">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh188jiybej30ba01wglz.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/24/回归分析实战(一元)机器学习/"/>
+
+  <title> 回归分析实战(一元)-----机器学习 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                回归分析实战(一元)-----机器学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-24T13:58:10+08:00" content="2020-07-24">
+              2020-07-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>问题背景可以查看<a href="http://www.appleieye.com/2020/07/23/%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98(%E4%B8%80%E5%85%83">这篇文章</a>/)</p>
+<p>从机器学习的角度看这个问题</p>
+<p>一、确定场景类型</p>
+<p>1、现有数据集里，有玩偶的生产个数和生产成本，我们需要根据生产个数的信息去预测生产成本。也就是说在数据里，有需要被模型预测的量：生产成本，所以这是一个监督式学习</p>
+<p>2、需要被预测的成本是一个数量，它是连续变化的量，而并非表示类别的离散量，所以这是一个回归问题</p>
+<hr>
+<p>二、定义损失函数</p>
+<p>1、搭建模型的目标是使得模型预测的生产成本和实际成本接近</p>
+<p>2、预测值和真实值的差距可以定义为损失函数LL，而搭建模型的目标就是使得损失函数达到最小值，公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh188jiybej30ba01wglz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh188jiybej30ba01wglz.jpg"></p>
+<p>3、上个公式并不是一个处处可导的函数，数学上处理起来比较麻烦，因此可以重新定义一个数学上容易处理的损失函数，如下所示。模型参数的估计就依赖于这个损失函数：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh18ngvll7j30aa01ywet.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh18ngvll7j30aa01ywet.jpg"></p>
+<hr>
+<p>三、提取特征</p>
+<p>1、数据是干净的，没有缺失值或异常数据，可以直接使用，不需要进行清洗或整理</p>
+<p>2、现有数据里，只有一个原始特征X={xi}，它表示个数。在这个变量上面的加减乘除是有明确含义的。也就是说变量本身的数学运算是有意义的，所以X可以直接在模型里面使用。</p>
+<p>3、也可以对X做某种数学变换，得到一个新的特征。比如对它做平方运算，得到新的特征X^2。这些新提取的特征也可以被应用到模型里，但是就现在问题，可以只用原始特征建模，如果效果不好，则再考虑提取新的特征。</p>
+<hr>
+<p>四、确定模型形式并估计参数</p>
+<p>1、xi和yi之间是线性关系，因此可以直接使用线性模型，不需要考虑非线性问题到线性问题的转化了</p>
+<p>2、模型的定义如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tgcsgmlj309802e3yr.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tgcsgmlj309802e3yr.jpg"></p>
+<p>3、参数(a,b)的估计值要使得损失函数L达到最小值，如下公式所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tlba8e2j30li03wwfq.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tlba8e2j30li03wwfq.jpg"></p>
+<hr>
+<p>五、评估模型效果</p>
+<p>1、从预测的角度看，我们希望模型的预测成本越接近真实成本越好。定义线性模型的均方差，均方差越小，模型效果越好，如下所示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tqack1rj30hm02st9u.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1tqack1rj30hm02st9u.jpg"></p>
+<p>2、从解释数据的角度来看，希望模型能最大程度地解释成本变化的原因。定义模型的决定系数，决定系数越接近1，模型的效果越好。公式如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1twa8h3oj30ho09i0vi.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh1twa8h3oj30ho09i0vi.jpg"></p>
+<hr>
+<p>六、代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">    步骤大体可分为四步：</span><br><span class="line"></span><br><span class="line">     1、将数据划分为训练数据集和测试数据集，这一步是为了解决过度拟合的问题</span><br><span class="line"></span><br><span class="line">     2、利用训练数据集训练模型，估计模型参数</span><br><span class="line"></span><br><span class="line">     3、利用测试数据集评价模型，计算对应的均方差和决定系数</span><br><span class="line"></span><br><span class="line">     4、用图形化的形式，展示模型效果</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line">from sklearn import linear_model</span><br><span class="line">import numpy as np </span><br><span class="line">import pandas as pd </span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line">def linearModel(data):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    线性回归模型建模步骤</span><br><span class="line">    参数</span><br><span class="line">    ----</span><br><span class="line">    data: DataFrame 建模数据 </span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    features = [&apos;x&apos;]</span><br><span class="line">    labels = [&apos;y&apos;]</span><br><span class="line">    # 划分训练集和测试集</span><br><span class="line">    trainData = data[:15]</span><br><span class="line">    testData = data[15:]</span><br><span class="line">    # 产生并训练模型</span><br><span class="line">    model = trainModel(trainData,features,labels)</span><br><span class="line">    # 评价模型效果</span><br><span class="line">    error, score = evaluateModel(model,testData,features,labels)</span><br><span class="line">    # 图形化模型效果</span><br><span class="line">    visualizeModel(model,data,features,labels,error,score)</span><br><span class="line"></span><br><span class="line">def trainModel(trainData,features,labels):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    利用训练数据，估计模型参数</span><br><span class="line">    </span><br><span class="line">    参数</span><br><span class="line">    ----</span><br><span class="line">    trainData: DataFrame,训练数据集,包含特征和标签</span><br><span class="line">    features: 特征名列表 </span><br><span class="line">    labels: 标签名列表 </span><br><span class="line">    </span><br><span class="line">    返回</span><br><span class="line">    ----</span><br><span class="line">    model: LinearRegression,训练好的线性模型 </span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # 创建一个线性回归模型</span><br><span class="line">    model = linear_model.LinearRegression()</span><br><span class="line">    model.fit(trainData[features],trainData[labels])</span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line">def evaluateModel(model,testData,features,labels):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    计算线性模型的均方差和决定系数</span><br><span class="line">    </span><br><span class="line">    参数 </span><br><span class="line">    ----</span><br><span class="line">    model: LinearRegression, 训练完成后的线性模型</span><br><span class="line">    testData: DataFrame, 测试数据 </span><br><span class="line">    features: list[str], 特征名列表 </span><br><span class="line">    labels: list[str], 标签名列表 </span><br><span class="line">    </span><br><span class="line">    返回</span><br><span class="line">    --- </span><br><span class="line">    error: np.float64, 均方差 </span><br><span class="line">    score: np.float64 决定系数</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    error = np.mean(</span><br><span class="line">        (model.predict(testData[features]) - testData[labels]) ** 2)</span><br><span class="line">    score = model.score(testData[features], testData[labels])</span><br><span class="line">    </span><br><span class="line">    return error, score</span><br><span class="line"></span><br><span class="line">def readData(path):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    使用pandas读取数据</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    data = pd.read_csv(path,error_bad_lines=False)</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    data = readData(&quot;simple_example.csv&quot;)</span><br><span class="line">    linearModel(data)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/23/回归分析实战(一元)/" rel="next" title="回归分析实战(一元)">
+                <i class="fa fa-chevron-left"></i> 回归分析实战(一元)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">120</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
