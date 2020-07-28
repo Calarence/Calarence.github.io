@@ -271,6 +271,125 @@
             
               
                 
+                <a class="post-title-link" href="/2018/01/05/javaMemory2/" itemprop="url">
+                  java内存分配与回收策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-01-05T17:12:50+08:00" content="2018-01-05">
+              2018-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="java内存分配与回收策略"><a href="#java内存分配与回收策略" class="headerlink" title="java内存分配与回收策略"></a>java内存分配与回收策略</h1><ol>
+<li>对象优先在Eden分配：大多数情况下，对象在新生代Eden区中分配。当Eden区没有足够的空间时，虚拟机将发起一次Minor GC。如果GC时发现已有对象无法放入Survivor空间，则通过分配担保机制提前转移到老年代中去。</li>
+<li>大对象直接进入老年代。大对象是指需要大量连续内存空间的java对象，最典型的大对象如很长的字符串以及数组。虚拟机提供了一个-XX：PretenureSizeThresold参数，令大于该值的对象直接才老年代分配</li>
+<li>长期存活的对象进入老年代：虚拟机给每个对象定义了一个对象年龄计数器。通过该计数器来判断是否需要进入老年代。如果对象在Eden出生并且经过第一次Minor GC仍然能够存活下来，并且能被survivor容纳，将被移动到survivor空间中，并且年龄设为1。对象在Survivor区中每熬过一次Minor GC，年龄就增长一岁。当它的年龄增加到一定程度，默认为15岁，就会被移动到老年代中。对象晋升老年代的年龄阀值，可以通过参数-XX：MaxTenuringThresold来设置。</li>
+<li>动态对象年龄判定：为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThresold才能晋升老年代。如果在Survivor空间中，相同年龄所有对象的大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入到老年代中，无须等到MaxTenuringThresold所要求的年龄。</li>
+<li>空间分配担保：在Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则查看HandlePromotionFailure设置是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则会尝试进行Minor GC；如果小于或者不允许担保失败，则进行一次Full GC。大部分情况下会打开HandlePromotionFailure，以避免Full GC过于频繁。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/01/05/java GC/" itemprop="url">
                   java垃圾收集
                 </a>
@@ -2079,184 +2198,11 @@ cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/06/ArrayListResize/" itemprop="url">
-                  Java ArrayList 数组大小动态调整
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-11-06T15:58:10+08:00" content="2017-11-06">
-              2017-11-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在向ArrayList中添加元素时，都调用了ensureCapacityInternal（）方法，该方法用于调整数组大小。过程如下：<br>每次调用add操作时，都会对size进行加1操作，然后调用ensureCapacityInternal获得两者较大的那一个，当数组满了的时候，会出现size+1&gt;DEFAULT_CAPACITY的情况，这时候也就需要重新调整数组大小，调用grow进行调整。<br>grow方法中，数组大小进行调整时，会默认扩大为原来的1.5倍，<strong><em>newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1)</em></strong>,然后将newCapacity与size+1进行比较，取两者中较大的一个；作为最终的大小。<br>如果newCapacity的值超过了VM所允许的最大数组分配个数，就调用hugeCapacity获取最终数组的大小。<br>最后，调用Arrays.copy,将原先数组中的元素copy到一个更大容量的数组上，然后返回这个新的数组</p>
-<pre><code>/**
- *确定数组的容量：
- *如果数组为空，则容量为默认的DEFAULT_CAPACITY--10
- *否则，容量为minCapacity
- */
-private void ensureCapacityInternal(int minCapacity) {
-        if (elementData == EMPTY_ELEMENTDATA) {
-            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
-        }
-
-        ensureExplicitCapacity(minCapacity);
-    }
-
-/**
- *修改次数加1
- *如果最小容量大于数组当前的容量，调用grow()，进行大小调整
- */
-
-private void ensureExplicitCapacity(int minCapacity) {
-        modCount++;
-
-        // overflow-conscious code
-        if (minCapacity - elementData.length &gt; 0)
-            grow(minCapacity);
-    }
-
-/**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
-     */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
-
-    /**
-     * Increases the capacity to ensure that it can hold at least the
-     * number of elements specified by the minimum capacity argument.
-     *
-     * @param minCapacity the desired minimum capacity
-     */
-    private void grow(int minCapacity) {
-        // overflow-conscious code
-        int oldCapacity = elementData.length;
-        //默认扩展0.5倍
-        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);
-        if (newCapacity - minCapacity &lt; 0)
-            newCapacity = minCapacity;
-        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)
-            newCapacity = hugeCapacity(minCapacity);
-        // minCapacity is usually close to size, so this is a win:
-        elementData = Arrays.copyOf(elementData, newCapacity);
-    }
-
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity &lt; 0) // overflow
-            throw new OutOfMemoryError();
-        return (minCapacity &gt; MAX_ARRAY_SIZE) ?
-            Integer.MAX_VALUE :
-            MAX_ARRAY_SIZE;
-    }
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2297,7 +2243,7 @@ private void ensureExplicitCapacity(int minCapacity) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">120</span>
+              <span class="site-state-item-count">121</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

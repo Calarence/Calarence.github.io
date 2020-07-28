@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼 主要内容：  标量 向量 矩阵 特殊矩阵 矩阵的运算  一、标量、向量、矩阵基本概念 一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。 对于英雄A，假设他是智力型选手，智力设定为10，敏捷">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学中的线性代数">
+<meta property="og:url" content="http://www.appleieye.com/2020/07/28/线性代数/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼 主要内容：  标量 向量 矩阵 特殊矩阵 矩阵的运算  一、标量、向量、矩阵基本概念 一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。 对于英雄A，假设他是智力型选手，智力设定为10，敏捷">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg">
+<meta property="og:updated_time" content="2020-07-28T10:07:44.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据科学中的线性代数">
+<meta name="twitter:description" content="“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼 主要内容：  标量 向量 矩阵 特殊矩阵 矩阵的运算  一、标量、向量、矩阵基本概念 一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。 对于英雄A，假设他是智力型选手，智力设定为10，敏捷">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/07/28/线性代数/"/>
+
+  <title> 数据科学中的线性代数 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据科学中的线性代数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-28T13:58:10+08:00" content="2020-07-28">
+              2020-07-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼</p>
+<p><strong>主要内容</strong>：</p>
+<ol>
+<li>标量</li>
+<li>向量</li>
+<li>矩阵</li>
+<li>特殊矩阵</li>
+<li>矩阵的运算</li>
+</ol>
+<p>一、<strong>标量、向量、矩阵基本概念</strong></p>
+<p>一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。</p>
+<p>对于英雄A，假设他是智力型选手，智力设定为10，敏捷为6，力量为2，则可以用数学式子表示为i=10，a=6，s=2。我们用<strong>数字</strong>表示各个属性的值，这在数学上叫作标量。标量其实就是数字。</p>
+<p>将上面三个属性按照智力、敏捷、力量的顺序写在一起，可以表示一个英雄的能力。A=(10,6,2)。在数学上，A称为向量，准确的说是行向量。行向量是多个标量排成一行；与之相对应的是列向量，即多个数字排成一列。</p>
+<p>现在有三个英雄，B、C、D，向量表示为B=(3,4,10),C=(5,10,4),D=(6,9,5),将这四个英雄的向量排成矩形阵列，每一行表示一个英雄。用数学语言来描述就是，一个nXm的矩阵，就是由n行m列元素组成的矩形阵列。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg"></p>
+<p>上图就是一个4X3的矩阵。从数学上来讲，标量和向量其实是比较特殊的矩阵，包含k个数字的行向量可以看作是1Xk的矩阵，而包含k个数字的列向量，可以看作是kX1的矩阵</p>
+<p>xi,j,表示标量，也就是一个实数,Xi表示一个m维的行向量，X表示n×m的矩阵，Rn×m表示所有取值为实数的n×m矩阵全体</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg"></p>
+<hr>
+<p>二、<strong>特殊矩阵</strong></p>
+<p>方阵：它是行数等于列数的矩阵。从形状上来看，它就像一个正方形，因此被称作方阵。</p>
+<p>单位矩阵：矩阵的对角线元素等于1，其他元素等于0，记为In。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg"></p>
+<p>对角矩阵：除对角线元素外，其他元素都为0，记为diag(d1,d2…dn)。单位矩阵是一种特殊的对角矩阵。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg"></p>
+<p>三角矩阵：它可以分为上三角矩阵和下三角矩阵。上三角矩阵的对角线下方全部为零，记为U；下三角矩阵对角线上方的元素全部为零，记为L</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg"></p>
+<hr>
+<p>三、<strong>矩阵运算</strong></p>
+<p>1、矩阵的加减法：要求两个矩阵是行数和列数相等。假设两个矩阵X，Y同为mXn的矩阵，那么两者的和差仍为mXn的矩阵。矩阵的加法满足交换律和结合律。具体加减法操作如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg"></p>
+<p>2、矩阵的乘法：</p>
+<p>a) 矩阵与数字相乘。任何一个实数都可以与矩阵相乘。假设k为实数，那么它与矩阵X的乘法定义如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg"></p>
+<p>b) 矩阵与矩阵的乘法。只有在第一个矩阵的列数与第二个矩阵的行数相等时，才可以相乘。假设A为nXp的矩阵，B为pXm的矩阵，那么两者的乘积为nXm的矩阵，记为AB。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg"></p>
+<p>矩阵乘法满足结合律和分配律，但不满足交换律。任何一个矩阵与单位矩阵的乘积都等于其本身。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg"></p>
+<p>c) Hadamard乘积</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg"></p>
+<p>四、<strong>矩阵求逆</strong></p>
+<p>对矩阵求逆是针对方阵的，即行数等于列数的矩阵。假设M是一个nXn的矩阵，若存在一个nXn的矩阵N使得它们的乘积等于n阶单位矩阵，则称矩阵N为矩阵M的逆矩阵，记为M^-1，而M则被称作为可逆矩阵。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg"></p>
+<p>五、矩阵的转置</p>
+<p>矩阵的转置就是将矩阵沿着对角线对调一下。假设X为nXm的矩阵，则它的转置为mXn的矩阵</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/24/回归分析实战(一元)机器学习/" rel="next" title="回归分析实战(一元)-----机器学习">
+                <i class="fa fa-chevron-left"></i> 回归分析实战(一元)-----机器学习
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">121</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-24T09:04:17.997Z</updated>
+  <updated>2020-07-28T10:07:44.277Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据科学中的线性代数</title>
+    <link href="http://www.appleieye.com/2020/07/28/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
+    <id>http://www.appleieye.com/2020/07/28/线性代数/</id>
+    <published>2020-07-28T05:58:10.000Z</published>
+    <updated>2020-07-28T10:07:44.277Z</updated>
+    
+    <content type="html"><![CDATA[<p>“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼</p><p><strong>主要内容</strong>：</p><ol><li>标量</li><li>向量</li><li>矩阵</li><li>特殊矩阵</li><li>矩阵的运算</li></ol><p>一、<strong>标量、向量、矩阵基本概念</strong></p><p>一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。</p><p>对于英雄A，假设他是智力型选手，智力设定为10，敏捷为6，力量为2，则可以用数学式子表示为i=10，a=6，s=2。我们用<strong>数字</strong>表示各个属性的值，这在数学上叫作标量。标量其实就是数字。</p><p>将上面三个属性按照智力、敏捷、力量的顺序写在一起，可以表示一个英雄的能力。A=(10,6,2)。在数学上，A称为向量，准确的说是行向量。行向量是多个标量排成一行；与之相对应的是列向量，即多个数字排成一列。</p><p>现在有三个英雄，B、C、D，向量表示为B=(3,4,10),C=(5,10,4),D=(6,9,5),将这四个英雄的向量排成矩形阵列，每一行表示一个英雄。用数学语言来描述就是，一个nXm的矩阵，就是由n行m列元素组成的矩形阵列。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg"></p><p>上图就是一个4X3的矩阵。从数学上来讲，标量和向量其实是比较特殊的矩阵，包含k个数字的行向量可以看作是1Xk的矩阵，而包含k个数字的列向量，可以看作是kX1的矩阵</p><p>xi,j,表示标量，也就是一个实数,Xi表示一个m维的行向量，X表示n×m的矩阵，Rn×m表示所有取值为实数的n×m矩阵全体</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg"></p><hr><p>二、<strong>特殊矩阵</strong></p><p>方阵：它是行数等于列数的矩阵。从形状上来看，它就像一个正方形，因此被称作方阵。</p><p>单位矩阵：矩阵的对角线元素等于1，其他元素等于0，记为In。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg"></p><p>对角矩阵：除对角线元素外，其他元素都为0，记为diag(d1,d2…dn)。单位矩阵是一种特殊的对角矩阵。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg"></p><p>三角矩阵：它可以分为上三角矩阵和下三角矩阵。上三角矩阵的对角线下方全部为零，记为U；下三角矩阵对角线上方的元素全部为零，记为L</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg"></p><hr><p>三、<strong>矩阵运算</strong></p><p>1、矩阵的加减法：要求两个矩阵是行数和列数相等。假设两个矩阵X，Y同为mXn的矩阵，那么两者的和差仍为mXn的矩阵。矩阵的加法满足交换律和结合律。具体加减法操作如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg"></p><p>2、矩阵的乘法：</p><p>a) 矩阵与数字相乘。任何一个实数都可以与矩阵相乘。假设k为实数，那么它与矩阵X的乘法定义如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg"></p><p>b) 矩阵与矩阵的乘法。只有在第一个矩阵的列数与第二个矩阵的行数相等时，才可以相乘。假设A为nXp的矩阵，B为pXm的矩阵，那么两者的乘积为nXm的矩阵，记为AB。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg"></p><p>矩阵乘法满足结合律和分配律，但不满足交换律。任何一个矩阵与单位矩阵的乘积都等于其本身。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg"></p><p>c) Hadamard乘积</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg"></p><p>四、<strong>矩阵求逆</strong></p><p>对矩阵求逆是针对方阵的，即行数等于列数的矩阵。假设M是一个nXn的矩阵，若存在一个nXn的矩阵N使得它们的乘积等于n阶单位矩阵，则称矩阵N为矩阵M的逆矩阵，记为M^-1，而M则被称作为可逆矩阵。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg"></p><p>五、矩阵的转置</p><p>矩阵的转置就是将矩阵沿着对角线对调一下。假设X为nXm的矩阵，则它的转置为mXn的矩阵</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;主要内容&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;标量&lt;/
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>回归分析实战(一元)-----机器学习</title>
@@ -551,31 +579,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Spring容器启动流程</title>
-    <link href="http://www.appleieye.com/2018/09/16/Spring%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/"/>
-    <id>http://www.appleieye.com/2018/09/16/Spring容器启动流程/</id>
-    <published>2018-09-16T05:58:10.000Z</published>
-    <updated>2018-09-16T09:19:19.137Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Spring容器启动流程"><a href="#Spring容器启动流程" class="headerlink" title="Spring容器启动流程"></a>Spring容器启动流程</h1><h2 id="Spring一些背景知识："><a href="#Spring一些背景知识：" class="headerlink" title="Spring一些背景知识："></a>Spring一些背景知识：</h2><p>我们知道Spring的核心是控制反转和面向切面，而这两个核心功能是由容器实现的。</p><p>Spring容器大致分为两类：BeanFactory和ApplicationContext。BeanFactory定义了容器的基本规范，只提供了基本的依赖注入功能；而ApplicationContext在BeanFactory的基础上，提供了一些新的特性，是一种框架级别的容器。通常ApplicationContext要优于bean工厂，但它唯一缺点是内存消耗比BeanFactory大，出现这种情况是由于补充的服务。如果你的程序对于内存的使用要求非常严苛，请考虑更多使用bean factory。否则，在更多标准的应用程序中，应该使用ApplicationContext。</p><p>BeanDefinition:抽象了对Bean的定义(各个属性，类名，类型，是否单例)，是对依赖关系的抽象，也是实现实现依赖注入的核心数据结构。</p><h3 id="Spring容器原理"><a href="#Spring容器原理" class="headerlink" title="Spring容器原理"></a>Spring容器原理</h3><p>Spring容器的原理就是反射。我们在配置文件里配置类名称，然后Spring容器根据类名称，反射生成类的实例，并调用set方法进行依赖注入。所以Spring的启动流程，其实也就是配置文件或者说BeanDefinition的定位、加载、解析、注册的过程。</p><h3 id="Spring容器启动流程大致分为以下三个过程："><a href="#Spring容器启动流程大致分为以下三个过程：" class="headerlink" title="Spring容器启动流程大致分为以下三个过程："></a>Spring容器启动流程大致分为以下三个过程：</h3><ol><li>定位BeanDefinition</li><li>载入BeanDefinition</li><li>注册BeanDefinition</li></ol><h3 id="观察容器启动流程的姿势：代码-debug，代码入口下图"><a href="#观察容器启动流程的姿势：代码-debug，代码入口下图" class="headerlink" title="观察容器启动流程的姿势：代码+debug，代码入口下图"></a>观察容器启动流程的姿势：代码+debug，代码入口下图</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/SpringIOC%E4%BB%A3%E7%A0%81%E5%85%A5%E5%8F%A3.png" alt=""></p><h2 id="一、定位BeanDefinition"><a href="#一、定位BeanDefinition" class="headerlink" title="一、定位BeanDefinition"></a>一、定位BeanDefinition</h2><p>与BeanDefinition操作相关的两个类：BeanDefinitionReader和Resource。</p><ul><li><p>Resource是Spring用来封装I/O操作的类，用来处理使用xml方式定义的BeanDefinition</p></li><li><p>BeanDefinitionReader:Resource不能由factory直接使用，而使用BeanDefinitionReader来对这些信息进行处理</p></li></ul><p> <strong>FileSystemXmlApplicationContext</strong>构造方法：a.创建新的FileSystemXmlApplicationContext b.从指定的xml中加载definitions c.创建所有的单例。从注释中也可以看出，loading all bean definitions放在refresh函数中，所以，重点关注refresh()</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/ApplicationContext%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95.png" alt=""></p><p>refresh的主要实现：关闭之前的beanFactory;创建beanFactory，默认是DefaultListableBeanFactory;加载beanDefinitions;我们继续关注loadBeanDefinitions方法</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/refreshBeanFactory.png" alt="">  </p><p>通过<em>XmlBeanDefinitionReader</em>来loadBeanDefinitions；代码如下：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/beanDefinitionReader.png" alt=""></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractBeanDefinitionReader中loadBeanDefinitions的实现</span><br></pre></td></tr></table></figure><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/AbstractBeanDefinitionReader.png" alt=""></p><p>我们来看一下是如何获得Resources:不同locationPattern,如classpath:*、class:，分别对应不同的获得方式</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResources.png" alt=""></p><p>locationPattern为classPath:的处理方式：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/getResource.png" alt=""></p><h2 id="二、载入BeanDefinition："><a href="#二、载入BeanDefinition：" class="headerlink" title="二、载入BeanDefinition："></a>二、载入BeanDefinition：</h2><p>把定义的BeanDefinition转换成Spring内部表示的数据结构。</p><p>具体的载入过程如下：将xml解析为document对象；将document对象解析为bean</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/doLoadBeanDefinitions.png" alt=""></p><p>这个document对象究竟是什么呢？它是HTML或XML树，用来表示HTML或XML文档，并可以管理、访问节点、元素、属性等</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/document.png" alt=""></p><p>接下来是将Document里的bean definition解析、注册；解析的结果是生成BeanDefinitionHolder。BeanDefinition是BeanDefinition对象的封装类，封装了BeanDefinition,Bean的名字和别名，用它来向IoC容器注册</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/registerBeanDefinitions.png" alt=""></p><p>对import、alias、bean标签解析。</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/parseBeanDefinitions.png" alt=""></p><p>最后生成的beanHolder,如下：</p><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/bnholder.png" alt=""></p><h2 id="三、注册BeanDefinition"><a href="#三、注册BeanDefinition" class="headerlink" title="三、注册BeanDefinition"></a>三、注册BeanDefinition</h2><p>经过上面两步，已经将xml配置文件进行了定位、解析，并转换为容器内部的数据结构。但是，这些数据结构，现在还不能直接使用，需要进行注册。所谓注册，其实就是将beanDefinition放到hashMap中去，以便进行检索和使用。容器的作用就是对这些信息进行处理和维护。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Spring容器启动流程&quot;&gt;&lt;a href=&quot;#Spring容器启动流程&quot; class=&quot;headerlink&quot; title=&quot;Spring容器启动流程&quot;&gt;&lt;/a&gt;Spring容器启动流程&lt;/h1&gt;&lt;h2 id=&quot;Spring一些背景知识：&quot;&gt;&lt;a href=&quot;#
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="spring" scheme="http://www.appleieye.com/tags/spring/"/>
     
   </entry>
   
