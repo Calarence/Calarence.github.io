@@ -271,6 +271,158 @@
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
+                  spring面向切面编程示例之打印日志
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
+<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
+<li><p>pom中添加依赖</p>
+<pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+ &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+ &lt;version&gt;1.8.13&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>添加切面的实现</p>
+</li>
+</ul>
+<pre><code>public class LogHelper {
+public LogHelper() {
+    }
+public void sayBefore(){
+    System.out.println(&quot;before saying hello world&quot;);
+    }
+public void sayAfter(){
+    System.out.println(&quot;after saying hello world&quot;);
+        }
+      }
+</code></pre><ul>
+<li><p>配置切面</p>
+<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
+&lt;/bean&gt;
+&lt;aop:config&gt;
+&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
+&lt;!--定义切点--&gt;
+&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
+&lt;!--定义前置通知--&gt;
+&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
+&lt;!--定义后置通知--&gt;
+&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+</ul>
+<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
                   spring bean装配的三种方式之xml配置
                 </a>
@@ -1752,146 +1904,6 @@ lock.unlock();
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/02/27/javaLock1/" itemprop="url">
-                  Java中锁的基本概念
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-02-27T15:58:10+08:00" content="2018-02-27">
-              2018-02-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="java中的锁"><a href="#java中的锁" class="headerlink" title="java中的锁"></a>java中的锁</h3><blockquote>
-<ul>
-<li>为什么有了synchronized还需要Lock<br>Lock接口出现在synchronized关键字之后，既然synchronized提供了锁的功能，那么为什么还需要Lock接口呢？原因是Lock接口提供了synchronized所不具备的同步特性。<br>Lock缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性。例如，针对一个场景，先获得锁A，再获得锁B，在获得锁B后，释放锁A同时获取锁C，当锁C获得后，再释放锁B同时获取锁D，依次类推，这种场景下，用synchronized就不容易实现。此外，Lock接口还拥有可中断的获取锁、超时获取锁、非阻塞地获取锁等多种synchronized关键字所不具备的特性。</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的API（如下）<br>| 方法名称       | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| void  lock()     |获取锁，调用该方法当前线程将会获取锁，当锁获得后，从该方法返回 |<br>| boolean tryLock        |   尝试非阻塞的获取锁，调用该方法后立刻返回，如果能够获取则返回true，否则返回false   |   |<br>| boolean tryLock(long time,TimeUnit unit)throws InterruptedException        |超时的获取锁，当前线程在以下3种情况下会返回：1、当前线程在超时时间内获得了锁 2、当前线程在超时时间内被中断 3、超时时间结束，返回false|   |<br>|void lockInterruptibly() throws InterruptedException|可中断地获取锁，和lock()方法不同之处在于该方法会响应中断，即在锁的获取中可以中断当前线程|<br>|void unlock()|释放锁|<br>|Condition new Condition()|获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait()方法，而调用后，当前线程将释放锁|</li>
-</ul>
-</blockquote>
-<hr>
-<blockquote>
-<ul>
-<li>Lock的使用方式（代码如下）</li>
-</ul>
-</blockquote>
-<pre><code>/*
-*注意获取锁与释放锁的位置
-*获取锁的过程没写在try块中，原因是如果在获取锁时发生了异常，异常抛出的同时，也会导致锁释放
-*在finally块中释放锁，目的是保证在获取到锁之后，最终能够被释放。
-**/
-Lock lock = new ReentrantLock();
-lock.lock();
-try{
-}finally{
-lock.unlock();
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1937,7 +1949,7 @@ lock.unlock();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">121</span>
+              <span class="site-state-item-count">122</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

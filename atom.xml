@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-07-28T10:07:44.277Z</updated>
+  <updated>2020-07-30T00:48:53.716Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>回归分析基础</title>
+    <link href="http://www.appleieye.com/2020/07/30/%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%9F%BA%E7%A1%80/"/>
+    <id>http://www.appleieye.com/2020/07/30/回归分析基础/</id>
+    <published>2020-07-30T05:58:10.000Z</published>
+    <updated>2020-07-30T00:48:53.716Z</updated>
+    
+    <content type="html"><![CDATA[<p>在<a href="http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/">这篇文中</a>，简单的介绍了回归的一些概念，这篇文章是在此基础上的进阶。</p><hr><p><strong>什么是回归分析</strong></p><p>回归分析是探寻变量之间的某种数学关系，或者说得到一个数学公式，如y=ax+b，并用这个公式来进行预测。回归分析的目的就是,根据自变量的给定值来对因变量的取值进行预测。</p><hr><p><strong>回归分析的分类</strong></p><p>回归分析根据自变量的数量可以分为<strong>一元回归</strong>和<strong>多元回归</strong></p><p>根据自变量与因变量的关系又可以分为<strong>线性回归</strong>和<strong>非线性回归</strong></p><p>将上面两种进行组合，回归分析实际上可以分为四种：一元线性回归、一元非线性回归、多元线性回归和多元非线性回归。</p><p>回归分析的<strong>真正威力</strong>体现在<strong>多元回归</strong>上。多元回归模型包括两个或两个以上自变量以及一个因变量。比如，假设我还是对预测体重感兴趣(即体重是自变量)，现在假设除了身高之外，还知道这个人每天锻炼的时长及他每天摄入的卡路里数量，这样就有了三个预测变量(身高、锻炼时长和卡路里摄入量)来对这个人体重进行有根据的预测。通过多元回归，可知的信息包括：a)这三个预测变量作为一个整体与体重有多大相关；b)在控制了模型中其他预测变量的条件下，每一个自变量与因变量之间的关系强度；c)各个预测变量的相对强度；d)预测变量之间是否存在交互效应。由此可见，多元回归分析是一种功能既多又大的统计技术</p><hr><p>回归分析的<strong><em>步骤</em></strong>：</p><ol><li>确定回归方程中的自变量和因变量</li><li>确定回归模型，建立回归方程</li><li>对回归方程进行各种检验</li><li>利用回归方程进行预测</li></ol><p>回归分析又可以从机器学习和统计学两个角度进行。</p><p>从<strong><em>机器学习</em></strong>角度来看，步骤可以分为：</p><ol><li>确定场景类型，比如它是监督or非监督，是分类问题还是预测问题等等</li><li>定义损失函数</li><li>提取特征：数据准备(清洗、整理)、数据变换(自变量是否进行数学变换)</li><li>确定模型参数并估计参数(线性or非线性)</li><li>评估模型效果：均方差、决定系数、假设检验</li><li>模型持久化：pickle、PMML</li></ol><ul><li style="list-style: none"><input type="checkbox"> <strong><em>统计学</em></strong>角度待补充</li></ul><hr><p>回归方程中的<strong><em>误差项</em></strong>：</p><p>误差是独立且具有相同分布，且服从均值为0方差为sigma平方的正态分布。</p><p>误差或损失函数是推导线性回归公式的关键点。吴恩达在他的机器学习课程上也对此进行了大篇幅的讲解</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh819x3d2yj31770u0k4n.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh819x3d2yj31770u0k4n.jpg"></p><p>通过对Theta0和Theta1取值，来得到不同的损失值，从而根据最小损失值确定这两个参数</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh82409t39j31bi0l4wm0.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh82409t39j31bi0l4wm0.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh825po6cpj31c00he0xs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh825po6cpj31c00he0xs.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh826bs0r6j31240l2jvz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh826bs0r6j31240l2jvz.jpg"></p><p>随着参数的增多，损失函数的可视化越来越难，需要找到一种方式来得到这些参数值,这种方式就是梯度下降。</p><p>回归函数是关于x的函数，而损失函数是关于参数的函数。</p><hr><p>回归直线的<strong>拟合优度</strong></p><p>回归直线与各观测点的<strong>接近程度</strong>称为回归直线对数据的<strong>拟合优度</strong></p><ul><li>总平方和SST：反应因变量的n个观察值与其均值的总离差</li><li>回归平方和SSR：反映了y的总变差中，由于x与y之间的线性关系引起的y的变化部分</li><li>残差平方和SSE：反映了除x对y的线性影响之外的其他因素对y变化的作用，是不能由回归直线来解释的y的变化部分(如误差)</li><li>总平方和SST：</li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh39zr356uj303r01c3y9.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh39zr356uj303r01c3y9.jpg"></p><ul><li>回归平方和SSR：</li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3a331qqzj303u01a741.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3a331qqzj303u01a741.jpg"></p><ul><li>残差平方和SSE：</li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3a7uks0jj303v01f741.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3a7uks0jj303v01f741.jpg"></p><hr><p><strong>判定系数</strong></p><p>回归平方和(SSR)占总平方和(SST)的比例，用R^2表示，其值在0到1之间；我们需要根据这个参数来判断一个模型的</p><ul><li>R^2==0:说明y的变化与x无关，x完全无助于解释y的变化</li><li>R^2==1:说明残差平方和为0，拟合是完全的，y的变化只与x有关</li></ul><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3acetvljj30ee02sq2s.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3acetvljj30ee02sq2s.jpg"></p><hr><p><strong>显著性检验</strong>：</p><p>显著性检验的目的是根据所建立的估计方程用自变量x来估计或预测因变量y的取值。当建立了估计方程后，还不能马上进行估计或预测，因为该估计方程是根据样本数据得到的，它是否真实的反映了变量x和y之间的关系，则需要通过检验后才能证实。</p><p>显著性检验包括两方面：</p><ul><li>线性关系检验</li><li>回归系数检验</li></ul><p><strong>线性关系检验</strong>：是检验<strong>自变量x</strong>和<strong>因变量y</strong>之间的线性关系是否显著。或者说，它们之间能否用一个线性模型来表示。</p><p>将均方回归(MSR)同均方残差(MSE)加以比较，应用F检验来分析二者之间的差别是否显著</p><ul><li>均方回归：回归平方和SSR除以相应的自由度(自变量的个数K)</li><li>均方残差：残差平方和SSE除以相应的自由度(n-k-1)</li></ul><p>H0：β1=0 所有回归系数与零无显著差异，y与全体x的线性关系不显著</p><p>计算检验统计量F：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3c4rui49j30jf03n74h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3c4rui49j30jf03n74h.jpg"></p><p><strong>回归系数检验</strong>：</p><p>回归系数显著性检验的目的是通过检验回归系数β的值与0是否有显著性差异，来判断Y与X之间是否有显著的线性关系。若β=0，则总体回归方程中不含X相(即Y不随X变动而变动)，因此，变量Y与X之间并不存在线性关系；若β不等于0，说明变量Y与X之间存在显著的线性关系。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3chnbvz5j30p20fzjss.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3chnbvz5j30p20fzjss.jpg"></p><p>计算检验的统计量：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3cjbjjczj308m03iq2v.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh3cjbjjczj308m03iq2v.jpg"></p><p>线性关系检验与回归系数检验的<strong>区别</strong>：</p><p>线性关系的检验是检验<strong>自变量</strong>与<strong>因变量</strong>是否可以用<strong>线性</strong>来表达；而回归系数的检验是对样本数据计算的回归系数检验总体中<strong>回归系数是否为0</strong>的检验。</p><ul><li>在一元线性回归中，自变量只有一个，线性关系检验与回归系数检验是等价的</li><li>多元回归分析中，这两种检验的意义是不同的，线性关系检验只能用来检验总体回归关系的显著性，而回归系数检验可以对各个回归系数分别进行检验</li></ul><hr><p><strong>多元线性回归分析</strong></p><p>有时候，某一现象的发展和变化取决于<strong><em>几个</em></strong>影响因素的情况，也就是<strong><em>一个因变量和几个自变量</em></strong>有依存关系的情况，这时需要用多元线性回归分析。</p><p>多元线性回归分析预测法，是指通过对<strong><em>两个或两个以上的自变量</em></strong>与<strong><em>一个因变量</em></strong>的相关分析，建立预测模型进行预测和控制的方法</p><p>多元线性回归预测模型可以表示为以下公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh478p8awvj30er01lgle.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh478p8awvj30er01lgle.jpg"></p><p>调整的<strong>*多重判定系数*</strong>：用<strong>样本容量n</strong>和<strong>自变量的个数k</strong>去修正R^2得到：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47d9xjm2j30f6045q2x.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47d9xjm2j30f6045q2x.jpg"></p><p><strong>调整的目的是避免增加自变量而高估R^2</strong></p><hr><p><strong>曲线回归分析</strong></p><p>直线关系是两变量间最简单的一种关系，曲线回归分析的基本任务是通过两个相关变量x与y的实际观测数据<strong><em>建立曲线回归方程</em></strong>，以揭示x与y间的曲线联系的形式。</p><p>曲线回归分析最困难和首要的工作是<strong><em>确定自变量与因变量间的曲线关系的类型</em></strong>，曲线回归分析的基本过程：</p><ul><li>先将x或y进行变量转换</li><li>对新变量进行直线回归分析、建立直线回归方程并进行显著性检验和区间估计</li><li>将新变量还原为原变量，由新变量的直线回归方程和置信区间得到原变量的曲线回归方程和置信区间</li></ul><p>由于曲线回归模型种类繁多，所以没有通用的回归方程可以直接使用。但是对于某些特殊的回顾模型，可以通过<strong>变量代换</strong>、<strong>取对数</strong>等方法将其线性化，然后使用标准方程求解参数，再将参数带回原方程就是所求。</p><p>实例：某商店各个时期的商品流通费率和商品零售额资料</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47slbytgj30tz085weo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47slbytgj30tz085weo.jpg"></p><p>散点图如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47tasv8gj30l009ugls.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47tasv8gj30l009ugls.jpg"></p><p>散点图显示出x与y的变动关系为一条递减的双曲线。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47u36e8lj3080032a9w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47u36e8lj3080032a9w.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47ukog6wj30au0ataa9.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh47ukog6wj30au0ataa9.jpg"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在&lt;a href=&quot;http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/&quot;&gt;这篇文中&lt;/a&gt;，简单的介绍了回归的一些概念，这篇文章是在此基础上的进阶。&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>数据科学中的线性代数</title>
@@ -549,32 +575,6 @@
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;Class类&lt;/p&gt;
 &lt;p&gt;在程序运行期间，Java运行时系统始终为所有的对象维护一个被称为运行时的类型标识。这个信息跟踪着每个对象所属的类。虚拟机利用运行时类信息选择相应的方法执行。保存这些信息的类称为Class。实际上Cl
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://www.appleieye.com/2018/10/07/Spring/"/>
-    <id>http://www.appleieye.com/2018/10/07/Spring/</id>
-    <published>2018-10-07T13:37:11.086Z</published>
-    <updated>2018-10-07T13:37:11.086Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><ol><li><p>核心：依赖注入和面向切面</p></li><li><p>思想：</p><ul><li>基于POJO的轻量级和侵入性最小编程。侵入性最小编程就是某个类在spring和非spring应用中的作用都一样，且Spring不会强迫去实现某个规范接口或类</li><li></li><li><p>通过依赖注入和面向接口实现松耦合</p></li><li>基于切面和惯例进行声明式编程</li><li>通过切面和模版减少版式代码</li></ul></li><li><p>依赖注入：对象所需要的依赖关系不需要由自己创建或管理，而是交给Spring，然后将依赖关系自动注入到需要他们的对象中去。</p></li><li><p>装配：创建应用组件之间协作的行为，即装配。配置类之间的依赖关系</p></li><li><p>Spring容器：负责创建对象，管理它们，配置它们并且管理它们的整个生命周期。Spring自带了多种容器的实现，可以归为以下两种类型</p><ul><li><p>bean工厂：由org.springframework.beans.factory.BeanFactory接口定义，是最简单的容器，提供基本的依赖注入支持</p></li><li><p>应用上下文：由org.springframework.context.ApplicationContext接口定义，基于BeanFactoy构建，提供框架级服务。应用上下文要比bean工厂更受欢迎。</p></li><li><p>5种应用上下文：</p><p>a. AnnotationConfigApplicationContext:从一个或多个基于Java的配置类中加载Spring应用上下文</p><p>b. AnnotationConfigWebApplicationContext:从一个或多个基于Java的配置类中加载Spring web应用上下文</p><p>c. ClassPathXmlApplicationContext:从类路径下的一个或多个xml配置文件中加载上下文定义，把应用上下文的定义文件作为类资源</p><p>d. FileSystemXmlApplicationContext:从文件系统下的一个或多个xml配置文件中加载上下文定义</p><p>e. XmlWebApplicationContext:从web应用下的一个或多个xml文件中加载应用上下文</p></li></ul></li><li><p><strong>Spring生命周期</strong> </p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;Spring&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;核心：依赖注入和面向切面&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;思想：&lt;/p&gt;
-&lt;ul&gt;
-&lt;l
       
     
     </summary>
