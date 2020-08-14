@@ -271,6 +271,141 @@
             
               
                 
+                <a class="post-title-link" href="/2018/11/18/一条查询语句的执行过程/" itemprop="url">
+                  一条查询语句的执行过程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-11-18T13:58:10+08:00" content="2018-11-18">
+              2018-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在分析一条sql查询语句之前，我们先看一下MySql的体系结构，介绍一下它的组成部分，然后在结合查询语句，分析过程及各组件的作用。</p>
+<p><img src="https://static001.geekbang.org/resource/image/0d/d9/0d2070e8f84c4801adbfa03bda1f98d9.png" alt=""></p>
+<p>由上图可知，MySql大体有两部分组成，server、存储引擎及物理文件。server层包括连接器、缓存、分析器、优化器；存储引擎是插件式，可插拔的，如InnoDB,MyISAM,Memory等；物理文件包括数据文件及日志等。</p>
+<p>下面结合<code>mysql&gt; select * from T where ID=10；</code>这条查询语句分析过程。</p>
+<ol>
+<li><p>建立连接。这时候发挥作用的是连接器，它负责跟客户端建立连接，验证权限，维持和管理连接。连接MySql操作是一个连接进程和MySql数据库实例进行通信的过程，本质上是进程间的通信，如TCP/IP,socket套接字(仅可用于数据库和实例在一台机器上)等。</p>
+<p>使用用TCP/IP连接：<code>mysql -h$ip -P$port -u$user -p</code></p>
+<p>mysql会查一张权限表，用来判断发起连接的IP是否允许连接到mysql实例</p>
+<p>然后验证用户名和密码是否匹配，如果用户名或密码不对，就会收到一个”Access denied for user“的错误</p>
+<p>如果用户名和密码验证通过，连接器就会查出你对这张表所拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。如果用管理员账号对权限做出了修改，也不会影响到现有权限；修改完成后，只有重新建立连接，才可以取到修改后的权限。</p>
+</li>
+<li><p>查询缓存。建立连接后，就执行查询语句，先去查缓存，看缓存中有没有执行过该条语句。缓存会以key-value的形式缓存查询语句及其结果，若查不到缓存，再执行后面的过程。</p>
+<p>大多数的情况下，使用缓存<strong><em>弊大于利</em></strong>，因为每当表更新时，这张表的缓存就会消失了，也就是缓存失效非常频繁，除非是不经常变动的配置表。</p>
+</li>
+<li><p>分析器：词法分析和语法分析。分析器首先会对<code>select * from T where ID=10</code> 进行词法分析，它会识别select为查询语句，T为表名，ID为列名；然后做语法分析，如果这条sql语句写的不正确，会收到<code>ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;xxx&#39;</code> </p>
+</li>
+<li><p>优化器：在表里有多个索引的时候，优化器会决定使用哪个索引；在多个表进行关联的时候，决定它们的连接顺序；</p>
+<p>如 <code>select * from t1 join t2 using(ID)  where t1.c=10 and t2.d=20;</code>，既可以从表t1里面取出c=10的记录的ID值，再根据ID值关联到表t2,再判断t2里面的值是否等于20；也可以从表t2里面取出d=20的记录的ID值，再根据ID值关联到t1,再判断t1里面的c的值是否等于10.</p>
+<p>两种执行方法最终得到的结果一样，但是执行效率会有所不同，优化器决定使用哪一个方案</p>
+</li>
+<li><p>执行器。执行sql语句，在开始执行前，先判断对这张表有无查询权限；如果没有返回权限的错误，如<code>ERROR 1142 (42000): SELECT command denied to user &#39;b&#39;@&#39;localhost&#39; for table &#39;T&#39;</code>；如果有权限的话，就会打开表，取表中第一行，判断id是否为10，不是的话，继续下一行；是的话，保存在结果集中，最后返回给客户端</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/10/07/java 反射/" itemprop="url">
                   未命名
                 </a>
@@ -1494,139 +1629,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
-                  RabbitMQ常用命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
-              2018-05-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
-<ul>
-<li>启动节点：rabbitmq-server</li>
-<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
-<li>停止节点：rabbitmqctl stop</li>
-<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
-<li>停止应用程序 rabbitmqctl stop_app </li>
-<li>启动应用程序 rabbitmqctl start_app</li>
-<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
-<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
-<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
-<li>列出绑定：rabbitmqctl list_bindings</li>
-<li>添加用户: rabbitmqctl add_user username password</li>
-<li>删除用户：rabbitmqctl delete_user </li>
-<li>列出所有用户：rabbitmqctl list_users</li>
-<li>修改密码 rabbitmqctl change_password username newpassword</li>
-<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
-<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
-<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1672,7 +1674,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">123</span>
+              <span class="site-state-item-count">124</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -271,6 +271,147 @@
             
               
                 
+                <a class="post-title-link" href="/2017/06/26/pythonSourceCode/" itemprop="url">
+                  python源码剖析读书笔记一--python源码剖析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-06-26T16:33:42+08:00" content="2017-06-26">
+              2017-06-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###python总体架构：<br>如图python整体架构可分为三部分：</p>
+<blockquote>
+<ul>
+<li>最左边包括python提供的Modules、Library以及用户自定义的模块；</li>
+<li>右边部分是python运行时环境，包括对象/类型结构，内存分配器和运行时状态信息。运行时状态维护了解释器在执行字节码时不同的状态（比如正常状态和异常状态）之间切换的动作；内存分配器负责python创建对象时，内存的分配;而Object/Type包括了python中的各种内建对象，比如整数、list、dict，以及用户自定义的类型和对象</li>
+<li>中间部分是python核心。Scanner对应词法分析，将文件输入的Python源代码或从命令行输入的一行行python代码切分为一个个的token；parser对应语法分析，在scanner的分析结果上进行语法分析，建立抽象语法树；compiler根据建立的AST生成指令集合–python字节码；最后由Code Evaluator来执行这些字节码。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84.png" alt="此处输入图片的描述"></li>
+</ul>
+</blockquote>
+<hr>
+<p>###python源码结构（以python2.5为例）<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png" alt="此处输入图片的描述"></p>
+<blockquote>
+<ul>
+<li>Include：该目录下包含了python提供的所有头文件，如果用户需要自己用C或C++来编写自定义模块拓展python，那么就需要用到这里提供的头文件。</li>
+<li>Lib: 该目录下包好了python自带的所有标准库，Lib中的库都是用Python语言编写的。</li>
+<li>Modules:该目录中包含了所有用C语言编写的模块，如random、cStringIO等。Modules中的模块都是那些对速度要求非常严格的模块，而有一些对速度没有太严格要求的模块，如os，就用python编写，放在Lib目录下</li>
+<li>Parser: 该目录包括了python解释器中的Scanner和Parser，即对Python源代码进行词法分析和语法分析的部分。除此之外，Parser目录下还包含了一些有用的工具，这些工具能根据python语言的语法自动生成python语言的词法和语法分析器</li>
+<li>Objects: 该目录中包含了所有python的内建对象，如整数、list、dict等。同时，该目录还包含了python在运行时需要的所有的内部使用对象的实现。</li>
+<li>python：该目录下包含了python解释器中的Compiler和执行引擎部分，是python运行的核心所在</li>
+</ul>
+</blockquote>
+<hr>
+<p>关于编译器与解释b性语言器：<br>将编程语言编译成机器码有两种传统方法：使用编译器（compiler）预先编译，或者使用解释器（interpreter）一边编译一边运行。</p>
+<blockquote>
+<ul>
+<li>编译器的工作方式是，通过编译程序直接将我们的源代码翻译成当前系统环境下CPU可执行的机器码，下次只需要执行这些翻译完成后的机器代码即可。<br>这种方式的好处是执行效率非常高，因为我们最终生成的程序与直接用0、 1写的程序并没有 太大的区别。但是这种方式的缺点就是可移植性很差， 很显然不能把在 Windows 系统下编译 连接成的EXE文件拿到Linux系统中去执行，Xcode编译的 App也只能在iOS和OSX系统中运行。</li>
+<li>解释器的工作方式是将代码一句一句解释给CPU执行。解释器不会一次把整个程序翻译出来，而只像一位“中间人”，每次运行程序时都需要先转成另一种语言再运行，因此解释器的程序运行速度比较缓慢。它每翻译一行程序叙述就立刻运行，然后再翻译下 一行，再运行，如此不停地进行下去。这种方式的一种好处就是平台无关性， 我们只要写出 程序代码， 那么它在任何操作系统、任何环境中都可以执行， 当然代价就是极低的效率。 第二个优点是， 这个“编辑-解释-除错”的循环通常比“编辑-编译-运行-除错”的循环省时许多。</li>
+</ul>
+</blockquote>
+<p>摘自–余果. Web全栈工程师的自我修养 (Kindle 位置 2057-2059). 人民邮电出版社. Kindle 版本. </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/24/PythonFunctin1/" itemprop="url">
                   Python类常用的内置方法
                 </a>
@@ -1752,131 +1893,6 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/18/arch/" itemprop="url">
-                  大型网站架构演化发展历程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-18T20:49:38+08:00" content="2016-10-18">
-              2016-10-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/架构/" itemprop="url" rel="index">
-                    <span itemprop="name">架构</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>目的</strong>：通过了解网站架构演化历程，明确高可用、高性能、易扩展、可伸缩且安全的实现机制，从而指导网站设计与代码编写</p>
-<h3 id="1-初始阶段的网站架构：应用程序-数据库-文件在一台服务器上，如LAMP。架构如下图所示"><a href="#1-初始阶段的网站架构：应用程序-数据库-文件在一台服务器上，如LAMP。架构如下图所示" class="headerlink" title="1. 初始阶段的网站架构：应用程序+数据库+文件在一台服务器上，如LAMP。架构如下图所示"></a>1. 初始阶段的网站架构：应用程序+数据库+文件在一台服务器上，如LAMP。架构如下图所示</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/first.png" alt="此处输入图片的描述"></p>
-<h3 id="2-应用服务和数据服务分离：应用服务器：需要更强大的cpu，文件服务器需要存储用户上传的文件，需要更大的硬盘；数据库服务器需要磁盘检索和数据缓存，需要更快的硬盘和更大的内存"><a href="#2-应用服务和数据服务分离：应用服务器：需要更强大的cpu，文件服务器需要存储用户上传的文件，需要更大的硬盘；数据库服务器需要磁盘检索和数据缓存，需要更快的硬盘和更大的内存" class="headerlink" title="2. 应用服务和数据服务分离：应用服务器：需要更强大的cpu，文件服务器需要存储用户上传的文件，需要更大的硬盘；数据库服务器需要磁盘检索和数据缓存，需要更快的硬盘和更大的内存"></a>2. 应用服务和数据服务分离：应用服务器：需要更强大的cpu，文件服务器需要存储用户上传的文件，需要更大的硬盘；数据库服务器需要磁盘检索和数据缓存，需要更快的硬盘和更大的内存</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/02%20%281%29.png" alt="此处输入图片的描述"></p>
-<h3 id="3-使用缓存：缓存分为两种，包括缓存在应用服务器上的本地缓存和缓存在专门分布式服务器上的远程缓存。"><a href="#3-使用缓存：缓存分为两种，包括缓存在应用服务器上的本地缓存和缓存在专门分布式服务器上的远程缓存。" class="headerlink" title="3. 使用缓存：缓存分为两种，包括缓存在应用服务器上的本地缓存和缓存在专门分布式服务器上的远程缓存。"></a>3. 使用缓存：缓存分为两种，包括缓存在应用服务器上的本地缓存和缓存在专门分布式服务器上的远程缓存。</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/03.png" alt="此处输入图片的描述"></p>
-<h3 id="4-使用应用服务器集群：通过负载均衡调度服务器改善负载压力"><a href="#4-使用应用服务器集群：通过负载均衡调度服务器改善负载压力" class="headerlink" title="4. 使用应用服务器集群：通过负载均衡调度服务器改善负载压力"></a>4. 使用应用服务器集群：通过负载均衡调度服务器改善负载压力</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/04.png" alt="此处输入图片的描述"></p>
-<h3 id="5-数据库读写分离：配置主从数据库，写操作访问主数据库，通过主从复制将数据同步到从数据库，读操作访问从数据库"><a href="#5-数据库读写分离：配置主从数据库，写操作访问主数据库，通过主从复制将数据同步到从数据库，读操作访问从数据库" class="headerlink" title="5. 数据库读写分离：配置主从数据库，写操作访问主数据库，通过主从复制将数据同步到从数据库，读操作访问从数据库"></a>5. 数据库读写分离：配置主从数据库，写操作访问主数据库，通过主从复制将数据同步到从数据库，读操作访问从数据库</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/05.png" alt="此处输入图片的描述"></p>
-<h3 id="6-使用反向代理和CDN，两者基本原理都是利用缓存，区别是CDN部署在网络提供商的机房，在用户请求网站服务时，可以从距离自己最近的网络提供商厂房获取数据；反向代理部署在网站的机房，当用户请求网站机房时，首先访问反向代理服务器，若反向代理服务器保存用户请求的资源，则将直接返回给用户。"><a href="#6-使用反向代理和CDN，两者基本原理都是利用缓存，区别是CDN部署在网络提供商的机房，在用户请求网站服务时，可以从距离自己最近的网络提供商厂房获取数据；反向代理部署在网站的机房，当用户请求网站机房时，首先访问反向代理服务器，若反向代理服务器保存用户请求的资源，则将直接返回给用户。" class="headerlink" title="6. 使用反向代理和CDN，两者基本原理都是利用缓存，区别是CDN部署在网络提供商的机房，在用户请求网站服务时，可以从距离自己最近的网络提供商厂房获取数据；反向代理部署在网站的机房，当用户请求网站机房时，首先访问反向代理服务器，若反向代理服务器保存用户请求的资源，则将直接返回给用户。"></a>6. 使用反向代理和CDN，两者基本原理都是利用缓存，区别是CDN部署在网络提供商的机房，在用户请求网站服务时，可以从距离自己最近的网络提供商厂房获取数据；反向代理部署在网站的机房，当用户请求网站机房时，首先访问反向代理服务器，若反向代理服务器保存用户请求的资源，则将直接返回给用户。</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/06.png" alt="此处输入图片的描述"></p>
-<h3 id="7-使用分布式文件系统和分布式数据库系统"><a href="#7-使用分布式文件系统和分布式数据库系统" class="headerlink" title="7. 使用分布式文件系统和分布式数据库系统"></a>7. 使用分布式文件系统和分布式数据库系统</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/07.png" alt="此处输入图片的描述"></p>
-<h3 id="8-使用Nosql和搜索引擎"><a href="#8-使用Nosql和搜索引擎" class="headerlink" title="8. 使用Nosql和搜索引擎"></a>8. 使用Nosql和搜索引擎</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/08.png" alt="此处输入图片的描述"></p>
-<h3 id="9-业务拆分：将一个应用拆分成不同的应用，每个应用独立部署维护"><a href="#9-业务拆分：将一个应用拆分成不同的应用，每个应用独立部署维护" class="headerlink" title="9. 业务拆分：将一个应用拆分成不同的应用，每个应用独立部署维护"></a>9. 业务拆分：将一个应用拆分成不同的应用，每个应用独立部署维护</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/09.png" alt="此处输入图片的描述"></p>
-<h3 id="10-分布式服务：将共用业务提取出来独立部署。由可复用的业务连接数据库，提取共用-业务服务，应用系统只需通过分布式服务调用共用业务服务完成具体业务操作"><a href="#10-分布式服务：将共用业务提取出来独立部署。由可复用的业务连接数据库，提取共用-业务服务，应用系统只需通过分布式服务调用共用业务服务完成具体业务操作" class="headerlink" title="10. 分布式服务：将共用业务提取出来独立部署。由可复用的业务连接数据库，提取共用 业务服务，应用系统只需通过分布式服务调用共用业务服务完成具体业务操作"></a>10. 分布式服务：将共用业务提取出来独立部署。由可复用的业务连接数据库，提取共用 业务服务，应用系统只需通过分布式服务调用共用业务服务完成具体业务操作</h3><p><img src="http://7pn53u.com1.z0.glb.clouddn.com/10.png" alt="此处输入图片的描述"></p>
-<hr>
-<p><strong>TODO</strong>：了解各个系统架构所用到的技术或开源软件。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1922,7 +1938,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">123</span>
+              <span class="site-state-item-count">124</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

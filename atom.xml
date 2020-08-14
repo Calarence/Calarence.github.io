@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-08-01T12:49:45.473Z</updated>
+  <updated>2020-08-14T10:26:00.388Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何改善机器学习算法</title>
+    <link href="http://www.appleieye.com/2020/08/14/%E5%A6%82%E4%BD%95%E6%94%B9%E5%96%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/"/>
+    <id>http://www.appleieye.com/2020/08/14/如何改善机器学习算法/</id>
+    <published>2020-08-14T05:58:10.000Z</published>
+    <updated>2020-08-14T10:26:00.388Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>背景</strong>：我们在开发完一个机器学习系统后，如何改进一个机器学习系统的性能。举个例子，以预测房价为例，我们在得到模型参数后，想要将我们的模型用于新的房屋样本上进行测试，发现在预测房价时产生了巨大的误差，如果想要改进这个算法，接下来应该怎么办？</p><p>有些人可能没有完全理解怎样运用这些算法。 因此总是把时间浪费在毫无意义的尝试上</p><p>其中一种办法是使用更多的训练样本。好多人花费了好多时间想收集更多的训练样本，他们总认为，要是有两倍甚至十倍数量的训练数据，就一定会解决问题。但有时候获得更多的训练数据实际上并没有用。</p><p>几种有效的改进方法：</p><ol><li>尝试减少特征的数量——解决高方差</li><li>尝试获得更多的特征——解决高偏差</li><li>尝试增加多项式特征——解决高偏差</li><li>尝试减少正则化程度$\lambda$——解决高偏差</li><li>尝试增加正则化程度$\lambda$——解决高方差</li><li>获得更多的训练实例——解决高方差</li></ol><p>我们不应该随机选择上面的某种方法来改进我们的算法, 而是运用一些机器学习诊断法来帮助我们知道上面哪些方法对我们的算法是有效的。诊断法的意思是：这是一种测试法，通过执行这种测试，能够深入了解某种算法到底是否有用。这通常也能够告诉你，想要改进一种算法的效果，什么样的尝试，才是有意义的。这些诊断法的执行和实现, 是需要花些时间的,有时候确实需要花很多时间来理解和实现,但这样做的确是把时间用在了刀刃上, 因为这些方法让你在开发学习算法时,节省了几个月的时间。</p><hr><h3 id="如何评估模型函数是过拟合还是欠拟合"><a href="#如何评估模型函数是过拟合还是欠拟合" class="headerlink" title="如何评估模型函数是过拟合还是欠拟合"></a>如何评估模型函数是过拟合还是欠拟合</h3><p>当我们确定学习算法的参数的时候, 我们考虑的是选择参量来使训练误差最小化, 有人认为得到一个非常小的训练误差一定是一件好事, 但我们已经知道, 仅仅是因为这个假设具有很小的训练误差, 并不能说明它就一定是一个好的假设函数。 而且我们也学习了过拟合假设函数的例子,所以这推广到新的训练集上是不适用的</p><p>那么我们如何判断一个假设函数是过拟合的呢?</p><ol><li><p>假设函数$h(x)$进行画图, 然后观察图形趋势, 但对于特征变量不止一个的这种一般情况, 还有像有很多特征变量的问题, 想要通过画出假设函数来进行观察, 就会变得很难甚至是不可能实现</p></li><li><p>为了检验算法是否过拟合，可以将数据分成训练集和测试集，通常用70%的数据作为训练集，用剩下30%的数据作为测试集，很重要的一点是训练集和测试集均要含有各种类型的数据，通常我们要对数据进行“洗牌”，然后再分成训练集和测试集。</p></li><li><p>计算误差</p><ol><li>对于线性回归模型，我们利用测试集数据计算代价函数$J$</li><li>对于逻辑回归模型，我们除了用测试数据集计算代价函数外，还可以用误分类的比率，计算$err(h_\theta(x),y) = \begin{cases} 1 &amp;\text{if } h(x)&gt;= 0.5 and y =0, or &amp;h(x) &lt; 0.5 &amp; and &amp; y=1 \ 0 &amp;\text{if otherwise} d \end{cases}$</li></ol><p>然后对计算结果求平均。</p></li></ol><hr><h3 id="模型选择和交叉验证"><a href="#模型选择和交叉验证" class="headerlink" title="模型选择和交叉验证"></a>模型选择和交叉验证</h3><p>假设要在10个次数不同的二项式模型之间进行选择：</p><ol><li>$h_\theta(x) = \theta_0 + \theta_1x$</li><li>$h_\theta(x) = \theta_0 + \theta_1x + \theta_2x^2$</li><li>…</li><li>$h_\theta(x) = \theta_0 + \theta_1x+…+\theta_{10}x^{10}$</li></ol><p>显然越高次数的多项式模型能够适应我们的训练数据集，但是适应训练数据集并不代表着能推广至一般情况，应该选择一个更能适应一般情况的模型。我们需要使用交叉验证集来帮助选择模型。即使用60%的数据作为训练集，使用20%的数据作为交叉验证集，使用20%的数据作为测试集。</p><p>模型选择方法为：</p><ol><li>使用训练集训练出10个模型</li><li>用10个模型分别对交叉验证集计算得出交叉验证误差，代价函数值</li><li>选取代价函数最小的模型</li><li>用步骤3中选出的模型对测试集计算得出推广误差，代价函数值</li></ol><hr><h3 id="诊断偏差和方差"><a href="#诊断偏差和方差" class="headerlink" title="诊断偏差和方差"></a>诊断偏差和方差</h3><p>当我们的模型表现不理想时，多半是出现了两种情况，要么是偏差比较大，要么是方差比较大。换句话说，要么是欠拟合，要么是过拟合。那么，这两种情况，哪个和偏差有关，哪个和方差有关？</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg"></p><p>将训练集和交叉验证集的代价函数误差与多项式的次数绘制在同一张图表上来帮助分析</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg"></p><ul><li>对于训练集,当d较小时,模型拟合程度更低,误差较大;随着d 的增长,拟合程度提高,误差减小。</li><li>对于交叉验证集,当 d 较小时,模型拟合程度低,误差较大;但是随着d的增长, 误差呈现先减小后增大的趋势,转折点是我们的模型开始过拟合训练数据集的时候</li><li>训练集误差和交叉验证集误差近似时:偏差/欠拟合</li><li>交叉验证集误差远大于训练集误差时:方差/过拟合</li></ul><hr><h3 id="正则化和偏差-方差"><a href="#正则化和偏差-方差" class="headerlink" title="正则化和偏差/方差"></a>正则化和偏差/方差</h3><p>在训练模型过程中，会使用正则化方法来防止过拟合，正则化很重要的一点是正则化参数$\lambda$的选择。我们选择一系列的想要测试的$\lambda$值，通常是0—10之间的呈现2倍关系的值，如0,0.01,0.02,0.04,0.08,0.15,0.32,0.64,1.28,2.56,5.12,10共12个，同样把数据分为训练集、交叉验证集和测试集。</p><p>选择$\lambda$的方法为：</p><ol><li>使用训练集训练出12个不同程度正则化的模型</li><li>用12个模型分别对交叉验证集计算出交叉验证误差</li><li>选择得出交叉验证误差最小的模型</li><li>运用步骤3中选出的模型对测试集计算得出推广误差</li></ol><p>同时将训练集和交叉验证集模型的代价函数误差与 λ 的值绘制在一张图表上，如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg"></p><p>当$\lambda$较小时,训练集误差较小(过拟合)而交叉验证集误差较大;随着$\lambda$的增加,训练集误差不断增加(欠拟合),而交叉验证集误差则是先减小后增加。</p><hr><h3 id="学习曲线"><a href="#学习曲线" class="headerlink" title="学习曲线"></a>学习曲线</h3><p>可以使用学习曲线来判断一个学习算法是否处于偏差、方差问题。学习曲线是将训练集误差和交叉验证集误差作为训练集实例个数(m)的函数绘制的图表。</p><p>如果我们有 100 行数据, 我们从 1 行数据开始, 逐渐学习更多行的数据。 思想是: 当训练较少行数据的时候, 训练的模型将能够非常完美地适应较少的训练数据, 但是训练出来的模型却不能很好地适应交叉验证集数据或测试集数据</p><p>如何利用学习曲线识别高偏差/欠拟合: 作为例子, 我们尝试用一条直线来适应下面的数据,可以看出,无论训练集有多么大误差都不会有太大改观</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg"></p><p>也就是说在高偏差/欠拟合的情况下,增加数据到训练集不一定能有帮助</p><p>如何利用学习曲线识别高方差/过拟合: 假设我们使用一个非常高次的多项式模型, 并且正则化非常小, 可以看出, 当交叉验证集误差远大于训练集误差时, 往训练集增加更多数据可以提高模型的效果。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg"></p><p>也就是说在高方差/过拟合的情况下,增加更多数据到训练集可能可以提高算法效果</p><hr><h3 id="神经网络的偏差和方差"><a href="#神经网络的偏差和方差" class="headerlink" title="神经网络的偏差和方差"></a>神经网络的偏差和方差</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg"></p><p>使用较小的神经网络,类似于参数较少的情况,容易导致高偏差和欠拟合,计算代价较小；但使用较大的神经网络, 类似于参数较多的情况, 容易导致高方差和过拟合, 虽然计算代价比较大,但是可以通过正则化手段来调整而更加适应数据。 通常选择较大的神经网络并采用正则化处理会比采用较小的神经网络效果要好。 对于神经网络中的隐藏层的层数的选择,通常从一层开始逐渐增加层数,为了更好地作选择, 可以把数据分为训练集、 交叉验证集和测试集, 针对不同隐藏层层数的神经网络训练神经网络, 然后选择交叉验证集代价最小的神经网络。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;背景&lt;/strong&gt;：我们在开发完一个机器学习系统后，如何改进一个机器学习系统的性能。举个例子，以预测房价为例，我们在得到模型参数后，想要将我们的模型用于新的房屋样本上进行测试，发现在预测房价时产生了巨大的误差，如果想要改进这个算法，接下来应该怎么办？&lt;/
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>梯度下降---入门</title>
@@ -554,32 +579,6 @@
     
     
       <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一条查询语句的执行过程</title>
-    <link href="http://www.appleieye.com/2018/11/18/%E4%B8%80%E6%9D%A1%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/"/>
-    <id>http://www.appleieye.com/2018/11/18/一条查询语句的执行过程/</id>
-    <published>2018-11-18T05:58:10.000Z</published>
-    <updated>2018-11-18T05:42:16.081Z</updated>
-    
-    <content type="html"><![CDATA[<p>在分析一条sql查询语句之前，我们先看一下MySql的体系结构，介绍一下它的组成部分，然后在结合查询语句，分析过程及各组件的作用。</p><p><img src="https://static001.geekbang.org/resource/image/0d/d9/0d2070e8f84c4801adbfa03bda1f98d9.png" alt=""></p><p>由上图可知，MySql大体有两部分组成，server、存储引擎及物理文件。server层包括连接器、缓存、分析器、优化器；存储引擎是插件式，可插拔的，如InnoDB,MyISAM,Memory等；物理文件包括数据文件及日志等。</p><p>下面结合<code>mysql&gt; select * from T where ID=10；</code>这条查询语句分析过程。</p><ol><li><p>建立连接。这时候发挥作用的是连接器，它负责跟客户端建立连接，验证权限，维持和管理连接。连接MySql操作是一个连接进程和MySql数据库实例进行通信的过程，本质上是进程间的通信，如TCP/IP,socket套接字(仅可用于数据库和实例在一台机器上)等。</p><p>使用用TCP/IP连接：<code>mysql -h$ip -P$port -u$user -p</code></p><p>mysql会查一张权限表，用来判断发起连接的IP是否允许连接到mysql实例</p><p>然后验证用户名和密码是否匹配，如果用户名或密码不对，就会收到一个”Access denied for user“的错误</p><p>如果用户名和密码验证通过，连接器就会查出你对这张表所拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。如果用管理员账号对权限做出了修改，也不会影响到现有权限；修改完成后，只有重新建立连接，才可以取到修改后的权限。</p></li><li><p>查询缓存。建立连接后，就执行查询语句，先去查缓存，看缓存中有没有执行过该条语句。缓存会以key-value的形式缓存查询语句及其结果，若查不到缓存，再执行后面的过程。</p><p>大多数的情况下，使用缓存<strong><em>弊大于利</em></strong>，因为每当表更新时，这张表的缓存就会消失了，也就是缓存失效非常频繁，除非是不经常变动的配置表。</p></li><li><p>分析器：词法分析和语法分析。分析器首先会对<code>select * from T where ID=10</code> 进行词法分析，它会识别select为查询语句，T为表名，ID为列名；然后做语法分析，如果这条sql语句写的不正确，会收到<code>ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;xxx&#39;</code> </p></li><li><p>优化器：在表里有多个索引的时候，优化器会决定使用哪个索引；在多个表进行关联的时候，决定它们的连接顺序；</p><p>如 <code>select * from t1 join t2 using(ID)  where t1.c=10 and t2.d=20;</code>，既可以从表t1里面取出c=10的记录的ID值，再根据ID值关联到表t2,再判断t2里面的值是否等于20；也可以从表t2里面取出d=20的记录的ID值，再根据ID值关联到t1,再判断t1里面的c的值是否等于10.</p><p>两种执行方法最终得到的结果一样，但是执行效率会有所不同，优化器决定使用哪一个方案</p></li><li><p>执行器。执行sql语句，在开始执行前，先判断对这张表有无查询权限；如果没有返回权限的错误，如<code>ERROR 1142 (42000): SELECT command denied to user &#39;b&#39;@&#39;localhost&#39; for table &#39;T&#39;</code>；如果有权限的话，就会打开表，取表中第一行，判断id是否为10，不是的话，继续下一行；是的话，保存在结果集中，最后返回给客户端</p></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在分析一条sql查询语句之前，我们先看一下MySql的体系结构，介绍一下它的组成部分，然后在结合查询语句，分析过程及各组件的作用。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://static001.geekbang.org/resource/image/0d/d9/0d
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="mysql" scheme="http://www.appleieye.com/tags/mysql/"/>
     
   </entry>
   

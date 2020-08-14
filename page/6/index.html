@@ -271,6 +271,186 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/14/djangosql/" itemprop="url">
+                  djano执行原生sql语句
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-14T15:58:10+08:00" content="2017-11-14">
+              2017-11-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###为什么需要Django执行SQL<br>使用Django自带的ORM机制做查询有时会满足不了我们的需求， 例如某些查询没有对应的model；或者只想执行UPDATE、INSERT、或DELETE语句。在这些情况下，我们需要直接访问数据库，并想绕过model层。那么，我们应该如何做呢？<br>django.db.connection表示当前默认数据库的连接。如果想使用该连接，调用connection.cursor()来获得一个cursor对象；接着，调用cursor.execute(sql, [params])来执行SQL语句；然后使用cursor.fetchone()或cursor.fetchall()来返回查询结果。<br>示例如下：<br>from django.db import connection</p>
+<pre><code>def my_custom_sql(self):
+    with connection.cursor() as cursor:
+        cursor.execute(&quot;UPDATE bar SET foo = 1 WHERE baz = %s&quot;, [self.baz])
+        cursor.execute(&quot;SELECT foo FROM bar WHERE baz = %s&quot;, [self.baz])
+        row = cursor.fetchone()
+    return row
+</code></pre><p><strong>注意：如果想在查询语句中包含百分号，必须写两个，示例如下</strong></p>
+<pre><code>cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%&apos;&quot;)
+cursor.execute(&quot;SELECT foo FROM bar WHERE baz = &apos;30%%&apos; AND id = %s&quot;, [self.id])
+</code></pre><p>如果正在使用<a href="https://docs.djangoproject.com/en/1.11/topics/db/multi-db/" target="_blank" rel="noopener">多个数据库</a>，可以使用django.db.connections来获取指定数据库的连接（和cursor）。 django.db.connections是一个类似字典的对象，可以使用别名来获取指定的连接。</p>
+<pre><code>from django.db import connections
+cursor = connections[&apos;my_db_alias&apos;].cursor()
+# Your code here...
+</code></pre><p>默认情况下，Python DB API返回的结果中不包含字段名，这表示最终结果是值的list，而不是dict。可以使用以下代码返回一个dict。</p>
+<pre><code>def dictfetchall(cursor):
+    &quot;Return all rows from a cursor as a dict&quot;
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+</code></pre><p>另一个选择是使用python标准库 collections.namedtuple()。namedtuple是类似tuple的对象，支持属性查询来访问字段；同时也支持索引和迭代。结果是不可变的，并且可通过字段名或切片访问，这两个特性可能会比较有用。</p>
+<pre><code>from collections import namedtuple
+
+def namedtuplefetchall(cursor):
+&quot;Return all rows from a cursor as a namedtuple&quot;
+    desc = cursor.description
+    nt_result = namedtuple(&apos;Result&apos;, [col[0] for col in desc])
+    return [nt_result(*row) for row in cursor.fetchall()]
+</code></pre><p>以上三种情况的差别如下所示：</p>
+<pre><code>&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; cursor.fetchall()
+((54360982, None), (54360880, None))
+
+&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; dictfetchall(cursor)
+{&apos;parent_id&apos;: None, &apos;id&apos;: 54360982}, {&apos;parent_id&apos;: None, &apos;id&apos;: 54360880}]
+
+&gt;&gt;&gt; cursor.execute(&quot;SELECT id, parent_id FROM test LIMIT 2&quot;);
+&gt;&gt;&gt; results = namedtuplefetchall(cursor)
+&gt;&gt;&gt; results
+[Result(id=54360982, parent_id=None), Result(id=54360880, parent_id=None)]
+&gt;&gt;&gt; results[0].id
+54360982
+&gt;&gt;&gt; results[0][0]
+54360982
+</code></pre><p>###Connections 和 cursors<br>connection和cursor在大多数情况下都实现了<a href="https://www.python.org/dev/peps/pep-0249" target="_blank" rel="noopener">PEP 249</a>所描述的Python DB-API，除了事务处理。<br>如果对python DB-API不熟悉的话，要注意到cursor.execute()中的SQL语句使用了占位符”%s”,而不是SQL内直接添加参数。如果你使用这种机制，底层的数据库类库必要时将自动对参数进行转义。<br>同时也要注意，Djano使用”%s”作为占位符，而SQLite使用”?”做占位符。<br>将cursor用作上下文管理器</p>
+<pre><code>with connection.cursor() as c:
+    c.execute(...)
+</code></pre><p>等同于</p>
+<pre><code>c = connection.cursor()
+    try:
+        c.execute(...)
+    finally:
+        c.close()
+</code></pre><p>###调用存储过程<br>CursorWrapper.callproc(procname, params=None)<br>使用给定的名称或可选的输入参数来调用存储过程<br>例如，Oracle的一个存储过程如下</p>
+<pre><code>CREATE PROCEDURE &quot;TEST_PROCEDURE&quot;(v_i INTEGER, v_text NVARCHAR2(10)) AS
+    p_i INTEGER;
+    p_text NVARCHAR2(10);
+BEGIN
+    p_i := v_i;
+    p_text := v_text;
+    ...
+END;
+</code></pre><p>使用如下方式调用：</p>
+<pre><code>with connection.cursor() as cursor:
+cursor.callproc(&apos;test_procedure&apos;, [1, &apos;test&apos;])
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/10/Iterator/" itemprop="url">
                   Iterator接口及其在ArrayList中的实现
                 </a>
@@ -2018,147 +2198,6 @@ def run(self):
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/27/python3/" itemprop="url">
-                  python源码剖析读书笔记--Python的PyCodeObject对象与pyc文件(下）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-27T11:32:28+08:00" content="2017-07-27">
-              2017-07-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###向pyc文件写入字符串的过程<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pycodewritestr.png" alt="此处输入图片的描述"></p>
-<p>写入一个字符串时，可能发生3种情况：</p>
-<ol>
-<li>写入一个普通的字符串，这时的操作是先写入字符串的类型标识TYPE_STRING，然后写入字符串的长度，最后写入字符串本身。</li>
-<li>intern字符串（与普通字符串有什么区别）的首次写入：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILE.png" alt="此处输入图片的描述"><br> 这里有一个很重要的结构体WFILE，它里面有个strings,在向pyc写入时，strings会指向一个PyDictObject对象；而从pyc中读出时，strings会指向一个PyListObject对象。PyDictObject对象实际上维护着（PyStringObject,PyIntObeject）这样的映射关系，PyIntObject的值表示PyStringObject对象是第几个被加入到WFILE.strings中的字符串。更准确地说，是第几个被写入到pyc文件中的intern字符串。那么，记录这个信息有什么用呢?看下面的一个例子。<br>假设需要写入3个字符串:”python”,”ruby”,”python”,写入前两个后pyc文件的情况如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/python&amp;ruby.png" alt="此处输入图片的描述"><br>当写入第二个”python”时，PyDictObject不允许出现重复的键值。于是，python给了TYPE_STRINGREF这个东西，这个标志标明后面的一个数值表示了一个索引值，根据这索引值到WFILE.strings中去查找，就能找到对应的string了。<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/TYPE_STRINGREF.png" alt="此处输入图片的描述"></li>
-<li><p>总结inter字符串的写入机制：当写入一个字符串时，会首先在strings中查找其中是否记录了该字符串，这个查找动作会导致两个结果：</p>
-<blockquote>
-<ul>
-<li>查找失败，进行intern字符的首次写入：<ul>
-<li>将（字符串，序号）添加到strings中</li>
-<li>将类型标识TYPE_INTERND和字符串本身写入到pyc文件中</li>
-</ul>
-</li>
-<li>查找成功，进行intern字符串的非首次写入：</li>
-<li>将类型标识TYPE_STRINGREF和查找得到的序号写入pyc文件中。</li>
-</ul>
-</blockquote>
-<p>在加载pyc文件时，WFILE里面的strings会转换成PyListObject对象，在读入前两个字符串后，WFILE.strings的情况如下图所示：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/WFILERead.png" alt="此处输入图片的描述"><br>当读到（R，0）时，解析到Type_STRINGREF标志，所以直接以标志后面的数值0位索引访问WFILE.strings，立刻得到字符串“python”</p>
-</li>
-</ol>
-<h3 id="写入多个PyCodeObject"><a href="#写入多个PyCodeObject" class="headerlink" title="写入多个PyCodeObject"></a>写入多个PyCodeObject</h3><p>有demo.py文件，代码如下：</p>
-<pre><code>class A：
-    pass
-def Func():
-    pass
-a = A()
-Func()
-</code></pre><p>这段代码在编译时，会生成3个pycodeobject（在python中，类、函数、module都对应着一个独立的命名空间，都会有一个pycodeobject对象与之对应）。而在write_compiled_module中，python运行环境只对一个PyCodeObject对象调用PyMarshal_WriteObjectToFile操作，另外两个PyCodeObject对象包含在另一个PyCodeObject中。与Fun和A对应的PyCodeObject对象包含在与demo.py对应的PyCodeObject对象中，其中的co_consts域就是两个pycodeObject对象的藏身之处.</p>
-<p>在对一个PyCodeObject对象进行写入到pyc文件的操作时，如果碰到它包含的另一个pycodeobject对象，那么就会递归地执行写入PyCodeObject对象的操作。如此下去，最终所有的PyCodeObject对象都会被写入到pyc文件中去。所以，pyc文件中的pycodeobject对象也是以一种嵌套的关系联系在一起的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2204,7 +2243,7 @@ Func()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">123</span>
+              <span class="site-state-item-count">124</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -271,6 +271,198 @@
             
               
                 
+                <a class="post-title-link" href="/2020/08/14/如何改善机器学习算法/" itemprop="url">
+                  如何改善机器学习算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-08-14T13:58:10+08:00" content="2020-08-14">
+              2020-08-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>背景</strong>：我们在开发完一个机器学习系统后，如何改进一个机器学习系统的性能。举个例子，以预测房价为例，我们在得到模型参数后，想要将我们的模型用于新的房屋样本上进行测试，发现在预测房价时产生了巨大的误差，如果想要改进这个算法，接下来应该怎么办？</p>
+<p>有些人可能没有完全理解怎样运用这些算法。 因此总是把时间浪费在毫无意义的尝试上</p>
+<p>其中一种办法是使用更多的训练样本。好多人花费了好多时间想收集更多的训练样本，他们总认为，要是有两倍甚至十倍数量的训练数据，就一定会解决问题。但有时候获得更多的训练数据实际上并没有用。</p>
+<p>几种有效的改进方法：</p>
+<ol>
+<li>尝试减少特征的数量——解决高方差</li>
+<li>尝试获得更多的特征——解决高偏差</li>
+<li>尝试增加多项式特征——解决高偏差</li>
+<li>尝试减少正则化程度$\lambda$——解决高偏差</li>
+<li>尝试增加正则化程度$\lambda$——解决高方差</li>
+<li>获得更多的训练实例——解决高方差</li>
+</ol>
+<p>我们不应该随机选择上面的某种方法来改进我们的算法, 而是运用一些机器学习诊断法来帮助我们知道上面哪些方法对我们的算法是有效的。诊断法的意思是：这是一种测试法，通过执行这种测试，能够深入了解某种算法到底是否有用。这通常也能够告诉你，想要改进一种算法的效果，什么样的尝试，才是有意义的。这些诊断法的执行和实现, 是需要花些时间的,有时候确实需要花很多时间来理解和实现,但这样做的确是把时间用在了刀刃上, 因为这些方法让你在开发学习算法时,节省了几个月的时间。</p>
+<hr>
+<h3 id="如何评估模型函数是过拟合还是欠拟合"><a href="#如何评估模型函数是过拟合还是欠拟合" class="headerlink" title="如何评估模型函数是过拟合还是欠拟合"></a>如何评估模型函数是过拟合还是欠拟合</h3><p>当我们确定学习算法的参数的时候, 我们考虑的是选择参量来使训练误差最小化, 有人认为得到一个非常小的训练误差一定是一件好事, 但我们已经知道, 仅仅是因为这个假设具有很小的训练误差, 并不能说明它就一定是一个好的假设函数。 而且我们也学习了过拟合假设函数的例子,所以这推广到新的训练集上是不适用的</p>
+<p>那么我们如何判断一个假设函数是过拟合的呢?</p>
+<ol>
+<li><p>假设函数$h(x)$进行画图, 然后观察图形趋势, 但对于特征变量不止一个的这种一般情况, 还有像有很多特征变量的问题, 想要通过画出假设函数来进行观察, 就会变得很难甚至是不可能实现</p>
+</li>
+<li><p>为了检验算法是否过拟合，可以将数据分成训练集和测试集，通常用70%的数据作为训练集，用剩下30%的数据作为测试集，很重要的一点是训练集和测试集均要含有各种类型的数据，通常我们要对数据进行“洗牌”，然后再分成训练集和测试集。</p>
+</li>
+<li><p>计算误差</p>
+<ol>
+<li>对于线性回归模型，我们利用测试集数据计算代价函数$J$</li>
+<li>对于逻辑回归模型，我们除了用测试数据集计算代价函数外，还可以用误分类的比率，计算$err(h_\theta(x),y) = \begin{cases} 1 &amp;\text{if } h(x)&gt;= 0.5 and y =0, or &amp;h(x) &lt; 0.5 &amp; and &amp; y=1 \ 0 &amp;\text{if otherwise} d \end{cases}$</li>
+</ol>
+<p>然后对计算结果求平均。</p>
+</li>
+</ol>
+<hr>
+<h3 id="模型选择和交叉验证"><a href="#模型选择和交叉验证" class="headerlink" title="模型选择和交叉验证"></a>模型选择和交叉验证</h3><p>假设要在10个次数不同的二项式模型之间进行选择：</p>
+<ol>
+<li>$h_\theta(x) = \theta_0 + \theta_1x$</li>
+<li>$h_\theta(x) = \theta_0 + \theta_1x + \theta_2x^2$</li>
+<li>…</li>
+<li>$h_\theta(x) = \theta_0 + \theta_1x+…+\theta_{10}x^{10}$</li>
+</ol>
+<p>显然越高次数的多项式模型能够适应我们的训练数据集，但是适应训练数据集并不代表着能推广至一般情况，应该选择一个更能适应一般情况的模型。我们需要使用交叉验证集来帮助选择模型。即使用60%的数据作为训练集，使用20%的数据作为交叉验证集，使用20%的数据作为测试集。</p>
+<p>模型选择方法为：</p>
+<ol>
+<li>使用训练集训练出10个模型</li>
+<li>用10个模型分别对交叉验证集计算得出交叉验证误差，代价函数值</li>
+<li>选取代价函数最小的模型</li>
+<li>用步骤3中选出的模型对测试集计算得出推广误差，代价函数值</li>
+</ol>
+<hr>
+<h3 id="诊断偏差和方差"><a href="#诊断偏差和方差" class="headerlink" title="诊断偏差和方差"></a>诊断偏差和方差</h3><p>当我们的模型表现不理想时，多半是出现了两种情况，要么是偏差比较大，要么是方差比较大。换句话说，要么是欠拟合，要么是过拟合。那么，这两种情况，哪个和偏差有关，哪个和方差有关？</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg"></p>
+<p>将训练集和交叉验证集的代价函数误差与多项式的次数绘制在同一张图表上来帮助分析</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg"></p>
+<ul>
+<li>对于训练集,当d较小时,模型拟合程度更低,误差较大;随着d 的增长,拟合程度提高,误差减小。</li>
+<li>对于交叉验证集,当 d 较小时,模型拟合程度低,误差较大;但是随着d的增长, 误差呈现先减小后增大的趋势,转折点是我们的模型开始过拟合训练数据集的时候</li>
+<li>训练集误差和交叉验证集误差近似时:偏差/欠拟合</li>
+<li>交叉验证集误差远大于训练集误差时:方差/过拟合</li>
+</ul>
+<hr>
+<h3 id="正则化和偏差-方差"><a href="#正则化和偏差-方差" class="headerlink" title="正则化和偏差/方差"></a>正则化和偏差/方差</h3><p>在训练模型过程中，会使用正则化方法来防止过拟合，正则化很重要的一点是正则化参数$\lambda$的选择。我们选择一系列的想要测试的$\lambda$值，通常是0—10之间的呈现2倍关系的值，如0,0.01,0.02,0.04,0.08,0.15,0.32,0.64,1.28,2.56,5.12,10共12个，同样把数据分为训练集、交叉验证集和测试集。</p>
+<p>选择$\lambda$的方法为：</p>
+<ol>
+<li>使用训练集训练出12个不同程度正则化的模型</li>
+<li>用12个模型分别对交叉验证集计算出交叉验证误差</li>
+<li>选择得出交叉验证误差最小的模型</li>
+<li>运用步骤3中选出的模型对测试集计算得出推广误差</li>
+</ol>
+<p>同时将训练集和交叉验证集模型的代价函数误差与 λ 的值绘制在一张图表上，如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg"></p>
+<p>当$\lambda$较小时,训练集误差较小(过拟合)而交叉验证集误差较大;随着$\lambda$的增加,训练集误差不断增加(欠拟合),而交叉验证集误差则是先减小后增加。</p>
+<hr>
+<h3 id="学习曲线"><a href="#学习曲线" class="headerlink" title="学习曲线"></a>学习曲线</h3><p>可以使用学习曲线来判断一个学习算法是否处于偏差、方差问题。学习曲线是将训练集误差和交叉验证集误差作为训练集实例个数(m)的函数绘制的图表。</p>
+<p>如果我们有 100 行数据, 我们从 1 行数据开始, 逐渐学习更多行的数据。 思想是: 当训练较少行数据的时候, 训练的模型将能够非常完美地适应较少的训练数据, 但是训练出来的模型却不能很好地适应交叉验证集数据或测试集数据</p>
+<p>如何利用学习曲线识别高偏差/欠拟合: 作为例子, 我们尝试用一条直线来适应下面的数据,可以看出,无论训练集有多么大误差都不会有太大改观</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg"></p>
+<p>也就是说在高偏差/欠拟合的情况下,增加数据到训练集不一定能有帮助</p>
+<p>如何利用学习曲线识别高方差/过拟合: 假设我们使用一个非常高次的多项式模型, 并且正则化非常小, 可以看出, 当交叉验证集误差远大于训练集误差时, 往训练集增加更多数据可以提高模型的效果。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg"></p>
+<p>也就是说在高方差/过拟合的情况下,增加更多数据到训练集可能可以提高算法效果</p>
+<hr>
+<h3 id="神经网络的偏差和方差"><a href="#神经网络的偏差和方差" class="headerlink" title="神经网络的偏差和方差"></a>神经网络的偏差和方差</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg"></p>
+<p>使用较小的神经网络,类似于参数较少的情况,容易导致高偏差和欠拟合,计算代价较小；但使用较大的神经网络, 类似于参数较多的情况, 容易导致高方差和过拟合, 虽然计算代价比较大,但是可以通过正则化手段来调整而更加适应数据。 通常选择较大的神经网络并采用正则化处理会比采用较小的神经网络效果要好。 对于神经网络中的隐藏层的层数的选择,通常从一层开始逐渐增加层数,为了更好地作选择, 可以把数据分为训练集、 交叉验证集和测试集, 针对不同隐藏层层数的神经网络训练神经网络, 然后选择交叉验证集代价最小的神经网络。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/08/01/梯度下降入门/" itemprop="url">
                   梯度下降---入门
                 </a>
@@ -1671,161 +1863,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/13/取样/" itemprop="url">
-                  取样
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-07-13T13:58:10+08:00" content="2020-07-13">
-              2020-07-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文重点：</p>
-<ol>
-<li>总体</li>
-<li>样本</li>
-<li>如何设计取样</li>
-<li>偏差的来源</li>
-<li>取样的几种方式</li>
-</ol>
-<hr>
-<p><strong>背景</strong>：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。</p>
-<p>很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？</p>
-<p>这就引出了这篇文章的中心内容，<strong><em>取样，</em></strong>即测试一些口香糖样本，而不是所有的口香糖。</p>
-<hr>
-<p>一、<strong>总体—population</strong></p>
-<p>统计意义上的总体是指我们试图测量、研究、分析的所有总体事物。例如，我们想进行人口普查，看看我们国家现在到底有多少人，这时候，总体就是国内全部的人。</p>
-<hr>
-<p>二、<strong><em>样本—-sample</em></strong></p>
-<p>统计意义上的样本就是从总体中选取的部分。   我们可以从总体中选取样本来代表总体，因为这比较可行，耗费的时间、金钱、精力相对采用总体来说，也是非常少的，总而言之来说是可行的。</p>
-<p>选取好的样本的关键是选择那些尽可能贴近总体的，这样样本所有具有代表性，这样样本与总体之间才有相似的特征。只有这样，我们才可以用样本来预测总体的一些特征。</p>
-<hr>
-<p>三、<strong><em>如何设计取样</em></strong></p>
-<ol>
-<li>确定目标总体(target population)。首先要确定target population，这样才能知道样本是从哪里来的。通过target population，我们明确了要研究的事物。例如，我们想收集世界上所有的口香糖的数据，我们关心的是某种品牌的口香糖还是某种类型的口香糖，这个要弄清楚。</li>
-<li>确定取样单位。在这个例子中，我们是想以每个口香糖为单位，还是以每盒口香糖为单位</li>
-<li>定义取样框架。它基本上是一个列表，里面的每个样本都被命名或编号，你可以从中选择样本</li>
-</ol>
-<hr>
-<p>四、<strong><em>偏差的来源</em></strong></p>
-<p>如果我们在进行取样时，没有客观公正的进行选择样本，而是有偏差的选择了一些样本，这样我们就会对总体产生错误的印象，进而做出错误的推断。一般来说，偏差的来源有这么几方面：</p>
-<ol>
-<li>取样框架中一些样本被漏掉了，如果样本没有放在取样框架中，它们也不会进入你的样本中</li>
-<li>不正确的取样单位。有时候以每个口香糖为单位是合适的，但有时候要考虑以每盒为单位</li>
-<li>问卷调查中存在设计不好的问题。</li>
-<li>取样时没有做的随机取样，而是以个人的主观判断去取样</li>
-</ol>
-<hr>
-<p>五、<strong><em>几种取样方式</em></strong></p>
-<ol>
-<li>简单随机取样，从N个取样单位中随机选择n个取样单位，所有样本都有同样被选择到的可能性。简单随机取样又分为有放回和无放回。简单随机抽样可以通过抽签或者随机数生成器来实现。</li>
-<li>分层抽样：把样本分成几个组，每个组都有类似的特征，然后从每个组中进行随机抽样。如口香糖可以按颜色分为黄色、绿色、红色、和粉色，每一种颜色叫作一层。</li>
-<li>整群抽样：如口香糖可能分装成了一包一包的，可以随机选择几包，然后对每包里的口香糖进行试验</li>
-<li>系统抽样：每隔几个样本选择一个样本。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1871,7 +1908,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">123</span>
+              <span class="site-state-item-count">124</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
