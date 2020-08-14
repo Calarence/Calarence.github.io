@@ -1506,8 +1506,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
-                  spring与amqp
+                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
+                  RabbitMQ常用命令
                 </a>
               
             
@@ -1569,39 +1569,28 @@
       
         
           
-            <h3 id="Spring与AMQP"><a href="#Spring与AMQP" class="headerlink" title="Spring与AMQP"></a>Spring与AMQP</h3><ol>
-<li>amqp工作流程：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/rabbitmq.png" alt="此处输入图片的描述"></li>
-</ol>
-<p>消息的生产者将信息发布到一个exchage。exchange会根据某些绑定的一个或多个队列上，并将消息路由到队列上。消息的消费者会从队列中提取数据并进行处理。</p>
-<p> 2.四种exchage<br>    &gt; <em>  direct：如果消息的routing key与binding的routing key直接匹配的化，会将消息路由到该队列上<br>    &gt; </em> topic:如果消息的routing key与binding的routing key符合通配符匹配的话，消息将会路由到该队列上<br>    &gt; <em> headers:如果消息参数表中的头信息和值都与bingding参数表中的相匹配，消息将会路由到该队列上(header和direct完全一致，但是性能差很多，现在几乎不用了)<br>    &gt; </em> fanout:不管消息的routing key和参数表的头信息/值是什么，消息将会路由到所有队列上。</p>
-<p> 3.amqp的一种实现–rabbitmq</p>
-<blockquote>
+            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
 <ul>
-<li>配置spring支持rabbitmq</li>
-<li>声明队列、exchage以及绑定<br>   注意使用。&lt; admin&gt; 元素会创建一个RabbitMQ管理组件，它会自动创建（如果它们在RabbitMQ代理 中尚未存在的话）上述这些元素所声明的队列、Exchange以及binding。</li>
-<li>声明rabbittemplate</li>
-<li>使用rabbittemplate发送消息<ul>
-<li>服务中声明rabbittemplate的依赖，如下<br> @Autowired<br> private RabbitTemplate rabbitTemplate;</li>
-<li>然后使用RabbitTemplate的convertAndSend()方法，这个方法可以接收三个参数，分别是exchage名称、routing key和要发送的对象；如果exchage名称、routing keysheng省略的话，可以在配置文件中配置默认的exchange和routing key。<br>convertAndSend()方法，它会自动将对象转换为Message。 它需要一个 消息转换器的帮助来完成该任务，默认的消息转换器是SimpleMessageConverter，它适用于 String、 Serializable实例以及字节数组。 Spring AMQP 还 提供了其他几个有用的消息转换器，其中包括使用JSON和XML数据的消息转换器。</li>
-</ul>
-</li>
-<li>接收消息(异步)<ul>
-<li>consumer端配置</li>
-<li>实现消费消息的代码，如下</li>
-</ul>
-</li>
+<li>启动节点：rabbitmq-server</li>
+<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
+<li>停止节点：rabbitmqctl stop</li>
+<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
+<li>停止应用程序 rabbitmqctl stop_app </li>
+<li>启动应用程序 rabbitmqctl start_app</li>
+<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
+<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
+<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
+<li>列出绑定：rabbitmqctl list_bindings</li>
+<li>添加用户: rabbitmqctl add_user username password</li>
+<li>删除用户：rabbitmqctl delete_user </li>
+<li>列出所有用户：rabbitmqctl list_users</li>
+<li>修改密码 rabbitmqctl change_password username newpassword</li>
+<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
+<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
+<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
 </ul>
 </blockquote>
-<pre><code>    public class MessageReceiver implements MessageListener {
-    public void onMessage(Message message) {
-        System.out.println(message);
-    }
 
-    public static void main(String[]args){
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(&quot;ApplicationContext.xml&quot;);
-    }
-}
-</code></pre>
           
         
       
