@@ -271,6 +271,139 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/26/rabbitmq/" itemprop="url">
+                  RabbitMQ常用命令
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-05-26T13:58:10+08:00" content="2018-05-26">
+              2018-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="RabbitMQ常用命令"><a href="#RabbitMQ常用命令" class="headerlink" title="RabbitMQ常用命令"></a>RabbitMQ常用命令</h3><blockquote>
+<ul>
+<li>启动节点：rabbitmq-server</li>
+<li>后台守护进程的方式启动：rabbitmq-server -detached</li>
+<li>停止节点：rabbitmqctl stop</li>
+<li>停止指定的某个节点：rabbitmqctl stop -n rabbit@[hostname]</li>
+<li>停止应用程序 rabbitmqctl stop_app </li>
+<li>启动应用程序 rabbitmqctl start_app</li>
+<li>启用management插件：rabbitmq-plugins enable rabbitmq_management</li>
+<li>列出队列和消息条目：rabbitmqctl list_queues，如果想列出某个vhost上的，后面加“-p hostname”</li>
+<li>列出exchange：rabbitmqctl list_exchanges，其中没有名称的direct类型的是默认的交换器</li>
+<li>列出绑定：rabbitmqctl list_bindings</li>
+<li>添加用户: rabbitmqctl add_user username password</li>
+<li>删除用户：rabbitmqctl delete_user </li>
+<li>列出所有用户：rabbitmqctl list_users</li>
+<li>修改密码 rabbitmqctl change_password username newpassword</li>
+<li>设置权限 rabbitmqctl set_permissions -p vhostname username 配置权限 写权限 读权限</li>
+<li>列出某vhost上的权限：rabbitmqctl list_permissions -p vhostname</li>
+<li>删除某vhost上的某用户权限： rabbitmqctl clear_permissions -p vhostname username </li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/05/26/springandamqp/" itemprop="url">
                   spring与amqp
                 </a>
@@ -664,6 +797,146 @@ public String hello(){
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
+                  spring bean装配的三种方式之xml配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
+<ul>
+<li>创建xml规范，并声明xml模式(xsd)文件</li>
+<li>声明bean</li>
+<li>注入bean依赖</li>
+</ul>
+</blockquote>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
+<li>创建xml文件</li>
+</ol>
+<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+&lt;/beans&gt;
+</code></pre><ol start="2">
+<li><p>声明bean</p>
+<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
+</code></pre></li>
+<li><p>注入bean依赖</p>
+</li>
+</ol>
+<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
+&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
                   spring面向切面编程示例之打印日志
                 </a>
@@ -767,146 +1040,6 @@ public void sayAfter(){
 </code></pre></li>
 </ul>
 <p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
-                  spring bean装配的三种方式之xml配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
-<ul>
-<li>创建xml规范，并声明xml模式(xsd)文件</li>
-<li>声明bean</li>
-<li>注入bean依赖</li>
-</ul>
-</blockquote>
-<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
-<li>创建xml文件</li>
-</ol>
-<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
- &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
- xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
- xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
- http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
-
-&lt;/beans&gt;
-</code></pre><ol start="2">
-<li><p>声明bean</p>
-<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
-</code></pre></li>
-<li><p>注入bean依赖</p>
-</li>
-</ol>
-<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
-&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
-&lt;/bean&gt;
-</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
 
           
         
@@ -1762,149 +1895,6 @@ public boolean equals(Object obj) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/03/06/JavaLock3/" itemprop="url">
-                  Java中锁的实现原理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-03-06T21:02:08+08:00" content="2018-03-06">
-              2018-03-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Java中锁的实现原理"><a href="#Java中锁的实现原理" class="headerlink" title="Java中锁的实现原理"></a>Java中锁的实现原理</h3><blockquote>
-<ul>
-<li>原理<br>Lock接口的实现是通过聚合了一个队列同步器，利用同步器实现锁的语义。或者可以理解为Lock接口是通过队列同步器实现的。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>队列同步器的使用方式<br>同步器的主要使用方式是继承，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器的模版方法，而这些模版方法将会调用使用者重写的方法。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>队列同步器的API或模版方法</li>
-<li>队列同步器的实现分析<ul>
-<li>同步队列：同步器依赖内部的同步队列，FIFO双向队列来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成为一个节点，将其加入队列尾部，并阻塞当前线程；当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</li>
-<li>入队：当一个线程成功获取了同步状态后，其他线程无法获取到同步状态，转而被构造成为节点，添加到尾部，然而加入到队列的过程必须要<strong>保证线程安全</strong>，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Node uodate),它需要传递当前线程认为的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。</li>
-<li>出队：首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设为首节点，因为只有一个线程能够获取到同步状态，因此不需要CAS来设置。</li>
-<li>独占式同步状态获取与释放<ul>
-<li>获取流程如下图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/system.png" alt="此处输入图片的描述"></li>
-<li>释放：释放同步状态，并唤醒下一个节点    </li>
-</ul>
-</li>
-<li>共享式同步状态获取与释放<ul>
-<li>获取：与独占式的区别：共享式创建的Node的nextWaiter是一个SHARED常量来标志，而独占式标志是一个NULL节点；在队列等待时，独占式如果改变Status成功则就直接设置为头结点就返回了，但是共享式会进行判断，如果是SHARED并且Status&gt;=0则会设置头结点并且直接将下一个节点也unpark唤醒以便传递下去；</li>
-<li>释放：因为释放同步状态的操作会同时来自多个线程，所以一般通过循环和CAS来保证释放。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1950,7 +1940,7 @@ public boolean equals(Object obj) {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">124</span>
+              <span class="site-state-item-count">125</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

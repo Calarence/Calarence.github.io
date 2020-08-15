@@ -271,6 +271,128 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/22/devstack/" itemprop="url">
+                  使用devstack安装openstack
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-22T18:30:30+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>使用的环境：Centos7,python2.7</li>
+<li>下载安装git <code>yum install git</code></li>
+<li>下载devstack,<code>cd opt</code>,<code>git clone https://github.com/openstack-dev/devstack.git</code></li>
+<li>创建stack用户 <code>sudo chown –R $USER:$USER /opt/devstack</code> <code>cd /opt/devstack/tools/</code>  <code>./create-stack-user.sh</code></li>
+<li>配置stack用户密码 <code>passwd stack</code></li>
+<li>修改stack权限 <code>sudo chowne -R stack:stack /opt/devstack</code> <code>sudo chown -R stack:stack /opt/stack</code></li>
+<li>提前下载好组件，避免在运行<code>stack.sh</code>下载时速度过慢 <code>git clone git://git.openstack.org/openstack/ceilometer /opt/stack/ceilometer</code> <code>git clone git://git.openstack.org/openstack/cinder /opt/stack/cinder</code> <code>git clone git://git.openstack.org/openstack/glance /opt/stack/glance</code> <code>git clone git://git.openstack.org/openstack/heat /opt/stack/heat</code> <code>git clone git://git.openstack.org/openstack/horizon /opt/stack/horizon</code> <code>git clone git://git.openstack.org/openstack/keystone /opt/stack/keystone</code> <code>git clone git://git.openstack.org/openstack/neutron /opt/stack/neutron</code> <code>git clone git://git.openstack.org/openstack/neutron-fwaas /opt/stack/neutron-fwaas</code> <code>git clone git://git.openstack.org/openstack/neutron-lbaas /opt/stack/neutron-lbaas</code> <code>git clone git://git.openstack.org/openstack/neutron-vpnaas /opt/stack/neutron-vpnaas</code> <code>git clone git://git.openstack.org/openstack/nova /opt/stack/nova</code> <code>git clone git://git.openstack.org/openstack/swift /opt/stack/swift</code> <code>wget --progress=dot:giga -c https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img -O /opt/devstack/files/cirros-0.3.0-x86_64-disk.img</code></li>
+<li>切换到stack用户下 <code>su - stack</code>,运行stack.sh <code>./stack.sh</code>进行安装</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/04/the-hacker-guide-python6/" itemprop="url">
                   the-hacker-guide-python 第六章读书笔记
                 </a>
@@ -1585,158 +1707,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/openstackAMQP2/" itemprop="url">
-                  openstack采用的消息协议机制--AMQP(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:35:34+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index">
-                    <span itemprop="name">openstack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>AMQP是openstack所采用的消息机制。openstack组件例如Nova、Cinder、Quantum内部间通过ANQP进行通信，它们之间通过rest调用的方式相互联系。AMQP代理–RabbitMQ，位于openstack组件内部之间，允许它们以松耦合的方式进行交互。也就是说组件的各组成部分不用知道其他部分的具体位置。更准确地说，nova组件的组成部分–nova-api、nova-scheduler和nova-compute间通过RPC的方式通信</p>
-<p>通常来讲，openstack组成部分间使用direct、fanout、topic-based类型的exchange，这个问题在上一篇博客中已经讨论过了</p>
-<hr>
-<p>openstack消息机制有两种模式：<br>rpc.cast-不用等待结果<br>rpc.call-等待结果（当有内容需要返回时）</p>
-<p>RPC是一种非常普通的模式，如果我们需要在远程计算机上运行一个程序并且等待结果怎么办？好吧，那是另一回事情。这个模式普遍成为Remote Procedure Call 或者简称为RPC</p>
-<hr>
-<p>在openstack中，Nova、Cinder 、Quantum在AMQP之上实现了RPC(request+response,或者称为rpc.call和rpc.cast)。通过提供一个适配器类来实现，该适配器类将message封装或解封成函数调用。每个nova组成部分（api、compute、scheduler）、cinder组成部分(volume、scheduler)、Quantum组成部分（quantum-server,agents,plugins）在初始化时创建了两个queue，一个用来接收带有routing keys“NODE.TYPE.NODE-ID”（例如compute.hostname）的message,另一个用来接收带有routing key“NODE-TYPE”（例如compute）的message</p>
-<p>当Nova-API需要将命令转发到指定的节点上时，如“nova delete instance”显得非常有用，只有主机上运行着hypervisor 的计算节点才可以kill掉这个instance。当RPC调用为request或response时，API表现为consumer，否则的话表现为publisher。</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/openstackrabbitmq.png" alt="此处输入图片的描述"><br>Fig:Messaging in Openstack using RabbitMQ ( Queue–server)</p>
-<hr>
-<p>当单个instance在openstack中部署和共享时。每个组件根据其特点（例如compute ndoe、cinder、quantum）连接到message broker，有的作为invoker（例如API、scheduler）使用queue，有的作为worker（例如compute或quantum）。Invoker和worker实际上在Nova对象模型中并不真实存在，于是我们将把他们作为抽象概念使用</p>
-<p>invoker通过两个操作rpc.call和rpc.cast在队列系统中发送message</p>
-<p>worker从队列系统中获取message并根据rpc.call操作进行响应</p>
-<hr>
-<p>如下是message broker node的元素</p>
-<ul>
-<li>Topic Publisher:处理rpc.call或rpc.cast操作，用来将message添加到队列系统。每个publisher总是连接同一个topic的exchange。生命周期限制到message的交付</li>
-<li>Direct Consumer:仅处理rpc.call操作，用来从队列系统中获取响应信息，每个consumer通过唯一专有的queue连接到唯一的direct exchange。生命周期截止到message的交付</li>
-<li>Topic Consumer：当worker实例化时被激活。在其生命周期中，用来从队列中获取message并调用worker角色定义的相应action。Topic Consumer通过共享或专一queue连接到同一个topic exchange。每一个worker有两个consumer，一个用于rpc.cast操作（通过exchange key“topic”连接到共享queue），一个用于rpc.call操作（通过exchange key“topic.host”连接到唯一的queue）</li>
-<li>Direct Publisher:在rpc.call操作时被激活，被实例化用来返回request/response操作需要的message。该对象连接到direct exchange上，传入的message携带标识符</li>
-</ul>
-<hr>
-<p>openstack中的RPC调用</p>
-<ol>
-<li>Topic Publisher被实例化来向队列系统中发送message请求，在publishing 操作之间，迅速地实例化Direct Consumer来等待响应信息</li>
-<li>一旦message被exchange分发，它通过routing key（例如topic.hsot）被Topic consumer获取到，并传递给负责该task的worker</li>
-<li>一旦task完成，Direct Publisher被分配来将响应消息发送到队列系统</li>
-<li>一旦message被exchange分发，通过routing key（例如msg_id）获取到并传递给invoker</li>
-</ol>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccall.png" alt="此处输入图片的描述"></p>
-<hr>
-<p>Openstack中的RPC cast</p>
-<ol>
-<li>Topic Publisher被实例化来向队列系统中发送请求消息</li>
-<li>一旦消息经过exchange分发，通过routing key（例如topic）被Topic Consumer获取到，并传递给负责该task的worker</li>
-</ol>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccast.png" alt="此处输入图片的描述"><br>publisher将message发送到一个topic exchange(compute topic);consumer（compute worker）从queue中获取message。没有任何响应信息返回，因为这是cast操作而不是call</p>
-<hr>
-<p>Exchanges and queues being created by Openstack components are:<br>Exchanges and its type:</p>
-<p>amq.direct      direct<br>cinder-scheduler_fanout fanout<br>conductor_fanout        fanout<br>amq.topic       topic<br>cinder  topic<br>amq.rabbitmq.trace      topic<br>compute_fanout  fanout<br>amq.rabbitmq.log        topic<br>amq.fanout      fanout<br>q-agent-notifier-network-delete_fanout  fanout<br>cinder-volume_fanout    fanout<br>amq.headers     headers<br>nova    topic<br>scheduler_fanout        fanout<br>quantum topic<br>amq.match       headers<br>dhcp_agent_fanout       fanout<br>q-agent-notifier-security_group-update_fanout   fanout<br>q-agent-notifier-port-update_fanout     fanout<br>Queues:<br>scheduler_fanout_300bc05b412948ca91e9c2609022d94a       0<br>compute.localhost   0<br>cinder-scheduler        0<br>notifications.info      16<br>q-agent-notifier-port-update_fanout_e84cd1190d3d4d6fab9c92b9903ad1ee    0<br>compute_fanout_ae1e11827f144d5886f96cdcaba7f90b 0<br>cinder-scheduler_fanout_ebe88ad41b7d450a95b183e6e7a404f0        0<br>conductor_fanout_d82adea2be344983bdc36756e58849f9       0<br>q-plugin        0<br>dhcp_agent      0<br>q-agent-notifier-network-delete_fanout_68eb13d73ccb4d97b84e2534f7181f02 0<br>conductor.localhost 0<br>compute 0<br>scheduler.localhost 0<br>scheduler       0<br>dhcp_agent_fanout_d00b708d17994e31bdad92876dcbafc5      0<br>q-agent-notifier-security_group-update_fanout_62f50e6f6327453ca02efb9e67212a53  0<br>conductor       0<br>cinder-scheduler.localhost    0<br>dhcp_agent.localhost  0</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1782,7 +1752,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">124</span>
+              <span class="site-state-item-count">125</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

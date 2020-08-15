@@ -271,6 +271,134 @@
             
               
                 
+                <a class="post-title-link" href="/2017/06/28/python6/" itemprop="url">
+                  python源码剖析读书笔记二--python对象初探(下)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-06-28T08:48:48+08:00" content="2017-06-28">
+              2017-06-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###类型对象<br>在上篇文章中，介绍到了PyObject中保存了所有对象共有的一些信息。那么问题来了，每种对象个性化的信息存在哪里呢？比如创建对象时需要分配空间，但不同对象需要的空间不一样，整数对象和字符串对象所需要的空间肯定不同，那么对象所需要的内存空间大小的信息存放在哪里呢？答案是<strong><em>_typeobject</em></strong></p>
+<p>其代码如下:<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/typeobject.png" alt="此处输入图片的描述"></p>
+<p>包含的主要信息如下：</p>
+<blockquote>
+<ul>
+<li>类型名，tp_name，主要用于python内部以及调试</li>
+<li>创建该类型对象时分配内存空间大小的信息，即tp_basicsize和tp_itemsize;</li>
+<li>与该类型对象相关联的操作信息，如tp_print,tp_compare等</li>
+</ul>
+</blockquote>
+<p>###对象行为<br>在PyTypeObject中定义了大量的函数指针，这些函数指针最终都会指向某个函数，或者指向NULL。这些函数指针可以视为类型对象中所定义的操作，而这些操作直接决定了一个对象在运行时所表现出的行为。<br>在这些操心信息中，有非常重要的操作族，它们是tp_as_number,tp_as_sequence,tp_as_mappiong.它们分别指向PyNumberMethods、PySequenceMethods和PyMappingMethods.分别定义了整数对象、序列对象以及字典对象的行为。</p>
+<p>PyNumberMethods部分源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PyNumberMethods.png" alt="此处输入图片的描述"></p>
+<p>PySequenceMethods源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PySequenceMethods.png" alt="此处输入图片的描述"></p>
+<p>PyMappingMethods源码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/PyMappingMethods.png" alt="此处输入图片的描述"></p>
+<p>也就是一种对象可以指定三种不同对象的行为特性。</p>
+<p>###类型对象的类型：<br>python中任何一个东西都是对象，每一个对象都对应一种类型。那么，类型对象的类型是什么呢？答案是PyType_Type.<br>用户自定义class所对应的PyTypeObject对象都是通过PyType_Type创建的。它是所有class的class，在python中称为metaclass</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/06/26/pythonSourceCode/" itemprop="url">
                   python源码剖析读书笔记一--python源码剖析
                 </a>
@@ -1700,199 +1828,6 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/18/calamari/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-10-18T20:52:28+08:00" content="2016-10-18">
-              2016-10-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="calamari搭建教程"><a href="#calamari搭建教程" class="headerlink" title="calamari搭建教程"></a>calamari搭建教程</h1><p>title: calamari搭建教程<br>标签（空格分隔）： 未分类</p>
-<ul>
-<li>架构: 单节点部署ceph，然后在该节点上安装calamari</li>
-<li><p>环境准备:</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>系统为centos7</li>
-<li>关闭<strong>防火墙</strong> <code>systemctl stop firewalld</code> <code>systemctl disable firewalld</code></li>
-<li>禁用<strong>selinux</strong> <code>sed -i &#39;s/SELINUX=.*/SELINUX=disabled/&#39; /etc/selinux/config</code> <code>setenforce 0</code></li>
-<li>修改<strong><em>/etc/hosts</em></strong>文件，增加ip、hostname映射</li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>安装包准备</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>calamari-server rpm包,版本为1.3.3-jewel</li>
-<li>romana rpm 包,版本为1.2.2-36</li>
-<li>salt、salt-master、salt-minion rpm包，版本为2015.8.1-1。高版本会出现发现不了集群的问题</li>
-<li>diamond rpm包</li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>安装：</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>安装salt <code>rpm -ivh salt-2015.8.1-1.el7.noarch.rpm</code></li>
-<li>安装salt-master <code>rpm -ivh salt-master-2015.8.1-1.el7.noarch.rpm</code></li>
-<li>安装salt-minion <code>rpm -ivh salt-minion-2015.8.1-1.el7.noarch.rpm</code></li>
-<li>安装calamari-server <code>yum install calamari-server-1.3.3-jewel.el7.centos.x86_64.rpm</code></li>
-<li>安装romana <code>rpm -ivh romana-1.2.2-36_gc62bb5b.el7.centos.x86_64.rpm</code></li>
-<li>安装diamond ‘rpm -ivh diamond-3.4.67-0.noarch.rpm’</li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>配置：</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>将diamond.conf.example重命名为diamond.conf <code>cd /etc/diamond</code> <code>mv diamond.conf.example diamond.conf</code></li>
-<li>将salt-minion的master项配置为salt-master所在机器的主机名 <code>vi /etc/salt/minion</code> <code>master: 主机名</code> <code>id: node用于标记salt-minion</code></li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>启动：</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>启动salt-master: <code>systemctl enable salt-master</code> <code>systemctl restart salt-master</code></li>
-<li>calamari初始化 <code>calamarictl initialize</code>,配置用户名密码</li>
-<li>访问ip，即可看到登录界面，输入用户名、密码进入后会提示<strong>New Calamari Installation</strong>,若报500错误，修改cthulhu.log权限<code>cd /var/log/calamari</code> <code>chmod 777 * -R</code></li>
-<li>启动salt-minion：<code>systemctl enable salt-minion</code> <code>systemctl restart salt-minion</code></li>
-<li>启动diamond: <code>systemctl enable diamond</code> <code>systemctl restart diamond</code></li>
-<li>salt-key 认证：<code>salt-key -L</code>,会看到salt-minion的标识符，进行认证<code>salt-key -A</code></li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>验证：</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>salt-minion与master的可达性: <code>salt &#39;*&#39; test.ping</code>,若返回True，则可达</li>
-<li>检查salt-master是否能查询到和获取ceph集群 <code>salt &#39;*&#39; ceph.get_heartbeats</code>,若返回集群信息，则可在dashboard上发现集群</li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>日志</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>/var/log/salt/minion</li>
-<li>/var/log/calamari/calamari.log cthulthu.log</li>
-<li>diamond</li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-<li><p>排错</p>
-<blockquote>
-<blockquote>
-<ul>
-<li>安装完后访问页面报500错误，修改<strong>cthulthu.log</strong>权限， <code>cd /var/log/calamari</code> <code>chmod 777 * -R</code></li>
-<li>页面提示Cluster Updates Are Stale. The Cluster isn’t updating Calamari. Please contact Administrator，重启salt服务和cthulhu服务看是否出现，如果一直出现可以定期重启，或者进行数据库的清理 <strong>数据清理</strong> <code>calamarictl clear --yes-i-am-sure</code> ,然后初始化 <code>calamari-ctl initialize</code></li>
-<li>管理平台看不到监控的硬件数据 发现diamond无法启动  <code>rm -rf /var/lock/subsys/diamond</code> <code>service diamond restart</code></li>
-</ul>
-</blockquote>
-</blockquote>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1938,7 +1873,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">124</span>
+              <span class="site-state-item-count">125</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
