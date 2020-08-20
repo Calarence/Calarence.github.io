@@ -1,0 +1,685 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一、写在前面机器学习要解决的问题可以分为两类，一类是监督式问题，比如预测和分类；另一类是非监督式问题，比如聚类和降维。区分监督与非监督的方法是看数据中是否有因变量y。 监督式学习,这类模型的特点是所用的训练数据里有标签变量, 通俗地讲就是数据里既有自变量X,也有因变量y。这种情况下,搭建模型的思路是非常直见的,通过模型学习历史数据里变量X与变量y之间的相关关系,并以此为基础,对未知数做预测測。模型">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K-means初探">
+<meta property="og:url" content="http://www.appleieye.com/2020/08/20/K-means算法初探/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="一、写在前面机器学习要解决的问题可以分为两类，一类是监督式问题，比如预测和分类；另一类是非监督式问题，比如聚类和降维。区分监督与非监督的方法是看数据中是否有因变量y。 监督式学习,这类模型的特点是所用的训练数据里有标签变量, 通俗地讲就是数据里既有自变量X,也有因变量y。这种情况下,搭建模型的思路是非常直见的,通过模型学习历史数据里变量X与变量y之间的相关关系,并以此为基础,对未知数做预测測。模型">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx0ywkqjbj30li0ikwfn.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx350yshbj315m09ymzh.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx4or0l4hj311i03edgd.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx5hqr4vaj30yp0u0e81.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx683shs9j30wx0u07hw.jpg">
+<meta property="og:updated_time" content="2020-08-20T04:42:15.900Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="K-means初探">
+<meta name="twitter:description" content="一、写在前面机器学习要解决的问题可以分为两类，一类是监督式问题，比如预测和分类；另一类是非监督式问题，比如聚类和降维。区分监督与非监督的方法是看数据中是否有因变量y。 监督式学习,这类模型的特点是所用的训练数据里有标签变量, 通俗地讲就是数据里既有自变量X,也有因变量y。这种情况下,搭建模型的思路是非常直见的,通过模型学习历史数据里变量X与变量y之间的相关关系,并以此为基础,对未知数做预测測。模型">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx0ywkqjbj30li0ikwfn.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/08/20/K-means算法初探/"/>
+
+  <title> K-means初探 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                K-means初探
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-08-20T13:58:10+08:00" content="2020-08-20">
+              2020-08-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、写在前面"><a href="#一、写在前面" class="headerlink" title="一、写在前面"></a>一、写在前面</h3><p>机器学习要解决的问题可以分为两类，一类是监督式问题，比如预测和分类；另一类是非监督式问题，比如聚类和降维。区分监督与非监督的方法是看数据中是否有因变量y。</p>
+<p>监督式学习,这类模型的特点是所用的训练数据里有标签变量, 通俗地讲就是数据里既有自变量X,也有因变量y。这种情况下,搭建模型的思路是非常直见的,通过模型学习历史数据里变量X与变量y之间的相关关系,并以此为基础,对未知数做预测測。模型搭建好之后,评估模型效果的思路也很直接,只需计算真实值与模型预測值之间的差异即可。但在现实生活中的很多场景里,数据里是没有标签变量的,只有自变量X。一方面是因为在某些场景中，被预测值y只是一些模糊的概念，没有办法被量化。比如我们希望通过一个人的行为预测他的价格，而性格本身就是没有清晰定义的，当然也就不能收集到一个人的性格数据；另一个方面是因为有时候收集被预测值y的难度很大，比如在零售行业，顾客对某件商品的偏好程度和能承受的最高价格等数据是很难被收集到的。这类场景就属于非监督问题。尽管没有了变量y，但数据的自变量X本身也包含很多有用信息，很值得用模型去分析和学习。常用的非监督式学习可以分为两类，一类是聚类模型，一类是降维模型。聚类模型会根据数据之间的相似度，将相似数据划分为一类；而降维模型是将高维空间里的数据映射到低维空间，可以让我们更好的关注数据的主要特征。</p>
+<hr>
+<h3 id="二、K-means模型原理"><a href="#二、K-means模型原理" class="headerlink" title="二、K-means模型原理"></a>二、K-means模型原理</h3><p>它根据数据之间的距离将数据划分为k类。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx0ywkqjbj30li0ikwfn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx0ywkqjbj30li0ikwfn.jpg"></p>
+<p>像上图一样，很明显，距离近的数据点归为一类，数据看起来可以分成两个分开的点集(称为簇),一个能够找到我圈出的这些点集的算法,就被称为聚类算法。</p>
+<hr>
+<h3 id="三、K-means算法"><a href="#三、K-means算法" class="headerlink" title="三、K-means算法"></a>三、K-means算法</h3><p>K-means算法也叫K-均值是最普及的聚类算法，算法接受一个未被标记的数据集，然后将数据聚类成不同的组。</p>
+<p>K-means算法是一个迭代算法，假设将数据聚类成K个组，其方法为：</p>
+<ol>
+<li>首先选择K个随机点，称为聚类中心(cluster centroids)</li>
+<li>对于数据集中的每一个数据，按照距离K个中心点的距离，将其与距离最近的中心点关联起来，与同一个中心点关联的所有点聚成一类。</li>
+<li>计算每一组的平均值，将该组所关联的中心点移动到平均值的位置</li>
+</ol>
+<p>用$\mu^1,\mu^2,…,\mu^k$来表示聚类中心，用$c^{(1)},c^{(2)},…,c^{m}$来存储与第i个实例数据最近的聚类中心的索引，K-均值算法的伪代码如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx350yshbj315m09ymzh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx350yshbj315m09ymzh.jpg"></p>
+<p>算法分为两个步骤，第一个for循环是赋值步骤，即对于每一个样例i，计算其应该属于的类；第二个for循环是聚类中心的移动，对于每一个类K，重新计算该类的质心。</p>
+<hr>
+<h3 id="四、目标函数"><a href="#四、目标函数" class="headerlink" title="四、目标函数"></a>四、目标函数</h3><p>K-均值最小化问题, 是要最小化所有的数据点与其所关联的聚类中心点之间的距离之和。如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx4or0l4hj311i03edgd.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx4or0l4hj311i03edgd.jpg"></p>
+<p>其中$\mu_{c^{i}}$代表与$x^{(i)}$最近的聚类中心点。我们的优化目标是找出使得代价函数最小的$c^{(1)},c^{(2)},…,c^{(m)}$和$\mu^1,\mu^2,…,\mu^k$。</p>
+<p>回顾刚才给出的: K-均值迭代算法,我们知道,第一个循环是用于减小$c^{(i)}$引起的代价, 而第二个循环则是用于减小$\mu_i$引起的代价。 迭代的过程一定会是每一次迭代都在减小代价函数,不然便是出现了错误</p>
+<h3 id="五、收敛过程"><a href="#五、收敛过程" class="headerlink" title="五、收敛过程"></a>五、收敛过程</h3><p>在K-means的损失函数中有两类未知参数，一类是每个数据所属的类别，另一类是每个类别的中心。这两类未知参数是相互依存的：如果知道每个数据所属类别，那么类别中心就等于这个类别中所有数据的平均值；反过来，如果知道了类别中心，那么一个数据属于哪个类别取决于它离哪个中心点最近。</p>
+<p>估计K-means的模型参数过程如下：</p>
+<ol>
+<li>首先随机生成k个聚类中心点</li>
+<li>根据已有的聚类中心点，将数据分为k类。分类的原则是数据离哪个聚类中心最近，它就被分为哪一类</li>
+<li>根据分类结果，重新计算每个聚类的聚类中心</li>
+<li>不断重复上述步骤，直至聚类中心收敛，也就是聚类中心不再变动</li>
+</ol>
+<p>图片展示如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx5hqr4vaj30yp0u0e81.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx5hqr4vaj30yp0u0e81.jpg"></p>
+<hr>
+<h3 id="六、随机初始化"><a href="#六、随机初始化" class="headerlink" title="六、随机初始化"></a>六、随机初始化</h3><p>由于K-means算法中的第一步是随机产生初始的聚类中心，因此对同一批数据，多次使用K-means算法进行聚类，可能会得到不同的聚类效果，即K-means的预测结果并不稳定。从技术上来讲，导致这种结果的原因通常有两个，一是因为算法收敛到了局部极值点而非全局最值点；二是因为算法在到达收敛点之前就停止迭代了。为了解决K-means模型结果不稳定的问题，通常会反复多次地使用同一批数据训练模型，每一次都重新进行随机初始化，最后再比较多次允许K-means的结果，选择代价函数最小的结果。这种方法在?较小的时候(2–10)还是可行的,但是如果K较大,这么做也可能不会有明显地改善。</p>
+<hr>
+<h3 id="七、如何选择聚类个数"><a href="#七、如何选择聚类个数" class="headerlink" title="七、如何选择聚类个数"></a>七、如何选择聚类个数</h3><p>没有所谓最好的选择聚类数的方法, 通常是需要根据不同的问题, 人工进行选择的。 选择的时候思考我们运用 K-均值算法聚类的动机是什么,然后选择能最好服务于该目的聚类数。</p>
+<p>选择聚类数目的方法时,有一个可能会谈及的方法叫作“肘部法则”。</p>
+<p>在实践中,通常采用所谓的 elbow method来达到这个妥协的目的。这个方法并没有一个正式的中文翻译,但根据它所代表的算法,不妨叫它“手肘法”。这个方法假设当聚类个数小于真实的类别个数时,聚类结果的误差平方和会下降得很快,但当聚类个数超过真实值时,误差平方和虽然会继续下降,但下降速度会明显减缓。因此对于聚类算法,误差平方和随聚类个数变化的图像就像人的手肘一样,先快速下降,后缓慢下降,而转折点就是最佳的聚类个数。以图10-4中的数据为例,整个选择过程如图10-5所示,根据这个图的形状,最佳的聚类个数是3,这也是符合事实的答案。</p>
+<p>上面讨论的 elbow method虽然十分直观,但很难用数学公式去量化它,因此这种方法使用起来的随意性较大。为了解决这个问题,学术界提出了一种数学上更严谨的方法来决定聚类的个数,这个方法被称为 silhouette analysis(不妨将其翻译成“轮廓分析”)。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx683shs9j30wx0u07hw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghx683shs9j30wx0u07hw.jpg"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/15/机器学习系统设计/" rel="next" title="机器学习系统设计">
+                <i class="fa fa-chevron-left"></i> 机器学习系统设计
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、写在前面"><span class="nav-number">1.</span> <span class="nav-text">一、写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、K-means模型原理"><span class="nav-number">2.</span> <span class="nav-text">二、K-means模型原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、K-means算法"><span class="nav-number">3.</span> <span class="nav-text">三、K-means算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、目标函数"><span class="nav-number">4.</span> <span class="nav-text">四、目标函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、收敛过程"><span class="nav-number">5.</span> <span class="nav-text">五、收敛过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、随机初始化"><span class="nav-number">6.</span> <span class="nav-text">六、随机初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、如何选择聚类个数"><span class="nav-number">7.</span> <span class="nav-text">七、如何选择聚类个数</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

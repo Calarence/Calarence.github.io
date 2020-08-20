@@ -271,6 +271,100 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/10/ceph-mgr rest api/" itemprop="url">
+                  ceph-mgr rest api源码分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-12-10T10:30:24+08:00" content="2016-12-10">
+              2016-12-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ceph-mgr rest api源码分析，<a href="https://github.com/Calarence/CephMgr-RestApi-SourceCode-Book/blob/master/README.md" target="_blank" rel="noopener">见github</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/18/calamari/" itemprop="url">
                   未命名
                 </a>
@@ -1606,149 +1700,6 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/23/the-hacker-guide-to-python78/" itemprop="url">
-                  the-hacker-guide-python 第七、八章读书笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-12-23T14:32:44+08:00" content="2015-12-23">
-              2015-12-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong><em>方法和装饰器</em></strong></p>
-<hr>
-<p><strong><em>创建装饰器</em></strong></p>
-<ol>
-<li>装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数</li>
-<li>经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 <a href="mailto:`@functools.wraps" target="_blank" rel="noopener">`@functools.wraps</a>(f) #f为原函数`</li>
-<li>使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式</li>
-</ol>
-<hr>
-<p><strong><em>类方法、静态方法以及抽象方法的混合使用</em></strong></p>
-<hr>
-<ol>
-<li>抽象方法的属性并不是一成不变的，我们可以根据需要扩展属性列表，甚至我们可以按我们自己喜欢的方式对其重新定义，只要符合在超类中定义的方法。例如可以将其实现为类方法或静态方法。从Python3开始，允许将@staticmethod、@classmethod放置在@abstractmethod之上</li>
-</ol>
-<hr>
-<p><strong><em>super的真相</em></strong><br>通过使用super()函数调用父类中的方法，但实际上super()是一个构造器，当每次调用它时都会实例化一个super对象。它可以接受一个或两个参数，第一个参数是一个类，第二个参数是子类或第一个参数的一个实例</p>
-<hr>
-<p><strong>生成器</strong>：每次调用next()时返回一个值，直到引发StopIteration异常。写一个生成器就是在所写的函数中包含yield语句。Python将检测到yield的使用，并将函数标记为生成器。当函数执行到yield语句时，通过return语句返回一个值，编译器将会保存一个栈上下文环境，在下一次next被调用时重新使用。可以使用inspect来检查是不是一个生成器。Python3提供了另一个有用的函数，inspect.getgeneratorstate,这个函数可以让我们了解到生成器的状态，如是否等待第一次运行(GEN_CREATED)，是否正在执行（GEN_RUNNING）,是否等待重新使用（GEN_SUSPENDED）,是否完成运行（GEN_CLOSED）.生成器可以帮助我们使用少量的内存消耗来处理大的数据结构。当需要处理大量数据时，生成器可以确保高效的处理.yield有一个不常用的特性，它可以像函数调用一样返回一个值。这样就可以通过调用它的send()方法向生成器传递值</p>
-<hr>
-<p><strong><em>列表推导式</em></strong>：在声明列表的同时定义列表内容 <code>x = [i for i in (1, 2, 3)]</code> 与for循环相比，使用列表推导式是一种更方便迅速地方式</p>
-<hr>
-<p>Python包含了大量工具来支持函数式编程，列举如下：</p>
-<ol>
-<li>map(function, iterable) applies function to each item in iterable and returns either a list in Python or an iterable map object in Python </li>
-<li>filter(function or None, iterable) filters the items in iterable based on the result returned by function, and returns either a list in Python , or better, an iterable filter object in Python</li>
-<li>enumerate(iterable[, start]) returns an iterable enumerate object that yields a sequence of tuples, each consisting of an integer index (starting with start, if provided) and the corresponding item in iterable. It’s useful when you need to write code that refers to array indexes.</li>
-<li>sorted(iterable, key=None, reverse=False) returns a sorted version of iterable. The key argument allows you to provide a function that returns the value to sort on.</li>
-<li>any(iterable) and all(iterable) both return a boolean depending on the values returned by iterable.</li>
-<li>zip(iter1 [,iter2 […]]) takes multiple sequences and combines them into tuples. It’s useful when you need to combine a list of keys and a list of values into a dict. Like the other functions described above, it returns a list in Python and an iterable in Python</li>
-<li>The <strong><em>itertools</em></strong> module in the Python Standard Library also provides a bunch of useful functions that you’ll want to keep in mind.</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1794,7 +1745,7 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

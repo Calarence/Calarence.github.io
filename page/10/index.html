@@ -271,6 +271,149 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/23/the-hacker-guide-to-python78/" itemprop="url">
+                  the-hacker-guide-python 第七、八章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-23T14:32:44+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>方法和装饰器</em></strong></p>
+<hr>
+<p><strong><em>创建装饰器</em></strong></p>
+<ol>
+<li>装饰器的定义：首先装饰器是一个函数，并且它的参数也是一个函数，返回一个新的函数或修改后的函数</li>
+<li>经过装饰器修饰形成的新函数会丢失原来函数的一些特性，可以使用functools模块解决 <a href="mailto:`@functools.wraps" target="_blank" rel="noopener">`@functools.wraps</a>(f) #f为原函数`</li>
+<li>使用inspect模块获取函数参数，返回值为包含函数名称、函数值的键值对字典形式</li>
+</ol>
+<hr>
+<p><strong><em>类方法、静态方法以及抽象方法的混合使用</em></strong></p>
+<hr>
+<ol>
+<li>抽象方法的属性并不是一成不变的，我们可以根据需要扩展属性列表，甚至我们可以按我们自己喜欢的方式对其重新定义，只要符合在超类中定义的方法。例如可以将其实现为类方法或静态方法。从Python3开始，允许将@staticmethod、@classmethod放置在@abstractmethod之上</li>
+</ol>
+<hr>
+<p><strong><em>super的真相</em></strong><br>通过使用super()函数调用父类中的方法，但实际上super()是一个构造器，当每次调用它时都会实例化一个super对象。它可以接受一个或两个参数，第一个参数是一个类，第二个参数是子类或第一个参数的一个实例</p>
+<hr>
+<p><strong>生成器</strong>：每次调用next()时返回一个值，直到引发StopIteration异常。写一个生成器就是在所写的函数中包含yield语句。Python将检测到yield的使用，并将函数标记为生成器。当函数执行到yield语句时，通过return语句返回一个值，编译器将会保存一个栈上下文环境，在下一次next被调用时重新使用。可以使用inspect来检查是不是一个生成器。Python3提供了另一个有用的函数，inspect.getgeneratorstate,这个函数可以让我们了解到生成器的状态，如是否等待第一次运行(GEN_CREATED)，是否正在执行（GEN_RUNNING）,是否等待重新使用（GEN_SUSPENDED）,是否完成运行（GEN_CLOSED）.生成器可以帮助我们使用少量的内存消耗来处理大的数据结构。当需要处理大量数据时，生成器可以确保高效的处理.yield有一个不常用的特性，它可以像函数调用一样返回一个值。这样就可以通过调用它的send()方法向生成器传递值</p>
+<hr>
+<p><strong><em>列表推导式</em></strong>：在声明列表的同时定义列表内容 <code>x = [i for i in (1, 2, 3)]</code> 与for循环相比，使用列表推导式是一种更方便迅速地方式</p>
+<hr>
+<p>Python包含了大量工具来支持函数式编程，列举如下：</p>
+<ol>
+<li>map(function, iterable) applies function to each item in iterable and returns either a list in Python or an iterable map object in Python </li>
+<li>filter(function or None, iterable) filters the items in iterable based on the result returned by function, and returns either a list in Python , or better, an iterable filter object in Python</li>
+<li>enumerate(iterable[, start]) returns an iterable enumerate object that yields a sequence of tuples, each consisting of an integer index (starting with start, if provided) and the corresponding item in iterable. It’s useful when you need to write code that refers to array indexes.</li>
+<li>sorted(iterable, key=None, reverse=False) returns a sorted version of iterable. The key argument allows you to provide a function that returns the value to sort on.</li>
+<li>any(iterable) and all(iterable) both return a boolean depending on the values returned by iterable.</li>
+<li>zip(iter1 [,iter2 […]]) takes multiple sequences and combines them into tuples. It’s useful when you need to combine a list of keys and a list of values into a dict. Like the other functions described above, it returns a list in Python and an iterable in Python</li>
+<li>The <strong><em>itertools</em></strong> module in the Python Standard Library also provides a bunch of useful functions that you’ll want to keep in mind.</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/22/devstack/" itemprop="url">
                   使用devstack安装openstack
                 </a>
@@ -1529,184 +1672,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/the-hacker-to-python12/" itemprop="url">
-                  the-hacker-guide-python 一二章读书笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:42:46+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>听大神说学过java等高级编程语言的人，再学python时不应该再从语法书看起，而要直接看项目工程的书，于是他推荐了《the-hacker-guide-to-python》,这是一本纯英文的书，他说应该在两天之内看完，多于两天就是浪费时间，由于不能拿出完整的时间来看，每次只能看两章，慢慢将其蚕食完。这本书着眼于项目的层次而不是具体的语法。</p>
-<hr>
-<p><strong><em>python版本&amp;项目结构&amp;版本号&amp;代码风格和自动检查</em></strong></p>
-<ul>
-<li>版本选择:3.3及以上。2.x与3.x兼容性不是很好，如果想要使用将来的新特性，建议选择3.3版本及以上</li>
-<li><p>项目布局：<img src="http://7pn53u.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%871.png" alt="此处输入图片的描述"></p>
-<ol>
-<li>setup.py:标准python安装脚本，运行时，安装所需的依赖包</li>
-<li>requirements.txt:描述了所需的依赖包，可用pip进行安装</li>
-<li>test-requirements.txt:描述了测试时所依赖的包</li>
-<li>docs:文档，手册</li>
-<li>注意tests目录的位置，不要放到与setup.py同目录下</li>
-<li>etc:配置文件</li>
-<li>tools: shell脚本或相关工具</li>
-<li>bin:二进制脚本，通过setup.py安装,程序启动入口</li>
-</ol>
-</li>
-<li><p>编码规范 and 自动检查工具:pep8、flake8,会对代码进行检测，找出不符合编码规范的行</p>
-</li>
-</ul>
-<hr>
-<p><strong><em>import系统&amp;标准库&amp;扩展库&amp;框架&amp;API变化管理</em></strong></p>
-<ul>
-<li>与import系统相关的模块–sys。可通过sys.modules获取当前已导入的模块。它是一个字典形式，键名为模块名称，值为模块对象；sys.path描述了模块加载路径</li>
-<li><p>标准库：python提供了大量的标准库，当我们在尝试自己写函数来处理简单任务时，首先要检查一下是否已经有相关的库。</p>
-<ul>
-<li><strong>atexit</strong> allows you to register functions to call when your program exits</li>
-<li><strong>argparse</strong> provides functions for parsing command line arguments</li>
-<li><strong>bisect</strong> provides bisection algorithms for sorting lists</li>
-<li><strong>calendar</strong> provides a number of date-related functions</li>
-<li><strong>codecs</strong> provides functions for encoding and decoding data</li>
-<li><strong>collections</strong> provides a variety of useful data structures.</li>
-<li><strong>copy</strong> provides functions for copying data</li>
-<li><strong>csv</strong> provides functions for reading and writing CSV files.</li>
-<li><strong>datetime</strong> provides classes for handling dates and times.</li>
-<li><strong>fnmatch</strong> provides functions for matching Unix-style filename patterns</li>
-<li><strong>glob</strong> provides functions for matching Unix-style path patterns</li>
-<li><strong>io</strong> provides functions for handling I/O streams. In Python 􀇖, it also contains StringIO<br>(which is in the module of the same name in P⁴thon 􀇕), which allows you to treat strings as files</li>
-<li><strong>json</strong> provides functions for reading and writing data in JSON format</li>
-<li><strong>logging</strong> provides access to Python’s own built-in logging functionality</li>
-<li><strong>multiprocessing</strong> allows you to run multiple subprocesses from your application,while providing an API that makes them look like threads.</li>
-<li><strong>operator</strong> provides functions implementing the basic Python operators which you can use instead of having to write your own lambda expressions</li>
-<li><strong>os</strong> provides access to basic OS functions</li>
-<li><strong>random</strong> provides functions for generating pseudo-random numbers</li>
-<li><strong>re</strong> provides regular expression functionality</li>
-<li><strong>select</strong> provides access to the select() and poll() functions for creating event loops</li>
-<li><strong>shutil</strong> provides access to high-level file functions</li>
-<li><strong>signal</strong> provides functions for handling POSIX signals</li>
-<li><strong>tempfile</strong> provides functions for creating temporary files and directories</li>
-<li><strong>threading</strong> provides access to high-level threading functionalit⁴</li>
-<li><strong>urllib</strong>(and urllib2 and urlparse in python 2.x)provides functions for handling and parsing URLs</li>
-<li><strong>uuid</strong> allows you to generate UUIDs (Universally Unique Identifiers).</li>
-</ul>
-</li>
-<li><p>扩展库：作者对使用扩展库的态度是谨慎的，毕竟它不像标准库那么稳定。在书中，作者提出了check list来决定是否使用一个扩展库</p>
-<ul>
-<li>python3 compatibility.Even if you’re not targeting python 3 right now,odds are good that you will somewhere down the line,so it’s a good idea to check that your chosen library is already Python3 -compatible and committed to staying that way</li>
-<li>Active development. GitHub and Ohloh usually provide enough information to determine whether a given library is still being worked on by its maintainers</li>
-<li>Active maintenance. Even if a library is “finished” (i.e. feature-complete), the maintainers should still be working on ensuring it remains bug-free. Check the project’s tracking system to see how quickl⁴ the maintainers respond to bugs</li>
-<li>Packaged with OS distributions. If a library is packaged with major Linux distributions,that means other projects are depending on it – so if something goes wrong, you won’t be the only one complaining. It’s also a good idea to check this if you plan to release your sotware to the public: it’ll be easier to distribute if its dependencies are already installed on the end user’s machine</li>
-<li>API compatibility commitment. Nothing’s worse than having your sotware suddenly break because a librar⁴ it depends on changed its entire API. You might want to check whether your chosen library has had an⁴thing like this happen in the past</li>
-</ul>
-</li>
-<li>对于API的改变，作者提到了模块<strong>warnings</strong>可以提示开发者他们正在使用老的接口，他们应该采取相应措施</li>
-<li>对于框架的选择标准，check list同扩展库</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1752,7 +1717,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">125</span>
+              <span class="site-state-item-count">126</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
