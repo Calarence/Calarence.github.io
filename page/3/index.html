@@ -271,6 +271,230 @@
             
               
                 
+                <a class="post-title-link" href="/2020/06/27/假设检验/" itemprop="url">
+                  假设检验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-06-27T13:58:10+08:00" content="2020-06-27">
+              2020-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 假设：对总体的具体数值(如均值、比例等)所作的陈述，比如新的配方的药效要比原来的更好；推广新的教育方案后，教学效果有所提高；醉驾判定为刑事犯罪后使得交通事故减少；男生和女生在选文理科时存在性别因素影响。</p>
+<p>  假设检验(也称显著性检验)是对总体数据提出某种假设，然后再利用样本的信息(数值信息)判断假设是否成立的过程。例如，假设“醉驾判定为刑事犯罪后使得交通事故减少”，我们要检验这个假设收否成立。假设检验的目的是确定一个观测到的效果是否是由随机性造成的。</p>
+<p>为什么需要假设检验？我们为什么需要做出一个假设？为什么不能只是查看实验的结果，然后选择处理结果更好的那一组？问题的答案在于，人们在思想上倾向于低估天然随机行为的范围。一个典型的例证就是难以预料的极端事件，即黑天鹅事件；另一个例证就是人们倾向于将随机事件曲解为具有某种显著性的模式；为此，人们提出了统计假设检验方法，目的是使研究人员免受随机性的愚弄。统计假设试验是对任何随机试验的进一步分析，意在评估随机性是否可以合理地解释A组和B组之间观测到的差异。</p>
+<p>  假设检验的步骤可以分为：提出假设、确定适当的检验统计量(衡量假设是否成立的标准)、规定显著性水平、计算检验统计量的值、做出统计决策。</p>
+<p>  显著性水平是一个概率值，是指可接受的“异常值“的概率。假设某工厂生产一批零件，允许一百件中有两件次品，那么显著性水平就是2%。比较专业的定义是原假设为真时，拒绝原假设的概率，表示为alpha，常用取值为0.01，0.05，0.10。统计学家引入了统计显著性的概念，用于衡量一个实验，所生成的结果是否会比随机情况下可能给出的结果更极端。如果生成的结果超出了随机变异的范围，则我们称它是统计显著的</p>
+<p>  检验统计量：计算检验的统计量(用于检验处理效果的度量)，根据给定的显著性水平，查表得出相应的临界值，将检验统计量的值与显著性水平的临界值进行比较，得出拒绝或不拒绝原假设的结论。</p>
+<p>其他概念：</p>
+<ol>
+<li>原假设与备择假设：待检验的假设又叫原假设，也可以叫零假设，表示为H0，零假设表示原假设没有差异，没有改变。如醉驾判定为刑事犯罪后对交通事故减少没有影响。与原假设对比的假设叫作备择假设，表示为H1,如醉驾判定为刑事犯罪后使得交通事故减少。</li>
+<li>备择假设：与原假设对比的假设叫做备择假设，表示为H1。总而言之,零假设和备择假设必须涵盖了所有的可能性</li>
+<li>小概率：在一次试验中，一个几乎不可能发生的事件发生的概率；在一次试验中，小概率事件一旦发生，我们就有理由拒绝原假设。</li>
+<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
+<li>P值：是一个概率值。如果原假设为真，P值是抽样分布中大于或小于样本统计量的概率(即没有落在拒绝域中)；左侧检验时，P值为曲线上方小于等于检验统计量部分的面积；右侧检验时，P值为曲线上方大于等于检验统计量部分的面积；对于一个加入了零假设的偶然性模型，p值指得到与观测结果一样不寻常或极端的结果的概率。在衡量统计显著性时，简单地查看绘图并不是一个非常精确的方法，人们更关注的是P值。P值表示随机模型生成的结果比观测结果更极端的频数。P值是结果由随机所导致的概率，P值越大，说明结果随机的可能性越大，越支持H0，否则，则拒绝H0。P值概念结合图比较好理解，参考下图。</li>
+</ol>
+<p>左侧检验图示。左侧检验适用于以下情景：当关键词有不得少于/低于的时候，如灯泡的使用寿命不得少于/低于700个小时。若检验统计量值小于临界值，此时落在拒绝域内，P值(曲线的面积)要小于alpha，拒绝假设成立；反之，P值大于alpha，则支持假设成立</p>
+<p><img src="https://img3.doubanio.com/view/note/l/l9DKNARImMg3BClPPRAAJA/71060297/x73795361.jpg" alt="img"></p>
+<p>右侧检验：适用于以下场景：当关键词有不得多于/高于的时候，如次品率不得多于/高于5%时。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/GGrnmhIUcxDfIpSCL5mYHw/71060297/x73795362.jpg" alt="img"></p>
+<p>双侧检验：用于等于或不等于的场景，比如某种零件的尺寸，要求其平均长度为10cm，大于或小于10cm均属于不合格，这个场景可以使用双侧检验。原则假设与备择假设应为，H0:u=10,H1≠10</p>
+<p><img src="https://img3.doubanio.com/view/note/l/RoczY5MS4qXW6XSgHvBoZg/71060297/x73795363.jpg" alt="img"></p>
+<p>  如何确定检验结果：</p>
+<p>   单侧检验：若P值&gt;a,不拒绝H0;若P值&lt;a,拒绝H0</p>
+<p>   双侧检验：若P值&gt;a/2, 不拒绝H0；若P值&lt;a/2, 拒绝H0</p>
+<hr>
+<p>Z检验</p>
+<p>原理：总体标准差已知，样本量较大时用标准正态分布的理论来推断差异发生的概率，从而比较两个平均数的差异是否显著。</p>
+<p>计算公式：</p>
+<p>1、如果检验来自两个的两组样本平均数的差异性，从而判断它们各自代表的总体的差异是否显著，其Z值计算公式为：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/y0gOLfbbK2nrQalXUpGIRg/71060297/x73795364.jpg" alt="img"></p>
+<p>2、如果检验一个样本平均数与总体平均数的差异是否显著，则计算公式如下：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/M74FReAwzhzF-SLOBTNMtw/71060297/x73795366.jpg" alt="img"></p>
+<p>实例：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/eWY6pYbkljnKHkjMroRyZw/71060297/x73795365.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/hZ0-YAjIT8WqdmKH4plYIA/71060297/x73795367.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/GmCOhwchzOSZr9VDPGgmpQ/71060297/x73795369.jpg" alt="img"></p>
+<p>通过查询<a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a>，我们知道1-a/2的临界值为1.96，所以10.40&gt;1.96落在了拒绝域内，此时P值&lt;a/2,所以拒绝H0,接受H1，可以认为正常人与高血压患者的血清胆固醇含量有差别，高血压患者高于正常人。</p>
+<p>结合下图：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/arYf1_vXzw4z_gCGKlSbWw/71060297/x73795370.jpg" alt="img"></p>
+<p>实例2:</p>
+<p>某机床厂加工一种零件，根据经验知道，该厂加工零件的椭圆度近似服从正态分布，其总体均值u=0.081mm，总体标准差为σ= 0.025。今换一种新机床进行加工，抽取n=200个零件进行检验，得到的椭圆度为0.076mm。试问新机床加工零件的椭圆度的均值与以前有无显著差异。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/2u83pjjfEmNJRBywUEL3Cg/71060297/x73795371.jpg" alt="img"></p>
+<p>实例3:</p>
+<p>根据大量资料，某厂生产的灯泡的使用寿命服从正太分布N～(1020，100^2)。现从最近生产的一批产品中随机抽取16只，测得样本平均寿命为1080小时。在0.05的显著性水平下判断这批产品的使用寿命是否有显著提高(a=0.05)</p>
+<p><img src="https://img3.doubanio.com/view/note/l/LP501CYnBbD0W6SDkfvRpw/71060297/x73795372.jpg" alt="img"></p>
+<hr>
+<p>T检验：</p>
+<p>单个样本的t检验：用来比较一组数据的平均值和一个数值有无差异。例如，选5个人测量他们的身高，要看这个五个人的平均身高是否高于、等于还是低于1.7m，就需要用这个检验方法</p>
+<p>配对样本均数T检验(非独立两样本均数T检验)：用来看一组样本在处理前后的平均值有无差异。比如，选5个人，分别在吃饭前和饭后测量他们的体重，检测吃饭对他们体重的影响，就用这个T检验。</p>
+<p>两个独立样本均数T检验。用来看两组数据的平均值有无差异。比如选取5男5女，想看男女之间身高有无差异，这样男生一组，女生一组，这两个组之间的身高平均值的大小比较就用这种检验。</p>
+<p>单个样本T检验：适用于样本均数与已知总体均数μ0的比较，目的是检验样本均数所代表的总体均数μ是否与已知均数μ0有差别；已知总体均数μ0一般为标准值、理论值或经大量观察得到的较稳定的指标值；应用条件，总体标准α未知的小样本资料,且服从正态分布。</p>
+<p><a href="http://www.docin.com/p-1173562569.html" target="_blank" rel="noopener">临界值表</a></p>
+<p>实例一：通过大规模调查已知某地新生儿出生体重为3.30kg。从该地难产儿中随机抽取35名新生儿，平均出生体重为3.42kg，标准差为0.40kg，问该地难产儿出生体重是否与一般新生儿体重不同。</p>
+<p>建立建设检验：H0: μ=μ0，H1:μ≠μ0, a=0.05.</p>
+<p>计算检验统计量：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/j039ryWax3XG-RWvzv9mfA/71060297/x73795373.jpg" alt="img"></p>
+<p>自由度v=n-1=35-1=34，查临界值表可以知道T0.05/2,34=2.032。如下图，因为t&lt;临界值，所以所在置信区间内，即不能拒绝H0，差别无统计意义，不能认为该地难产儿与一般新生儿平均出生体重不同</p>
+<p><img src="https://img9.doubanio.com/view/note/l/LutOklRBxg7EciCjP8dgMw/71060297/x73795374.jpg" alt="img"></p>
+<p>配对样本均数T检验：非独立两样本均数T检验，适用于配对设计计量资料均数的比较；配对设计是将受试对象按某些特征相近的原则配成对子，每队中的两个个体随机地给予两种处理。</p>
+<p>配对样本均数T检验原理：配对设计的资料具有对子内数据一一对应的特征，研究者应关心是对子的效应差值而不是各自的效应值；进行配对T检验时，首选应计算各队数据间的差值d，将d作为变量计算均数；配对样本T检验的基本原理是假设两种处理的效应相同，理论上差值d的总体均数μd为0，现有的不等于0差值样本均数可以来自μd = 0的总体，也可以来μd ≠ 0的总体；可将该检验理解为差值样本均数与已知总体均数μd(μd = 0)比较的单样本T检验，其检验统计量为：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/ND5BW3Hwag8vB6ejne22Kg/71060297/x73795375.jpg" alt="img"></p>
+<p>实例2: 有12名接种卡介苗的儿童，8周后用两批不同的结核菌素，一批是标准结核菌素，一批是新制结核菌素，分别注射在儿童的前臂，两种结核菌素的皮肤浸润反应平均直径(mm)如表所示，问两种结核菌素的反应性有无差别。</p>
+<p><img src="https://img9.doubanio.com/view/note/l/NKPwUE-XD3I6A7iVA6MTDA/71060297/x73795376.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/dTSXS2MzVjfwaPMqsHIHEA/71060297/x73795377.jpg" alt="img"></p>
+<p><img src="https://img1.doubanio.com/view/note/l/J5cnGRRcr7LO2G_CHcfszQ/71060297/x73795379.jpg" alt="img"></p>
+<p>两独立样本T检验：适用于完全随机设计的两样本均数的比较，其目的是检验两样本所来自总体的均数是否相等；完全随机设计是将受试对象随机地分配到两组中，每组接受不同的处理，分析比较处理的效应；两独立样本t检验要求两样本所代表的总体服从正态分布N(μ1，σ^2)和N(μ2，σ^2)，且两总体方差σ1^2、σ2^2相等,即方差齐性。若两总体方差不等需要先进行变换。</p>
+<p>  两独立样本T检验原理：两独立样本T检验的检验假设是两总体均数相等，即H0:μ1=μ2，也可表述为μ1－μ2=0,这里可将两样本均数的差值看成一个变量样本，则在H0条件下两独立样本均数T检验可视为样本与已知总体均数μ1－μ2=0的单样本t检验, 统计量计算公式为：</p>
+<p><img src="https://img1.doubanio.com/view/note/l/q_xALt1XIduYG--C-A7-Wg/71060297/x73795378.jpg" alt="img"></p>
+<p>实例3:25名糖尿病患者随机分成两组，甲组单纯使用药物治疗，乙组采用药物治疗并搭配饮食疗法，二个月后测空腹血糖，判断两种疗法后患者血糖值是否相同。</p>
+<p><img src="https://img3.doubanio.com/view/note/l/Updp_bn2tAqjfJ1cCgjamA/71060297/x73795381.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/cJWk7sGaI4WbhHiw_Bq_pg/71060297/x73795380.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/2vVYeNJte3-xGazEjm4pBg/71060297/x73795383.jpg" alt="img"></p>
+<p>T检验应用条件：</p>
+<ul>
+<li>两组计量资料小</li>
+<li>样本对总体有较好代表性，对比组间有较好组间均衡性—随机抽样和随机分组</li>
+<li>样本来自正态分布总体，配对T检验要求差值服从正态分布，大样本时，用Z检验，且正态性要求可以放宽</li>
+<li>两独立样本均数T检验要求方差齐性——两组总体方差相等或两样本方差间无显著性。</li>
+</ul>
+<p>正态性和两总体方差的齐性检验：</p>
+<p>正态性检验：常用的图示法包括P-P图法和Q-Q图法。图中数据呈直线关系可认为呈正态分布，不呈直线关系可认为呈偏态分布；偏度检验：主要计算偏度系数，H0：G1=0，总体分布对称 H1：G1≠0，总体分布不对称</p>
+<p><img src="https://img3.doubanio.com/view/note/l/v9Om0Wr-FTXyWCceCsdm8Q/71060297/x73795382.jpg" alt="img"></p>
+<p>峰度检验,主要计算峰度系数,H0：G2=0，总体分布为正态峰,H1：G2≠0，总体分布不是正态峰</p>
+<p><img src="https://img9.doubanio.com/view/note/l/MSNhMe8kqbIN_fQ6Gp8yPA/71060297/x73795384.jpg" alt="img"></p>
+<p>方差齐性检验：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/Oxaza_RDh-7DSJIcCDI3pg/71060297/x73795385.jpg" alt="img"></p>
+<p>式中S1^2为较大的样本方差S2^2为较小的样本方差，分子的自由度为v1，分母的自由度为v2，相应的样本例数分别为n1和n2 。F值是两个样本方差之比，如仅是抽样误差的影响，它一般不会离1太远，反之，F 值较大，两总体方差相同的可能性较小。F分布就是反映此概率的分布。求得F值后，查附表，F界值表得P值，F&lt;Fα/2(ν1，ν2），则P&gt;α，不拒绝H0，可认为两总体方差相等； F≥Fα/2(ν1，ν2），则P≤α，拒绝H0，可认为两总体方差不等。</p>
+<p>实例：由X线胸片上测得两组患者的肺门横径右侧距R1值 (cm)，计算的结果如下，比较其方差是否齐性</p>
+<p><img src="https://img1.doubanio.com/view/note/l/AW8FEzEFX-l2OcrWYt3qkg/71060297/x73795387.jpg" alt="img"></p>
+<p>建立检验假设，确定检验水准</p>
+<p><img src="https://img9.doubanio.com/view/note/l/F4ZImvuxDv5GBN85FGkxug/71060297/x73795386.jpg" alt="img"></p>
+<p>计算F值</p>
+<p><img src="https://img1.doubanio.com/view/note/l/2u04Sw6Xg-WJqebYTxzMYQ/71060297/x73795388.jpg" alt="img"></p>
+<p>确定P值 作出推断结论 本例ν1=10-1=9，ν2=50-1=49，查附表4，F界值表， F0.10/2(9,49=2.80，得P＜0.05, 按α=0.10，拒绝H0, 接受H1，故可认为两总体方差不齐。</p>
+<p>方差不齐时，两小样本均数的比较，可选用以下方法：① 采用近似法t‘ 检验; ② 采用适当的变量变换，使达到方差齐的要求; ③采用秩和检验。</p>
+<hr>
+<p>卡方检验：用于检验两个（或多个）率或构成比之间差别是否有统计学意义。检验实际频数(A)和理论频数(T)的差别是否由抽样误差所引起的。也就是由样本率（或样本构成比）来推断总体率或构成比。</p>
+<p>理论频数与实际频数的差别:</p>
+<p><img src="https://img1.doubanio.com/view/note/l/F_-n0mSZQHYOLfbnvjk4rg/71060297/x73795389.jpg" alt="img"></p>
+<p>ARC是位于R行C列交叉处的实际频数， TRC是位于R行C列交叉处的理论频数。 （ ARC - TRC ）反映实际频数与理论频数的差距，除以TRC 为的是考虑相对差距。所以，χ^2 值反映了实际频数与理论频数的吻合程度， χ^2 值大，说明实际频数与理论频数的差距大。 χ^2 值的大小除了与实际频数和理论频数的差的大小有关外，还与它们的行、列数有关。即自由度的大小。</p>
+<p>四格表：</p>
+<p><img src="https://img3.doubanio.com/view/note/l/f3e4guXTZgX-4xHNAt1mtw/71060297/x73795390.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/M5m780BSAJAqhy7dvh9D4A/71060297/x73795391.jpg" alt="img"></p>
+<p>若检验假设H0:π1=π2成立，四个格子的实际频数A 与理论频数T 相差不应该很大，即统计量χ2 不应该很大。如果χ2 值很大，即相对应的P 值很小，若 P≤α，则反过来推断A与T相差太大，超出了抽样误差允许的范围，从而怀疑H0的正确性，继而拒绝H0，接受其对立假设H1，即π1≠π2 。</p>
+<p>实例：</p>
+<p>某药品检验所随机抽取574名成年人，研究抗生素的耐药性（资料如表8-11）。问两种人群的耐药率是否一致？</p>
+<p><img src="https://img3.doubanio.com/view/note/l/Tx_RDpixTomiV6pXXtb-3A/71060297/x73795393.jpg" alt="img"></p>
+<p><img src="https://img3.doubanio.com/view/note/l/LEP40ZcpJbB8PhaB846tTQ/71060297/x73795392.jpg" alt="img"></p>
+<p>建立假设并确定检验水准：H0:两种人群对该抗生素的耐药率相同，即π1 = π2; （两总体率相等);H1:两种人群对该抗生素的耐药率不同，即π1≠π2 ；（两总体不相等）</p>
+<p>计算检验统计量：</p>
+<p><img src="https://img9.doubanio.com/view/note/l/PidmAX1WxhPbQQ3eSx157g/71060297/x73795394.jpg" alt="img"></p>
+<p>得出结果</p>
+<p>查表确定P值， P＞0.05，得出结论。按0.05水准，不拒绝H0,可以认为两组人群对该抗生素的耐药率的差异无统计学意义</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/06/22/描述统计上/" itemprop="url">
                   描述统计—上
                 </a>
@@ -1494,132 +1718,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/28/RabbitMQ高可用方案/" itemprop="url">
-                  RabbitMQ高可用方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-05-28T13:58:10+08:00" content="2018-05-28">
-              2018-05-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="搭建RabbitMQ内建集群"><a href="#搭建RabbitMQ内建集群" class="headerlink" title="搭建RabbitMQ内建集群"></a>搭建RabbitMQ内建集群</h3><h4 id="为什么需要集群？"><a href="#为什么需要集群？" class="headerlink" title="为什么需要集群？"></a>为什么需要集群？</h4><ul>
-<li>高可用：保证生产者和消费者在某个节点故障后，仍然可以连上其他节点</li>
-<li>高性能：通过添加更高节点来线性扩展消息通信吞吐量</li>
-</ul>
-<h4 id="分布交换器"><a href="#分布交换器" class="headerlink" title="分布交换器"></a>分布交换器</h4><p>当某节点故障后，需要保证连接该节点的消费者能重新连接集群并重新创建队列。要做到这一点，就要分布交换器，即每个节点都拥有其他节点上的交换器信息</p>
-<h4 id="镜像队列"><a href="#镜像队列" class="headerlink" title="镜像队列"></a>镜像队列</h4><p>在有了分布交换器机制的后，可以解决节点故障时，消费者重连集群并创建队列的问题。但是，故障节点上队列中的消息在恢复前是不可用的。在2.6.0版本之前，上述情况是存在的，因为队列只存活于集群的一个节点上。但是现在，有了双活的选择：镜像队列。镜像队列的主拷贝仅存在于一个节点(主队列)上，镜像节点在集群中的其他节点上拥有从队列(slave)拷贝。一旦队列节点不可用，最老的从队列将被选举为新的主队列。</p>
-<h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><ul>
-<li>停止Rabbit运行：rabbitmqctl stop</li>
-<li>停止RabbitMQ插件：rabbitmq-plugins disable rabbitmq_management，避免其他节点启动时冲突</li>
-<li>添加第二、三个节点，并分别命名为rabbit_1、rabbit_2,端口号依次监听5673、5674<ul>
-<li></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1665,7 +1763,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1682,7 +1780,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

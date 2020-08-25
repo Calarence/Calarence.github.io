@@ -271,6 +271,172 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/28/JavaBase/" itemprop="url">
+                  Java基础
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-28T20:53:32+08:00" content="2017-11-28">
+              2017-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Java基础回顾"><a href="#Java基础回顾" class="headerlink" title="Java基础回顾"></a>Java基础回顾</h2><blockquote>
+<ul>
+<li>大小写敏感</li>
+<li>4个访问修饰符及范围</li>
+<li>类的命名规范：类名是以大写字母开头。驼峰命名</li>
+<li>源代码的文件名必须与public类的名字相同，并以.java作为扩展名</li>
+<li>使用javac xxx.java编译程序，使用java xxx来运行程序。xxx这里值类名</li>
+<li>注释：有三种<ul>
+<li>行注释:  //something</li>
+<li>段注释： /<em> something </em>/</li>
+<li>可自动生成文档的注释：  /*<em>  something </em>/</li>
+</ul>
+</li>
+<li>基本数据类型：共8种：4种整型，2种浮点型，1种字符型，1种布尔型<ul>
+<li>整型：范围从小到大依次为：byte、short、int、long，所需要的存储空间依次为1字节、2字节、4字节、8字节。java中所有数值类型所占据的字节数量与平台无关</li>
+<li>浮点型：float、double，double的精度是float类型的两倍，也称为双精度。所需存储空间以此为4字节、8字节</li>
+<li>字符类型：char。<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431664106267f12e9bef7ee14cf6a8776a479bdec9b9000" target="_blank" rel="noopener">编码格式的相关内容</a></li>
+<li>布尔类型：boolean。整数值和布尔值之间不能进行相互转换</li>
+</ul>
+</li>
+<li>引用类型：数组、类、接口    </li>
+<li>变量：变量的声明以及命名规范；变量的初始化；<strong>在java中，变量的声明尽可能地靠近变量第一次使用的地方，这是一种良好的程序编写风格</strong></li>
+<li>常量：用关键字final修饰常量，表示该变量智能被赋值一次。一旦被赋值之后，就不能被修改了。常量名使用全大写。如果希望某个常量可以在一个类中的多个方法中使用，通常将这些变量称为类常量，使用static final来设置一个类常量。类常量的定义位于main方法外部</li>
+<li>运算符：+，-，*，/。当参与/运算的两个操作数都是整数时，表示整数除法，否则表示浮点除法。整数被0整除会产生一个异常，而浮点数被0整除将会得到无穷大或NaN结果</li>
+<li>数值类型之间的转换：实心箭头表示无信息丢失的转换；虚箭头表示可能有精度损失的转换。<br>  <img src="http://7pn53u.com1.z0.glb.clouddn.com/property%20.png" alt="此处输入图片的描述"><br>n+f,n是整数，f是浮点数，需要将两个操作数转换为同一种类型，再进行运算。<ul>
+<li>如果两个操作数中有一个是double类型，另一个操作数就会转换为double类型</li>
+<li>如果一个操作数是float类型，另一个操作数机就会转换为float类型</li>
+<li>如果一个操作数是long类型，另一个操作数就会转换为long类型</li>
+<li>否则，两个操作数都将转换为int类型。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>强制类型转换</li>
+<li>流程控制<ul>
+<li>块作用域：块决定了变量的作用域；不能在嵌套的两个块中声明同名的变量</li>
+<li>if else</li>
+<li>while、do…while</li>
+<li>for循环：</li>
+<li>switch case:case标签可以是char/byte/short/int的常量表达式；或枚举常量；从java SE7开始，case标签还可以是字符串字面量</li>
+<li>中断控制流程语句：break，continue</li>
+</ul>
+</li>
+<li>字符串</li>
+<li>大数值：BigInteger和BigDecimal：这两个类可以处理包含任意长度数字序列的数值</li>
+<li>数组<ul>
+<li>数组拷贝：使用Arrays类的copyOf方法会将一个数组的所有值copy到一个新的数组中去，这时候对新数组的修改将不会影响到原先数组。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>参考《Java核心技术卷一》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/27/interface/" itemprop="url">
                   Java接口
                 </a>
@@ -2057,141 +2223,6 @@ while(in.hasNext())
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/10/29/IP/" itemprop="url">
-                  DNS查询主机名IP的流程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-10-29T15:58:10+08:00" content="2017-10-29">
-              2017-10-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###IP与主机名的历史</p>
-<blockquote>
-<ul>
-<li>IP是由32位二进制（IPV4）组成，为了适应人们的习惯，将其转换成四组十进制的数字，如12.34.56.78</li>
-<li>由于IP数字这个格式不便于记忆，人们想到了一个方法，在一个文件中记录ip与主机名的对应关系，这个文件就是<strong><em>/etc/hosts</em></strong>，其内容为“IP主机名1主机名2”</li>
-<li>当IP数量过多时，导致/etc/hosts文件过大，不利于其他主机的同步。为了解决这个日益严重的问题，伯克利大学发明了域名系统（Domain Name System,DNS）.通过DNS，不需要知道主机的IP，只要知道该主机的名称，就能连上该主机。</li>
-</ul>
-</blockquote>
-<p>###主机名与域名<br>拿电话号码来解释主机名与域名的关系。<br>假设有北京、上海各有一个电话号码1234567，那么如何区别这两个号码呢？用区号（区号对应的是域名），假设我想打给上海的1234567，就拨0211234567，同理，打给北京的就拨0101234567。这里021、010就是域名，而1234567是主机名。可见，通过域名来区分相同的主机名。<br>对于网站，<a href="http://www.google.com,www.seednet.net,www是主机名，那么怎么区分这两个主机名相同的机器呢？答案是通过域名，这里域名是google.com,seednet.net.所以即使两台机器主机名相同，位于不同的域中，也能够被区分出来。" target="_blank" rel="noopener">www.google.com,www.seednet.net,www是主机名，那么怎么区分这两个主机名相同的机器呢？答案是通过域名，这里域名是google.com,seednet.net.所以即使两台机器主机名相同，位于不同的域中，也能够被区分出来。</a></p>
-<p>###DNS的阶层架构<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/Untitled1%20%281%29.png" alt="此处输入图片的描述"><br>如图：<br>     &gt; <em> 最上方是root服务器<br>     &gt; </em> 第二层是顶级域名，如.com,.gov,.edu<br>     &gt; * 第三层是地区级域名，如.cn,.jp</p>
-<p>###通过DNS查询主机名IP的流程。</p>
-<blockquote>
-<ul>
-<li>在浏览器中输入<a href="http://www.tsinghua.edu.cn时，计算机会根据/etc/resolv.conf这个文件提供的DNS的IP进行连接；" target="_blank" rel="noopener">http://www.tsinghua.edu.cn时，计算机会根据/etc/resolv.conf这个文件提供的DNS的IP进行连接；</a></li>
-<li>DNS服务器在收到用户请求后，先查询本身有没有这个记录，如果没有则向.(root)查询</li>
-<li>DNS会询问<a href="http://www.tsinghua.edu.cn在哪里，.(root)只记录了.cn信息，则告诉去寻找.cn" target="_blank" rel="noopener">www.tsinghua.edu.cn在哪里，.(root)只记录了.cn信息，则告诉去寻找.cn</a></li>
-<li>同样.cn记录了.edu.cn,.com.cn,.gov.cn,对比后发现，应该去.edu.cn那里寻找，所以告知.edu.cn记录</li>
-<li>.edu.cn告知应该去tsinghua.edu.cn寻找</li>
-<li>在找到tsinghua.edu.cn后发现www这台主机确实是它管理的，则告知<a href="http://www.tsinghua.edu.cn的IP" target="_blank" rel="noopener">www.tsinghua.edu.cn的IP</a></li>
-<li>记录缓存并回报用户</li>
-</ul>
-</blockquote>
-<p>参考《鸟哥的Linux私房菜-服务器架设篇》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2237,7 +2268,7 @@ while(in.hasNext())
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -2254,7 +2285,7 @@ while(in.hasNext())
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

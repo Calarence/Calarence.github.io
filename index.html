@@ -271,6 +271,186 @@
             
               
                 
+                <a class="post-title-link" href="/2020/08/25/事件的概率/" itemprop="url">
+                  事件的概率
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-08-25T13:58:10+08:00" content="2020-08-25">
+              2020-08-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="概率和事件"><a href="#概率和事件" class="headerlink" title="概率和事件"></a>概率和事件</h3><p>概率：是表示某种<strong><em>情况或事件</em></strong>出现的<strong><em>可能性大小</em></strong>一种数量指标，它介于0与1之间。</p>
+<p>事件：某种或某些情况的陈述，它可能发生，也可能不发生，发生与否，要等到有关的试验有了结果以后才能知晓，它只是一种陈述。例如，事件A：下午六点前不会下雨。</p>
+<p>事件有如下几个特征：</p>
+<ol>
+<li>它是一种观察</li>
+<li>观察的全部结果在试验前是明确的，如下雨或不下雨，就两种结果；投硬币也只有两种结果；事件的结果也有可能是连续值，如降水量</li>
+<li>陈述确定了试验的全部结果中的一部分，这个确定的一部分叫做一个事件。如E1={掷出偶数点}=(2,4,6) E2={掷出奇数点}=(1,3,5), E1,E2只是全部试验结果的集合(1,2…6)的一部分</li>
+</ol>
+<p>事件根据可能性的大小分为：不可能事件、随机事件和必然事件。</p>
+<hr>
+<h3 id="古典概率"><a href="#古典概率" class="headerlink" title="古典概率"></a>古典概率</h3><p>古典概率是指每个事件发生的可能性都相同，如掷骰子，每个点出现的概率都相等。</p>
+<p>古典概率计算公式：设一个试验有N个等可能的结果，而事件E恰包含其中的M个结果，则事件E的概率，记为P(E),定义为$P(E) = \frac {M}{N}$。每个结果的概率为$\frac{1}{N}$, 而事件E包含M个结果，其概率理应为$\frac{1}{N}$的M倍，即$\frac{M}{N}$</p>
+<p>局限性：只能用于全部试验结果为有限个，且等可能性成立的情况。</p>
+<hr>
+<h3 id="几何概率"><a href="#几何概率" class="headerlink" title="几何概率"></a>几何概率</h3><p>适用于结果为无限个；并且基于几何图形的面积、体积、长度而算出的。</p>
+<p>例：若甲、乙两人约定1点到2点之间在某吃碰头，约定先到者等候10分钟即可离去，假设甲、乙两人随意在1点到2点之间到达该处，问甲、乙两人碰上的概率有多大。因为10分钟内可以无限划分，即结果是无限的。这类问题可以转换为求面积来计算。</p>
+<hr>
+<h3 id="古典概率的排列组合公式"><a href="#古典概率的排列组合公式" class="headerlink" title="古典概率的排列组合公式"></a>古典概率的排列组合公式</h3><ol>
+<li><p>n个相异物件取r(1≤r≤n)的不同排列总数，则$P^n_r = n<em>(n-1)</em>(n-2)…(n-r+1)$; 当n=r时，有 $P^n_r = n <em>(n-1)</em>(n-2)…1 = n!$ 。 从 a,b,c,d 这4个字母中任意取2个做排列，$P^n_r = 4 * (4-2+1) = 12$</p>
+</li>
+<li><p>n个相异物件取r个的不同组合数，则$C^n_r = \frac{P^n_r}{r!} = \frac{n!}{r!(n-r)!}$。每一个包含r个物件的组合可以产生$r!$个不同的排列，故排列数应为组合数的$r!$倍。如从a,b,c,d 这4个字母中任意取2个做组合，则有$C^4_2 = \frac{4!}{2!2!} = \frac{4<em>3</em>2}{2*2} = 6$</p>
+</li>
+<li><p>n个相异物件分成k堆，各堆物件数为$r_1,r_2….r_k$ 的分法是$\frac{n!}{r_1! r_2!…r_k!}$</p>
+</li>
+</ol>
+<hr>
+<h3 id="事件的蕴含、包含及相等"><a href="#事件的蕴含、包含及相等" class="headerlink" title="事件的蕴含、包含及相等"></a>事件的蕴含、包含及相等</h3><p>若A发生时，B必然发生，则A蕴含B或者B包含A，记为$A \subset B$或$B \supset A$。 若$A \subset B$ 并且$B \subset A$，则有$A = B$。</p>
+<p>例. 若A={掷出的点数之和大于10}，B={至少有一粒骰子掷出6}，则有$A \subset B$</p>
+<hr>
+<h3 id="事件的互斥和对立"><a href="#事件的互斥和对立" class="headerlink" title="事件的互斥和对立"></a>事件的互斥和对立</h3><p>互斥：若两事件A，B不能在同一试验中都发生，但都可以不发生，则称两者是互斥的。互斥事件是说构成这两个事件的试验结果不能有公共的。如A={掷出点数为4的倍数}，B={掷出的点数为3的倍数}，A和B为互斥</p>
+<p>对立：互斥的一个特殊情况是“对立事件”，若A为一事件，则事件B={A不发生}，则称为A的对立事件或者说补事件。例：A={掷出奇数点}，B={掷出偶数点}，则A，B为对立事件，且必有一个发生</p>
+<hr>
+<h3 id="事件的和-或并"><a href="#事件的和-或并" class="headerlink" title="事件的和(或并)"></a>事件的和(或并)</h3><p>C = A + B。若只要A发生或者B发生，或者两者同时发生，则C发生；若A，B都不发生，则C不发生。</p>
+<p>例. A = {掷出偶数点} ={2,4,6} B = {掷出3的倍数} = {3,6}</p>
+<p>C = A + B = {2,3,4,6}</p>
+<hr>
+<h3 id="概率的加法原理"><a href="#概率的加法原理" class="headerlink" title="概率的加法原理"></a>概率的加法原理</h3><p>若干个互斥事件之和的概率，等于各事件的概率之和。即$P(A_1+A_2+…) = P(A_1) +P(A_2)+…$ 该式称为加法定理。</p>
+<p>若$A,\overline{A}$互为对立事件，则$P(\overline{A}) = 1 - P(A)$</p>
+<hr>
+<h3 id="事件的积"><a href="#事件的积" class="headerlink" title="事件的积"></a>事件的积</h3><p>C = {A, B都发生}，记为AB。AB则由同属于这两个集合的那些试验结果组成，即两个集合的交叉。</p>
+<p>多个事件$A_1,A_2…$的积的定义为$A = {A_1,A_2,…,都发生}$，$A = A_1 A_2…$或 $\prod_{i=1} ^n A_i$</p>
+<hr>
+<hr>
+<h3 id="事件的差"><a href="#事件的差" class="headerlink" title="事件的差"></a>事件的差</h3><p>A-B={A发生，B不发生}</p>
+<p>A-B：就是从构成A的那些试验结果中，去掉B内的那些。$A-B = A\overline{B}$</p>
+<hr>
+<h3 id="条件的概率"><a href="#条件的概率" class="headerlink" title="条件的概率"></a>条件的概率</h3><p>一般来讲，条件概率是在附加一定的条件下所计算的概率。</p>
+<p>例如，A：掷出素数点；B：掷出奇数点；C掷出偶数点，A={2,3,5},B={1,3,5},C={2,4,6}</p>
+<p>$P(A) = \frac{1}{2}$(在无条件下)</p>
+<p>若加上“已知B发生”，则可能有3种情况：1，3，5，其中3，5代表A发生，因此A的条件概率为$P(A|B) = \frac{2}{3}$;同样在给定条件C发生的情况下，A的条件概率为$P(A|C) = \frac{1}{3}$</p>
+<p>假设一试验有N个等可能的结果，事件A，B分别包含其中$M_1$个和$M_2$个结果，它们有$M_{12}$个是公共的。这就是事件AB所包含的试验结果数。若给定B发生，则我们考虑由起先的N个结果，局限到现在的$M_2$个，其中只有$M_{12}$个试验结果使得事件A发生，故$P(A|B) = \frac{M_{12}}{M_2}$。</p>
+<p>$\frac{M_{12}}{M_2} = \frac{M_{12}/N}{M_2/N} = \frac{P(AB)}{P(B)}$</p>
+<p>条件概率$P(A|B) = \frac{P(AB)}{P(B)}$</p>
+<hr>
+<h3 id="事件的独立性"><a href="#事件的独立性" class="headerlink" title="事件的独立性"></a>事件的独立性</h3><p>设有两个事件A、B，A的无条件概率$P(A)$，与其在给定B发生之下的条件概率$P(A|B)$,一般是有差异的，这反映了两个事件之间，存在着一些联系。例如，$P(A|B)&gt;P(A)$,则B的发生使A发生的可能性增大了，那么B促进了A的发生。</p>
+<p>若$P(A) = P(A|B)$,则B的发生与否对A发生的可能性毫无影响，这时，在概率论上就称A，B两事件独立。$P(AB) = P(A)P(B)$, 该公式可以验证两事件是否独立。</p>
+<p>推广到多个事件独立性的定义：设$A_1，A_2,….$为有限或无限个事件，如果从其中任意取出有限个$A_{i1},A_{i2},…A_{im}$都成立，$P(A_{i1},P_{i2},…P_{im} = P(A_{i1})P(A_{i2})…P(A_{im}))$,则称事件$A_1,A_2,…相互独立$。</p>
+<p>同时，$P(A_{i1}|A_{i2},…A_{im}) = P(A_{i1})$,即任意事件发生的可能性大小，不受其他事件发生的影响。</p>
+<hr>
+<h3 id="乘法定理："><a href="#乘法定理：" class="headerlink" title="乘法定理："></a>乘法定理：</h3><p>若干个独立事件$A_1,A_2,…A_n$之积的概率等于各事件概率的乘积。$P(A_1,A_2,…A_n) = P(A_1)…P(A_n)$</p>
+<hr>
+<h3 id="全概率公式"><a href="#全概率公式" class="headerlink" title="全概率公式"></a>全概率公式</h3><p>设$B_1,B_2…$为有限个或无限个事件，它们两两互斥，且在每次试验中至少一个发生。即$B_1+B_2+…= \Omega$，这样的一组事件称为“完备事件群”</p>
+<p>现有任意一个事件A，有$A= A\Omega = AB_1 + AB_2 =…$,因为$B_1，B_2…$两两互斥，则$AB_1，AB_2$两两互斥，$P(A) = P(AB_1) + P(AB_2)+…$</p>
+<p>由条件概率得：$P(AB_i) = P(B_i)P(A|B_i)$， 所以$P(A) = P(B_1)P(A|B_1) +P(B_2)P(A|B_2)+…$ 该式称为全概率公式</p>
+<p>全部概率P(A)被分解成了许多部分之和。它的意义在于在比较复杂的情况下，直接算P(A)不容易，但A总是随某个事件$B_i$伴出，适当去构造$B_i$可以简化计算。</p>
+<hr>
+<h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h3><p>在全概率公式的假定之下，有$P(B_i|A) = \frac{P(AB_i)}{P(A)} = \frac{P(B_i)P(A|B_i)}{\textstyle\sum_{i=1}P(B_i)P(A|B_i)}$</p>
+<p>作用在于由结果推导原因。现有一个结果A发生了，在众多可能的原因中，到底是哪一个导致了这个结果。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/08/20/K-means算法初探/" itemprop="url">
                   K-means初探
                 </a>
@@ -1675,175 +1855,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/18/卡方分布/" itemprop="url">
-                  卡方分布
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-07-18T13:58:10+08:00" content="2020-07-18">
-              2020-07-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文主要内容：</p>
-<p>卡方分布的两个作用</p>
-<ol>
-<li>拟合优度检验(goodness of fit test)：某组数据是否与某个分布吻合</li>
-<li>两变量的独立性检验</li>
-</ol>
-<hr>
-<p>一、<strong><em>拟合优度检验</em></strong></p>
-<p>背景：假设我们有两组数据，一组是期望值，一组是观测值，我们想对比这两组数据，来判断这两组数据的差距是正常的波动，还是底层概率模型出现了问题。这两组数据如下：</p>
-<p>第一组是<strong><em>期望</em></strong>的概率值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ubtrj310q076myu.jpg"></p>
-<p>第二组是<strong><em>实际</em></strong>观察到频数值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ynn0j31360740ty.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3o2ynn0j31360740ty.jpg"></p>
-<p>第三组是期望的概率值在重复1000次试验后得到的频数值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3qqk1fuj316e0figo1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu3qqk1fuj316e0figo1.jpg"></p>
-<p>通过上图频数值的对比，能够发现期望值与观测值存在差异。那么这些差异到底是正常的波动(或随机)还是其他因素影响？还有就是这种假设该用什么样的分布来验证？</p>
-<p>卡方分布可以用在这个场景中，它用一个统计值来衡量观测值与期望值之间差异大小，公式如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4a4lpb5j313w07swgo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4a4lpb5j313w07swgo.jpg"></p>
-<p>在我们这个例子中，计算过程如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4c58fxnj31b20dqwj1.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggu4c58fxnj31b20dqwj1.jpg"></p>
-<p>计算结果越小，说明观测值与期望值差异越小；反之，说明两者差异越大。</p>
-<p>但是，我们需要一个<strong><em>界定值</em></strong>，来判断是什么时候两者差异是偶然或随机因素引起的，什么时候确实是非随机因素引起。</p>
-<p>像之前的假设检验一样，需要显著性水平和临界域进行判断。</p>
-<p>显著性水平为α，自由度为v的卡方分布可以表示如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutnb97hvj309804cwep.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutnb97hvj309804cwep.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutof5di5j30tw0l6n3h.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggutof5di5j30tw0l6n3h.jpg"></p>
-<p>通过查表确定临界值，自由度和显著性水平交叉的点即为临界值。</p>
-<p>下图为自由度为8，与显著性水平0.05下的临界值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguttp50q8j31gs0k2n77.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguttp50q8j31gs0k2n77.jpg"></p>
-<p>然后将我们的统计值与临界值进行对比，发现统计值要大于临界值，因此落在临界域，拒绝原假设。</p>
-<p>卡方检验其实是一种特殊的假设检验。它检验了观察的频数与我们假设的概率分布是否相符合。当我们有一系列数据时，我们可以用卡方检验来检测它们是否与某个分布相吻合。</p>
-<p>几种常见分布下的自由度值计算：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguue7wledj31250u0axn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguue7wledj31250u0axn.jpg"></p>
-<hr>
-<p>二、<strong><em>两变量的独立性检验</em></strong></p>
-<p>卡方检验也可以用来检验两个因素是否独立或者它们之间是否有某种联系。检验步骤与上一个例子的假设检验完全一样，首先设定假设，然后用观察值和期望值计算统计值，然后判断它是否落在临界域中。</p>
-<p>下图是三个发牌人所对应的顾客胜负的次数，分别是胜利、平局、失败。现在我们想判断一下这三个发牌人之间是否是相互独立的。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguuon6wgwj30uq0aagot.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguuon6wgwj30uq0aagot.jpg"></p>
-<p>我们现在已经有了观测值，接下来需要得到期望值，计算过程如下：</p>
-<p>首先，需要用到contingency table(列联表)，如下图所示</p>
-<p>它通过两个维度(横向和纵向)对数据进行了求和</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguvryzh6uj31ae0c841m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguvryzh6uj31ae0c841m.jpg"></p>
-<p>然后根据上面这个图对每个“指标”求它的期望值，如A胜利的期望值、A平局的期望值、A失败的期望值、B胜利的期望值、以此类推</p>
-<p>以A胜利期望值计算为例，说明如何获得期望值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxeirefxj31d20aq794.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxeirefxj31d20aq794.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxf8e9x8j313009ejua.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxf8e9x8j313009ejua.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxg0h05gj31ha07kacv.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxg0h05gj31ha07kacv.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxgjku5tj31420bi414.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxgjku5tj31420bi414.jpg"></p>
-<p>推广开来，每一行的期望值计算公式如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxpcggnkj316i0900u0.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxpcggnkj316i0900u0.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxszgjnhj31ny0n0n8r.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxszgjnhj31ny0n0n8r.jpg"></p>
-<p>得到期望值后，需要计算统计值，过程如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxzjsb12j31dp0u0k5m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguxzjsb12j31dp0u0k5m.jpg"></p>
-<p>得到统计值后，需要计算自由度：</p>
-<p>若有一个h行、k列的表格，则自由度计算公式是如下</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gguy2j76vlj31mq0n2449.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gguy2j76vlj31mq0n2449.jpg"></p>
-<p>假设显著性水平为1%，则在该显著性水平下，自由度为4的临界值为13.28，临界域为X2 &gt; 13.28，但我们的统计值为5.004要小于该临界值，说明不能拒绝原假设。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1889,7 +1900,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">126</span>
+              <span class="site-state-item-count">127</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1906,7 +1917,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

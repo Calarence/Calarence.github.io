@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="概率论与数理统计," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概率和事件概率：是表示某种情况或事件出现的可能性大小一种数量指标，它介于0与1之间。 事件：某种或某些情况的陈述，它可能发生，也可能不发生，发生与否，要等到有关的试验有了结果以后才能知晓，它只是一种陈述。例如，事件A：下午六点前不会下雨。 事件有如下几个特征：  它是一种观察 观察的全部结果在试验前是明确的，如下雨或不下雨，就两种结果；投硬币也只有两种结果；事件的结果也有可能是连续值，如降水量 陈">
+<meta name="keywords" content="概率论与数理统计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件的概率">
+<meta property="og:url" content="http://www.appleieye.com/2020/08/25/事件的概率/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="概率和事件概率：是表示某种情况或事件出现的可能性大小一种数量指标，它介于0与1之间。 事件：某种或某些情况的陈述，它可能发生，也可能不发生，发生与否，要等到有关的试验有了结果以后才能知晓，它只是一种陈述。例如，事件A：下午六点前不会下雨。 事件有如下几个特征：  它是一种观察 观察的全部结果在试验前是明确的，如下雨或不下雨，就两种结果；投硬币也只有两种结果；事件的结果也有可能是连续值，如降水量 陈">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2020-08-25T13:08:11.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件的概率">
+<meta name="twitter:description" content="概率和事件概率：是表示某种情况或事件出现的可能性大小一种数量指标，它介于0与1之间。 事件：某种或某些情况的陈述，它可能发生，也可能不发生，发生与否，要等到有关的试验有了结果以后才能知晓，它只是一种陈述。例如，事件A：下午六点前不会下雨。 事件有如下几个特征：  它是一种观察 观察的全部结果在试验前是明确的，如下雨或不下雨，就两种结果；投硬币也只有两种结果；事件的结果也有可能是连续值，如降水量 陈">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/08/25/事件的概率/"/>
+
+  <title> 事件的概率 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                事件的概率
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-08-25T13:58:10+08:00" content="2020-08-25">
+              2020-08-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="概率和事件"><a href="#概率和事件" class="headerlink" title="概率和事件"></a>概率和事件</h3><p>概率：是表示某种<strong><em>情况或事件</em></strong>出现的<strong><em>可能性大小</em></strong>一种数量指标，它介于0与1之间。</p>
+<p>事件：某种或某些情况的陈述，它可能发生，也可能不发生，发生与否，要等到有关的试验有了结果以后才能知晓，它只是一种陈述。例如，事件A：下午六点前不会下雨。</p>
+<p>事件有如下几个特征：</p>
+<ol>
+<li>它是一种观察</li>
+<li>观察的全部结果在试验前是明确的，如下雨或不下雨，就两种结果；投硬币也只有两种结果；事件的结果也有可能是连续值，如降水量</li>
+<li>陈述确定了试验的全部结果中的一部分，这个确定的一部分叫做一个事件。如E1={掷出偶数点}=(2,4,6) E2={掷出奇数点}=(1,3,5), E1,E2只是全部试验结果的集合(1,2…6)的一部分</li>
+</ol>
+<p>事件根据可能性的大小分为：不可能事件、随机事件和必然事件。</p>
+<hr>
+<h3 id="古典概率"><a href="#古典概率" class="headerlink" title="古典概率"></a>古典概率</h3><p>古典概率是指每个事件发生的可能性都相同，如掷骰子，每个点出现的概率都相等。</p>
+<p>古典概率计算公式：设一个试验有N个等可能的结果，而事件E恰包含其中的M个结果，则事件E的概率，记为P(E),定义为$P(E) = \frac {M}{N}$。每个结果的概率为$\frac{1}{N}$, 而事件E包含M个结果，其概率理应为$\frac{1}{N}$的M倍，即$\frac{M}{N}$</p>
+<p>局限性：只能用于全部试验结果为有限个，且等可能性成立的情况。</p>
+<hr>
+<h3 id="几何概率"><a href="#几何概率" class="headerlink" title="几何概率"></a>几何概率</h3><p>适用于结果为无限个；并且基于几何图形的面积、体积、长度而算出的。</p>
+<p>例：若甲、乙两人约定1点到2点之间在某吃碰头，约定先到者等候10分钟即可离去，假设甲、乙两人随意在1点到2点之间到达该处，问甲、乙两人碰上的概率有多大。因为10分钟内可以无限划分，即结果是无限的。这类问题可以转换为求面积来计算。</p>
+<hr>
+<h3 id="古典概率的排列组合公式"><a href="#古典概率的排列组合公式" class="headerlink" title="古典概率的排列组合公式"></a>古典概率的排列组合公式</h3><ol>
+<li><p>n个相异物件取r(1≤r≤n)的不同排列总数，则$P^n_r = n<em>(n-1)</em>(n-2)…(n-r+1)$; 当n=r时，有 $P^n_r = n <em>(n-1)</em>(n-2)…1 = n!$ 。 从 a,b,c,d 这4个字母中任意取2个做排列，$P^n_r = 4 * (4-2+1) = 12$</p>
+</li>
+<li><p>n个相异物件取r个的不同组合数，则$C^n_r = \frac{P^n_r}{r!} = \frac{n!}{r!(n-r)!}$。每一个包含r个物件的组合可以产生$r!$个不同的排列，故排列数应为组合数的$r!$倍。如从a,b,c,d 这4个字母中任意取2个做组合，则有$C^4_2 = \frac{4!}{2!2!} = \frac{4<em>3</em>2}{2*2} = 6$</p>
+</li>
+<li><p>n个相异物件分成k堆，各堆物件数为$r_1,r_2….r_k$ 的分法是$\frac{n!}{r_1! r_2!…r_k!}$</p>
+</li>
+</ol>
+<hr>
+<h3 id="事件的蕴含、包含及相等"><a href="#事件的蕴含、包含及相等" class="headerlink" title="事件的蕴含、包含及相等"></a>事件的蕴含、包含及相等</h3><p>若A发生时，B必然发生，则A蕴含B或者B包含A，记为$A \subset B$或$B \supset A$。 若$A \subset B$ 并且$B \subset A$，则有$A = B$。</p>
+<p>例. 若A={掷出的点数之和大于10}，B={至少有一粒骰子掷出6}，则有$A \subset B$</p>
+<hr>
+<h3 id="事件的互斥和对立"><a href="#事件的互斥和对立" class="headerlink" title="事件的互斥和对立"></a>事件的互斥和对立</h3><p>互斥：若两事件A，B不能在同一试验中都发生，但都可以不发生，则称两者是互斥的。互斥事件是说构成这两个事件的试验结果不能有公共的。如A={掷出点数为4的倍数}，B={掷出的点数为3的倍数}，A和B为互斥</p>
+<p>对立：互斥的一个特殊情况是“对立事件”，若A为一事件，则事件B={A不发生}，则称为A的对立事件或者说补事件。例：A={掷出奇数点}，B={掷出偶数点}，则A，B为对立事件，且必有一个发生</p>
+<hr>
+<h3 id="事件的和-或并"><a href="#事件的和-或并" class="headerlink" title="事件的和(或并)"></a>事件的和(或并)</h3><p>C = A + B。若只要A发生或者B发生，或者两者同时发生，则C发生；若A，B都不发生，则C不发生。</p>
+<p>例. A = {掷出偶数点} ={2,4,6} B = {掷出3的倍数} = {3,6}</p>
+<p>C = A + B = {2,3,4,6}</p>
+<hr>
+<h3 id="概率的加法原理"><a href="#概率的加法原理" class="headerlink" title="概率的加法原理"></a>概率的加法原理</h3><p>若干个互斥事件之和的概率，等于各事件的概率之和。即$P(A_1+A_2+…) = P(A_1) +P(A_2)+…$ 该式称为加法定理。</p>
+<p>若$A,\overline{A}$互为对立事件，则$P(\overline{A}) = 1 - P(A)$</p>
+<hr>
+<h3 id="事件的积"><a href="#事件的积" class="headerlink" title="事件的积"></a>事件的积</h3><p>C = {A, B都发生}，记为AB。AB则由同属于这两个集合的那些试验结果组成，即两个集合的交叉。</p>
+<p>多个事件$A_1,A_2…$的积的定义为$A = {A_1,A_2,…,都发生}$，$A = A_1 A_2…$或 $\prod_{i=1} ^n A_i$</p>
+<hr>
+<hr>
+<h3 id="事件的差"><a href="#事件的差" class="headerlink" title="事件的差"></a>事件的差</h3><p>A-B={A发生，B不发生}</p>
+<p>A-B：就是从构成A的那些试验结果中，去掉B内的那些。$A-B = A\overline{B}$</p>
+<hr>
+<h3 id="条件的概率"><a href="#条件的概率" class="headerlink" title="条件的概率"></a>条件的概率</h3><p>一般来讲，条件概率是在附加一定的条件下所计算的概率。</p>
+<p>例如，A：掷出素数点；B：掷出奇数点；C掷出偶数点，A={2,3,5},B={1,3,5},C={2,4,6}</p>
+<p>$P(A) = \frac{1}{2}$(在无条件下)</p>
+<p>若加上“已知B发生”，则可能有3种情况：1，3，5，其中3，5代表A发生，因此A的条件概率为$P(A|B) = \frac{2}{3}$;同样在给定条件C发生的情况下，A的条件概率为$P(A|C) = \frac{1}{3}$</p>
+<p>假设一试验有N个等可能的结果，事件A，B分别包含其中$M_1$个和$M_2$个结果，它们有$M_{12}$个是公共的。这就是事件AB所包含的试验结果数。若给定B发生，则我们考虑由起先的N个结果，局限到现在的$M_2$个，其中只有$M_{12}$个试验结果使得事件A发生，故$P(A|B) = \frac{M_{12}}{M_2}$。</p>
+<p>$\frac{M_{12}}{M_2} = \frac{M_{12}/N}{M_2/N} = \frac{P(AB)}{P(B)}$</p>
+<p>条件概率$P(A|B) = \frac{P(AB)}{P(B)}$</p>
+<hr>
+<h3 id="事件的独立性"><a href="#事件的独立性" class="headerlink" title="事件的独立性"></a>事件的独立性</h3><p>设有两个事件A、B，A的无条件概率$P(A)$，与其在给定B发生之下的条件概率$P(A|B)$,一般是有差异的，这反映了两个事件之间，存在着一些联系。例如，$P(A|B)&gt;P(A)$,则B的发生使A发生的可能性增大了，那么B促进了A的发生。</p>
+<p>若$P(A) = P(A|B)$,则B的发生与否对A发生的可能性毫无影响，这时，在概率论上就称A，B两事件独立。$P(AB) = P(A)P(B)$, 该公式可以验证两事件是否独立。</p>
+<p>推广到多个事件独立性的定义：设$A_1，A_2,….$为有限或无限个事件，如果从其中任意取出有限个$A_{i1},A_{i2},…A_{im}$都成立，$P(A_{i1},P_{i2},…P_{im} = P(A_{i1})P(A_{i2})…P(A_{im}))$,则称事件$A_1,A_2,…相互独立$。</p>
+<p>同时，$P(A_{i1}|A_{i2},…A_{im}) = P(A_{i1})$,即任意事件发生的可能性大小，不受其他事件发生的影响。</p>
+<hr>
+<h3 id="乘法定理："><a href="#乘法定理：" class="headerlink" title="乘法定理："></a>乘法定理：</h3><p>若干个独立事件$A_1,A_2,…A_n$之积的概率等于各事件概率的乘积。$P(A_1,A_2,…A_n) = P(A_1)…P(A_n)$</p>
+<hr>
+<h3 id="全概率公式"><a href="#全概率公式" class="headerlink" title="全概率公式"></a>全概率公式</h3><p>设$B_1,B_2…$为有限个或无限个事件，它们两两互斥，且在每次试验中至少一个发生。即$B_1+B_2+…= \Omega$，这样的一组事件称为“完备事件群”</p>
+<p>现有任意一个事件A，有$A= A\Omega = AB_1 + AB_2 =…$,因为$B_1，B_2…$两两互斥，则$AB_1，AB_2$两两互斥，$P(A) = P(AB_1) + P(AB_2)+…$</p>
+<p>由条件概率得：$P(AB_i) = P(B_i)P(A|B_i)$， 所以$P(A) = P(B_1)P(A|B_1) +P(B_2)P(A|B_2)+…$ 该式称为全概率公式</p>
+<p>全部概率P(A)被分解成了许多部分之和。它的意义在于在比较复杂的情况下，直接算P(A)不容易，但A总是随某个事件$B_i$伴出，适当去构造$B_i$可以简化计算。</p>
+<hr>
+<h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h3><p>在全概率公式的假定之下，有$P(B_i|A) = \frac{P(AB_i)}{P(A)} = \frac{P(B_i)P(A|B_i)}{\textstyle\sum_{i=1}P(B_i)P(A|B_i)}$</p>
+<p>作用在于由结果推导原因。现有一个结果A发生了，在众多可能的原因中，到底是哪一个导致了这个结果。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/概率论与数理统计/" rel="tag">#概率论与数理统计</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/20/K-means算法初探/" rel="next" title="K-means初探">
+                <i class="fa fa-chevron-left"></i> K-means初探
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概率和事件"><span class="nav-number">1.</span> <span class="nav-text">概率和事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#古典概率"><span class="nav-number">2.</span> <span class="nav-text">古典概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几何概率"><span class="nav-number">3.</span> <span class="nav-text">几何概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#古典概率的排列组合公式"><span class="nav-number">4.</span> <span class="nav-text">古典概率的排列组合公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的蕴含、包含及相等"><span class="nav-number">5.</span> <span class="nav-text">事件的蕴含、包含及相等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的互斥和对立"><span class="nav-number">6.</span> <span class="nav-text">事件的互斥和对立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的和-或并"><span class="nav-number">7.</span> <span class="nav-text">事件的和(或并)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概率的加法原理"><span class="nav-number">8.</span> <span class="nav-text">概率的加法原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的积"><span class="nav-number">9.</span> <span class="nav-text">事件的积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的差"><span class="nav-number">10.</span> <span class="nav-text">事件的差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件的概率"><span class="nav-number">11.</span> <span class="nav-text">条件的概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的独立性"><span class="nav-number">12.</span> <span class="nav-text">事件的独立性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乘法定理："><span class="nav-number">13.</span> <span class="nav-text">乘法定理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全概率公式"><span class="nav-number">14.</span> <span class="nav-text">全概率公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">15.</span> <span class="nav-text">贝叶斯公式</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
