@@ -271,6 +271,172 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/22/linuxgrep/" itemprop="url">
+                  linux正则表达式（结合grep命令）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T19:49:00+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>结合grep命令练习正则表达式的使用<br><strong>条件准备</strong></p>
+<ul>
+<li>设置语言环境<code>export LANG=C</code></li>
+<li>下载鸟哥编写的文件<code>wegt http://linux.vbird.org/linux_basic/0330regularex/regular_express.txt</code></li>
+</ul>
+<hr>
+<p><strong>开始练习</strong></p>
+<ul>
+<li><strong>查找特定字符串</strong>,如查找the <code>grep -n &#39;the&#39; regular_express.txt</code>，-n会将当前行号显示出来</li>
+<li>查找没有‘the’的行，<code>grep -vn &#39;the&#39; regular_express.txt</code></li>
+<li>查找不论大小写的’the‘,<code>grep -in &#39;the&#39; regular_express.txt</code></li>
+</ul>
+<hr>
+<p><strong>使用中括号[]查找集合字符</strong></p>
+<blockquote>
+<ul>
+<li>查找test或taste，他们类似t?st这个形式，可以使用<code>grep -n &#39;t[ae]st&#39; regular_express.txt</code>命令查找</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>查找含有oo字符的行，<code>grep -n &#39;oo&#39; regular_express.txt</code>,如果排除前面有g字母的话，使用<code>grep -n &#39;[^g]oo&#39; regular_express.txt</code> []内的^表示反向选择；oo前面不要有小写字母，<code>grep -n &#39;[^a-z]oo&#39; regular_express.txt</code></li>
+<li>获取有数字的那一行<code>grep -n &#39;[0-9]&#39; regular_express.txt</code> </li>
+</ul>
+</blockquote>
+<hr>
+<p><strong>行首与行尾字符^ 、$</strong>的使用</p>
+<blockquote>
+<ul>
+<li>查找只出现在行首的某字符串，如the。<code>grep -n &#39;^the&#39; regular_express.txt</code></li>
+<li>查找行首为小写字母的行，<code>grep -n &#39;^[a-z]&#39; regular_express.txt</code>  注意：^在[]内代表反向选择，在[]外代表只出现在行首</li>
+<li>行首不能是英文字母 <code>grep -n &#39;^[^a-zA-Z]&#39; regular_express.txt</code></li>
+</ul>
+</blockquote>
+<hr>
+<p><strong>行尾</strong><br>查找行尾结束为小数点的那一行 <code>grep -n &#39;\.$&#39; regular_express.txt</code>,其中’\‘表示转义<br>查找空白行 <code>grep -n &#39;^$&#39; regular_express.txt</code><br>查找不是空白行的 <code>grep -v &#39;^$&#39; regular_express.txt</code></p>
+<hr>
+<p><strong>任意字符’.‘ 与 重复字符 ‘*’(重复前一个字符0次或无穷多次)</strong></p>
+<blockquote>
+<ul>
+<li>查找形如g??d的字符串，使用 <code>grep -n &#39;g..d&#39;regular_express.txt</code>  ‘..’强调g与d之间一定存在两个字符</li>
+<li>‘<em>‘的使用：代表重复前面的字符0次或无穷多次. `o</em><code>代表具有0字符或一个o以上的字符串。</code>oo<em><code>代表第一个o一定存在，第二个o可有可无；如果需要两个o以上的字符串，使用</code>grep -n ‘ooo</em>‘ regular_express.txt`</li>
+<li>查找开头结尾都为g，但是两个g之间至少有一个o <code>grep -n &#39;goo*g&#39; regular_express.txt</code></li>
+<li>查找任意数字的行列， <code>grep -n &#39;[0-9][0-9]*&#39; regular_express.txt</code></li>
+</ul>
+</blockquote>
+<hr>
+<p>使用‘{}’限定连续字符范围（限定字符出现的次数）</p>
+<blockquote>
+<ul>
+<li>查找只含有两个o的字符串。<code>grep -n &#39;o\{2\}&#39; regular_express.txt</code> 因为’{}’在shell中具有特殊意义,所以需要使用‘\’进行转义</li>
+<li>查找g后面接2到5个o，然后再接g结尾的字符串 <code>grep -n &#39;go\{2,5\}g&#39; regular_express.txt</code> 查找两个o以上的 <code>grep -n &#39;go\{2,\}g&#39; regular_express.txt</code></li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/22/network/" itemprop="url">
                   网络部分基本概念
                 </a>
@@ -1510,170 +1676,6 @@ return math.add(val,1);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/23/cinder-python-sdk1/" itemprop="url">
-                  python sdk编写--cinder相关
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-09-23T21:30:50+08:00" content="2015-09-23">
-              2015-09-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/openstack/" itemprop="url" rel="index">
-                    <span itemprop="name">openstack</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在学习openstack，需要使用python编写测试脚本，查看了一下<a href="http://docs.openstack.org/user-guide/sdk.html" target="_blank" rel="noopener">python sdk</a>，发现没有cinder部分相关的。在github上找<a href="https://github.com/openstack/python-cinderclient" target="_blank" rel="noopener">cinder client</a>时，发现了这么一句话<strong>There’s also a complete Python API, but it has not yet been documented.</strong>。于是，自己尝试仿照示例代码和其他部分的代码，编写cinder部分相关的操作。</p>
-<hr>
-<p> 1.创建volume</p>
-<pre><code>#!/usr/bin/env python
-from cinderclient.v1 import client
-OS_USERNAME = &apos;admin&apos;
-OS_PASSWORD = &apos;...&apos;
-OS_TENANT_NAME = &apos;admin&apos;
-OS_AUTH_URL = &apos;...&apos;
-cinder = client.Client(&apos;1&apos;,OS_USER_NAME,OS_PASSWORD,OS_TENANT_NAME,OS_AUTH_URL)
-myVolume = cinder.volumes.create(display_name=&quot;test-vol&quot;, size=1)
-&apos;&apos;&apos;创建一个名为test-vol,大小为1g的volume
-还可以指定其他参数如volume_type、snapshot_id等等
- &apos;&apos;&apos;
-</code></pre><ol start="2">
-<li><p>更新volume(更新卷名称或卷描述)</p>
-<pre><code>#!/usr/bin/env python
-from cinderclient.v1 import client
-OS_USERNAME = &apos;admin&apos;
-OS_PASSWORD = &apos;...&apos;
-OS_TENANT_NAME = &apos;admin&apos;
-OS_AUTH_URL = &apos;...&apos;
-cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME,       OS_AUTH_URL)
-&apos;&apos;&apos;
-def update(self, volume, **kwargs),这是api中的定义
-&apos;&apos;&apos;
- cinder.volumes.up
-date(&apos;这里写volume的id&apos;,display_name=&apos;新名称&apos;,display_description=&apos;新的描述&apos;)
-</code></pre></li>
-<li><p>获取volume列表</p>
-<pre><code>#!/usr/bin/env python
- from cinderclient.v1 import client
-OS_USERNAME = &apos;admin&apos;
-OS_PASSWORD = &apos;...&apos;
-OS_TENANT_NAME = &apos;admin&apos;
-OS_AUTH_URL = &apos;...&apos;
-cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME, OS_AUTH_URL)
-list = cinder.volumes.list()
-print(list)`
-</code></pre><p>4.删除volume</p>
-<pre><code>#!/usr/bin/env python
-from cinderclient.v1 import client
-OS_USERNAME = &apos;admin&apos;
-OS_PASSWORD = &apos;...&apos;
-OS_TENANT_NAME = &apos;admin&apos;
-OS_AUTH_URL = &apos;...&apos;
-cinder = client.Client(&apos;1&apos;, OS_USER_NAME, OS_PASSWORD, OS_TENANT_NAME, OS_AUTH_URL)
-cinde.volumes.delete(&apos;这里写volumeid&apos;)`
-</code></pre></li>
-</ol>
-<hr>
-<p>以上几个方法中都用到了clint，可以单独写一个方法用来获取client<br>未完待续。。。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1719,7 +1721,7 @@ cinde.volumes.delete(&apos;这里写volumeid&apos;)`
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">128</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

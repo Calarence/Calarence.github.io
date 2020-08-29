@@ -271,6 +271,183 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/25/the-hacker-guide-to-python10/" itemprop="url">
+                  the-hacker-guide-to-python 第十章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-25T21:30:20+08:00" content="2015-12-25">
+              2015-12-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>Data structures</em></strong><br>python提供了许多数据结构，来使我们的代码更加优雅和简单。有时候，我们可能更想以自己的方式来实现数据结构，但是this is invariably a vain, useless, doomed idea.学习使用Python提供的数据结构是更好的选择。<br>作者用<code>dict</code>举了一个例子</p>
+<pre><code>def get_fruits(basket, fruit):
+# A variation is to use &quot;if fruit in basket:&quot;
+try:
+    return basket[fruit]
+except KeyError:
+    return set()
+</code></pre><p>但是使用<code>dict</code>提供的<code>get</code>方法显得更加简单</p>
+<pre><code>def get_fruits(basket, fruit):
+    return basket.get(fruit, set())
+</code></pre><p>最后作者给出了建议：<em>By the way, the collections module offers a few useful data structures that can solve other kinds of problems, such as OrderedDict or Counter.It’s really important to look for the right data structure in Python, as the correct choice will save you time, and lessen code maintenance.</em></p>
+<hr>
+<p><strong><em>ordered list and bisect</em></strong><br>在对大列表进行操作时，使用有序列表与无序列表相比，有许多优点，如有序列表的存取时间为O（log n).<br>python提供了<code>bisect</code>模块，该模块包含了bisection算法。<code>bisect</code>函数能够让我们获取新元素插入位置的同时保持列表有序</p>
+<p>可以通过以下代码创建一个有序列表</p>
+<pre><code>import bisect
+class SortedList(list):
+    def __init__(self, iterable):
+        super(SortedList, self).__init__(sorted(iterable))
+    def insort(self, item):
+        bisect.insort(self, item)
+    def index(self, value, start=None, stop=None):
+        place = bisect.bisect_left(self[start:stop], value)
+        if start:
+            place += start
+           end = stop or len(self)
+       if place &lt; end and self[place] == value:
+           return place
+       raise ValueError(&quot;%s is not in list&quot; % value)
+</code></pre><p>注意：不要使用appen或extend,否则列表永远不会有序</p>
+<hr>
+<p><strong><em>Namedtuple and slots</em></strong><br>有时候我们会创建仅含有几个属性的简单对象，一个简单的实现方式如下：</p>
+<pre><code>class Point(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+</code></pre><p>这样写的优点是可以随便增加想要的属性；缺点是使用字典来存储这些属性对内存来说是非常昂贵的，因为需要存储key、value以及reference</p>
+<p>优化方法：使用<strong><em><strong>slots</strong></em></strong>。Classes in Python can define a <strong>slots</strong> attribute that will list the only attributes allowed for instances of this class. 它的优势在于不是分配一个整个的字典对象来存储所有的对象属性，是用list来存储。</p>
+<p><strong>slots</strong>原理：Python converts the content of <strong>slots</strong> into a tuple, then a list that it builds and sorts, before converting it back into a tuple to use and store it in the class. This way, Python can retrieve the values quickly,without having to allocate and use an entire dictionary</p>
+<p><strong><em><strong>slots</strong></em></strong>好处：通过使用<strong>slots</strong>可以节约一半的内存，这意味着当处理大量的简单对象时，<strong>slots</strong>属性是一个高效有效的选择</p>
+<hr>
+<p><strong><em>Memoization</em></strong><br>Memoization是通过缓存函数执行结果来加速函数调用的一种机制。只有函数为纯函数(表示该函数没有副作用或输出，不依赖任何全局东西)时,结果才可以被缓存</p>
+<p><strong><em>sin函数示例</em></strong></p>
+<pre><code>&gt;&gt;&gt; import math
+&gt;&gt;&gt; _SIN_MEMOIZED_VALUES = {}
+&gt;&gt;&gt; def memoized_sin(x):
+... if x not in _SIN_MEMOIZED_VALUES:
+... _SIN_MEMOIZED_VALUES[x] = math.sin(x)
+... return _SIN_MEMOIZED_VALUES[x]
+&gt;&gt;&gt; memoized_sin(1)
+0.8414709848078965
+&gt;&gt;&gt; _SIN_MEMOIZED_VALUES
+{1: 0.8414709848078965}
+&gt;&gt;&gt; memoized_sin(2)
+0.9092974268256817
+&gt;&gt;&gt; memoized_sin(2)
+0.9092974268256817
+&gt;&gt;&gt; _SIN_MEMOIZED_VALUES
+{1: 0.8414709848078965, 2: 0.9092974268256817}
+&gt;&gt;&gt; memoized_sin(1)
+0.8414709848078965
+&gt;&gt;&gt; _SIN_MEMOIZED_VALUES
+{1: 0.8414709848078965, 2: 0.9092974268256817}
+</code></pre><p><strong><em>memoized_sin</em></strong>在第一次调用时，参数没有保存在_SIN_MEMOIZED_VALUES，值将会被计算并存储到字典中。然后，如果带有同样的参数再次调用该函数，结果将会从字典中获取而不是再次计算</p>
+<p>这个特性可以很容易的想到与装饰器一起使用。从Python3.3开始，<strong><em>functools</em></strong>模块提供了LRU（least-Recently-Used）cache decorator.</p>
+<p>作用This provides the same functionality as the memoization<br>described here, but with the benefit that it limits the number of entries in the cache,removing the least recently used one when the cache si⁵e reaches its maximum size.The module also provides statistics on cache hits, misses, etc. In my opinion, these are a must-haves when implementing such a cache. There’s no point in using memoization– or any caching technique – if you are unable to meter its usage and usefulness</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/24/the-hacker-guide-to-python9/" itemprop="url">
                   the-hacker-guide-to-python 第九章读书笔记
                 </a>
@@ -1497,172 +1674,6 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/linuxgrep/" itemprop="url">
-                  linux正则表达式（结合grep命令）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:49:00+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>结合grep命令练习正则表达式的使用<br><strong>条件准备</strong></p>
-<ul>
-<li>设置语言环境<code>export LANG=C</code></li>
-<li>下载鸟哥编写的文件<code>wegt http://linux.vbird.org/linux_basic/0330regularex/regular_express.txt</code></li>
-</ul>
-<hr>
-<p><strong>开始练习</strong></p>
-<ul>
-<li><strong>查找特定字符串</strong>,如查找the <code>grep -n &#39;the&#39; regular_express.txt</code>，-n会将当前行号显示出来</li>
-<li>查找没有‘the’的行，<code>grep -vn &#39;the&#39; regular_express.txt</code></li>
-<li>查找不论大小写的’the‘,<code>grep -in &#39;the&#39; regular_express.txt</code></li>
-</ul>
-<hr>
-<p><strong>使用中括号[]查找集合字符</strong></p>
-<blockquote>
-<ul>
-<li>查找test或taste，他们类似t?st这个形式，可以使用<code>grep -n &#39;t[ae]st&#39; regular_express.txt</code>命令查找</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>查找含有oo字符的行，<code>grep -n &#39;oo&#39; regular_express.txt</code>,如果排除前面有g字母的话，使用<code>grep -n &#39;[^g]oo&#39; regular_express.txt</code> []内的^表示反向选择；oo前面不要有小写字母，<code>grep -n &#39;[^a-z]oo&#39; regular_express.txt</code></li>
-<li>获取有数字的那一行<code>grep -n &#39;[0-9]&#39; regular_express.txt</code> </li>
-</ul>
-</blockquote>
-<hr>
-<p><strong>行首与行尾字符^ 、$</strong>的使用</p>
-<blockquote>
-<ul>
-<li>查找只出现在行首的某字符串，如the。<code>grep -n &#39;^the&#39; regular_express.txt</code></li>
-<li>查找行首为小写字母的行，<code>grep -n &#39;^[a-z]&#39; regular_express.txt</code>  注意：^在[]内代表反向选择，在[]外代表只出现在行首</li>
-<li>行首不能是英文字母 <code>grep -n &#39;^[^a-zA-Z]&#39; regular_express.txt</code></li>
-</ul>
-</blockquote>
-<hr>
-<p><strong>行尾</strong><br>查找行尾结束为小数点的那一行 <code>grep -n &#39;\.$&#39; regular_express.txt</code>,其中’\‘表示转义<br>查找空白行 <code>grep -n &#39;^$&#39; regular_express.txt</code><br>查找不是空白行的 <code>grep -v &#39;^$&#39; regular_express.txt</code></p>
-<hr>
-<p><strong>任意字符’.‘ 与 重复字符 ‘*’(重复前一个字符0次或无穷多次)</strong></p>
-<blockquote>
-<ul>
-<li>查找形如g??d的字符串，使用 <code>grep -n &#39;g..d&#39;regular_express.txt</code>  ‘..’强调g与d之间一定存在两个字符</li>
-<li>‘<em>‘的使用：代表重复前面的字符0次或无穷多次. `o</em><code>代表具有0字符或一个o以上的字符串。</code>oo<em><code>代表第一个o一定存在，第二个o可有可无；如果需要两个o以上的字符串，使用</code>grep -n ‘ooo</em>‘ regular_express.txt`</li>
-<li>查找开头结尾都为g，但是两个g之间至少有一个o <code>grep -n &#39;goo*g&#39; regular_express.txt</code></li>
-<li>查找任意数字的行列， <code>grep -n &#39;[0-9][0-9]*&#39; regular_express.txt</code></li>
-</ul>
-</blockquote>
-<hr>
-<p>使用‘{}’限定连续字符范围（限定字符出现的次数）</p>
-<blockquote>
-<ul>
-<li>查找只含有两个o的字符串。<code>grep -n &#39;o\{2\}&#39; regular_express.txt</code> 因为’{}’在shell中具有特殊意义,所以需要使用‘\’进行转义</li>
-<li>查找g后面接2到5个o，然后再接g结尾的字符串 <code>grep -n &#39;go\{2,5\}g&#39; regular_express.txt</code> 查找两个o以上的 <code>grep -n &#39;go\{2,\}g&#39; regular_express.txt</code></li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1708,7 +1719,7 @@ ast.dump(ast.parse(&quot;x = 42&quot;))
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">128</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

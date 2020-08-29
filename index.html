@@ -271,6 +271,144 @@
             
               
                 
+                <a class="post-title-link" href="/2020/08/29/随机变量及其分布/" itemprop="url">
+                  随机变量及其分布
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-08-29T13:58:10+08:00" content="2020-08-29">
+              2020-08-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="随机变量的概念"><a href="#随机变量的概念" class="headerlink" title="随机变量的概念"></a>随机变量的概念</h3><p>随机变量就是“<strong>其值随机会而定</strong>”的变量，正如随机事件是“<strong>其发生与否随机会而定</strong>”的事件一样，机会表现为试验结果，一个随机试验有许多可能的结果，到底出现哪一个要看机会，即有一定的概率。如掷骰子，掷出的点数X是一个随机变量，它可以取1,…,6等6个值，到底是哪一个，要等掷骰子以后才知道。随机变量是试验结果的函数。把握这个概念的关键之点在于试验前后之分：在试验之前，我们不能预知它将取何值，这要凭机会，“随机”的意思就在这里；一旦试验后，取值就确定了，比如你在3月3号买了一张奖券，到了6月3号开奖，你中奖的金额X就是一个随机变量，其值要到6月3号抽奖试验做过后才能知道。</p>
+<p>随机事件是从静态的观点来研究随机现象，而随机变量则是一种动态的观点。</p>
+<p>随机变量根据变量的数量可以分为一维随机变量、二维随机变量及多维随机变量。</p>
+<p>随机变量按其可能取的值的全体的性质，分为两大类，一类是离散型随机变量；另一类是连续型随机变量。</p>
+<hr>
+<h3 id="离散型随机变量的分布"><a href="#离散型随机变量的分布" class="headerlink" title="离散型随机变量的分布"></a>离散型随机变量的分布</h3><p>研究一个随机变量，不只是要看它能取到哪些值，更重要的是它取各种值的概率如何。</p>
+<p>设X为离散型随机变量，其全部可能取值为${ a_1,a_2,…}$,则$p_i = P(X=a_i)(i=1,2,…)$，称为X的概率函数。有$p_i&gt;=0,p_1+p_2+…=1$.</p>
+<p>概率函数给出了全部概率1是如何在其可能值之间分配的，或者说，它指出了概率1在其可能值集${ a_1,a_2,…}$上的分布情况。</p>
+<p>对于离散型随机变量，用<strong><em>概率函数去表达其概率分布</em></strong>是最方便的，也可以用分布函数表示。</p>
+<p>设X为随机变量，则函数$P(X&lt;=x) = F(x)(-\infin&lt;x&lt;+\infin)$,为X的<strong><em>分布函数</em></strong>。</p>
+<p>概率函数与分布函数，知道一个即可决定另一个。若知道概率函数，则由$F(x) = P(X&lt;=x)$ , 求和只针对$a_i &lt;= x​$的那些i去进行。</p>
+<p>例如，投骰子，X代表骰子的点数，则有$F(5) = P(X&lt;=5) = P(1)+P(2)+P(3)+P(4)+P(5)$</p>
+<p><strong>几个重要的离散型概率分布</strong>：</p>
+<ol>
+<li>二项分布</li>
+<li>泊松分布。<a href="https://www.notion.so/clarenc/9436f391273d465eb7b09f17c348c933" target="_blank" rel="noopener">泊松分布在一定条件下可以代替二项分布</a>。</li>
+</ol>
+<hr>
+<h3 id="连续型随机变量的分布"><a href="#连续型随机变量的分布" class="headerlink" title="连续型随机变量的分布"></a>连续型随机变量的分布</h3><p>设连续型随机变量X有概率分布函数F(x),则F(x)的导数$f(x) = F’(x)$称为X的概率密度函数。</p>
+<p>“密度函数”的解释如下：取定一个点x，则按分布函数的定义，事件${x&lt;X&lt;=x+h}$(h&gt;0,为常数)的概率应为$F(x+h) - F(x)$。比值$\frac{F(x+h)-F(x)}{h}$可以解释为在x点附近这么长的区间(x,x+h)内，单位长所占有的概率。令$h \to 0$,则这个比的极限，即$F’(x) = f(x)$，也就是在x点处(无穷小区段内)单位长的概率。或者说，它反映了概率在x点处的“密集程度”。可以想像一条极细的无穷长的金属杆，总质量为1，概率密度相当于杆上各点的质量密度。</p>
+<p><strong>几个重要的连续型分布</strong></p>
+<ol>
+<li>正态分布及标准正态分布。标准正态分布的意义在于任意的正态分布$N(\mu,\sigma^2)$的计算很容易转换成标准正态分布N(0,1)</li>
+<li>指数分布</li>
+<li>均匀分布</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/08/25/事件的概率/" itemprop="url">
                   事件的概率
                 </a>
@@ -1705,156 +1843,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/20/相关和回归/" itemprop="url">
-                  相关和回归
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-07-20T13:58:10+08:00" content="2020-07-20">
-              2020-07-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>背景</strong>：有个乐队想举行室外演唱会，但是他们担心天气情况，因为天气会影响到场人数。现在有一组数据，第一种是光照时间，第二种是观众数量，他们想研究一下这两者之间是否有联系，或者说能否根据光照时间推测出到场人数。数据如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx5x0v1smj31gs06ywfs.jpg"></p>
-<p>像这样的数据称为<strong><em>bivariate data</em></strong>(二变量数据)，二变量数据是指在一次观察中有两个变量，而非一个变量。这两类变量，一类叫作independent 或 explanatory variable；另一类叫作dependent or response variable；例如，在这个例子中，光照时间就是independent 或 explanatory variable，而到场人数是dependent 或response variable。</p>
-<p>我们可以使用scatter diagram(散点图)对这组数据进行可视化。一般来说，在对二变量数据进行可视化时，通常选用independent(或 explanatory)variable作x轴，而dependent(或response)variable作y轴。在我们这个例子中，就是光照时间作x轴，到场人数作y轴，散点图如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx6lnou96j31mg0nudlw.jpg"></p>
-<p>从上图中，我们可以大致看出如下趋势：观众人数随着光照时间的变长而增多，随着光照时间的变短而减少。像这样的一种趋势，称为<strong><em>correlation</em></strong>(相关)；上图中，散点的形状像一条直线，因此又叫作linear correlation(线性相关)。线性相关分为Positive linear correlation(正线性相关)、Negative linear correlation(负线性相关)、No correlation(无相关)。三种相关的散点图如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx73967nsj31ni0em77z.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739ecihj31lq0fywib.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx739tttcj31ke0jsdjh.jpg"></p>
-<p><strong><em>注意</em></strong>⚠️：若两个变量存在相关性，我们不能说两者之间存在因果关系或者说他们实际在生活中有关系，因为他们之间只是数学关系。比如在一个小镇中，咖啡店的数量上升了，而音像店的数量下降了。但我们不能说在这两个店的数量之间存在现实意义上的关系，我们只能说咖啡店数量上升了，而 音像店数量下降了。</p>
-<hr>
-<p>那么我们该如何使用给定的光照时间，来预测观众人数呢？</p>
-<p>我们可以在这些散点中画一条直线，使得这条直线尽可能的靠近这些点。最适合这些点的线称为line of best fit(最佳拟合线)。</p>
-<p>我们可以在这些点中画出很多线，但哪一条是最佳的呢？</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx7jkalsaj314s0keq7w.jpg"></p>
-<p>我们可以从数学或统计的角度来衡量这些直线，从而判断哪一条是最佳的。</p>
-<p>这些直线可以用等式y = a + bx来表示。如果我们能够使用已有数据找到最合适的a、b值，我们将会得到一个很可靠的公式，进而根据光照时间更加可靠的预测现场人数。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8hlden6j31dg0i0wlb.jpg"></p>
-<p>y的实际值与观测值距离越近，说明直线越适合。实际值与观测值之间的差距可以用以下SSE(sum of squared errors)公式表示：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8pshjt6j31rm088gp8.jpg"></p>
-<p>所以，问题转换为要找到最合适的a和b，使得SSE值最小。</p>
-<p>b的计算公式为：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8uxa6t6j30n008q75m.jpg"></p>
-<p>在这个例子中，计算过程如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx8xu4x5aj31cq0tw11l.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx90puuv7j31tk0i67gy.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx900hgotj31ua0b0agk.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx921aix0j310w05uq4w.jpg"></p>
-<p>现在已经有了b值了， 那么该如何计算a值呢？该直线必过点(x均值,y均值)，因此可以用这一点计算出a值</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx94rx323j30c202wmx7.jpg"></p>
-<p>直线y = a + bx 称为回归线。</p>
-<hr>
-<p>现在我们已经得到了回归线，那么这条线到底有多么准确，或者说这条线与三点的契合度有多高呢？我们可以用correlation coefficient(相关系数)来衡量，它用r来表示。相关系数是一个介于(包含)-1到1的值。如果r为-1，说明是完全的负相关；如果r为1，则是完全的正相关；如果r为0，则没有关系。</p>
-<p>它的计算公式如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9dqz2zyj31l00aewj7.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f0x148j31cq0ci0xm.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggx9f151lgj31u809ewhx.jpg"></p>
-<p>至此，这篇文章把相关、线性回归及相关系数简单的介绍了一下。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1900,7 +1888,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">128</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

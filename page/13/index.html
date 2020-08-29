@@ -271,6 +271,137 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/29/nodeCode/" itemprop="url">
+                  node编码规范
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-29T21:14:16+08:00" content="2015-07-29">
+              2015-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">MEAN框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>缩进: 采用2个空格缩进，而不是tab缩进</li>
+<li>变量声明：使用var声明变量，不加var时会将其变成全局变量，这样可能会污染上下文，或是被意外污染。*<em>需要说明的是，每行声明都该带上var，而不是只有一个var，实例代码如下：<br><code>var assert = require(&#39;assert&#39;);
+var fork = require(&#39;child_process&#39;).fork;
+var net = require(&#39;net&#39;);
+var EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>错误示例如下：<br><code>var assert = require(&#39;assert&#39;)
+, fork = require(&#39;child_process&#39;).fork
+, net = require(&#39;net&#39;)
+, EventEmitter = require(&#39;events&#39;).EventEmitter;</code><br>3.空格<br>在操作符前后需要加空格，比如+、-、</em>、%、=等操作符前后都应该存在一个空格，示例如下：<br><code>var foo = &#39;bar&#39; + baz</code>;<br>错误的示例如下所示：<br><code>var foo=&#39;bar&#39;+baz</code>;<br>此外，在小括号前后应该存在空格，如<br><code>if (true) {
+// some code
+}</code><br>错误的示例如下所示：<br><code>if(true){
+// some code
+}</code><br>4.单双引号的使用<br>由于双引号在别的场景下使用较多，在Node中使用字符串时尽量使用单引号，这样无需转义，如<br><code>var html = &#39;&lt;a href=&quot;http://cnodejs.org&quot;&gt;CNode&lt;/a&gt;&#39;;</code><br>5.大括号的位置:一般情况下，大括号无需另起一行，如<br><code>if (true) {
+//some code
+}</code><br>错误的示例如下：<br><code>if (true)
+{ 
+//some code
+}</code></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/29/nodename/" itemprop="url">
                   node命名规范
                 </a>
@@ -1177,7 +1308,7 @@ open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib.request.urlopen(&#39;http:/
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">127</span>
+              <span class="site-state-item-count">128</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
