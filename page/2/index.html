@@ -271,6 +271,135 @@
             
               
                 
+                <a class="post-title-link" href="/2020/07/23/回归分析实战(一元)/" itemprop="url">
+                  回归分析实战(一元)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-07-23T13:58:10+08:00" content="2020-07-23">
+              2020-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>背景</strong>：某玩具公司想研究玩具数量与制作成本之间的关系，相关数据如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzu17u2hgj30k00nong3.jpg"></p>
+<p><a href="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1671b1db-a80e-45dd-baf9-52b21d57c435/simple_example.csv" target="_blank" rel="noopener">simple_example.csv</a></p>
+<p>从数据上来看，玩具数量与成本之间似乎存在着关系，即成本随着玩具数量的增加而增加，用散点图进一步观察一下两者的关系。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzummn5hqj309s09sdfp.jpg"></p>
+<p>从散点图可以看出，两者的关系是线性的。根据在<a href="http://www.appleieye.com/2020/07/20/%E7%9B%B8%E5%85%B3%E5%92%8C%E5%9B%9E%E5%BD%92/">之前这篇文章</a>中提到的，这种线性关系可以用以下等式来表示：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzvr8dsazj31oa0b2axy.jpg"></p>
+<p>其中a是我们所熟知的斜率，b是截距，我们需要的是就是确定这几个参数。</p>
+<p>使用statsmodels训练线性回归模型的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt </span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">linearModel</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    线性回归统计性质分析步骤</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    参数</span></span><br><span class="line"><span class="string">    ----</span></span><br><span class="line"><span class="string">    data: DataFrame,建模数据</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    labels = [<span class="string">'y'</span>]</span><br><span class="line">    features = [<span class="string">'x'</span>]</span><br><span class="line">    Y = data[labels]</span><br><span class="line">    <span class="comment"># 加入常量变量</span></span><br><span class="line">    X = sm.add_constant(data[features])</span><br><span class="line">    <span class="comment"># 构建模型</span></span><br><span class="line">    results = trainModel(X,Y)</span><br><span class="line">    <span class="comment"># 分析模型效果</span></span><br><span class="line">    modelSummary(results)</span><br><span class="line">    <span class="comment"># 由summary分析可知，常量变量并不显著，所以去掉这个常量变量</span></span><br><span class="line">    resultsNew = trainModel(data[features],Y)</span><br><span class="line">    <span class="comment"># 输出新模型的分析结果</span></span><br><span class="line">    modelSummary(resultsNew)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainModel</span><span class="params">(X,Y)</span>:</span></span><br><span class="line">    <span class="string">"""训练模型"""</span></span><br><span class="line">    model = sm.OLS(Y,X)</span><br><span class="line">    results = model.fit()</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">modelSummary</span><span class="params">(results)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    分析线性回归模型的统计性质</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 整体统计分析结果</span></span><br><span class="line">    print(results.summary())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readData</span><span class="params">(path)</span>:</span></span><br><span class="line">    data = pd.read_csv(path)</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    data = readData(<span class="string">'simple_example.csv'</span>)</span><br><span class="line">    linearModel(data)</span><br></pre></td></tr></table></figure>
+<p>得到的模型整体情况如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggzw6acbj9j31fm0lcwig.jpg"></p>
+<p>从结果可以看出：const(截距)为-0.9495，标准差为0.934(还是很大的)，P值为0.323，大于了5%的显著水平，因此参数b是不显著的。置信度为95%，说明有95%的可能落在置信区间为[-2.912,1.013]，这个区间还是蛮大的，判断标准是这个区间是否包含0的。也就是说,我们可以通过参数的95%置信区间是否包含0来判断其是否显著(如果包含, 则不显著;如果不包含,则显著，所以应该把参数b排除在外。</p>
+<p>同理，来看一下斜率，取值为1.0330，标准差为0.048(非常小了), P值为0，小于1%，说明非常显著了，置信区间为[0.932,1.134],真实值1落在这个区间内，综上，斜率应该纳入我们的模型之中。</p>
+<p>在排除截距后，重新训练得到的模型summary如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh0ogufif1j317k0ouq7m.jpg"></p>
+<p>对比这两个模型发现，新模型置信区间更小，决定系数更大，所以新模型更好。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/07/20/相关和回归/" itemprop="url">
                   相关和回归
                 </a>
@@ -1753,203 +1882,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/01/相关分析/" itemprop="url">
-                  相关分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-07-01T13:58:10+08:00" content="2020-07-01">
-              2020-07-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>相关分析</strong>：</p>
-<ul>
-<li>无论是在数据科学还是研究中，很多建模项目的探索性数据分析都要检查预测因子之间的相关性，以及预测因子和目标量之间的相关性。给定变量X和Y，它们均有测量数据。如果变量X的高值随变量Y的高值而变化，并且X的低值随Y的低值的变化而变化，那么我们称X和Y是正相关的。如果X的高值随Y的低值的变化而变化，那么我们称变量X和Y是负相关的。</li>
-<li>衡量事物之间或称变量之间<strong><em>线性相关</em></strong>程度的强弱，并用适当的统计指标表示出来的过程</li>
-<li>比如家庭收入和支出、一个人所受教育程度与其收入、子女身高和父母身高等</li>
-</ul>
-<p><strong>相关系数</strong>：</p>
-<ul>
-<li>一种用于测量数值变量间相关程度的度量，取值范围在-1到+1之间</li>
-<li>相关系数r的正负号表示变化方向。“+”号表示变化方向一致，即正相关；“-”号表示变化方向相反，即负相关</li>
-<li>r的绝对值表示变量之间的密切程度(即强度)。绝对值越接近1，表示两个变量之间关系越密切；越接近0，表示两个变量之间关系越不密切</li>
-<li>相关系数的值，仅仅是一个比值。它不是由相等单位度量而来(即不等距)，也不是百分比，因此，不能直接作加、减、乘、除运算</li>
-<li>相关系数只能描述两个变量之间的变化方向及密切程度，并不能揭示两者之间的内在本质联系，即存在相关的两个变量，不一定存在因果关系</li>
-<li></li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbi37fuxrj30jf0gldjg.jpg"></p>
-<p><strong>相关分析的分类：</strong></p>
-<ol>
-<li>连续变量的相关分析</li>
-<li>等级变量的相关分析</li>
-<li>质量相关分析</li>
-<li>品质相关分析</li>
-<li>偏相关分析</li>
-</ol>
-<hr>
-<p><strong>连续变量的相关分析：\</strong>连续变量即<strong><em>数据变量,</em></strong>它的取值之间可以比较大小，可以用加减法计算出差异的大小，如年龄、收入、成绩等变量；当两个变量都是正态连续变量，而且两者之间呈线性关系时，通常用Pearson相关数来衡量。</p>
-<p>协方差：协方差是一个反映两个随机变量相关程度的指标，如果一个变量跟随着另一个变量同时变大或变小，那么这两个变量的协方差就是正值。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbiyy07u9j30g2036t94.jpg"></p>
-<p>虽然协方差能反映两个随机变量的相关程度(协方差大于0的时候表示两者正相关，小于0的时候表示两者负相关)，但是协方差值的大小并不能很好地度量两个随机变量的关联程度。这是因为在二维空间中分布着一些数据，我们想知道数据点坐标X轴和Y轴的相关程度，如果X与Y的相关程度较小但是数据分布的比较离散，这样会导致求出的协方差值较大，用这个值来度量相关程度是不合理的。</p>
-<p>为了更好的衡量两个随机变量的相关程度，引入了Pearson相关系数，其在协方差的基础上除以了两个随机变量的标准差。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbji69offj30ca02974b.jpg"></p>
-<p>Pearson是一个介于-1和1之间的值，当两个变量的线性关系增强时，相关系数趋于1或-1；当一个变量增大时，另一个变量也增大时，表明它们之间是正相关的，相关系数大于0；如果一个变量增大，另一个变量却减小，表明它们之间是负相关的，相关系数小于0；如果相关系数等于0，表明它们之间不存在线性相关关系。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbjlu89c8j30eh0dv469.jpg"></p>
-<hr>
-<p><strong>等级变量的相关分析</strong></p>
-<p>当测量得到的数据不是等距或等比数据，而是具有<strong><em>等级顺序</em></strong>的数据；或者得到的数据是等距或等比数据，但其所来自的总体分布不是正态分布的，不满足皮尔森相关系数的要求。这时就要运用等级相关系数。</p>
-<p>两个基因A、D，他们的关系是D=A^10，在8个样本中的表达量值如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnhom1gvj30se044dfx.jpg"></p>
-<p>皮尔森相关系数是一种线性相关系数，因此如果两个变量呈线性关系的时候，具有最大的显著性。对于非线性关系（例如A、D的幂函数关系），则其对相关性的检测功效会下降。</p>
-<p>这时我们可以考虑另外一个相关系数计算方法：<strong>斯皮尔曼等级相关</strong>。</p>
-<p><strong><em>斯皮尔曼等级相关：</em></strong>当两个变量值以等级次序排列或以等级次序表示时，两个相应总体并不一定呈正态分布，样本容量也不一定大于30，表示这两变量之间的相关，称为Spearman等级相关。无论两个变量的数据如何变化，符合什么样的分布，我们只关心每个数值在变量内的排列顺序。如果两个变量的对应值，在各组内的排列顺位是相同或类似的，则具有显著的相关性。</p>
-<p>计算公式：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnn9v2j2j305e01xjr8.jpg"></p>
-<p>n为等级个数；d为二列成对变量的等级差数。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbnodc1d3j30kh04x3yo.jpg"></p>
-<p>利用斯皮尔曼等级相关计算A、D基因表达量的相关性，结果是：r=1，p-value = 4.96e-05</p>
-<p>这里斯皮尔曼等级相关的显著性显然高于皮尔森相关。这是因为虽然两个基因的表达量是非线性关系，但两个基因表达量在所有样本中的排列顺序是完全相同的，因为具有极显著的斯皮尔曼等级相关性。</p>
-<p><strong><em>肯德尔和谐系数(Kendall)：</em></strong>当多个(两个以上)变量值以等级次序排列或以等级次序表示，描述这几个变量之间的一致性程度的量，称为肯德尔和谐系数。它常用来表示几个评定者对同一组学生成绩用等级 先后评定多次之间的一致性程度。</p>
-<p><strong>同一评价者无相同等级评定时</strong>，公式如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtqeg1vnj305g0210si.jpg"></p>
-<ul>
-<li>N——-被评的对象数量</li>
-<li>K——-评分者人数或评分所依据的标准数</li>
-<li>S——-每个被评对象所评等级之和Ri与所有这些和的平均数的离差平凡和</li>
-<li></li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtu9euphj309u01qmwy.jpg"></p>
-<p>当评分者意见完全一致时，S取得最大值，和谐系数是实际求得的S与其最大可能取值的比值，故0≤W≤1</p>
-<p>同一评价者有相同等级评定时，计算公式：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbty1iwrgj308p01umwy.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggbtyl5tsxj304o01p0si.jpg"></p>
-<ul>
-<li>mi为第i个评价者的评定结果中有重复等级的个数。</li>
-<li>nij为第i个评价者的评定结果中第j个重复等级的相同等级数。</li>
-<li>对于评定结果无相同等级的评价者，Ti = 0，因此只须对评定结果有相同等级的评价者计算Ti。</li>
-</ul>
-<hr>
-<p><strong>*质量相关分析：</strong>是指一个变量为质，另一个变量为量，这两个变量之间的相关，如智商、学科分数、身高、体重等是表现为量的变量；男与女，右与劣，及格与不及格等是表现为质的变量。质与量的相关主要包括*<strong>二列相关、点二列相关、多系列相关</strong>。</p>
-<p><strong>二列相关</strong>：当两个变量都是正太连续变量，其中一个变量被人为划分成二分变量(如按一定标准将属于正太连续变量的学科考试分数划分成及格与不及格，录取与未录取，把某一体育项目测验结果划分成通过与未通过，达标与未达标，把健康状况划分成好与差等等)，表示这两个变量之间的相关，称为二列相关。</p>
-<p>二列相关的使用条件：</p>
-<ul>
-<li>两个变量都是连续变量，且总体呈正态分布，或总体接近正态分布，至少是单峰对称分布</li>
-<li>两个变量之间是线性关系</li>
-<li>二分变量是人为划分的，其分界点应尽量靠近中值</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcc4f3mibj30rc0gc0ty.jpg"></p>
-<p><strong>点二列相关</strong>：当两个变量其中一个是正态连续性变量，另一个是真正的二分名义变量(如男与女，已婚和未婚，色盲和非色盲，生与死)，这时，表示这两个变量之间的相关，称为点二列相关。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggccde58dfj30q90dl0ts.jpg"></p>
-<hr>
-<p><strong>品质相关分析</strong>：两个变量都是按质划分成几种类别，表示这两个变量之间的相关称为品质相关。例如，一个变量按性别划分成男与女，另一个变量按学科成绩划分成及格与不及格；例如，一个变量按学校类别分成重点及非重点，另一个变量按学科成绩分成优良中差等等。</p>
-<p><strong>列相关系数</strong>：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcd8n11ebj30t50kzatp.jpg"></p>
-<p><strong>φ相关</strong></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcdd84sq8j30um0l3k7z.jpg"></p>
-<hr>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1995,7 +1927,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">128</span>
+              <span class="site-state-item-count">129</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

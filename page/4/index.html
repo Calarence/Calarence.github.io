@@ -271,6 +271,165 @@
             
               
                 
+                <a class="post-title-link" href="/2018/06/09/Java线程池/" itemprop="url">
+                  Java 线程池
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-06-09T13:58:10+08:00" content="2018-06-09">
+              2018-06-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="为什么需要线程池"><a href="#为什么需要线程池" class="headerlink" title="为什么需要线程池"></a>为什么需要线程池</h4><p>线程池有很多应用场景，如执行异步或并发的任务，那么线程池可以带来哪些好处呢？</p>
+<ol>
+<li>降低资源消耗：通过反复使用创建过的线程降低线程创建和销毁的消耗</li>
+<li>提高响应速度：当任务到达时，可以不需要等待线程创建就可以立即执行</li>
+</ol>
+<h4 id="线程池的工作原理："><a href="#线程池的工作原理：" class="headerlink" title="线程池的工作原理："></a>线程池的工作原理：</h4><p>当提交一个任务到线程池时，处理流程如下：</p>
+<ol>
+<li>判断核心线程池是否已满。如果不是，则创建线程，执行任务；否则，进入下个流程。</li>
+<li>判断工作队列是否已满。如果不是，则将任务存储在任务队列里；否则，进入下个流程</li>
+<li>判断线程池是否已满。如果不是，则创建线程，执行任务；否则，交给饱和策略来处理这个任务。</li>
+</ol>
+<h4 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h4><p>可以通过ThreadPoolExecutor来创建一个线程池：</p>
+<p>new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,milliseconds,runnableTaskQueue,handler),</p>
+<p>参数说明：</p>
+<ul>
+<li>corePoolSize:线程池基本大小，当提交一个任务到线程池时，线程池会创建一个线程来执行任务，即使其他空闲的基本线程能够执行任务也会创建新线程；等到需要执行的任务数等于线程池基本大小就不再创建。</li>
+<li>runnableTaskQueue：任务队列，用于保存待执行的任务的阻塞队列。有以下几种队列：<ul>
+<li>ArrayBockingQueue:基于数组结构的有界阻塞队列，按照FIFO原则处理任务</li>
+<li>LinkedBlockingQueue:基于链表结构的阻塞队列，按照FIFO原则处理任务，吞吐量高于ArrayBockingQueue。静态工厂方法Executors.newFixedThreadPool()使用了这个队列</li>
+<li>SynchronousQueue:一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了该队列</li>
+<li>PriorityBlockingQueue:一个具有优先级的无限阻塞队列</li>
+</ul>
+</li>
+<li>maximumPoolSize：线程池所允许创建的最大线程数。如果队列满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程任务。如果使用了无界的任务队列，这个参数就没有效果</li>
+<li>keepAliveTime：线程池的工作线程空闲后，保持存活的时间</li>
+<li>milliseconds：线程活动的时间单位：如天、小时、秒、毫秒等。</li>
+<li>RejectedExecutionHandler:饱和策略，当队列和线程池都满了，说明线程池处于饱和状态，必须采取一种策略处理提交的新任务。默认是AbortPolicy。四种策略如下<ul>
+<li>AbortPolicy:直接抛出异常</li>
+<li>CallerRunsPolicy:使用调用者所在线程来运行任务</li>
+<li>DiscardOldestPolicy:丢弃队列里最老的一个任务，执行当前的一个任务</li>
+<li>DiscardPolicy:不处理，丢弃掉</li>
+</ul>
+</li>
+</ul>
+<h4 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h4><p>可以通过execute()和submit()方法向线程池提交任务。</p>
+<ul>
+<li>execute()方法用于提交不需要返回值的任务。输入的参数是Runnable类的实例</li>
+<li>submit()方法用于提交需要返回值的任务。线程池会返回一个future类型的对象，通过该对象判断任务是否执行成功；通过get方法来获取返回值，get()方法会阻塞当前线程直到任务执行成功；get(long timeunit,TimeUnit unit)方法会阻塞当前线程一段时间后返回，这时候任务可能没有执行完</li>
+</ul>
+<h4 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h4><p>通过shutdown或shutdownNow方法来关闭线程池。</p>
+<h4 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h4><ul>
+<li><p>CPU密集型任务应该配置尽可能性小的线程，如配置Ncpu+1个线程的线程池</p>
+</li>
+<li><p>IO密集型则配置尽可能多的线程，如2*Ncpu</p>
+<p>通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/06/04/Mysql的几种日志/" itemprop="url">
                   Mysql的几种日志
                 </a>
@@ -1200,146 +1359,6 @@ public String hello(){
             
               
                 
-                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
-                  spring bean装配的三种方式之xml配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
-<ul>
-<li>创建xml规范，并声明xml模式(xsd)文件</li>
-<li>声明bean</li>
-<li>注入bean依赖</li>
-</ul>
-</blockquote>
-<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
-<li>创建xml文件</li>
-</ol>
-<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
- &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
- xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
- xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
- http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
-
-&lt;/beans&gt;
-</code></pre><ol start="2">
-<li><p>声明bean</p>
-<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
-</code></pre></li>
-<li><p>注入bean依赖</p>
-</li>
-</ol>
-<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
-&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
-&lt;/bean&gt;
-</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
                   spring面向切面编程示例之打印日志
                 </a>
@@ -1443,6 +1462,146 @@ public void sayAfter(){
 </code></pre></li>
 </ul>
 <p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/04/22/springbean3/" itemprop="url">
+                  spring bean装配的三种方式之xml配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring-bean装配的三种方式之xml配置"><a href="#spring-bean装配的三种方式之xml配置" class="headerlink" title="spring bean装配的三种方式之xml配置"></a>spring bean装配的三种方式之xml配置</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
+<ul>
+<li>创建xml规范，并声明xml模式(xsd)文件</li>
+<li>声明bean</li>
+<li>注入bean依赖</li>
+</ul>
+</blockquote>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
+<li>创建xml文件</li>
+</ol>
+<pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+&lt;/beans&gt;
+</code></pre><ol start="2">
+<li><p>声明bean</p>
+<pre><code>&lt;bean id=&quot;compasticDisc&quot; class=&quot;com.appleieye.maya.api.impl.SgtPeppers&quot; /&gt;
+</code></pre></li>
+<li><p>注入bean依赖</p>
+</li>
+</ol>
+<pre><code>&lt;bean id=&quot;cdPlayer&quot; class=&quot;com.appleieye.maya.api.impl.CDPlayer&quot;&gt;
+&lt;constructor-arg ref=&quot;compasticDisc&quot; /&gt;
+&lt;/bean&gt;
+</code></pre><p>&lt; constructor-arg&gt;元素会告知Spring要将一个ID为compactDisc的bean引用传递到CDPlayer的构造器中。</p>
 
           
         
@@ -1657,150 +1816,6 @@ public void play() {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/04/22/springbean2/" itemprop="url">
-                  spring bean装配的三种方式之Java代码配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-04-22T13:58:10+08:00" content="2018-04-22">
-              2018-04-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="spring-bean装配的三种方式之Java代码配置"><a href="#spring-bean装配的三种方式之Java代码配置" class="headerlink" title="spring bean装配的三种方式之Java代码配置"></a>spring bean装配的三种方式之Java代码配置</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>尽管自动化转配能够满足大部分的需求，但是有一种情况却无能为力：比如说， 你想 要将 想将第三方库中的组件装配到应用中，在这种情况下，是没有 办法在它的类上添加@Component和@Autowired注解的。这个时候，可以使用java代码或xml配置的方式。</p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><blockquote>
-<ul>
-<li>创建配置类</li>
-<li>声明简单的bean</li>
-<li>实现注入</li>
-</ul>
-</blockquote>
-<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><ol>
-<li>配置类,注意该类与自动装配的区别</li>
-</ol>
-<pre><code>package com.appleieye.maya.api;
-
-@Configuration
-public class CDPlayerConfig {
-
-}
-</code></pre><ol start="2">
-<li>声明bean:要在 JavaConfig 中 声明 bean，我们需要编写一个方法， 这个方法会创建所需类型的实例，然后给这个方法添加@Bean注解。</li>
-</ol>
-<pre><code>@Bean
-public CompasticDisc sgtPeppers(){
-   return new SgtPeppers();
-}
-</code></pre><ol start="3">
-<li><p>实现注入：将cd注入到player中去</p>
-<pre><code>@Bean public CDPlayer cdPlayer( CompactDisc compactDisc) {
-return new CDPlayer( compactDisc); 
-}
-</code></pre><p><strong><em>这是引用其他bean到最佳选择。</em></strong> cdPlayer()方法请求一个CompactDisc作为参数。当Spring调用cdPlayer()创建CDPlayerbean的时候，它会自动装配一个CompactDisc到配置方法之中。然后，方法体就可以按照合适的方式来使用它。</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1846,7 +1861,7 @@ return new CDPlayer( compactDisc);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">128</span>
+              <span class="site-state-item-count">129</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

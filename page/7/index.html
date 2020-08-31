@@ -271,6 +271,158 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/01/javaCollection/" itemprop="url">
+                  Java集合
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-01T15:58:10+08:00" content="2017-11-01">
+              2017-11-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###集合的接口与具体实现<br>java中集合的接口与实现是分离的。<br>java接口如下图<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/collectionInterface.png" alt="此处输入图片的描述"></p>
+<blockquote>
+<ul>
+<li>List：元素有序</li>
+<li>Set：元素不允许重复。两个元素的hashCode如果一致，则两元素相同</li>
+<li>SortedSet、SortedMap：待补充</li>
+<li>NavigableSet、NavigableMap：待补充</li>
+</ul>
+</blockquote>
+<p>具体的集合：<br>如图所示<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/collction.png" alt="此处输入图片的描述"><br>| 集合类型        | 描述   |<br>| ——–   | —–:  | :—-:  |<br>| ArrayList    |一种可以动态增长和缩减的索引序列 |<br>| LinkedList        |   一种可以在任何位置可以进行高效地插入和删除操作的有序序列   |<br>| ArrayDeque        |    一种用循环数组实现的双端队列    |<br>|HashSet|一种没有重复元素的无序集合|<br>|TreeSet|一种有序集|<br>|EnumSet|一种包含枚举类型值的集|<br>|LinkedHashSet|一种可以记住元素插入顺序的集<br>|PriorityQueue|一种允许高效删除最小元素的集合|<br>|HashMap|一种存储键/值关联的数据结构|<br>|TreeMap|一种键值有序排列的映射表|<br>|EnumMap|一种键值属于枚举类型的映射表<br>|LinkedHashMap|一种可以记住键、值添加次序的映射表|<br>|WeakHashMap|一种其值无用武之地后可以被垃圾回收器回收的映射表|<br>|IdentityHashMap|一种用==而不是equals比较键值的映射表|</p>
+<hr>
+<p>###链表(Java中所有链表都是双向链表）</p>
+<blockquote>
+<ul>
+<li>链表添加元素</li>
+<li>链表删除元素：通过迭代器的remove方法<br>  先添加三个元素，然后将第二个元素删除<br>  List<string> staff = new LinkedList&lt;&gt;();<br>  staff.add(“Amy”);<br>  staff.add(“bob”);<br>  staff.add(“clarence”);<br>  Iterator iter = staff.iterator();<br>  String first = (String) iter.next();<br>  String seconde = (String) iter.next();<br>  iter.remove();//删除上一个元素</string></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>链表在指定位置添加元素：通过迭代器（listiterator）add方法（示例代码）<br>  先添加三个元素，然后在第一个后面插入一个元素<br>  List<string> staff = new LinkedList&lt;&gt;();<br>  staff.add(“Amy”);<br>  staff.add(“bob”);<br>  staff.add(“clarence”);<br>  ListIterator iter = staff.listIterator();<br>  iter.next();<br>  iter.add(“juliet”);</string></li>
+</ul>
+</blockquote>
+<p>###数组列表–ArrayList</p>
+<blockquote>
+<ul>
+<li>ArrayList封装了一个动态再分配的对象数组，其实现细节是？</li>
+<li>ArrayList与Vector的区别：Vector类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象。但是，如果由一个线程访问Vector，代码要在同步操作上耗费大量的时间。这种情况是很常见的。而ArrayList方法不是同步的，因此，建议在不需要同步时使用ArrayList，而不要使用Vector</li>
+</ul>
+</blockquote>
+<p>###散列集HashSet</p>
+<p>###树集TreeSet</p>
+<blockquote>
+<ul>
+<li>TreeSet是有序的，在对TreeSet积极进行遍历时，每个值将自动地按照排序后的顺序出现（每次将元素放入树集上时，都会被放到正确的排序位置上）</li>
+<li>TreeSet使用的是红黑树</li>
+<li>插入元素时，HashSet要比TreeSet快</li>
+</ul>
+</blockquote>
+<p>###</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/10/30/javaException/" itemprop="url">
                   Java 异常
                 </a>
@@ -1765,162 +1917,6 @@ Func()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/10/python10/" itemprop="url">
-                  python源码剖析读书笔记四--python中的字符串对象
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-10T10:27:32+08:00" content="2017-07-10">
-              2017-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###字符串对象特点：</p>
-<blockquote>
-<ul>
-<li>长度不定：比如“hi”和“hello”，这两个string对象内部所需的保存字符内容的内存空间是不一样的。</li>
-<li>不可变：当创建一个PyStringObject对象后，该对象内部维护的字符串就不能被改变了。这一特性使得PyStringObject对象可作为dict的键值，但同时也使得一些字符串操作的效率大大降低，比如多个字符串的拼接。</li>
-</ul>
-</blockquote>
-<p>###字符串源码定义：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/stringobject1.png" alt="此处输入图片的描述"></p>
-<p>具体内容如下：</p>
-<blockquote>
-<ul>
-<li>PyObject_VAR_HEAD用来定义变长对象，其中的ob_size变量保存着对象中维护的可变长度内存的大小</li>
-<li>ob_sval指向一块内存，该内存保存着这个字符串对象所维护的实际字符串，长度为ob_size+1,因为结尾必须以‘\0’结尾。</li>
-<li>ob_shash用来记录该字符串的hash值，如果没有计算过，该值为-1</li>
-<li>ob_sstate变量标记该对象是否经过intern机制的处理。</li>
-</ul>
-</blockquote>
-<p>###以PyString_FromString为例分析PyStringObject的创建</p>
-<p>PyString_FromString代码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/stringobjectc.png" alt="此处输入图片的描述"></p>
-<p>代码执行过程如下：</p>
-<blockquote>
-<ul>
-<li>字符串长度检查：如果字符串长度超过PY_SISZE_T_MAX，则提示字符串长度超出python字符长度。</li>
-<li>如果字符串是一个空字符串，python并不会每一次都会创建相应的PyStringObject。python运行时有一个PyStringObject对象指针nullstring专门负责处理空的字符串数组。如果第一次在一个空字符串基础上创建PyStringObject，由于nullstring指针被初始化为NULL，所以ppython会为这个空字符建立一个PyStringObject对象，将这个对象通过intern机制进行共享，然后将nullString指向这个被共享的对象。如果在以后Python检查到需要为一个空字符串创建PyStringObject对象，这时nullstring已经存在了，直接返回nullstring。</li>
-<li>如果不是创建空字符串对象，那么接下来是申请内存。除了为PyStringObject对象申请内存为，还需要为字符串数组内的元素申请额外的内存。然后将hash缓存值设为-1，将inter的标志设为SSTATE_NOT_INTERNED.</li>
-</ul>
-</blockquote>
-<p>以‘Python’为例，在创建完成后，其内存布局图如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/pystingobject%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.png" alt="此处输入图片的描述"></p>
-<p>###字符串对象的intern机制<br>当字符串为空或单个字符时，会有这样的操作，代码如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/intern.png" alt="此处输入图片的描述"></p>
-<p>PyStringObject对象的intern机制的目的是：对于被intern之后的字符串，比如“Ruby”，在整个Python的运行期间，系统中都只有唯一的一个与字符串“Ruby”对应的PyStringObject对象。这样当判断两个PyStringObject对象是否相同时，如果它们都被intern了，那么只需要简单地检查它们对应的PyObject * 是否相同即可。这个机制既节省了空间，又简化了对PyStringObject对象的比较。<br>考虑这么一个问题，当再程序中创建100个“python”的PyStringObject对象时，这样会大量地浪费内存。因此，python为PyStringObject对象引入了intern机制。在这个例子中，如果对于a应用了intern机制，那么之后要创建b的时候，python会首先在系统中记录的已经被intern机制处理了的PyStringObject对象中查找，如果发现该字符串数组对应的PyStringObject对象已经存在了，那么就将该对象的引用返回，而不再重新创建一个PyStringObject对象。</p>
-<p>上面提到，在创建一个字符串时，会首先在interned中检查是否已经有该字符串对应的PyStringObject对象，如果有，则不用创建新的。实际上，真实情况是先创建一个PyStringObject对象temp后，再对temp进行intern处理，intern机制会减少 temp的应用计数，temp对象由于引用计数减为0而被销毁，它只是作为一个临时对象昙花一现地在内存中闪现，然后湮灭。</p>
-<h3 id="字符缓冲池"><a href="#字符缓冲池" class="headerlink" title="字符缓冲池"></a>字符缓冲池</h3><p>类似于小整数对象的对象池，python的设计者为PyStringObject中的一个字节的字符对应的PyStringObject对象设计了一个对象池characters</p>
-<pre><code>static PyStringObject *characters[UCHAR_MAX+1]
-</code></pre><p>如果字符串是一个字符，则会进行如下操作：</p>
-<blockquote>
-<ul>
-<li>创建PyStringObject对象<string p=""></string></li>
-<li>对对象<string p="">进行intern操作</string></li>
-<li>将对象<string p="">缓存至字符缓冲池中<br>在创建PyStringObject时，会首先检查所要创建的是否是一个字符对象，然后检查字符缓冲池是否已经有了这个字符的字符对象的缓冲，，如果有，则直接返回这个缓存的对象即可。</string></li>
-</ul>
-</blockquote>
-<h3 id="PyStringObject效率相关问题："><a href="#PyStringObject效率相关问题：" class="headerlink" title="PyStringObject效率相关问题："></a>PyStringObject效率相关问题：</h3><p>Python中通过“+”进行字符串连接的方法效率及其地下，其根源在于Python中的PyStringObject对象是一个不可变对象。这就意味着当进行字符串连接时，实际上是必须要创建一个新的PyStringObject对象。这样，如果要连接N个PyStringObject对象，那么就必须进行N-1次的内存申请以及内存搬运工作。这将严重影响Python的执行效率。</p>
-<p>官方推荐的做法是通过利用PyStringObject对象的join操作来对存储在list或tuple中的一组PyStringObject对象进行连接操作，这种做法只需要分配一次内存，执行效率将大大提高。</p>
-<p>执行join操作，会首先统计出在list中一共有多少个PyStringObject对象，并统计这些PyStringObject对象所维护的字符串一共有多长，然后申请内存，将list中的所有PyStringObject对象所维护的字符串都拷贝到新开辟的内存空间中。注意，这里只进行了一次内存空间的申请，就完成了N个PyStringObject对象的连接操作。相比于“+”操作符，待连接的PyStringObject对象越多，效率的提升也越明显。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1966,7 +1962,7 @@ Func()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">128</span>
+              <span class="site-state-item-count">129</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
