@@ -344,8 +344,8 @@
 <li>当Cov(X,Y) = 0时，称X与Y不相关。</li>
 </ul>
 <hr>
-<h3 id="协方差的性质"><a href="#协方差的性质" class="headerlink" title="协方差的性质"></a>协方差的性质</h3><p>1、Cov(X,Y) = E(XY) - E(X)E(Y)</p>
-<p>证明：</p>
+<h3 id="协方差的性质"><a href="#协方差的性质" class="headerlink" title="协方差的性质"></a>协方差的性质</h3><h3 id="协方差的性质-1"><a href="#协方差的性质-1" class="headerlink" title="协方差的性质"></a>协方差的性质</h3><p>1、Cov(X,Y) = E(XY) - E(X)E(Y)</p>
+<p><strong>证明</strong>：</p>
 <p>$$Cov(X,Y) = E((X-E(X))(Y-E(Y))) = E(XY-XE(Y)-Y(EX)+E(X)E(Y)) = E(XY) -E(XE(Y)) - E(YE(X)) = E(XY) -E(Y)E(X)-E(X)E(Y) = E(XY) -E(X)E(Y)$$</p>
 <p>要注意E(X)与E(Y)是常数。</p>
 <p>2、若X，Y相互独立，则Cov(X,Y)为0。</p>
@@ -353,6 +353,16 @@
 <p>但这个性质反过来不成立，即Cov(X,Y)等于0时，并不能得到X，Y相互独立。</p>
 <p>设随机变量$X～N(0,\sigma^2),且令Y=X^2$,则X与Y不独立。但此时的协方差为$Cov(X,Y) = Cov(X,X^2) = E(X*X^2)- E(X)E(X^2) = 0$。</p>
 <p>总结一下，Cov(X,Y)为零时，可以得出两者不相关，但并不能确定两者是否独立。这个例子说明，独立必定导致不相关，但不相关不一定导致独立，独立是不相关的一个子集。</p>
+<p>3、任意随机变量X与常数a的协方差为零，即Cov(X,a) = 0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">因为常数a的期望为a，所以a-E(a) = 0,所以上式为零</span><br></pre></td></tr></table></figure>
+<p>4、对于任意常数a，b有Cov(aX,bY) = abCov(X,Y)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">证明：$Cov(aX,bY) = E((aX-E(aX))(bY-E(bY))) =  E(aXbY-aXE(bY)-bYE(aX) + E(aX)E(bY)) = E(aXbY - aXbE(Y)-bYaE(X)+aE(X)bE(Y)) = E(ab(XY-XE(Y))-YE(X)+E(X)E(Y)) = abCov(X,Y)$</span><br></pre></td></tr></table></figure>
+<p>5、对于任意二维随机变量(X,Y),有Var(X+Y) = Var(X) + Var(Y) + 2Cov(X,Y)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">证明：$Var(X+Y) = E((X+Y) - E(X+Y))^2 = E(X+Y -E(X)-E(Y))^2 = E((X-E(X))+(Y-E(Y)))^2 = E((X-E(X)^2 + E(Y-E(Y)^2 +2(X-E(X))(Y-E(Y)) ) = Var(X) +Var(Y) + 2Cov(X,Y)$</span><br></pre></td></tr></table></figure>
+<p>同理，Var(X-Y) = Var(X) + Var(Y) - 2Cov(X,Y)</p>
+<p>6、设X,Y,Z是任意三个随机变量，则Cov(X+Y,Z) = Cov(X,Z) + Cov(Y,Z)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">证明：$Cov(X+Y,Z) = E((X+Y)Z) - E(X+Y)E(Z) = E(XZ + YZ) - E(X)E(Z) - E(Y)E(Z) = E(XZ) + E(YZ) - E(X)E(Z) - E(Y)E(Z) = (E(XZ)-E(X)E(Z)) +(E(YZ)-E(Y)E(Z)) = Cov(X,Z) + Cov(Y,Z)$</span><br></pre></td></tr></table></figure>
+<p>上式的证明用到了Cov(X,Y) = E(XY) - E(X)E(Y)这一性质。</p>
 
           
         
