@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-08-31T08:16:19.727Z</updated>
+  <updated>2020-09-01T13:08:14.520Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>相关系数</title>
+    <link href="http://www.appleieye.com/2020/09/01/%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0/"/>
+    <id>http://www.appleieye.com/2020/09/01/相关系数/</id>
+    <published>2020-09-01T05:58:10.000Z</published>
+    <updated>2020-09-01T13:08:14.520Z</updated>
+    
+    <content type="html"><![CDATA[<p>设(X,Y)是一个二维随机变量，且Var(X)&gt;0,Var(Y)&gt;0，则称$Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)}Var(Y)}$为相关系数。</p><p>协方差Cov(X,Y)是有量纲的量，比如X可能表示人的身高，单位是米，Y表示人的体重，单位是公斤，则Cov(X,Y)带有量纲(m*kg)。为了消除量纲的影响，现对协方差除以相同的量纲的量，就得到一个新的概念——相关系数。</p><p>相关系数与协方差是同符号的，即同为正，或同为负，或同为零。这说明，从相关系数的取值也可以反映出X与Y的正相关、负相关和不相关。</p><hr><h3 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h3><p>1、若X，Y独立，则Corr(X,Y) = 0。这个比较好理解，X，Y独立时，有E(XY) =E(X)E(Y),Cov(X,Y)=0,所以Corr(X,Y) = 0.</p><p>2、｜Corr(X,Y)≤1｜，等于1时只有当且仅当X和Y有严格线性关系时达到。</p><p>相关系数也常称为线性相关系数，这是因为，相关系数并不是刻画了X，Y之间一般关系的程度，而只是“线性”关系的程度。这个依据在于当且仅当X，Y有严格的线性关系时，才有｜Corr(X,Y)｜达到最大值1。</p><p>3、若Corr(X,Y)=0,则称X与Y不相关，不相关是指X和Y之间没有线性关系，但X与Y之间可能有其他的函数关系，比如平方关系，对数关系。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;设(X,Y)是一个二维随机变量，且Var(X)&amp;gt;0,Var(Y)&amp;gt;0，则称$Corr(X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)}Var(Y)}$为相关系数。&lt;/p&gt;
+&lt;p&gt;协方差Cov(X,Y)是有量纲的量，比如X可能表示人的身高，
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="概率论与数理统计" scheme="http://www.appleieye.com/tags/%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>协方差</title>
@@ -552,31 +578,6 @@
     
     
       <category term="机器学习" scheme="http://www.appleieye.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>描述统计—下</title>
-    <link href="http://www.appleieye.com/2020/07/02/%E6%8F%8F%E8%BF%B0%E7%BB%9F%E8%AE%A1%E4%B8%8B/"/>
-    <id>http://www.appleieye.com/2020/07/02/描述统计下/</id>
-    <published>2020-07-02T05:58:10.000Z</published>
-    <updated>2020-07-02T09:00:39.858Z</updated>
-    
-    <content type="html"><![CDATA[<p>在<a href="http://www.appleieye.com/2020/06/22/%E6%8F%8F%E8%BF%B0%E7%BB%9F%E8%AE%A1%E4%B8%8A/">描述统计—-上</a> 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位数和众数。在这篇文章中，将介绍描述数据离散趋势的指标，具体包括以下内容：</p><ol><li>range</li><li>interquartile range</li><li>percentiles</li><li>Box and whisker diagrams</li><li>standard deviation</li><li>Standard scores</li></ol><hr><p><strong>背景</strong>：现有三名篮球运动员，他们的得分情况如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnc5umhj311y06wab3.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbzd40j30vs05wjs3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbzd40j30vs05wjs3.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbsqvlj317k060q40.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggclnbsqvlj317k060q40.jpg"></p><p>这三名运动员得分的算术平均数、中位数、众数都是10分，在这种情况下，假设教练要从这三人中选拔一名运动员，他应该选择哪一位？</p><p>Average(算术平均数、中位数、众数)只告诉了我们数据的中心在哪里，但它们并没有告诉我们数据是如何变化的，也没有告诉我们数据围绕average是如何分布的。如果我们弄清楚了这些点，或许能够做出明智的选择。</p><hr><p>一、Range</p><p>range(范围)描述了一组数据展开情况，通过Upper bound(上界,最大值)与Lower bound(下界,最小值)的差值，得出range.</p><p>⚠️：range有它的局限性，例如它只告诉了我们数据的“宽度”，它并没有告诉我们数据是如何分布的；并且它很容易受到离群值的影响，因为它的计算方式是最大值减去最小值，所以有时候它并不能告诉我们数据的真实面貌。</p><p>二、interquartile range(四分位间距)</p><p>既然Range的局限性在于离群值的影响，那么是否可以规避这些离群值？这个方法就是只使用数据中心及其周围的数据值。我们可以将数据按照从小到大的顺序排列，然后将这些数据分成数量相等的四块，每一块包含四分之一的数据。如下图所示：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcmokuu2mj31ks0cigqz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcmokuu2mj31ks0cigqz.jpg"></p><p>最小的四分位数称为lower quartile，或者是first quartile(Q1)；最大的四分位数称为upper quartile或Q3. 中间的四分位数称为Q2，因为它把数据分成了两部分。这两部分数据的范围称为interquartile range.</p><p>四分位数是如何规避离群值影响的？</p><p>首先，uppper和lower quartiles是位置固定的，所以有25%的数据是小于lower quartile的，同理，有25%的数据是大于upper quartile。这意味着interquartile range只使用了中间50%的数据，所以离群值被抛弃了。</p><hr><p>三、percentiles</p><p>与四分位数类似，我们可以把数据分成若干等份。例如，我们可以把数据分成10份，每份包含十分之一的数据。把数据分割的数值称为百分位数，如我们把数据分成了10份，所以这个值称为是分位数。我们把使用这种方式构成的范围称为interpercentile range。每个百分位数是通过它分割数据的百分比来表示的。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcomu5ix7j314u096dil.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcomu5ix7j314u096dil.jpg"></p><p>The lower quartile is P25, and the upper quartile is P75. The median is P50.</p><hr><p>四、Box and whisker diagrams(箱线图)</p><p>箱线图可以在一个图表中展示多种数据，具体包括range，interquartile range，mean，所以它是一种对比数据集比较好的方式。具体图示如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcp03jquaj314w0le7b3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcp03jquaj314w0le7b3.jpg"></p><hr><p>五、standard deviation</p><p>尽管range和interquartile range可以告诉我们最大值与最小值的差距，但是这些数据不能告诉我们每个运动员发挥是否稳定，或者说不能告诉我们他们得分的变化情况。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcphi3lxej31b00sowrz.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcphi3lxej31b00sowrz.jpg"></p><p>我们可以计算每个值到均值的距离，来表示数据的变化情况。但这样的一个问题是会正负差值的抵消，所以我们可以将差值平方，这样得到的值就是正的(或者为0)了，这个数值叫作variance(方差)，方差开平方后得到的值叫作标准差(standard deviation)。标准差越小，值离算术平均值就越近。</p><hr><p>六、Standard scores(标准分)—-比较的基线</p><p>想象这么一个情况：有两个能力不同的运动员，第一个平均投篮命中率为70%，标准差为20%，第二个命中率为40%，方差为10%；在一次比赛中，第一个运动员的命中率为75%，第二个命中率为55%。问你，哪个运动员表现更出色？</p><p>这时两个运动员有不同的均值、标准差，这时候应该如何比较他们？这时候就用到了standard scores标准得分。计算公式如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcpxts0olj30to05swg3.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcpxts0olj30to05swg3.jpg"></p><p>通过计算z1为0.25,z2为1.5，那么这两个值到底代表了什么？</p><p>standard score是一种对来自不同数据集的不同均值、标准差进行比较的一种方式。这种方式把两组数据好像整合到了一个数据集中(如下图)，实际上是均值为0，标准差为1的正态分布：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcq65crjqj30o80fqacc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggcq65crjqj30o80fqacc.jpg"></p><p>第一个运动员的标准得分是0.25，第二个运动员的标准得分是1.5，当标准化分数后，第二个运动员的得分更高，说明第二个运动员表现更好。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在&lt;a href=&quot;http://www.appleieye.com/2020/06/22/%E6%8F%8F%E8%BF%B0%E7%BB%9F%E8%AE%A1%E4%B8%8A/&quot;&gt;描述统计—-上&lt;/a&gt; 这篇文章中，介绍了描述集中趋势的几种指标，包括算术平均数，中位
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
     
   </entry>
   

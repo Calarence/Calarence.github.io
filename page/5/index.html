@@ -271,6 +271,192 @@
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/springbean1/" itemprop="url">
+                  spring bean装配的三种方式之自动装配
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T14:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring-bean装配的三种方式"><a href="#spring-bean装配的三种方式" class="headerlink" title="spring bean装配的三种方式"></a>spring bean装配的三种方式</h3><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>在之前的两个例子中，通过xml方式配置了依赖的对象，并由spring自动创建并注入依赖的对象，我们并没有在代码中额外的去增加紧耦合的代码。<strong><em>创建应用对象之间协作关系的行为通常称为装配。这也是依赖注入的本质</em></strong>。</p>
+<h3 id="bean装配的三种方式："><a href="#bean装配的三种方式：" class="headerlink" title="bean装配的三种方式："></a>bean装配的三种方式：</h3><blockquote>
+<ul>
+<li>在xml中进行显示配置</li>
+<li>在java中进行显示配置</li>
+<li>隐式的bean发现和自动装配</li>
+</ul>
+</blockquote>
+<p>推荐顺序：优先使用自动配置，显式配置越少越好；如果非用显示配置，java代码配置要优先于xml配置；最后是xml配置</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>考虑一个音箱系统(播放古老cd),由两部分组成：播放器(CDPlayer)和CD(compact Disc)。首先，要创建CompactDisc类，然后创建一个CDPlayer类，让spring发现它，并将CompactDisc bean注入进来。</p>
+<h3 id="两个接口"><a href="#两个接口" class="headerlink" title="两个接口"></a>两个接口</h3><pre><code>package com.appleieye.service;
+public interface CompactDisc {
+void play();
+}
+
+package com.appleieye.service;
+public interface MediaPlayer {
+void play();
+}
+</code></pre><h3 id="自动化装配bean"><a href="#自动化装配bean" class="headerlink" title="自动化装配bean"></a>自动化装配bean</h3><p>spring从两个角度来实现自动装配：<br>    &gt; <em> 组件扫描：spring会自动发现应用上下文中所创建的bean<br>    &gt; </em> 自动装配：spring自动满足bean之间的依赖</p>
+<ol>
+<li><p>组件扫描</p>
+<blockquote>
+<ul>
+<li>创建bean</li>
+<li>启动组件扫描</li>
+</ul>
+</blockquote>
+<p>代码如下：</p>
+<pre><code>//创建bean
+package com.appleieye.maya.api.impl;
+
+import com.appleieye.maya.api.service.CompasticDisc;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SgtPeppers implements CompasticDisc {
+
+private String title = &quot;Sgt. Pepper&apos; s Lonely Hearts Club Band&quot;;
+private String artist = &quot;The Beatles&quot;;
+
+public void play() {
+System.out.println(&quot;Playing &quot; + title +&quot; by &quot; + artist);
+}
+}
+</code></pre><p><strong><em>Component表明该类会作为组件类，并告知spring为该类创建bean</em></strong></p>
+<p>   <strong><em>组件扫描默认是不启用的，需要显式配置spring，从而命令它去寻找带有@Component的类，并为它创建bean</em></strong></p>
+<pre><code>//启动组件扫描
+package com.appleieye.maya.api;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+@Configuration
+@ComponentScan
+public class CDPlayerConfig {
+ }
+</code></pre><p> @ComponentScan注解用于启动组件扫描；如果没有特殊配置的话，@ComponentScan默认会扫描与配置类相同的包，因为CDPlayerConfig位于api这个包下，所以@ComponentScan会扫描API包以及它的子包，这样就能发现SgtPeppers，并为其创建bean。</p>
+</li>
+<li><p>自动装配<br>自动装配就是让Spring自动满足bean依赖的一种方法，在满足依赖的 过程中，会在Spring应用上下文中寻找匹配某个bean需求的其他bean。为了 声明要进行自动装配，我们可以借助Spring的@Autowired 注解。</p>
+</li>
+</ol>
+<p>代码如下：</p>
+<pre><code>package com.appleieye.maya.api.impl;
+
+@Component
+public class CDPlayer implements MediaPlayer {
+
+@Autowired
+private CompasticDisc cd;
+
+public void play() {
+    cd.play();
+}
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/22/springbean2/" itemprop="url">
                   spring bean装配的三种方式之Java代码配置
                 </a>
@@ -1685,162 +1871,6 @@ lock.unlock();
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/05/java GC/" itemprop="url">
-                  java垃圾收集
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-01-05T15:38:58+08:00" content="2018-01-05">
-              2018-01-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>GC需要考虑的三个问题：</p>
-<ol>
-<li>哪些内存需要回收</li>
-<li>何时回收 </li>
-<li>如何回收</li>
-</ol>
-<p>对这三个问题的解决，也是本文的叙述顺序</p>
-<hr>
-<p>1、哪些内存需要回收–可达分析算法来判断：<br>   由于引用计数法无法解决循环引用的问题，所以在java中没有采用该方法，而是采用了一种叫做“可达分析”的算法。<br>   这个算法的基本思路是通过一些列称为“GC Roots”的对象作为起始点，从这些起始点开始向下搜索，搜索走过的路径称为引用链。当一个对象到GC Roots没有任何引用链，也就是从GC Roots到这个对象不可达，则证明此对象时不可用的，由此判定这些对象是可回收的对象。<br>   可作为GC Roots的对象包括下面几种：</p>
-<blockquote>
-<ul>
-<li>虚拟机栈中（本地变量表）引用的对象</li>
-<li>方法区中类静态属性引用的对象</li>
-<li>方法区中常量引用的对象</li>
-<li>本地方法栈中引用的对象</li>
-</ul>
-</blockquote>
-<p>2、何时回收–安全点、安全区域才进行GC：<br>   程序执行时并非在所有的地方都能停下来开始GC，只有到达安全点时才能暂停。<br>3、如何回收：回收算法（理论）+垃圾收集器（实现）：<br>     <strong><em>回收算法</em></strong>：<br>     &gt; <em> 标记清除：<br>     算法分为两个阶段：标记（可达分析算法）和清除。它有两个不足：一个是效率问题，标记和清除这两个过程效率都不高；第二个是空间问题，会产生空间碎片。空间碎片太多可能会导致以后分配大对象时，无法找到足够内存而不得不提前触发另一次垃圾收集动作。<br>     &gt; </em> 复制：将内存一分为二，每次只使用其中一块。当一块用完后，就将上面还存活的对象复制到另一块上，然后将使用过的内存一次性的回收。<br>     优点：实现简单，运行高效<br>     缺点：内存缩小为原来的一半，代价高昂<br>     用于回收新生代对象<br>     &gt; <em> 标记整理：标记阶段与‘标记-清除’方法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都移动到一端，然后直接清理掉端边界以外的内存。<br>     &gt; </em> 分代收集算法：将java堆分为新生代和老年代，新生代采用复制算法，而老年代采用标记-清除或标记整理算法。</p>
-<p><strong><em>垃圾收集器</em></strong>:</p>
-<blockquote>
-<ul>
-<li>Serial收集器：<br>  最基本的、发展历史最悠久的<strong>新生代</strong>收集器；单线程，工作时会暂停其他所有的工作线程；虚拟机运行在client模式下的默认新生代收集器</li>
-<li>ParNew收集器：<br>   Serial收集器的多线程版本；运行在server模式下虚拟机首选的新生代收集器；除Serial外，唯一的能与CMS收集器配合工作的收集器</li>
-<li>Parallel Scavenge收集器：<br>  新生代收集器；并行多线程；与其他收集器关注用户线程停顿时间不一样，Parallel收集器关注的是吞吐量，吞吐量优先的收集器；Parallel Scavenage收集器提供了两个参数用于精确控制吞吐量，分别是控制最大停顿时间-XX:MaxGCPauseMillis参数以及设置吞吐量大小的-XX:GCTimeRatio；此外，还有一个参数-XX:+UseAdaptiveSizePolicy,这是一个开关参数，当这个参数打开后，就不需要手动指定新生代的大小（-Xmn），Eden与Survivor的比例(-XSS:SurvvivorRatio)、晋升老年代对象大小（-XX：PretenureSizeThreshold）等细节参数了，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大吞吐量，这种调节方式称为GC自适应的调节策略。</li>
-<li>Serial Old收集器：Serial收集器的老年代版本；使用标记-整理算法；clint模式下的虚拟机使用</li>
-<li>Parallel Old收集器：Parallel Scavenage收集器的老年代版本。</li>
-<li>CMS（Concurrent Mark Sweep）收集器:并发标记、低停顿，以获取最短停顿时间为目标，采用标记-清除算法；服务端；老年代。<br>运行过程：</li>
-<li>初始标记：仅标记GC Roots能直接关联到的对象，暂停用户线程</li>
-<li>并发标记：从GC Roots开始对堆中对象进行可达性分析，找出存活的对象，此过程时间较长，但可与用户线程并发执行</li>
-<li>重新标记：修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录。</li>
-<li>并发清除：与用户线程并发执行<br>三个缺点：</li>
-<li>CMS收集器对CPU资源非常敏感</li>
-<li>CMS收集器无法处理浮动的垃圾</li>
-<li>基于标记-清除，会产生空间碎片</li>
-<li>G1收集器：面向服务端；并发与并行；分代收集；空间整合（使用标记-整理）；可预测的停顿，除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不超过N毫秒；<pre><code>使用G1收集器时，Java堆的内存布局就与其他收集器有很大差别，它将整个java堆划分为多个大小相等的独立区域（Region）,虽然还保存着新生代与老年代，但他们不再是物理隔离的了，他们都是一部分Region的集合。
-G1收集器之所以能建立可预测的停顿时间模型，是因为它可以跟踪各个Region里面的垃圾堆积的价值大小（回收所获得的的空间大小以及回收所需时间的经验值），在后台维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的Region
-过程：前三个过程与CMS收集器过程基本类似
-初始标记
-并发标记
-最终标记
-筛选回收：对各个Region的回收价值和成本进行排序，根据用户制定的GC停顿时间来制定回收计划。
-</code></pre></li>
-</ul>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1886,7 +1916,7 @@ G1收集器之所以能建立可预测的停顿时间模型，是因为它可以
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">129</span>
+              <span class="site-state-item-count">130</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
