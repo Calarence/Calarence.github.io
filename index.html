@@ -271,6 +271,133 @@
             
               
                 
+                <a class="post-title-link" href="/2020/09/06/正规方程/" itemprop="url">
+                  正规方程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-09-06T13:58:10+08:00" content="2020-09-06">
+              2020-09-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="why正规方程"><a href="#why正规方程" class="headerlink" title="why正规方程"></a>why正规方程</h3><p>梯度下降与正规方程的比较如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gigklndsoyj31ju0jeqba.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gigklndsoyj31ju0jeqba.jpg"></p>
+<p><strong>总结如下</strong>：</p>
+<ol>
+<li>只要特征数量的数目并不大，标准方程是一个很好的计算参数$\theta$的替代方法，具体来说，只要特征数量小于一万，通常使用标准方程法，而不使用梯度下降法</li>
+<li>标准方程不能一些复杂的算法，比如逻辑回归算法等。对于那些更复杂的学习算法，不得不采用梯度下降法。但对于特定的线性回归模型，标准方程法是一个比梯度下降法更快的替代算法</li>
+<li>根据具体的问题、特征变量的数量选择这两种算法</li>
+</ol>
+<hr>
+<h3 id="正规方程求解方式"><a href="#正规方程求解方式" class="headerlink" title="正规方程求解方式"></a>正规方程求解方式</h3><p>正规方程是通过求解方程$\frac{\delta J(\theta_j)}{\delta \theta_j} = 0$来找出使得代价函数最小的参数，正规方程为$\theta = (X^TX)^{-1}X^Ty$。上标 T 代表矩阵转置,上标-1 代表矩阵的逆</p>
+<hr>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gigl4v0uxbj30vy0dw44f.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gigl4v0uxbj30vy0dw44f.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gigmglhwcsj30o00aa77l.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gigmglhwcsj30o00aa77l.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gigmh738y5j31es0cuk2a.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gigmh738y5j31es0cuk2a.jpg"></p>
+<p>对于那些不可逆的矩阵 (通常是因为特征之间不独立, 如同时包含英尺为单位的尺寸和米为单位的尺寸两个特征, 也有可能是特征数量大于训练集的数量) , 正规方程方法是不能用的。所以，首先需要看特征值里是否有一些多余的特征, 像这些x1和x2是线性相关的, 互为线性函数。同时, 当有一些多余的特征时, 可以删除这两个重复特征里的其中一个, 无须两个特征同时保留,将解决不可逆性的问题。因此,首先应该通过观察所有特征检查是否有多余的特征, 如果有多余的就删除掉, 直到他们不再是多余的为止, 如果特征数量实在太多, 我会删除些 用较少的特征来反映尽可能多内容, 否则我会考虑使用正规化方法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/09/01/相关系数/" itemprop="url">
                   相关系数
                 </a>
@@ -1671,171 +1798,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/07/28/线性代数/" itemprop="url">
-                  数据科学中的线性代数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-07-28T13:58:10+08:00" content="2020-07-28">
-              2020-07-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>“Young man, in mathematics you don’t understand things. You just get used to them”——冯-诺伊曼</p>
-<p><strong>主要内容</strong>：</p>
-<ol>
-<li>标量</li>
-<li>向量</li>
-<li>矩阵</li>
-<li>特殊矩阵</li>
-<li>矩阵的运算</li>
-</ol>
-<p>一、<strong>标量、向量、矩阵基本概念</strong></p>
-<p>一款游戏中的英雄有三个属性，智力、敏捷和力量，分别用三个字母i, a 和s表示。</p>
-<p>对于英雄A，假设他是智力型选手，智力设定为10，敏捷为6，力量为2，则可以用数学式子表示为i=10，a=6，s=2。我们用<strong>数字</strong>表示各个属性的值，这在数学上叫作标量。标量其实就是数字。</p>
-<p>将上面三个属性按照智力、敏捷、力量的顺序写在一起，可以表示一个英雄的能力。A=(10,6,2)。在数学上，A称为向量，准确的说是行向量。行向量是多个标量排成一行；与之相对应的是列向量，即多个数字排成一列。</p>
-<p>现在有三个英雄，B、C、D，向量表示为B=(3,4,10),C=(5,10,4),D=(6,9,5),将这四个英雄的向量排成矩形阵列，每一行表示一个英雄。用数学语言来描述就是，一个nXm的矩阵，就是由n行m列元素组成的矩形阵列。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ilmbqdaj31020mitv8.jpg"></p>
-<p>上图就是一个4X3的矩阵。从数学上来讲，标量和向量其实是比较特殊的矩阵，包含k个数字的行向量可以看作是1Xk的矩阵，而包含k个数字的列向量，可以看作是kX1的矩阵</p>
-<p>xi,j,表示标量，也就是一个实数,Xi表示一个m维的行向量，X表示n×m的矩阵，Rn×m表示所有取值为实数的n×m矩阵全体</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ivyhfnyj31ag09q7aa.jpg"></p>
-<hr>
-<p>二、<strong>特殊矩阵</strong></p>
-<p>方阵：它是行数等于列数的矩阵。从形状上来看，它就像一个正方形，因此被称作方阵。</p>
-<p>单位矩阵：矩阵的对角线元素等于1，其他元素等于0，记为In。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r3j7o7fj30ts06kq6d.jpg"></p>
-<p>对角矩阵：除对角线元素外，其他元素都为0，记为diag(d1,d2…dn)。单位矩阵是一种特殊的对角矩阵。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6r7d6lr8j31260940yn.jpg"></p>
-<p>三角矩阵：它可以分为上三角矩阵和下三角矩阵。上三角矩阵的对角线下方全部为零，记为U；下三角矩阵对角线上方的元素全部为零，记为L</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rbfbu4cj30zg0go7eu.jpg"></p>
-<hr>
-<p>三、<strong>矩阵运算</strong></p>
-<p>1、矩阵的加减法：要求两个矩阵是行数和列数相等。假设两个矩阵X，Y同为mXn的矩阵，那么两者的和差仍为mXn的矩阵。矩阵的加法满足交换律和结合律。具体加减法操作如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rpurwgdj31d609w46j.jpg"></p>
-<p>2、矩阵的乘法：</p>
-<p>a) 矩阵与数字相乘。任何一个实数都可以与矩阵相乘。假设k为实数，那么它与矩阵X的乘法定义如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6rx11d0pj30ys07a0yt.jpg"></p>
-<p>b) 矩阵与矩阵的乘法。只有在第一个矩阵的列数与第二个矩阵的行数相等时，才可以相乘。假设A为nXp的矩阵，B为pXm的矩阵，那么两者的乘积为nXm的矩阵，记为AB。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s0okhnmj30zm05cwjt.jpg"></p>
-<p>矩阵乘法满足结合律和分配律，但不满足交换律。任何一个矩阵与单位矩阵的乘积都等于其本身。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6s8xbcl7j31jg09uwr2.jpg"></p>
-<p>c) Hadamard乘积</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6taa41pij31sa0eq1kx.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6tdiimdtj30k607ijwm.jpg"></p>
-<p>四、<strong>矩阵求逆</strong></p>
-<p>对矩阵求逆是针对方阵的，即行数等于列数的矩阵。假设M是一个nXn的矩阵，若存在一个nXn的矩阵N使得它们的乘积等于n阶单位矩阵，则称矩阵N为矩阵M的逆矩阵，记为M^-1，而M则被称作为可逆矩阵。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6u6wp1p5j30wg05gq4q.jpg"></p>
-<p>五、矩阵的转置</p>
-<p>矩阵的转置就是将矩阵沿着对角线对调一下。假设X为nXm的矩阵，则它的转置为mXn的矩阵</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubanu50j30y004w0ua.jpg"></p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1gh6ubx6g48j30se042dhc.jpg"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1876,7 +1843,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">130</span>
+              <span class="site-state-item-count">131</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

@@ -271,6 +271,158 @@
             
               
                 
+                <a class="post-title-link" href="/2018/04/22/springaop/" itemprop="url">
+                  spring面向切面编程示例之打印日志
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2018-04-22T15:58:10+08:00" content="2018-04-22">
+              2018-04-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="spring面向切面编程示例之打印日志"><a href="#spring面向切面编程示例之打印日志" class="headerlink" title="spring面向切面编程示例之打印日志"></a>spring面向切面编程示例之打印日志</h3><h3 id="切面的概念"><a href="#切面的概念" class="headerlink" title="切面的概念"></a>切面的概念</h3><p>在[spring依赖注入示例之hello world][1]这篇文章中，实现了hello world的输出，这部分的逻辑可以说是“业务逻辑”。在实现业务逻辑时，我们会需要一些额外的操作，如通过打印日志来记录程序的执行情况(在输出hello world的前后都打印日志)；通过安全服务来判断用户是否登陆(只有登陆的用户才可以打印日志)；这些模块或服务可能是所有业务逻辑都用的到的，称之为横切关注点。</p>
+<p>在知道了横切关注点的概念后，接下来考虑如何将其应用到业务逻辑中。一般思路会是在业务逻辑中调用这些服务，但这样会有两个问题：第一个是这些横切关注点的代码会重复出现在所有的业务逻辑代码中；第二个问题是当横切关注点代码发生改变时，所有的业务代码也需要跟着变化。而spring的面向切面编程很好的解决了以上两个问题，它能够使这些服务模块化，并以声明的方式将它们应用到它们需要影响的组件中去。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
+<li><p>pom中添加依赖</p>
+<pre><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+ &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+ &lt;version&gt;1.8.13&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></li>
+<li><p>添加切面的实现</p>
+</li>
+</ul>
+<pre><code>public class LogHelper {
+public LogHelper() {
+    }
+public void sayBefore(){
+    System.out.println(&quot;before saying hello world&quot;);
+    }
+public void sayAfter(){
+    System.out.println(&quot;after saying hello world&quot;);
+        }
+      }
+</code></pre><ul>
+<li><p>配置切面</p>
+<pre><code>&lt;bean id=&quot;logHelper&quot; class=&quot;com.appleieye.outputer.LogHelper&quot;&gt;
+&lt;/bean&gt;
+&lt;aop:config&gt;
+&lt;aop:aspect ref=&quot;logHelper&quot;&gt;
+&lt;!--定义切点--&gt;
+&lt;aop:pointcut id=&quot;helloWorld&quot; expression=&quot;execution(* *.outPut())&quot; /&gt;
+&lt;!--定义前置通知--&gt;
+&lt;aop:before pointcut-ref=&quot;helloWorld&quot; method=&quot;sayBefore&quot;  /&gt;
+&lt;!--定义后置通知--&gt;
+&lt;aop:after pointcut-ref=&quot;helloWorld&quot; method=&quot;sayAfter&quot;  /&gt;
+&lt;/aop:aspect&gt;
+&lt;/aop:config&gt;
+</code></pre></li>
+</ul>
+<p>这里使用了spirng的aop配置命名空间把logHelper声明为一个切面。首先，需要把logHelper声明为一个bean，然后在<code>&lt;aop:aspenct&gt;</code>元素中引用该bean。<code>&lt;aop:before&gt;</code>在outPut()方法前执行调用，而<code>&lt;aop:after&gt;</code>在outPut()方法后执行调用。<br>通过这种方式，使得logHelper被应用到outHelper中去，更重要的是，并没有显示的在outHeper中调用logHelper.<br>  [1]: <a href="http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/">http://www.appleieye.com/2018/04/17/spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%E4%B9%8Bhello%20world/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/22/springbean1/" itemprop="url">
                   spring bean装配的三种方式之自动装配
                 </a>
@@ -1752,130 +1904,11 @@ lock.unlock();
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/05/javaMemory2/" itemprop="url">
-                  java内存分配与回收策略
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-01-05T17:12:50+08:00" content="2018-01-05">
-              2018-01-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="java内存分配与回收策略"><a href="#java内存分配与回收策略" class="headerlink" title="java内存分配与回收策略"></a>java内存分配与回收策略</h1><ol>
-<li>对象优先在Eden分配：大多数情况下，对象在新生代Eden区中分配。当Eden区没有足够的空间时，虚拟机将发起一次Minor GC。如果GC时发现已有对象无法放入Survivor空间，则通过分配担保机制提前转移到老年代中去。</li>
-<li>大对象直接进入老年代。大对象是指需要大量连续内存空间的java对象，最典型的大对象如很长的字符串以及数组。虚拟机提供了一个-XX：PretenureSizeThresold参数，令大于该值的对象直接才老年代分配</li>
-<li>长期存活的对象进入老年代：虚拟机给每个对象定义了一个对象年龄计数器。通过该计数器来判断是否需要进入老年代。如果对象在Eden出生并且经过第一次Minor GC仍然能够存活下来，并且能被survivor容纳，将被移动到survivor空间中，并且年龄设为1。对象在Survivor区中每熬过一次Minor GC，年龄就增长一岁。当它的年龄增加到一定程度，默认为15岁，就会被移动到老年代中。对象晋升老年代的年龄阀值，可以通过参数-XX：MaxTenuringThresold来设置。</li>
-<li>动态对象年龄判定：为了能更好地适应不同程序的内存状况，虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThresold才能晋升老年代。如果在Survivor空间中，相同年龄所有对象的大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入到老年代中，无须等到MaxTenuringThresold所要求的年龄。</li>
-<li>空间分配担保：在Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则查看HandlePromotionFailure设置是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则会尝试进行Minor GC；如果小于或者不允许担保失败，则进行一次Full GC。大部分情况下会打开HandlePromotionFailure，以避免Full GC过于频繁。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1916,7 +1949,7 @@ lock.unlock();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">130</span>
+              <span class="site-state-item-count">131</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
