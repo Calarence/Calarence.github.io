@@ -1,0 +1,667 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据科学," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章转自通俗讲解P(查准率)，R(查全率)，F1值%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC) 可以结合机器学习系统设计这篇文章进行阅读  一、怎么来的？我们平时用的精度accuracy，也就是整体的正确率 $acc = \frac{pridictRightNum}{predictNum}$ 这个虽然常用，但不能满足所">
+<meta name="keywords" content="数据科学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通俗讲解P(查准率)，R(查全率)，F1值">
+<meta property="og:url" content="http://www.appleieye.com/2020/09/07/通俗讲解P(查准率)，R(查全率)，F1值/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="这篇文章转自通俗讲解P(查准率)，R(查全率)，F1值%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC) 可以结合机器学习系统设计这篇文章进行阅读  一、怎么来的？我们平时用的精度accuracy，也就是整体的正确率 $acc = \frac{pridictRightNum}{predictNum}$ 这个虽然常用，但不能满足所">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2020-09-07T10:05:49.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通俗讲解P(查准率)，R(查全率)，F1值">
+<meta name="twitter:description" content="这篇文章转自通俗讲解P(查准率)，R(查全率)，F1值%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC) 可以结合机器学习系统设计这篇文章进行阅读  一、怎么来的？我们平时用的精度accuracy，也就是整体的正确率 $acc = \frac{pridictRightNum}{predictNum}$ 这个虽然常用，但不能满足所">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/09/07/通俗讲解P(查准率)，R(查全率)，F1值/"/>
+
+  <title> 通俗讲解P(查准率)，R(查全率)，F1值 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                通俗讲解P(查准率)，R(查全率)，F1值
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-09-07T13:58:10+08:00" content="2020-09-07">
+              2020-09-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章转自<a href="%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3P(%E6%9F%A5%E5%87%86%E7%8E%87">通俗讲解P(查准率)，R(查全率)，F1值</a>%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC)</p>
+<p>可以结合<a href="http://www.appleieye.com/2020/08/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">机器学习系统设计</a>这篇文章进行阅读</p>
+<hr>
+<h2 id="一、怎么来的？"><a href="#一、怎么来的？" class="headerlink" title="一、怎么来的？"></a><strong>一、怎么来的？</strong></h2><p>我们平时用的精度accuracy，也就是整体的正确率</p>
+<p>$acc = \frac{pridictRightNum}{predictNum}$</p>
+<p>这个虽然常用，但不能满足所有任务的需求。比如，因为香蕉太多了，也不能剥开人工的一个一个的看它的好坏，此时我们就需要有一种方法，代替拨开香蕉这种粗鲁的手段。这时我们需要通过一些测试，看看哪种方法能更加准确的预测。我们可以通过</p>
+<p><strong>“准”：预测的准确度，就是我预测的结果中真正好的香蕉要越多越好；</strong></p>
+<p><strong>“全”：就是所有的好的香蕉预测出来的越多越好，虽然把有些坏的也预测是好的了，那也不管，“全”就行。</strong></p>
+<p>其实这两者都想要达到就好了，但是不行的：</p>
+<p>比如”准”,我就预测一个算了，好的香蕉肯定比坏的比例高，也就是我只预测一个，100%比例几率最大了，这时就不“全”了，海域好多好的不能都当成坏的扔了吧。。</p>
+<p>再比如”全”,我去全部预测成好的这真正好的都在我的预测里，也就是100%。可是这时的”准”就贼不准了。。</p>
+<p>所以就必须来平衡这俩同志的关系了，怎么平衡呢？肯定是通过权重来的呀，此时，F值登上历史舞台!</p>
+<hr>
+<h2 id="二、啥意思捏？"><a href="#二、啥意思捏？" class="headerlink" title="二、啥意思捏？"></a><strong>二、啥意思捏？</strong></h2><p>实例化讲解吧。比如我们的香蕉中 1 表示好的，0表示坏的，有10个香蕉：</p>
+<p>gold : [ 1，1，1，1，1，0，0，0，0，0 ]</p>
+<p>pred： [ 1，0，1，1，1，1，1，0，0，0 ]</p>
+<p>注释：gold是现实的好坏；pred是预测的好坏。</p>
+<p>P(Precision) 查准率：就是上面说的”准”。字面意思好理解呀，就是在预测当中查找准确个数的比例。公式为：</p>
+<p><strong>P=真正预测准确的数量/预测是”好”的数量 == 4 / 6</strong></p>
+<p>R(Recall) 查全率：就是上面的”全”。根据字面理解，在预测中看看真正预测对的占全有对的比率。公式为：</p>
+<p><strong>R=真正预测准确的数量/所有真正好的数量 = 4 / 5</strong></p>
+<p>F值是：</p>
+<p>$F(k)= \frac{(1+k)<em>P</em>R}{(k<em>k)</em>P+R}$</p>
+<p>注释：k&gt;0 度量了 查全率 对 查准率 的相对重要性。<strong>k&gt;1查全率有更大影响；k&lt;1查准率有更大影响。</strong></p>
+<p><strong>在这个实例中可以表示为：k&gt;1就是查全率有更大影响，就是好的香蕉最好都预测出来，因为你觉得不想把好的当成坏的扔点( 真可惜，我爱吃啊 ) ；</strong></p>
+<p><strong>k&lt;1查准率有更大影响，就是一定要准确，省时间，省力更重要，不在乎好的香蕉当坏的扔点。</strong></p>
+<p>而我们常用的是F1，就是F(1)的意思，k=1，比如我们做一个分类任务，这几个类觉得都一样重要。此时：</p>
+<p>$F(1) = \frac{2<em>P</em>R}{(P+R)} = \frac{40}{54}$</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据科学/" rel="tag">#数据科学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/06/正规方程/" rel="next" title="正规方程">
+                <i class="fa fa-chevron-left"></i> 正规方程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">132</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、怎么来的？"><span class="nav-number">1.</span> <span class="nav-text">一、怎么来的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、啥意思捏？"><span class="nav-number">2.</span> <span class="nav-text">二、啥意思捏？</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

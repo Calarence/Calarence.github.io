@@ -271,6 +271,153 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/22/nodejs/" itemprop="url">
+                  nodejs进阶一
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T19:26:16+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MEAN框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">MEAN框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>javascript语法、特性学习，可参考<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000" target="_blank" rel="noopener">js编程全栈</a></li>
+<li>node特点：<blockquote>
+<ul>
+<li>异步I/O</li>
+<li>事件与回调函数</li>
+<li>单线程</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>node的模块–modole:ConnmonJS对模块的定义十分简单，主要分为模块引用、模块定义和模块标识三个部分。<blockquote>
+<ul>
+<li>模块引用：示例代码<code>var math = require(&#39;math&#39;)</code>在CommonJS规范中，存在require()方法，这个方法接收模块标识，以此引入一个模块的api到当前上下文中</li>
+<li>模块的定义：在模块中，上下文提供require()方法来引入外部模块。对应引入功能，上下文提供了exports对象用于导出当前模块的方法或者变量，并且它是唯一导出的出口。在模块中，还存在一个module对象，它代表模块自身，而exports是module的属性。在Node中，一个文件就是一个模块，将方法挂载在exports对象上作为属性即可定义导出的方式。<br><code>//math.js
+exports.add = function(){
+var sum =0,
+i = 0,
+args = arguments,
+l = args.length;
+while(i&lt;1){
+sum += args[i++];
+}
+return sum;
+};</code></li>
+<li>在另一个文件中，可通过require()方法引入模块后，就能调用定义的属性或方法了：<br><code>//programs.js
+var math = require(&#39;math&#39;);
+exports.increment = function(val){
+return math.add(val,1);
+};</code><br><a href="http://www.sitepoint.com/understanding-module-exports-exports-node-js/" target="_blank" rel="noopener">这篇文章</a>详细讲述了module.exports和module</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/22/gc/" itemprop="url">
                   垃圾回收算法
                 </a>
@@ -1679,119 +1826,6 @@ helloWorld.print();
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/08/03/sublimetext3/" itemprop="url">
-                  Sublime text 3快捷键壁纸版
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-08-03T21:59:00+08:00" content="2015-08-03">
-              2015-08-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/开发工具/" itemprop="url" rel="index">
-                    <span itemprop="name">开发工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>sublime text3快捷键<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/sublime-text-3-cheat-sheet-wallpaper-large.jpg" alt="Sublime text 3快捷键壁纸版"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1837,7 +1871,7 @@ helloWorld.print();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">131</span>
+              <span class="site-state-item-count">132</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

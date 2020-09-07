@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-09-06T00:33:12.336Z</updated>
+  <updated>2020-09-07T10:05:49.050Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>通俗讲解P(查准率)，R(查全率)，F1值</title>
+    <link href="http://www.appleieye.com/2020/09/07/%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3P(%E6%9F%A5%E5%87%86%E7%8E%87)%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC/"/>
+    <id>http://www.appleieye.com/2020/09/07/通俗讲解P(查准率)，R(查全率)，F1值/</id>
+    <published>2020-09-07T05:58:10.000Z</published>
+    <updated>2020-09-07T10:05:49.050Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章转自<a href="%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3P(%E6%9F%A5%E5%87%86%E7%8E%87">通俗讲解P(查准率)，R(查全率)，F1值</a>%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC)</p><p>可以结合<a href="http://www.appleieye.com/2020/08/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">机器学习系统设计</a>这篇文章进行阅读</p><hr><h2 id="一、怎么来的？"><a href="#一、怎么来的？" class="headerlink" title="一、怎么来的？"></a><strong>一、怎么来的？</strong></h2><p>我们平时用的精度accuracy，也就是整体的正确率</p><p>$acc = \frac{pridictRightNum}{predictNum}$</p><p>这个虽然常用，但不能满足所有任务的需求。比如，因为香蕉太多了，也不能剥开人工的一个一个的看它的好坏，此时我们就需要有一种方法，代替拨开香蕉这种粗鲁的手段。这时我们需要通过一些测试，看看哪种方法能更加准确的预测。我们可以通过</p><p><strong>“准”：预测的准确度，就是我预测的结果中真正好的香蕉要越多越好；</strong></p><p><strong>“全”：就是所有的好的香蕉预测出来的越多越好，虽然把有些坏的也预测是好的了，那也不管，“全”就行。</strong></p><p>其实这两者都想要达到就好了，但是不行的：</p><p>比如”准”,我就预测一个算了，好的香蕉肯定比坏的比例高，也就是我只预测一个，100%比例几率最大了，这时就不“全”了，海域好多好的不能都当成坏的扔了吧。。</p><p>再比如”全”,我去全部预测成好的这真正好的都在我的预测里，也就是100%。可是这时的”准”就贼不准了。。</p><p>所以就必须来平衡这俩同志的关系了，怎么平衡呢？肯定是通过权重来的呀，此时，F值登上历史舞台!</p><hr><h2 id="二、啥意思捏？"><a href="#二、啥意思捏？" class="headerlink" title="二、啥意思捏？"></a><strong>二、啥意思捏？</strong></h2><p>实例化讲解吧。比如我们的香蕉中 1 表示好的，0表示坏的，有10个香蕉：</p><p>gold : [ 1，1，1，1，1，0，0，0，0，0 ]</p><p>pred： [ 1，0，1，1，1，1，1，0，0，0 ]</p><p>注释：gold是现实的好坏；pred是预测的好坏。</p><p>P(Precision) 查准率：就是上面说的”准”。字面意思好理解呀，就是在预测当中查找准确个数的比例。公式为：</p><p><strong>P=真正预测准确的数量/预测是”好”的数量 == 4 / 6</strong></p><p>R(Recall) 查全率：就是上面的”全”。根据字面理解，在预测中看看真正预测对的占全有对的比率。公式为：</p><p><strong>R=真正预测准确的数量/所有真正好的数量 = 4 / 5</strong></p><p>F值是：</p><p>$F(k)= \frac{(1+k)<em>P</em>R}{(k<em>k)</em>P+R}$</p><p>注释：k&gt;0 度量了 查全率 对 查准率 的相对重要性。<strong>k&gt;1查全率有更大影响；k&lt;1查准率有更大影响。</strong></p><p><strong>在这个实例中可以表示为：k&gt;1就是查全率有更大影响，就是好的香蕉最好都预测出来，因为你觉得不想把好的当成坏的扔点( 真可惜，我爱吃啊 ) ；</strong></p><p><strong>k&lt;1查准率有更大影响，就是一定要准确，省时间，省力更重要，不在乎好的香蕉当坏的扔点。</strong></p><p>而我们常用的是F1，就是F(1)的意思，k=1，比如我们做一个分类任务，这几个类觉得都一样重要。此时：</p><p>$F(1) = \frac{2<em>P</em>R}{(P+R)} = \frac{40}{54}$</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;这篇文章转自&lt;a href=&quot;%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3P(%E6%9F%A5%E5%87%86%E7%8E%87&quot;&gt;通俗讲解P(查准率)，R(查全率)，F1值&lt;/a&gt;%EF%BC%8CR(%E6%9F%A5%E5%85%A8%
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>正规方程</title>
@@ -530,40 +555,6 @@
 &lt;/ol&gt;
 &lt;hr&gt;
 &lt;p&gt;一、&lt;strong&gt;离散变量与连续性变量&lt;/s
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>几何分布、二项分布、泊松分布</title>
-    <link href="http://www.appleieye.com/2020/07/07/%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83/"/>
-    <id>http://www.appleieye.com/2020/07/07/几何分布二项分布泊松分布/</id>
-    <published>2020-07-07T05:58:10.000Z</published>
-    <updated>2020-07-07T14:54:42.115Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>本文内容</strong>：</p><ol><li>几何分布</li><li>二项分布</li><li>泊松分布</li><li>多变量的泊松分布</li><li>使用泊松分布代替二项分布</li></ol><hr><p>一、<strong>几何分布</strong></p><p>从前有个人喜欢滑雪，他每次成功从山坡上滑下来的概率为0.2，他要一直练习从山坡上滑下，直到取得成功(假设每次他的每次练习是相互独立的，即一次练习的结果，不会影响到下一次练习)。</p><p>现在有一个问题，问他需要练习两次才成功的概率是多少。</p><p>我们可以使用probability tree来分析这个问题(如下图)。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilawnw9qj31300sajw9.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilawnw9qj31300sajw9.jpg"></p><p>如果X代表他需要练习的次数，则有</p><p>P(X = 1) = P(Success in trial 1) = 0.2</p><p>P(X = 2) = P(Success in trial 2 ∩ Failure in trial 1) = 0.2 x 0.8 = 0.16</p><p>他练习一次或两次即可成功的概率，则有：</p><p>P(X ≤ 2) = P(X = 1) + P(X = 2) = 0.2+0.16 = 0.3</p><p><strong><em>问题延伸：</em></strong>上面的两个问题计算的都是成功次数比较小时的概率，假设我们需要计算练习100次、1000次才可以成功的概率时，问题就变得复杂和困难起来。这个时候我们就需要<strong>*probability distribution(概率分布),</strong>我们可以利用它的一些特性，很快地计算出*<strong>概率、期望和方差</strong>。</p><p>我们滑雪场景下的概率分布，叫作<strong>*几何分布(geometric distribution)。</strong>它的计算公式如下<strong>：*</strong></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiltdmjf2j30cy03owel.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiltdmjf2j30cy03owel.jpg"></p><p>上述公式中，r表示尝试了r次才成功，r-1表示失败的次数，1表示成功的次数，p表示每次试验成功的概率，q表示每次试验失败的概率，其中q=1-p。这些公式都可以通过概率树进行推算</p><p>在我们这个例子中，假设我们想计算他尝试了100次，才成功1次的概率，则有如下等式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilxd213xj30ds02kdg2.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggilxd213xj30ds02kdg2.jpg"></p><p>此外，我们还可以计算超过r次才成功的概率，如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimc0a1z7j30du05sweo.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimc0a1z7j30du05sweo.jpg"></p><p>超过r次才成功，说明前面r次都失败了</p><p>需要r次或小于r次成功的概率，计算公式如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimfaibbej30f2058gls.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimfaibbej30f2058gls.jpg"></p><p><strong><em>期望</em></strong>的计算公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimhwvtqij30s805ymyd.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimhwvtqij30s805ymyd.jpg"></p><p><strong><em>方差</em></strong>的计算公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimjb18vgj30dg05qglt.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggimjb18vgj30dg05qglt.jpg"></p><p><strong>几何分布的适用场景</strong>：</p><ol><li>进行了一系列独立试验</li><li>每次试验只有两种结果，要么成功要么失败，每次试验成功的概率是相同的</li><li>关心的问题是为了获得第一次的成功，需要进行多少次试验</li></ol><p>接下来会介绍二项分布，要注意区分两者的区别。</p><hr><p>二、<strong><em>二项分布</em></strong></p><p>二项分布与几何分布有些类似，但是关注的点不一样：几何分布关心的是在一列试验中第一次获得成功；而二项分布关注的是在一系列试验中，获得成功的次数。</p><p>下面通过例子来说明二项分布。</p><p>有个人参加一个问答比赛，题目如下：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggioe39w99j312g0u0q99.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggioe39w99j312g0u0q99.jpg"></p><p>很明显，他每道题的正确率为0.25,我们可以通过概率树列出这三道题答题的正确率分布：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiogx7tluj30wa0u011e.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiogx7tluj30wa0u011e.jpg"></p><p>我们可以根据上面的概率树推算出如下公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq61aze0j30xi078dhe.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq61aze0j30xi078dhe.jpg"></p><p>进一步推演：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq9v6p5kj30mq03wt90.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggiq9v6p5kj30mq03wt90.jpg"></p><p>这就是二项分布。</p><p>二项分布的<strong><em>期望</em></strong>为：E(X) = np</p><p><strong><em>方差为</em></strong>：Var(X) = npq</p><p>二项分布的<strong><em>适用场景</em></strong>：</p><ol><li>进行了一系列独立试验</li><li>每次试验的结果要么为成功要么为失败，并且每次试验的成功的概率都是一样的</li><li>进行了有限的试验</li></ol><p>这三个条件看起来与几何分布很类似，那么两者的区别在哪里呢？</p><p>如果有固定数目的试验，并且我们想知道取得一定次数的成功的概率，那么就需要用二项分布；并且也可以通过二项分布知道大概可以成功多少次；如果我们想知道在取得第一次成功之前，需要进行多少次尝试，则需要使用几何分布。</p><hr><p>三、<strong><em>泊松分布</em></strong></p><p>我们来看这么一个场景：现在有一台爆米花机器，它每周都会出现故障，平均每周的故障次数为3.4次，试问它下周可以正常工作的概率有多大。</p><p>这个场景跟之前的几个不一样，因为没有一系列的试验。我们只知道故障发生的次数。我们大概只知道每周故障次数为3次或者4次，糟糕时，次数会更多；好的时候，没有故障。</p><p>这种情况所涉及到的概率分布称为Poisson distribution(泊松分布)</p><p>泊松分布的<strong><em>适用场景</em></strong>：</p><ol><li>每个事件随机发生，并且在给定的间隔中是独立的；这个间隔可以是时间上的间隔，也可以是空间上的间隔，如在一周内，在一英里范围内</li><li>我们知道间隔内事件发生次数的均值，并且均值是有限的；均值一般用希腊字母lambda表示</li></ol><p>用X表示给定间隔内事件发生的次数，则有以下公式：</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggis0jfnt8j30cg04wwer.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggis0jfnt8j30cg04wwer.jpg"></p><p>泊松分布的期望和均值均为λ。</p><hr><p>四、<strong><em>合并泊松分布变量</em></strong></p><p>如果X和Y是独立随机变量，并且X和Y都服从泊松分布，那么X+Y也服从泊松分布。</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg"></p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisk3qylbj311e0d0dit.jpg"></p><hr><p>五、<strong><em>使用泊松分布代替二项分布</em></strong></p><p>有时候，二项分布的概率比较难计算，比如当次数为3000时，我们就需要计算3000的阶乘，这是非常困难的。这个时候，我们可以使用泊松分布来大概的替代二项分布。</p><p>泊松分布可以替代二项分布的条件：即两者的期望、方差是接近的，</p><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisdj1npaj313i06iwfw.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ggisdj1npaj313i06iwfw.jpg"></p><p>当q接近于1，n非常大的时候，np与npq是非常接近的。所以，当n非常大，p非常小的时候，可以用泊松分布代替二项分布。一般来说，n大于50，p小于0.1</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;本文内容&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;几何分布&lt;/li&gt;
-&lt;li&gt;二项分布&lt;/li&gt;
-&lt;li&gt;泊松分布&lt;/li&gt;
-&lt;li&gt;多变量的泊松分布&lt;/li&gt;
-&lt;li&gt;使用泊松分布代替二项分布&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;p&gt;一、&lt;strong
       
     
     </summary>

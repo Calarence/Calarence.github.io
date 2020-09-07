@@ -271,6 +271,281 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/24/pythonFucttion/" itemprop="url">
+                  python内建方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-03-24T14:58:34+08:00" content="2017-03-24">
+              2017-03-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>python 版本：2.7.13</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th style="text-align:right">用法解释</th>
+<th style="text-align:center">其他</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>abs（x）</td>
+<td style="text-align:right">返回x的绝对值</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>all(iterable)</td>
+<td style="text-align:right">如果iterable为空或者iterable内所有元素为真返回True，否则返回False</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>any(iterable)</td>
+<td style="text-align:right">如果iterable中有元素为True,则返回True；如果iterable为空返回false</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>basestring()</td>
+<td style="text-align:right">用了判断一个对象是否是str的实例</td>
+<td style="text-align:center">python3中已经除去了该方法</td>
+<td></td>
+</tr>
+<tr>
+<td>bin（x）</td>
+<td style="text-align:right">将整数转换成二进制字符串。</td>
+<td style="text-align:center">如果x不是一个int对象，则必须定义<strong>index</strong>()方法并返回一个整数</td>
+</tr>
+<tr>
+<td>bool(x)</td>
+<td style="text-align:right">如果x为false,或者为空，返回False；否则返回True</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>callable(object)</td>
+<td style="text-align:right">如果object是可调用的返回True，否则返回False。如果返回True的话，有可能调用失败；但是返回False的话，一定不会调用成功</td>
+<td style="text-align:center">如果一个类返回一个实例，那么它就是可调用的；如果类实例含有<strong>call</strong>()方法，那么它也是可调用的</td>
+<td></td>
+</tr>
+<tr>
+<td>chr()</td>
+<td style="text-align:right">返回ASCII码为整数的字符</td>
+<td style="text-align:center">参数取值范围为0~255，如果不在这个范围，就会报ValueError</td>
+</tr>
+<tr>
+<td>classmethod()</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>cmp(x,y)</td>
+<td style="text-align:right">比较x与y的大小</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>compile</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>dict</td>
+<td style="text-align:right">创建字典类型</td>
+<td style="text-align:center">参数可以为mapping类型或iterable类型</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>complex()</td>
+<td style="text-align:right">用于创建一个复数</td>
+<td style="text-align:center">加减号两侧不能包含空格，否则会报ValueError</td>
+</tr>
+<tr>
+<td>delattr（object，name）</td>
+<td style="text-align:right">用来删除一个对象的属性，</td>
+</tr>
+<tr>
+<td>dir（object）</td>
+<td style="text-align:right">如果参数为空的话，返回当前作用域的name列表，如果指定参数的话，返回该对象的有效属性列表</td>
+</tr>
+<tr>
+<td>divmod(x,y)</td>
+<td style="text-align:right">返回x除以y的商和余数</td>
+</tr>
+<tr>
+<td>enumerate(sequence, start=0)</td>
+<td style="text-align:right">返回一个枚举对象，参数必须是序列、迭代器或其他支持迭代的对象；enumerate()返回迭代器的next方法，next方法的每次调用返回一个元组，元组中包括一个计数（默认从0开始）和从sequence中迭代而来的值</td>
+</tr>
+<tr>
+<td>eval(expression[, globals[, locals]])</td>
+<td style="text-align:right">expression参数当作python 表达式解析并执行，使用global指定全局变量，使用locals指定局部变量</td>
+</tr>
+<tr>
+<td>file（name）</td>
+<td style="text-align:right">file类型的构造函数;当打开一个文件时更倾向于使用open()函数；file()函数更适用于类型判读，如isinstance(f,file)</td>
+</tr>
+<tr>
+<td>filter(function, iterable)</td>
+<td style="text-align:right">返回一个列表，列表中元素为iterable中function条件为真的那些</td>
+<td style="text-align:center">等价于[item for item in iterable if function(item)]，注意python2与python3返回值不同，python2返回list，而python3返回filter对象</td>
+</tr>
+<tr>
+<td>float(x)</td>
+<td style="text-align:right">将数字或字符串转换为浮点数</td>
+</tr>
+<tr>
+<td>format(value[, format_spec])</td>
+<td style="text-align:right">将value转换为格式化表示</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>frozenset([iterable])</td>
+<td style="text-align:right">返回frozenset对象，set的一种类型</td>
+<td style="text-align:center">frozenset是冻结的集合，它是不可变的，存在哈希值，好处是它可以作为字典的key，也可以作为其它集合的元素。缺点是一旦创建便不能更改，没有add，remove方法</td>
+</tr>
+<tr>
+<td>getattr(object, name[, default])</td>
+<td style="text-align:right">返回object的name属性的值，name必须为一个字符串，如果name为object对象的一个属性，返回的结果为该属性的值</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>globals()</td>
+<td style="text-align:right">返回一个字典，代表当前全局变量</td>
+<td style="text-align:center">globals(x)，x成为全局变量</td>
+</tr>
+<tr>
+<td>hasattr(object, name)</td>
+<td style="text-align:right">参数为对象和字符串，如果name为object的一个属性则返回True，否则返回False</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>hash(object)</td>
+<td style="text-align:right">返回object的hash值。用来在字典查询时快速比较键值，数字值相同的话有相同的hash值，如1跟1.0的哈希值相同</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>help([object])</td>
+<td style="text-align:right">调用系统内建的帮助系统</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>hex(x)</td>
+<td style="text-align:right">将一个整数转换为以‘0x’开头的小写十六进制</td>
+<td style="text-align:center">如果x不是python的int或long对象，那么它必须定义<strong>hex()</strong>方法来返回一个字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>id(object)</td>
+<td style="text-align:right">返回对象的标识符。这是一个整数，在对象生命周期内，来保证它的唯一性，并且不可变</td>
+<td style="text-align:center">Two objects with non-overlapping lifetimes may have the same id() value；这是对象在内存中的地址</td>
+</tr>
+<tr>
+<td>input</td>
+<td style="text-align:right">获取用户输入</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/24/RESTfulAPI/" itemprop="url">
                   RESTful API最佳实践
                 </a>
@@ -1619,126 +1894,6 @@ virtualenv：虚拟环境的目录
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/04/cleancode/" itemprop="url">
-                  关于整洁的代码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-04-04T10:29:06+08:00" content="2016-04-04">
-              2016-04-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">读书笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>人们常说“字如其人”，认为一个人写字好看与其长相成正比，字写得好看，人就长的越漂亮。对此，我一直持怀疑态度。因为自己字的并不好看，但长的还。。。但对于代码整洁与否，我觉得能反应出一个程序猿的专业素养：包括专业知识的掌握程度以及是对优雅的追求。整洁的代码如同一个人穿了一件干净、得体、简单大方的衣服，看起来让人觉得舒服，而混乱的代码只能让人觉得难受、痛苦</p>
-<hr>
-<p>那么对于“整洁的代码”，又有什么样的定义呢？《代码整洁之道》在第一章采访了一些非常知名且经验丰富的程序员</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/9CLY%5DIFC@1_4%5BZ%25HU3%7DI%251L.png" alt="此处输入图片的描述"></p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/9V9%5DOO~3%60%5B6Z2%5D346FWFBZB.png" alt="此处输入图片的描述"></p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/_S3QUEW%7DQ%28XDXK%7B%5DA9Z%7BH%5D1.png" alt="此处输入图片的描述"><br>Dave具体到了整洁代码的细节，如良好的命名，只做一件事，尽量少的的API..而这些细节是我们很容易注意到的，并没有高大上之处。</p>
-<hr>
-<p>然而写出整洁代码并非一日之功，需要遵循大量的小技巧，贯彻刻苦习得的“整洁感”。但是只要我们有了整洁代码的意识，写代码时注意思考与重构，相信写出优雅代码只不过是时间问题</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1784,7 +1939,7 @@ virtualenv：虚拟环境的目录
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">131</span>
+              <span class="site-state-item-count">132</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
