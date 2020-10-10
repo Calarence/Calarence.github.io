@@ -271,6 +271,123 @@
             
               
                 
+                <a class="post-title-link" href="/2020/10/07/通俗讲解P(查准率)，R(查全率)，F1值的副本/" itemprop="url">
+                  多维数组的切片和索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-10-07T13:58:10+08:00" content="2020-10-07">
+              2020-10-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array = np.arange(<span class="number">20</span>)</span><br><span class="line">print(<span class="string">"array is"</span>,array)</span><br><span class="line"></span><br><span class="line">array <span class="keyword">is</span> [ <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span> <span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span>]</span><br><span class="line">slice_one = array[:<span class="number">4</span>]</span><br><span class="line">print(<span class="string">"slice begins at 0 and ends at 4 is:"</span>, slice_one)</span><br><span class="line"></span><br><span class="line">slice begins at <span class="number">0</span> <span class="keyword">and</span> ends at <span class="number">4</span> <span class="keyword">is</span>: [<span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]</span><br><span class="line">slice_two = array[<span class="number">7</span>:<span class="number">10</span>]</span><br><span class="line">print(<span class="string">"slice begins at 7 and ends at 10 is:"</span>, slice_two)</span><br><span class="line"></span><br><span class="line">slice begins at <span class="number">7</span> <span class="keyword">and</span> ends at <span class="number">10</span> <span class="keyword">is</span>: [<span class="number">7</span> <span class="number">8</span> <span class="number">9</span>]</span><br><span class="line">slice_three = array[<span class="number">0</span>:<span class="number">12</span>:<span class="number">4</span>]</span><br><span class="line">print(<span class="string">"slice begins at 0 and ends at 10 with step 4 is:"</span>, slice_three)</span><br><span class="line"></span><br><span class="line">slice begins at <span class="number">0</span> <span class="keyword">and</span> ends at <span class="number">10</span> <span class="keyword">with</span> step <span class="number">4</span> <span class="keyword">is</span>: [<span class="number">0</span> <span class="number">4</span> <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+<p>多维数组的切片 多维数组，将不同维度上的切片操作用逗号分割</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">array = np.arange(<span class="number">12</span>).reshape(<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">print(<span class="string">"array is:\\n"</span>,array)</span><br><span class="line"></span><br><span class="line">array <span class="keyword">is</span>:</span><br><span class="line"> [[ <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line"> [ <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>]</span><br><span class="line"> [ <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span>]]</span><br><span class="line"><span class="comment"># 取第一维的索引 1 到索引 2 之间的元素，也就是第二行</span></span><br><span class="line"><span class="comment"># 取第二维的索引 1 到索引 3 之间的元素，也就是第二列和第三列</span></span><br><span class="line">slice_one = array[<span class="number">1</span>:<span class="number">2</span>,<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">print(<span class="string">"slice one is: \\n"</span>,slice_one)</span><br><span class="line"></span><br><span class="line">slice one <span class="keyword">is</span>: </span><br><span class="line"> [[<span class="number">5</span> <span class="number">6</span>]]</span><br><span class="line"><span class="comment"># 取第一维的全部</span></span><br><span class="line"><span class="comment"># 按步长为 2取第二维的索引 0 到末尾 之间的元素，也就是第一列和第三列</span></span><br><span class="line">slice_two = array[:,::<span class="number">2</span>]</span><br><span class="line">print(<span class="string">"slice two is: \\n"</span>, slice_two)</span><br><span class="line"></span><br><span class="line">slice two <span class="keyword">is</span>: </span><br><span class="line"> [[ <span class="number">0</span>  <span class="number">2</span>]</span><br><span class="line"> [ <span class="number">4</span>  <span class="number">6</span>]</span><br><span class="line"> [ <span class="number">8</span> <span class="number">10</span>]]</span><br></pre></td></tr></table></figure>
+<h3 id="3维及以上的数组"><a href="#3维及以上的数组" class="headerlink" title="3维及以上的数组"></a>3维及以上的数组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">array = np.arange(<span class="number">24</span>).reshape((<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line">print(<span class="string">"array is:\\n"</span>, array)</span><br><span class="line"></span><br><span class="line">array <span class="keyword">is</span>:</span><br><span class="line"> [[[ <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line">  [ <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>]</span><br><span class="line">  [ <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span>]]</span><br><span class="line"></span><br><span class="line"> [[<span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span>]</span><br><span class="line">  [<span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span>]</span><br><span class="line">  [<span class="number">20</span> <span class="number">21</span> <span class="number">22</span> <span class="number">23</span>]]]</span><br><span class="line">slice_one = array[<span class="number">1</span>, ...] <span class="comment">#等价于 arr[1, :, :]</span></span><br><span class="line">print(<span class="string">"first array is:\\n"</span>,slice_one)</span><br><span class="line"></span><br><span class="line">first array <span class="keyword">is</span>:</span><br><span class="line"> [[<span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span>]</span><br><span class="line"> [<span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span>]</span><br><span class="line"> [<span class="number">20</span> <span class="number">21</span> <span class="number">22</span> <span class="number">23</span>]]</span><br><span class="line">slice_two =  arr[..., <span class="number">1</span>] <span class="comment">#等价于 arr[:, :, 1]</span></span><br><span class="line">print(<span class="string">"second array is:\\n"</span>,slice_two)</span><br><span class="line"></span><br><span class="line">second array <span class="keyword">is</span>:</span><br><span class="line"> [[ <span class="number">1</span>  <span class="number">5</span>  <span class="number">9</span>]</span><br><span class="line"> [<span class="number">13</span> <span class="number">17</span> <span class="number">21</span>]]</span><br></pre></td></tr></table></figure>
+<h3 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array = np.arange(<span class="number">16</span>).reshape((<span class="number">4</span>,<span class="number">4</span>))</span><br><span class="line">print(<span class="string">"array is:\\n"</span>,array)</span><br><span class="line"></span><br><span class="line">array <span class="keyword">is</span>:</span><br><span class="line"> [[ <span class="number">0</span>  <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line"> [ <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>]</span><br><span class="line"> [ <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span>]</span><br><span class="line"> [<span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span>]]</span><br><span class="line">print(<span class="string">"第二行第二列的值:"</span>, array[<span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">第二行第二列的值: <span class="number">5</span></span><br><span class="line"><span class="comment">#选择第一行和第三行，然后对第一行选择第四列，对第三行选择第二列</span></span><br><span class="line">index_one = array[[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">1</span>]]</span><br><span class="line">print(index_one)</span><br><span class="line"></span><br><span class="line">[<span class="number">3</span> <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="boolean-mask"><a href="#boolean-mask" class="headerlink" title="boolean/mask"></a>boolean/mask</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">array = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">                [<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>],</span><br><span class="line">                [<span class="number">3</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">12</span>],</span><br><span class="line">                [<span class="number">4</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">16</span>]])</span><br><span class="line"></span><br><span class="line">mask = array&gt;<span class="number">5</span> </span><br><span class="line">print(<span class="string">"boolean mask is :\\n"</span>,mask)</span><br><span class="line"></span><br><span class="line">boolean mask:</span><br><span class="line"> [[<span class="keyword">False</span> <span class="keyword">False</span> <span class="keyword">False</span> <span class="keyword">False</span>]</span><br><span class="line"> [<span class="keyword">False</span> <span class="keyword">False</span>  <span class="keyword">True</span>  <span class="keyword">True</span>]</span><br><span class="line"> [<span class="keyword">False</span>  <span class="keyword">True</span>  <span class="keyword">True</span>  <span class="keyword">True</span>]</span><br><span class="line"> [<span class="keyword">False</span>  <span class="keyword">True</span>  <span class="keyword">True</span>  <span class="keyword">True</span>]]</span><br><span class="line"></span><br><span class="line">print(array[mask])</span><br><span class="line">[ <span class="number">6</span>  <span class="number">8</span>  <span class="number">6</span>  <span class="number">9</span> <span class="number">12</span>  <span class="number">8</span> <span class="number">12</span> <span class="number">16</span>]</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/09/07/通俗讲解P(查准率)，R(查全率)，F1值/" itemprop="url">
                   通俗讲解P(查准率)，R(查全率)，F1值
                 </a>
@@ -1591,119 +1708,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/08/01/梯度下降入门/" itemprop="url">
-                  梯度下降---入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-08-01T13:58:10+08:00" content="2020-08-01">
-              2020-08-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>因为Hexo在数学公式显示上存在问题，所以把文章写在了其他平台上，链接为：<a href="https://www.notion.so/clarenc/475e2fc5358a48398068a42d0d8a6947" target="_blank" rel="noopener">https://www.notion.so/clarenc/475e2fc5358a48398068a42d0d8a6947</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1749,7 +1753,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">132</span>
+              <span class="site-state-item-count">133</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
