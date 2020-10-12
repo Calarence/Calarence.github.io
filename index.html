@@ -271,6 +271,215 @@
             
               
                 
+                <a class="post-title-link" href="/2020/10/08/通俗讲解P(查准率)，R(查全率)，F1值的副本2/" itemprop="url">
+                  朴素贝叶斯分类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-10-08T13:58:10+08:00" content="2020-10-08">
+              2020-10-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>文章转自《带你理解朴素贝叶斯分类算法》</p>
+<hr>
+<p>贝叶斯分类是一类分类算法的总称，这类算法均以<strong><em>贝叶斯定理</em></strong>为基础，故统称为贝叶斯分类。而朴素朴素贝叶斯分类是贝叶斯分类中最简单，也是常见的一种分类方法。这篇文章我尽可能用直白的话语总结一下我们学习会上讲到的朴素贝叶斯分类算法，希望有利于他人理解。</p>
+<h3 id="分类问题综述"><a href="#分类问题综述" class="headerlink" title="分类问题综述"></a>分类问题综述</h3><p>对于分类问题，其实谁都不会陌生，日常生活中我们每天都进行着分类过程。例如，当你看到一个人，你的脑子下意识判断他是学生还是社会上的人；你可能经常会走在路上对身旁的朋友说“这个人一看就很有钱” 之类的话，其实这就是一种分类操作。</p>
+<p>既然是贝叶斯分类算法，那么分类的数学描述又是什么呢？</p>
+<p>从数学角度来说，分类问题可做如下定义：已知集合C={y1,y2,y3,…}和集合I={x1,x2,x3…}，确定映射规则y = f()，使得任意$x\isin I$有且仅有一个$y\isin C$,使得$y\isin f(x)$成立</p>
+<p>其中C叫做<strong><em>类别集合</em></strong>，其中每一个元素是一个类别，而I叫做项集合（<strong>特征集合</strong>），其中每一个元素是一个待分类项，f叫做<strong><em>分类器</em></strong>。<strong>分类算法的任务就是构造分类器f.</strong></p>
+<p><strong>分类算法的内容是要求给定特征，让我们得出类别，这也是所有分类问题的关键</strong>。那么如何由指定特征，得到我们最终的类别，也是我们下面要讲的，每一个不同的分类算法，对应着不同的核心思想。</p>
+<p>本篇文章，我会用一个具体实例，对朴素贝叶斯算法几乎所有的重要知识点进行讲解。</p>
+<h3 id="朴素贝叶斯分类"><a href="#朴素贝叶斯分类" class="headerlink" title="朴素贝叶斯分类"></a>朴素贝叶斯分类</h3><p>那么既然是朴素贝叶斯分类算法，它的核心算法又是什么呢？</p>
+<p>是下面这个贝叶斯公式：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-15b16ce6d37b616a5443c0f7e42e03ec_1440w.png" alt="https://pic1.zhimg.com/80/v2-15b16ce6d37b616a5443c0f7e42e03ec_1440w.png"></p>
+<p>换个表达形式就会明朗很多，如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-a2a73f43adcbb0bf4b9bae19b9495f81_r.jpg" alt="https://pic2.zhimg.com/v2-a2a73f43adcbb0bf4b9bae19b9495f81_r.jpg"></p>
+<p>我们最终求的p(类别|特征)即可！就相当于完成了我们的任务。</p>
+<h2 id="例题分析"><a href="#例题分析" class="headerlink" title="例题分析"></a><strong>例题分析</strong></h2><p><strong>下面我先给出例子问题。</strong></p>
+<p><strong>给定数据如下：</strong></p>
+<p><img src="https://pic2.zhimg.com/v2-8b7031854b7c8eb4dabbfd7254579721_r.jpg" alt="https://pic2.zhimg.com/v2-8b7031854b7c8eb4dabbfd7254579721_r.jpg"></p>
+<p>现在给我们的问题是，如果一对男女朋友，男生想女生求婚，男生的四个特点分别是不帅，性格不好，身高矮，不上进，请你判断一下女生是嫁还是不嫁？</p>
+<p>这是一个典型的分类问题，转为数学问题就是比较p(嫁|(不帅、性格不好、身高矮、不上进))与p(不嫁|(不帅、性格不好、身高矮、不上进))的概率，谁的概率大，我就能给出嫁或者不嫁的答案.</p>
+<p>这里我们联系到朴素贝叶斯公式：</p>
+<p><img src="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg" alt="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg"></p>
+<p>我们需要求p(嫁|(不帅、性格不好、身高矮、不上进),这是我们不知道的，但是通过朴素贝叶斯公式可以转化为好求的三个量，p(不帅、性格不好、身高矮、不上进|嫁)、p（不帅、性格不好、身高矮、不上进)、p(嫁)（至于为什么能求，后面会讲，那么就太好了，将待求的量转化为其它可求的值，这就相当于解决了我们的问题！）</p>
+<h3 id="朴素贝叶斯算法的朴素一词解释"><a href="#朴素贝叶斯算法的朴素一词解释" class="headerlink" title="朴素贝叶斯算法的朴素一词解释"></a>朴素贝叶斯算法的朴素一词解释</h3><p><strong>那么这三个量是如何求得？</strong></p>
+<p>是根据已知训练数据统计得来，下面详细给出该例子的求解过程。</p>
+<p>回忆一下我们要求的公式如下</p>
+<p><img src="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg" alt="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg"></p>
+<p>那么我只要求得p(不帅、性格不好、身高矮、不上进|嫁)、p（不帅、性格不好、身高矮、不上进)、p(嫁)即可，好的，下面我分别求出这几个概率，最后一比，就得到最终结果.</p>
+<p>p(不帅、性格不好、身高矮、不上进|嫁) = p(不帅|嫁)<em>p(性格不好|嫁)</em>p(身高矮|嫁)*p(不上进|嫁)，那么我就要分别统计后面几个概率，也就得到了左边的概率！</p>
+<p>等等，为什么这个成立呢？学过概率论的同学可能有感觉了，这个等式成立的条件需要特征之间相互独立吧！</p>
+<p><strong>对的！这也就是为什么朴素贝叶斯分类有朴素一词的来源，朴素贝叶斯算法是假设各个特征之间相互独立，那么这个等式就成立了。</strong></p>
+<p>但是为什么需要假设特征之间相互独立呢？</p>
+<ol>
+<li>我们这么想，假如没有这个假设，那么我们对右边这些概率的估计其实是不可做的，这么说，我们这个例子有4个特征，其中帅包括{帅，不帅}，性格包括{不好，好，爆好}，身高包括{高，矮，中}，上进包括{不上进，上进}，<strong>那么四个特征的联合概率分布总共是4维空间，总个数为233*2=36个。</strong>  <strong>24个，计算机扫描统计还可以，但是现实生活中，往往有非常多的特征，每一个特征的取值也 是非常之多，那么通过统计来估计后面概率的值，变得几乎不可做，这也是为什么需要假设特征之间独立的原因。</strong></li>
+<li>假如我们没有假设特征之间相互独立，那么我们统计的时候，就需要在整个特征空间中去找，比如统计p(不帅、性格不好、身高矮、不上进|嫁),<strong>我们就需要在嫁的条件下，去找四种特征全满足分别是不帅，性格不好，身高矮，不上进的人的个数，这样的话，由于数据的稀疏性，很容易统计到0的情况。 这样是不合适的。</strong></li>
+</ol>
+<p>根据上面俩个原因，朴素贝叶斯法对条件概率分布做了条件独立性的假设，由于这是一个较强的假设，朴素贝叶斯也由此得名！这一假设使得朴素贝叶斯法变得简单，但有时会牺牲一定的分类准确率。</p>
+<p>好的，上面我解释了为什么可以拆成分开连乘形式。那么下面我们就开始求解</p>
+<p>我们将上面公式整理一下如下：</p>
+<p><img src="https://pic3.zhimg.com/v2-e0abd30b1376c18c3dfd0d0bf4375c26_r.jpg" alt="https://pic3.zhimg.com/v2-e0abd30b1376c18c3dfd0d0bf4375c26_r.jpg"></p>
+<p>下面我将一个一个的进行统计计算（在数据量很大的时候，根据中心极限定理，频率是等于概率的，这里只是一个例子，所以我就进行统计即可）。</p>
+<p>p(嫁)=？</p>
+<p>首先我们整理训练数据中，嫁的样本数如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-82d69514c761c791c6eaf90dc0771b44_r.jpg" alt="https://pic1.zhimg.com/v2-82d69514c761c791c6eaf90dc0771b44_r.jpg"></p>
+<p>则 p(嫁) = 6/12（总样本数） = 1/2</p>
+<p>p(不帅|嫁)=？统计满足样本数如下：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-88728bc679158c4178a52ce7e2ad88dd_1440w.png" alt="https://pic2.zhimg.com/80/v2-88728bc679158c4178a52ce7e2ad88dd_1440w.png"></p>
+<p>则p(不帅|嫁) = 3/6 = 1/2</p>
+<p>p(性格不好|嫁)= ？统计满足样本数如下：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-4b810db6d395f6aeacd4c53092c47771_1440w.png" alt="https://pic2.zhimg.com/80/v2-4b810db6d395f6aeacd4c53092c47771_1440w.png"></p>
+<p><strong>则p(性格不好|嫁)= 1/6</strong></p>
+<p><strong>p（矮|嫁） = ?统计满足样本数如下：</strong></p>
+<p><img src="https://pic2.zhimg.com/80/v2-d97d8406a534753442730a26fde76631_1440w.png" alt="https://pic2.zhimg.com/80/v2-d97d8406a534753442730a26fde76631_1440w.png"></p>
+<p><strong>则p(矮|嫁) = 1/6</strong></p>
+<p><strong>p(不上进|嫁) = ?统计满足样本数如下：</strong></p>
+<p><img src="https://pic2.zhimg.com/80/v2-0c7bc85db3d05657305cc2ac85f2774d_1440w.png" alt="https://pic2.zhimg.com/80/v2-0c7bc85db3d05657305cc2ac85f2774d_1440w.png"></p>
+<p><strong>则p(不上进|嫁) = 1/6</strong></p>
+<p><strong>下面开始求分母，p(不帅)，p（性格不好），p（矮），p（不上进）</strong></p>
+<p><strong>统计样本如下:</strong></p>
+<p><img src="https://pic2.zhimg.com/80/v2-83f2f4b00981806c74e330b2d6f91db5_1440w.png" alt="https://pic2.zhimg.com/80/v2-83f2f4b00981806c74e330b2d6f91db5_1440w.png"></p>
+<p>不帅统计如上红色所示，占4个，那么p（不帅） = 4/12 = 1/3</p>
+<p><img src="https://pic2.zhimg.com/80/v2-4bde3952e6a2811c35446dbb479e26a9_1440w.png" alt="https://pic2.zhimg.com/80/v2-4bde3952e6a2811c35446dbb479e26a9_1440w.png"></p>
+<p>性格不好统计如上红色所示，占4个，那么p（性格不好） = 4/12 = 1/3</p>
+<p><img src="https://pic1.zhimg.com/80/v2-71b7b1264ce33f8369a32b88eed900bc_1440w.png" alt="https://pic1.zhimg.com/80/v2-71b7b1264ce33f8369a32b88eed900bc_1440w.png"></p>
+<p>身高矮统计如上红色所示，占7个，那么p（身高矮） = 7/12</p>
+<p><img src="https://pic4.zhimg.com/80/v2-eb40196a04b9add56b72fe463c441237_1440w.png" alt="https://pic4.zhimg.com/80/v2-eb40196a04b9add56b72fe463c441237_1440w.png"></p>
+<p>不上进统计如上红色所示，占4个，那么p（不上进） = 4/12 = 1/3</p>
+<p><strong>到这里，要求p(不帅、性格不好、身高矮、不上进|嫁)的所需项全部求出来了，下面我带入进去即可，</strong></p>
+<p><img src="https://pic3.zhimg.com/80/v2-e0abd30b1376c18c3dfd0d0bf4375c26_1440w.png" alt="https://pic3.zhimg.com/80/v2-e0abd30b1376c18c3dfd0d0bf4375c26_1440w.png"></p>
+<p>= (1/2<strong>1/6</strong>1/6<strong>1/6</strong>1/2)/(1/3<strong>1/3</strong>7/12*1/3)</p>
+<p>下面我们根据同样的方法来求p(不嫁|不帅，性格不好，身高矮，不上进)，完全一样的做法，为了方便理解，我这里也走一遍帮助理解。首先公式如下：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png" alt="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png"></p>
+<p>下面我也一个一个来进行统计计算，这里与上面公式中，分母是一样的，于是我们分母不需要重新统计计算！</p>
+<p>p（不嫁）=？根据统计计算如下（<strong>红色为满足条件</strong>）：</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c065045ef461f043409ae02019044631_1440w.png" alt="https://pic2.zhimg.com/80/v2-c065045ef461f043409ae02019044631_1440w.png"></p>
+<p>则p(不嫁)=6/12 = 1/2</p>
+<p>p(不帅|不嫁) = ？统计满足条件的样本如下（<strong>红色为满足条件</strong>）：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-c5497335a6680cbcd8b80a1bc87628ef_1440w.png" alt="https://pic4.zhimg.com/80/v2-c5497335a6680cbcd8b80a1bc87628ef_1440w.png"></p>
+<p>则p（性格不好|不嫁） =3/6 = 1/2</p>
+<p>p（矮|不嫁） = ？据统计计算如下（红色为满足条件）：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-9aef823f8f275db63c870ce80e97a4ea_1440w.png" alt="https://pic3.zhimg.com/80/v2-9aef823f8f275db63c870ce80e97a4ea_1440w.png"></p>
+<p>则p（矮|不嫁） = 6/6 = 1</p>
+<p>p（不上进|不嫁） = ？据统计计算如下（红色为满足条件）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8576a2a9dd1730773a5b9b353bb9042f_1440w.png" alt="https://pic4.zhimg.com/80/v2-8576a2a9dd1730773a5b9b353bb9042f_1440w.png"></p>
+<p>则p（不上进|不嫁） = 3/6 = 1/2</p>
+<p>那么根据公式：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png" alt="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png"></p>
+<p>p (不嫁|不帅、性格不好、身高矮、不上进) = ((1/6<strong>1/2</strong>1<strong>1/2)1/2)/(1/3*1/3</strong>7/1<em>2</em>1/3)</p>
+<p><strong>很显然(1/61/211/2) &gt; (1/21/61/61/6*1/2)</strong></p>
+<p><strong>于是有p (不嫁|不帅、性格不好、身高矮、不上进)&gt;p (嫁|不帅、性格不好、身高矮、不上进)</strong></p>
+<p><strong>所以我们根据朴素贝叶斯算法可以给这个女生答案，是不嫁！！！！</strong></p>
+<h2 id="朴素贝叶斯分类的优缺点"><a href="#朴素贝叶斯分类的优缺点" class="headerlink" title="朴素贝叶斯分类的优缺点"></a><strong>朴素贝叶斯分类的优缺点</strong></h2><p>优点：</p>
+<p>（1） 算法逻辑简单,易于实现</p>
+<p>（2）分类过程中时空开销小</p>
+<p>缺点：</p>
+<p>理论上，<strong>朴素贝叶斯模型与其他分类方法相比具有最小的误差率。但是实际上并非总是如此，这是因为朴素贝叶斯模型假设属性之间相互独立，这个假设在实际应用中往往是不成立的，在属性个数比较多或者属性之间相关性较大时，分类效果不好。</strong></p>
+<p>而在属性相关性较小时，朴素贝叶斯性能最为良好。对于这一点，有半朴素贝叶斯之类的算法通过考虑部分关联性适度改进。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/10/07/通俗讲解P(查准率)，R(查全率)，F1值的副本/" itemprop="url">
                   多维数组的切片和索引
                 </a>
@@ -1515,199 +1724,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/08/14/如何改善机器学习算法/" itemprop="url">
-                  如何改善机器学习算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-08-14T13:58:10+08:00" content="2020-08-14">
-              2020-08-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>因为Hexo在数学公式显示上存在问题，想看较好的显示，<a href="https://www.notion.so/clarence/726af167057c47de9ce47a8908fefe92" target="_blank" rel="noopener">点击这里</a>。</p>
-<p><strong>背景</strong>：我们在开发完一个机器学习系统后，如何改进一个机器学习系统的性能。举个例子，以预测房价为例，我们在得到模型参数后，想要将我们的模型用于新的房屋样本上进行测试，发现在预测房价时产生了巨大的误差，如果想要改进这个算法，接下来应该怎么办？</p>
-<p>有些人可能没有完全理解怎样运用这些算法。 因此总是把时间浪费在毫无意义的尝试上</p>
-<p>其中一种办法是使用更多的训练样本。好多人花费了好多时间想收集更多的训练样本，他们总认为，要是有两倍甚至十倍数量的训练数据，就一定会解决问题。但有时候获得更多的训练数据实际上并没有用。</p>
-<p>几种有效的改进方法：</p>
-<ol>
-<li>尝试减少特征的数量——解决高方差</li>
-<li>尝试获得更多的特征——解决高偏差</li>
-<li>尝试增加多项式特征——解决高偏差</li>
-<li>尝试减少正则化程度$\lambda$——解决高偏差</li>
-<li>尝试增加正则化程度$\lambda$——解决高方差</li>
-<li>获得更多的训练实例——解决高方差</li>
-</ol>
-<p>我们不应该随机选择上面的某种方法来改进我们的算法, 而是运用一些机器学习诊断法来帮助我们知道上面哪些方法对我们的算法是有效的。诊断法的意思是：这是一种测试法，通过执行这种测试，能够深入了解某种算法到底是否有用。这通常也能够告诉你，想要改进一种算法的效果，什么样的尝试，才是有意义的。这些诊断法的执行和实现, 是需要花些时间的,有时候确实需要花很多时间来理解和实现,但这样做的确是把时间用在了刀刃上, 因为这些方法让你在开发学习算法时,节省了几个月的时间。</p>
-<hr>
-<h3 id="如何评估模型函数是过拟合还是欠拟合"><a href="#如何评估模型函数是过拟合还是欠拟合" class="headerlink" title="如何评估模型函数是过拟合还是欠拟合"></a>如何评估模型函数是过拟合还是欠拟合</h3><p>当我们确定学习算法的参数的时候, 我们考虑的是选择参量来使训练误差最小化, 有人认为得到一个非常小的训练误差一定是一件好事, 但我们已经知道, 仅仅是因为这个假设具有很小的训练误差, 并不能说明它就一定是一个好的假设函数。 而且我们也学习了过拟合假设函数的例子,所以这推广到新的训练集上是不适用的</p>
-<p>那么我们如何判断一个假设函数是过拟合的呢?</p>
-<ol>
-<li><p>假设函数$h(x)$进行画图, 然后观察图形趋势, 但对于特征变量不止一个的这种一般情况, 还有像有很多特征变量的问题, 想要通过画出假设函数来进行观察, 就会变得很难甚至是不可能实现</p>
-</li>
-<li><p>为了检验算法是否过拟合，可以将数据分成训练集和测试集，通常用70%的数据作为训练集，用剩下30%的数据作为测试集，很重要的一点是训练集和测试集均要含有各种类型的数据，通常我们要对数据进行“洗牌”，然后再分成训练集和测试集。</p>
-</li>
-<li><p>计算误差</p>
-<ol>
-<li>对于线性回归模型，我们利用测试集数据计算代价函数$J$</li>
-<li>对于逻辑回归模型，我们除了用测试数据集计算代价函数外，还可以用误分类的比率，计算$err(h_\theta(x),y) = \begin{cases} 1 &amp;\text{if } h(x)&gt;= 0.5 and y =0, or &amp;h(x) &lt; 0.5 &amp; and &amp; y=1 \ 0 &amp;\text{if otherwise} d \end{cases}$</li>
-</ol>
-<p>然后对计算结果求平均。</p>
-</li>
-</ol>
-<hr>
-<h3 id="模型选择和交叉验证"><a href="#模型选择和交叉验证" class="headerlink" title="模型选择和交叉验证"></a>模型选择和交叉验证</h3><p>假设要在10个次数不同的二项式模型之间进行选择：</p>
-<ol>
-<li>$h_\theta(x) = \theta_0 + \theta_1x$</li>
-<li>$h_\theta(x) = \theta_0 + \theta_1x + \theta_2x^2$</li>
-<li>…</li>
-<li>$h_\theta(x) = \theta_0 + \theta_1x+…+\theta_{10}x^{10}$</li>
-</ol>
-<p>显然越高次数的多项式模型能够适应我们的训练数据集，但是适应训练数据集并不代表着能推广至一般情况，应该选择一个更能适应一般情况的模型。我们需要使用交叉验证集来帮助选择模型。即使用60%的数据作为训练集，使用20%的数据作为交叉验证集，使用20%的数据作为测试集。</p>
-<p>模型选择方法为：</p>
-<ol>
-<li>使用训练集训练出10个模型</li>
-<li>用10个模型分别对交叉验证集计算得出交叉验证误差，代价函数值</li>
-<li>选取代价函数最小的模型</li>
-<li>用步骤3中选出的模型对测试集计算得出推广误差，代价函数值</li>
-</ol>
-<hr>
-<h3 id="诊断偏差和方差"><a href="#诊断偏差和方差" class="headerlink" title="诊断偏差和方差"></a>诊断偏差和方差</h3><p>当我们的模型表现不理想时，多半是出现了两种情况，要么是偏差比较大，要么是方差比较大。换句话说，要么是欠拟合，要么是过拟合。那么，这两种情况，哪个和偏差有关，哪个和方差有关？</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq41r0xu5j31jm0jaarn.jpg"></p>
-<p>将训练集和交叉验证集的代价函数误差与多项式的次数绘制在同一张图表上来帮助分析</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghq477qljyj30yy0mgn85.jpg"></p>
-<ul>
-<li>对于训练集,当d较小时,模型拟合程度更低,误差较大;随着d 的增长,拟合程度提高,误差减小。</li>
-<li>对于交叉验证集,当 d 较小时,模型拟合程度低,误差较大;但是随着d的增长, 误差呈现先减小后增大的趋势,转折点是我们的模型开始过拟合训练数据集的时候</li>
-<li>训练集误差和交叉验证集误差近似时:偏差/欠拟合</li>
-<li>交叉验证集误差远大于训练集误差时:方差/过拟合</li>
-</ul>
-<hr>
-<h3 id="正则化和偏差-方差"><a href="#正则化和偏差-方差" class="headerlink" title="正则化和偏差/方差"></a>正则化和偏差/方差</h3><p>在训练模型过程中，会使用正则化方法来防止过拟合，正则化很重要的一点是正则化参数$\lambda$的选择。我们选择一系列的想要测试的$\lambda$值，通常是0—10之间的呈现2倍关系的值，如0,0.01,0.02,0.04,0.08,0.15,0.32,0.64,1.28,2.56,5.12,10共12个，同样把数据分为训练集、交叉验证集和测试集。</p>
-<p>选择$\lambda$的方法为：</p>
-<ol>
-<li>使用训练集训练出12个不同程度正则化的模型</li>
-<li>用12个模型分别对交叉验证集计算出交叉验证误差</li>
-<li>选择得出交叉验证误差最小的模型</li>
-<li>运用步骤3中选出的模型对测试集计算得出推广误差</li>
-</ol>
-<p>同时将训练集和交叉验证集模型的代价函数误差与 λ 的值绘制在一张图表上，如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqfgjqyotj31h40re1kx.jpg"></p>
-<p>当$\lambda$较小时,训练集误差较小(过拟合)而交叉验证集误差较大;随着$\lambda$的增加,训练集误差不断增加(欠拟合),而交叉验证集误差则是先减小后增加。</p>
-<hr>
-<h3 id="学习曲线"><a href="#学习曲线" class="headerlink" title="学习曲线"></a>学习曲线</h3><p>可以使用学习曲线来判断一个学习算法是否处于偏差、方差问题。学习曲线是将训练集误差和交叉验证集误差作为训练集实例个数(m)的函数绘制的图表。</p>
-<p>如果我们有 100 行数据, 我们从 1 行数据开始, 逐渐学习更多行的数据。 思想是: 当训练较少行数据的时候, 训练的模型将能够非常完美地适应较少的训练数据, 但是训练出来的模型却不能很好地适应交叉验证集数据或测试集数据</p>
-<p>如何利用学习曲线识别高偏差/欠拟合: 作为例子, 我们尝试用一条直线来适应下面的数据,可以看出,无论训练集有多么大误差都不会有太大改观</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqid8ptorj31240hoqdr.jpg"></p>
-<p>也就是说在高偏差/欠拟合的情况下,增加数据到训练集不一定能有帮助</p>
-<p>如何利用学习曲线识别高方差/过拟合: 假设我们使用一个非常高次的多项式模型, 并且正则化非常小, 可以看出, 当交叉验证集误差远大于训练集误差时, 往训练集增加更多数据可以提高模型的效果。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqierldbaj310w0ietir.jpg"></p>
-<p>也就是说在高方差/过拟合的情况下,增加更多数据到训练集可能可以提高算法效果</p>
-<hr>
-<h3 id="神经网络的偏差和方差"><a href="#神经网络的偏差和方差" class="headerlink" title="神经网络的偏差和方差"></a>神经网络的偏差和方差</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghqhg2ptstj31h40re1kx.jpg"></p>
-<p>使用较小的神经网络,类似于参数较少的情况,容易导致高偏差和欠拟合,计算代价较小；但使用较大的神经网络, 类似于参数较多的情况, 容易导致高方差和过拟合, 虽然计算代价比较大,但是可以通过正则化手段来调整而更加适应数据。 通常选择较大的神经网络并采用正则化处理会比采用较小的神经网络效果要好。 对于神经网络中的隐藏层的层数的选择,通常从一层开始逐渐增加层数,为了更好地作选择, 可以把数据分为训练集、 交叉验证集和测试集, 针对不同隐藏层层数的神经网络训练神经网络, 然后选择交叉验证集代价最小的神经网络。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1753,7 +1769,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">133</span>
+              <span class="site-state-item-count">134</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>

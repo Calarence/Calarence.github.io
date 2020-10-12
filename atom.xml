@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.appleieye.com/"/>
-  <updated>2020-10-10T13:13:59.911Z</updated>
+  <updated>2020-10-12T07:38:00.695Z</updated>
   <id>http://www.appleieye.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>朴素贝叶斯分类</title>
+    <link href="http://www.appleieye.com/2020/10/08/%E9%80%9A%E4%BF%97%E8%AE%B2%E8%A7%A3P(%E6%9F%A5%E5%87%86%E7%8E%87)%EF%BC%8CR(%E6%9F%A5%E5%85%A8%E7%8E%87)%EF%BC%8CF1%E5%80%BC%E7%9A%84%E5%89%AF%E6%9C%AC2/"/>
+    <id>http://www.appleieye.com/2020/10/08/通俗讲解P(查准率)，R(查全率)，F1值的副本2/</id>
+    <published>2020-10-08T05:58:10.000Z</published>
+    <updated>2020-10-12T07:38:00.695Z</updated>
+    
+    <content type="html"><![CDATA[<p>文章转自《带你理解朴素贝叶斯分类算法》</p><hr><p>贝叶斯分类是一类分类算法的总称，这类算法均以<strong><em>贝叶斯定理</em></strong>为基础，故统称为贝叶斯分类。而朴素朴素贝叶斯分类是贝叶斯分类中最简单，也是常见的一种分类方法。这篇文章我尽可能用直白的话语总结一下我们学习会上讲到的朴素贝叶斯分类算法，希望有利于他人理解。</p><h3 id="分类问题综述"><a href="#分类问题综述" class="headerlink" title="分类问题综述"></a>分类问题综述</h3><p>对于分类问题，其实谁都不会陌生，日常生活中我们每天都进行着分类过程。例如，当你看到一个人，你的脑子下意识判断他是学生还是社会上的人；你可能经常会走在路上对身旁的朋友说“这个人一看就很有钱” 之类的话，其实这就是一种分类操作。</p><p>既然是贝叶斯分类算法，那么分类的数学描述又是什么呢？</p><p>从数学角度来说，分类问题可做如下定义：已知集合C={y1,y2,y3,…}和集合I={x1,x2,x3…}，确定映射规则y = f()，使得任意$x\isin I$有且仅有一个$y\isin C$,使得$y\isin f(x)$成立</p><p>其中C叫做<strong><em>类别集合</em></strong>，其中每一个元素是一个类别，而I叫做项集合（<strong>特征集合</strong>），其中每一个元素是一个待分类项，f叫做<strong><em>分类器</em></strong>。<strong>分类算法的任务就是构造分类器f.</strong></p><p><strong>分类算法的内容是要求给定特征，让我们得出类别，这也是所有分类问题的关键</strong>。那么如何由指定特征，得到我们最终的类别，也是我们下面要讲的，每一个不同的分类算法，对应着不同的核心思想。</p><p>本篇文章，我会用一个具体实例，对朴素贝叶斯算法几乎所有的重要知识点进行讲解。</p><h3 id="朴素贝叶斯分类"><a href="#朴素贝叶斯分类" class="headerlink" title="朴素贝叶斯分类"></a>朴素贝叶斯分类</h3><p>那么既然是朴素贝叶斯分类算法，它的核心算法又是什么呢？</p><p>是下面这个贝叶斯公式：</p><p><img src="https://pic1.zhimg.com/80/v2-15b16ce6d37b616a5443c0f7e42e03ec_1440w.png" alt="https://pic1.zhimg.com/80/v2-15b16ce6d37b616a5443c0f7e42e03ec_1440w.png"></p><p>换个表达形式就会明朗很多，如下：</p><p><img src="https://pic2.zhimg.com/v2-a2a73f43adcbb0bf4b9bae19b9495f81_r.jpg" alt="https://pic2.zhimg.com/v2-a2a73f43adcbb0bf4b9bae19b9495f81_r.jpg"></p><p>我们最终求的p(类别|特征)即可！就相当于完成了我们的任务。</p><h2 id="例题分析"><a href="#例题分析" class="headerlink" title="例题分析"></a><strong>例题分析</strong></h2><p><strong>下面我先给出例子问题。</strong></p><p><strong>给定数据如下：</strong></p><p><img src="https://pic2.zhimg.com/v2-8b7031854b7c8eb4dabbfd7254579721_r.jpg" alt="https://pic2.zhimg.com/v2-8b7031854b7c8eb4dabbfd7254579721_r.jpg"></p><p>现在给我们的问题是，如果一对男女朋友，男生想女生求婚，男生的四个特点分别是不帅，性格不好，身高矮，不上进，请你判断一下女生是嫁还是不嫁？</p><p>这是一个典型的分类问题，转为数学问题就是比较p(嫁|(不帅、性格不好、身高矮、不上进))与p(不嫁|(不帅、性格不好、身高矮、不上进))的概率，谁的概率大，我就能给出嫁或者不嫁的答案.</p><p>这里我们联系到朴素贝叶斯公式：</p><p><img src="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg" alt="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg"></p><p>我们需要求p(嫁|(不帅、性格不好、身高矮、不上进),这是我们不知道的，但是通过朴素贝叶斯公式可以转化为好求的三个量，p(不帅、性格不好、身高矮、不上进|嫁)、p（不帅、性格不好、身高矮、不上进)、p(嫁)（至于为什么能求，后面会讲，那么就太好了，将待求的量转化为其它可求的值，这就相当于解决了我们的问题！）</p><h3 id="朴素贝叶斯算法的朴素一词解释"><a href="#朴素贝叶斯算法的朴素一词解释" class="headerlink" title="朴素贝叶斯算法的朴素一词解释"></a>朴素贝叶斯算法的朴素一词解释</h3><p><strong>那么这三个量是如何求得？</strong></p><p>是根据已知训练数据统计得来，下面详细给出该例子的求解过程。</p><p>回忆一下我们要求的公式如下</p><p><img src="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg" alt="https://pic3.zhimg.com/v2-38d81b31721da4d53c62ef7babb177ea_r.jpg"></p><p>那么我只要求得p(不帅、性格不好、身高矮、不上进|嫁)、p（不帅、性格不好、身高矮、不上进)、p(嫁)即可，好的，下面我分别求出这几个概率，最后一比，就得到最终结果.</p><p>p(不帅、性格不好、身高矮、不上进|嫁) = p(不帅|嫁)<em>p(性格不好|嫁)</em>p(身高矮|嫁)*p(不上进|嫁)，那么我就要分别统计后面几个概率，也就得到了左边的概率！</p><p>等等，为什么这个成立呢？学过概率论的同学可能有感觉了，这个等式成立的条件需要特征之间相互独立吧！</p><p><strong>对的！这也就是为什么朴素贝叶斯分类有朴素一词的来源，朴素贝叶斯算法是假设各个特征之间相互独立，那么这个等式就成立了。</strong></p><p>但是为什么需要假设特征之间相互独立呢？</p><ol><li>我们这么想，假如没有这个假设，那么我们对右边这些概率的估计其实是不可做的，这么说，我们这个例子有4个特征，其中帅包括{帅，不帅}，性格包括{不好，好，爆好}，身高包括{高，矮，中}，上进包括{不上进，上进}，<strong>那么四个特征的联合概率分布总共是4维空间，总个数为233*2=36个。</strong>  <strong>24个，计算机扫描统计还可以，但是现实生活中，往往有非常多的特征，每一个特征的取值也 是非常之多，那么通过统计来估计后面概率的值，变得几乎不可做，这也是为什么需要假设特征之间独立的原因。</strong></li><li>假如我们没有假设特征之间相互独立，那么我们统计的时候，就需要在整个特征空间中去找，比如统计p(不帅、性格不好、身高矮、不上进|嫁),<strong>我们就需要在嫁的条件下，去找四种特征全满足分别是不帅，性格不好，身高矮，不上进的人的个数，这样的话，由于数据的稀疏性，很容易统计到0的情况。 这样是不合适的。</strong></li></ol><p>根据上面俩个原因，朴素贝叶斯法对条件概率分布做了条件独立性的假设，由于这是一个较强的假设，朴素贝叶斯也由此得名！这一假设使得朴素贝叶斯法变得简单，但有时会牺牲一定的分类准确率。</p><p>好的，上面我解释了为什么可以拆成分开连乘形式。那么下面我们就开始求解</p><p>我们将上面公式整理一下如下：</p><p><img src="https://pic3.zhimg.com/v2-e0abd30b1376c18c3dfd0d0bf4375c26_r.jpg" alt="https://pic3.zhimg.com/v2-e0abd30b1376c18c3dfd0d0bf4375c26_r.jpg"></p><p>下面我将一个一个的进行统计计算（在数据量很大的时候，根据中心极限定理，频率是等于概率的，这里只是一个例子，所以我就进行统计即可）。</p><p>p(嫁)=？</p><p>首先我们整理训练数据中，嫁的样本数如下：</p><p><img src="https://pic1.zhimg.com/v2-82d69514c761c791c6eaf90dc0771b44_r.jpg" alt="https://pic1.zhimg.com/v2-82d69514c761c791c6eaf90dc0771b44_r.jpg"></p><p>则 p(嫁) = 6/12（总样本数） = 1/2</p><p>p(不帅|嫁)=？统计满足样本数如下：</p><p><img src="https://pic2.zhimg.com/80/v2-88728bc679158c4178a52ce7e2ad88dd_1440w.png" alt="https://pic2.zhimg.com/80/v2-88728bc679158c4178a52ce7e2ad88dd_1440w.png"></p><p>则p(不帅|嫁) = 3/6 = 1/2</p><p>p(性格不好|嫁)= ？统计满足样本数如下：</p><p><img src="https://pic2.zhimg.com/80/v2-4b810db6d395f6aeacd4c53092c47771_1440w.png" alt="https://pic2.zhimg.com/80/v2-4b810db6d395f6aeacd4c53092c47771_1440w.png"></p><p><strong>则p(性格不好|嫁)= 1/6</strong></p><p><strong>p（矮|嫁） = ?统计满足样本数如下：</strong></p><p><img src="https://pic2.zhimg.com/80/v2-d97d8406a534753442730a26fde76631_1440w.png" alt="https://pic2.zhimg.com/80/v2-d97d8406a534753442730a26fde76631_1440w.png"></p><p><strong>则p(矮|嫁) = 1/6</strong></p><p><strong>p(不上进|嫁) = ?统计满足样本数如下：</strong></p><p><img src="https://pic2.zhimg.com/80/v2-0c7bc85db3d05657305cc2ac85f2774d_1440w.png" alt="https://pic2.zhimg.com/80/v2-0c7bc85db3d05657305cc2ac85f2774d_1440w.png"></p><p><strong>则p(不上进|嫁) = 1/6</strong></p><p><strong>下面开始求分母，p(不帅)，p（性格不好），p（矮），p（不上进）</strong></p><p><strong>统计样本如下:</strong></p><p><img src="https://pic2.zhimg.com/80/v2-83f2f4b00981806c74e330b2d6f91db5_1440w.png" alt="https://pic2.zhimg.com/80/v2-83f2f4b00981806c74e330b2d6f91db5_1440w.png"></p><p>不帅统计如上红色所示，占4个，那么p（不帅） = 4/12 = 1/3</p><p><img src="https://pic2.zhimg.com/80/v2-4bde3952e6a2811c35446dbb479e26a9_1440w.png" alt="https://pic2.zhimg.com/80/v2-4bde3952e6a2811c35446dbb479e26a9_1440w.png"></p><p>性格不好统计如上红色所示，占4个，那么p（性格不好） = 4/12 = 1/3</p><p><img src="https://pic1.zhimg.com/80/v2-71b7b1264ce33f8369a32b88eed900bc_1440w.png" alt="https://pic1.zhimg.com/80/v2-71b7b1264ce33f8369a32b88eed900bc_1440w.png"></p><p>身高矮统计如上红色所示，占7个，那么p（身高矮） = 7/12</p><p><img src="https://pic4.zhimg.com/80/v2-eb40196a04b9add56b72fe463c441237_1440w.png" alt="https://pic4.zhimg.com/80/v2-eb40196a04b9add56b72fe463c441237_1440w.png"></p><p>不上进统计如上红色所示，占4个，那么p（不上进） = 4/12 = 1/3</p><p><strong>到这里，要求p(不帅、性格不好、身高矮、不上进|嫁)的所需项全部求出来了，下面我带入进去即可，</strong></p><p><img src="https://pic3.zhimg.com/80/v2-e0abd30b1376c18c3dfd0d0bf4375c26_1440w.png" alt="https://pic3.zhimg.com/80/v2-e0abd30b1376c18c3dfd0d0bf4375c26_1440w.png"></p><p>= (1/2<strong>1/6</strong>1/6<strong>1/6</strong>1/2)/(1/3<strong>1/3</strong>7/12*1/3)</p><p>下面我们根据同样的方法来求p(不嫁|不帅，性格不好，身高矮，不上进)，完全一样的做法，为了方便理解，我这里也走一遍帮助理解。首先公式如下：</p><p><img src="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png" alt="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png"></p><p>下面我也一个一个来进行统计计算，这里与上面公式中，分母是一样的，于是我们分母不需要重新统计计算！</p><p>p（不嫁）=？根据统计计算如下（<strong>红色为满足条件</strong>）：</p><p><img src="https://pic2.zhimg.com/80/v2-c065045ef461f043409ae02019044631_1440w.png" alt="https://pic2.zhimg.com/80/v2-c065045ef461f043409ae02019044631_1440w.png"></p><p>则p(不嫁)=6/12 = 1/2</p><p>p(不帅|不嫁) = ？统计满足条件的样本如下（<strong>红色为满足条件</strong>）：</p><p><img src="https://pic4.zhimg.com/80/v2-c5497335a6680cbcd8b80a1bc87628ef_1440w.png" alt="https://pic4.zhimg.com/80/v2-c5497335a6680cbcd8b80a1bc87628ef_1440w.png"></p><p>则p（性格不好|不嫁） =3/6 = 1/2</p><p>p（矮|不嫁） = ？据统计计算如下（红色为满足条件）：</p><p><img src="https://pic3.zhimg.com/80/v2-9aef823f8f275db63c870ce80e97a4ea_1440w.png" alt="https://pic3.zhimg.com/80/v2-9aef823f8f275db63c870ce80e97a4ea_1440w.png"></p><p>则p（矮|不嫁） = 6/6 = 1</p><p>p（不上进|不嫁） = ？据统计计算如下（红色为满足条件）</p><p><img src="https://pic4.zhimg.com/80/v2-8576a2a9dd1730773a5b9b353bb9042f_1440w.png" alt="https://pic4.zhimg.com/80/v2-8576a2a9dd1730773a5b9b353bb9042f_1440w.png"></p><p>则p（不上进|不嫁） = 3/6 = 1/2</p><p>那么根据公式：</p><p><img src="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png" alt="https://pic4.zhimg.com/80/v2-7caa2cca71867344273c32a949b291f3_1440w.png"></p><p>p (不嫁|不帅、性格不好、身高矮、不上进) = ((1/6<strong>1/2</strong>1<strong>1/2)1/2)/(1/3*1/3</strong>7/1<em>2</em>1/3)</p><p><strong>很显然(1/61/211/2) &gt; (1/21/61/61/6*1/2)</strong></p><p><strong>于是有p (不嫁|不帅、性格不好、身高矮、不上进)&gt;p (嫁|不帅、性格不好、身高矮、不上进)</strong></p><p><strong>所以我们根据朴素贝叶斯算法可以给这个女生答案，是不嫁！！！！</strong></p><h2 id="朴素贝叶斯分类的优缺点"><a href="#朴素贝叶斯分类的优缺点" class="headerlink" title="朴素贝叶斯分类的优缺点"></a><strong>朴素贝叶斯分类的优缺点</strong></h2><p>优点：</p><p>（1） 算法逻辑简单,易于实现</p><p>（2）分类过程中时空开销小</p><p>缺点：</p><p>理论上，<strong>朴素贝叶斯模型与其他分类方法相比具有最小的误差率。但是实际上并非总是如此，这是因为朴素贝叶斯模型假设属性之间相互独立，这个假设在实际应用中往往是不成立的，在属性个数比较多或者属性之间相关性较大时，分类效果不好。</strong></p><p>而在属性相关性较小时，朴素贝叶斯性能最为良好。对于这一点，有半朴素贝叶斯之类的算法通过考虑部分关联性适度改进。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;文章转自《带你理解朴素贝叶斯分类算法》&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;贝叶斯分类是一类分类算法的总称，这类算法均以&lt;strong&gt;&lt;em&gt;贝叶斯定理&lt;/em&gt;&lt;/strong&gt;为基础，故统称为贝叶斯分类。而朴素朴素贝叶斯分类是贝叶斯分类中最简单，也是常见的一种分类方法。这篇文章我
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
+    
+    
+      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>多维数组的切片和索引</title>
@@ -513,40 +540,6 @@
 &lt;li&gt;使用总体的数据估计样本均值的概率&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-      
-    
-    </summary>
-    
-      <category term="blog" scheme="http://www.appleieye.com/categories/blog/"/>
-    
-    
-      <category term="数据科学" scheme="http://www.appleieye.com/tags/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>取样</title>
-    <link href="http://www.appleieye.com/2020/07/13/%E5%8F%96%E6%A0%B7/"/>
-    <id>http://www.appleieye.com/2020/07/13/取样/</id>
-    <published>2020-07-13T05:58:10.000Z</published>
-    <updated>2020-07-13T10:06:13.322Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文重点：</p><ol><li>总体</li><li>样本</li><li>如何设计取样</li><li>偏差的来源</li><li>取样的几种方式</li></ol><hr><p><strong>背景</strong>：Mighty Gumball 是一家有名的糖果和巧克力制造商，他们想宣传一些他们的口香糖能保持多长时间的持久。问题是如何得到这些数据。</p><p>很明显，他们不能挨个放在嘴巴里去吃、去试，这样不仅会耗费掉所有的口香糖，造成巨大的金钱损失，还会损害员工的牙齿。那他们应该如何得到这部分数据呢？</p><p>这就引出了这篇文章的中心内容，<strong><em>取样，</em></strong>即测试一些口香糖样本，而不是所有的口香糖。</p><hr><p>一、<strong>总体—population</strong></p><p>统计意义上的总体是指我们试图测量、研究、分析的所有总体事物。例如，我们想进行人口普查，看看我们国家现在到底有多少人，这时候，总体就是国内全部的人。</p><hr><p>二、<strong><em>样本—-sample</em></strong></p><p>统计意义上的样本就是从总体中选取的部分。   我们可以从总体中选取样本来代表总体，因为这比较可行，耗费的时间、金钱、精力相对采用总体来说，也是非常少的，总而言之来说是可行的。</p><p>选取好的样本的关键是选择那些尽可能贴近总体的，这样样本所有具有代表性，这样样本与总体之间才有相似的特征。只有这样，我们才可以用样本来预测总体的一些特征。</p><hr><p>三、<strong><em>如何设计取样</em></strong></p><ol><li>确定目标总体(target population)。首先要确定target population，这样才能知道样本是从哪里来的。通过target population，我们明确了要研究的事物。例如，我们想收集世界上所有的口香糖的数据，我们关心的是某种品牌的口香糖还是某种类型的口香糖，这个要弄清楚。</li><li>确定取样单位。在这个例子中，我们是想以每个口香糖为单位，还是以每盒口香糖为单位</li><li>定义取样框架。它基本上是一个列表，里面的每个样本都被命名或编号，你可以从中选择样本</li></ol><hr><p>四、<strong><em>偏差的来源</em></strong></p><p>如果我们在进行取样时，没有客观公正的进行选择样本，而是有偏差的选择了一些样本，这样我们就会对总体产生错误的印象，进而做出错误的推断。一般来说，偏差的来源有这么几方面：</p><ol><li>取样框架中一些样本被漏掉了，如果样本没有放在取样框架中，它们也不会进入你的样本中</li><li>不正确的取样单位。有时候以每个口香糖为单位是合适的，但有时候要考虑以每盒为单位</li><li>问卷调查中存在设计不好的问题。</li><li>取样时没有做的随机取样，而是以个人的主观判断去取样</li></ol><hr><p>五、<strong><em>几种取样方式</em></strong></p><ol><li>简单随机取样，从N个取样单位中随机选择n个取样单位，所有样本都有同样被选择到的可能性。简单随机取样又分为有放回和无放回。简单随机抽样可以通过抽签或者随机数生成器来实现。</li><li>分层抽样：把样本分成几个组，每个组都有类似的特征，然后从每个组中进行随机抽样。如口香糖可以按颜色分为黄色、绿色、红色、和粉色，每一种颜色叫作一层。</li><li>整群抽样：如口香糖可能分装成了一包一包的，可以随机选择几包，然后对每包里的口香糖进行试验</li><li>系统抽样：每隔几个样本选择一个样本。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;本文重点：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;总体&lt;/li&gt;
-&lt;li&gt;样本&lt;/li&gt;
-&lt;li&gt;如何设计取样&lt;/li&gt;
-&lt;li&gt;偏差的来源&lt;/li&gt;
-&lt;li&gt;取样的几种方式&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;背景&lt;/strong&gt;：Mighty Gumball 是
       
     
     </summary>

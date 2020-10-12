@@ -271,6 +271,130 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/04/the-hacker-guide-python6/" itemprop="url">
+                  the-hacker-guide-python 第六章读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-04T21:29:34+08:00" content="2015-12-04">
+              2015-12-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong><em>Unit testing</em></strong></p>
+<hr>
+<p>对于现在流行的测试驱动开发，作者的观点是“Writing code that is not tested is essentially useless, as there’s no way to conclusively prove that it works.” </p>
+<ul>
+<li><strong>基础工具</strong>–<a href="https://docs.python.org/3.4/library/unittest.html" target="_blank" rel="noopener">unnitest</a>包（python的标准类库），介绍了它的一些基本方法如assertEqual、assertTrue,assertFalse,assertGreater,assertGreaterEqual, assertIn,assertIs,assertIsIntance,assertIsNone等等，着重介绍了一下<strong>unittest.TestCase.skipTest()</strong>的用法–跳过一些不能运行的测试。setUp和tearDown方法分别在类测试方法执行前执行。This is really useful for creating test environments</li>
+<li><strong><a href="https://pypi.python.org/pypi/fixtures" target="_blank" rel="noopener">Fixtures</a></strong>–测试夹具由一组unnitest组成，这个组件可以在其他地方重复使用</li>
+<li><strong>Mocking</strong> Mock对象用了模拟真实的应用。如在写一个HTTP客户端时，我们不可能再写一个HTTP server用了返回各个可能值进行测试，也无法满足其他应用场景的测试。如果可以建立起一些模型来模拟特定的场景，然后用这些模型作为环境来测试代码，这样就变得很容易。<a href="https://pypi.python.org/pypi/mock/1.0.1" target="_blank" rel="noopener">Mock</a>的作用就在这。通过使用mock，可以模拟以下问题：web服务器返回404错误或者网络问题的出现，可以确保代码返回正确的值或者引发相对应的异常，总之就是代码按照期望的方式工作</li>
+<li><strong><em>Scenarios</em></strong>–即场景。很多情况下，需要在不同版本中进行测试；或者在不同驱动上进行测试。对不同驱动的实现情况，Ceilmeter提供了一个抽象类，然后不同驱动去实现这个类然后注册成driver。这样在测试时就需要对各个驱动进行测试。<a href="https://pypi.python.org/pypi/testscenarios" target="_blank" rel="noopener">testscenarios</a>提供了一种简单的方式在不同情景中运行一组测试。</li>
+<li><strong>Test streaming and parallelism</strong>：在进行测试时，对他们的运行过程进行分析显得非常有用。<a href="https://pypi.python.org/pypi/python-subunit" target="_blank" rel="noopener"><strong>sububit</strong></a>对测试结果提供了流的处理。它允许对测试结果进行合并、记录和存档。它也可以自动检测出哪些测试在运行。<a href="https://pypi.python.org/pypi/testrepository" target="_blank" rel="noopener">testrepository</a>用来处理大量测试的结果流化。提供了<code>testr</code>程序，来处理一个测试的数据库:例如记录自从上次提交后哪个测试失败了。并行运行测试的方法<code>testr run --parallel</code></li>
+<li><strong>Coverage</strong>：覆盖测试。code coverage使用代码分析工具和追踪工具来确定哪些行代码已经执行过了，哪些还没有。python模块<a href="https://pypi.python.org/pypi/coverage" target="_blank" rel="noopener">coverage</a>提供了这些功能。一旦安装成功后，可以使用命令行与coverage程序交互</li>
+<li><strong>Using virtualenv with tox</strong>：tox的目标是使python的测试变得自动化和标准化。tox可以完成部署虚拟环境、安装setup工具，安装所有应用/类库/单元测试所需的依赖。当运行时，tox将创建虚拟环境，安装新的依赖并且运行测试</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/02/openstack-cinder-bug/" itemprop="url">
                   openstack-cinder bug的一次重现与修复
                 </a>
@@ -1613,120 +1737,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/22/api/" itemprop="url">
-                  前后端完全分离之API设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-11-22T19:28:18+08:00" content="2015-11-22">
-              2015-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术杂文/" itemprop="url" rel="index">
-                    <span itemprop="name">技术杂文</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>大三的时候选了一门课，叫服务开发技术，里面提到了REST，即用唯一的一个URI标识网络中的资源，使用HTTP的标准操作如PUT、POST、DELETE、UPDATE对资源进行操作。但是我在对资源命名的时候还是停留在使用数据库操作的来进行命名。这篇文章很好的阐释了如何合理的对URI命名以及状态码、返回值的规范问题</p>
-<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/612edf3ajw1euqrd7amfgj20c89iynfd.jpg" alt="此处输入图片的描述"><br>（文章出自Arccode’s blog,版权归属原作者）</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1772,7 +1782,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">133</span>
+              <span class="site-state-item-count">134</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
