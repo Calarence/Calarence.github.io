@@ -271,6 +271,213 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/19/JavaObject/" itemprop="url">
+                  Java对象与类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-11-19T13:08:34+08:00" content="2017-11-19">
+              2017-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Java对象与类"><a href="#Java对象与类" class="headerlink" title="Java对象与类"></a>Java对象与类</h2><h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><h3 id="对象：三个主要特性：行为、状态、标识"><a href="#对象：三个主要特性：行为、状态、标识" class="headerlink" title="对象：三个主要特性：行为、状态、标识"></a>对象：三个主要特性：行为、状态、标识</h3><h3 id="类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小"><a href="#类之间的关系：依赖（use-a）、聚合（has-a）、继承（is-a）-应该将相互依赖的类减至最少，即让类之间的耦合度最小" class="headerlink" title="类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小"></a>类之间的关系：依赖（use a）、聚合（has a）、继承（is a）.应该将相互依赖的类减至最少，即让类之间的耦合度最小</h3><h3 id="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"><a href="#隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值" class="headerlink" title="隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值"></a>隐式参数与显式参数：隐式参数是出现在方法名前面的某个类的对象；显式参数是位于方法名后面括号中的值</h3><h3 id="方法参数：Java采用按值调用。"><a href="#方法参数：Java采用按值调用。" class="headerlink" title="方法参数：Java采用按值调用。"></a>方法参数：Java采用按值调用。</h3><p>方法得到的是参数值的一个拷贝，方法不能修改传递给它的任何参数变量的内容。<br>举例如下：</p>
+<pre><code>public static void tripleValue(double x)
+    {
+     x = 3 * ;
+
+    }
+//调用该方法
+double percent = 10;
+tripleValue(percent);
+</code></pre><p>执行完后，发现percent的值还是为10，具体执行过程如下:</p>
+<blockquote>
+<ul>
+<li>x被初始化为percent的一个copy，也就是10</li>
+<li>x被乘以3后等于30，但percent仍然是10</li>
+<li>该方法结束后，x不被使用</li>
+<li>percent仍为10</li>
+</ul>
+</blockquote>
+<p>方法参数共有两种类型：基本数据类型；对象引用。在上面例子中，已经看到了一个方法不能改变一个基本数据类型的参数，那么对象引用类型的参数呢？</p>
+<pre><code>public static void tripleSalary(Employee x)
+{
+ x.raiseSalary(200);
+} 
+当调用：
+harry = new Employee();
+tripleSalary(harry);
+</code></pre><p>具体过程如下:</p>
+<blockquote>
+<ul>
+<li>x被初始化为harry值的一个copy，这里是同一个对象的引用。</li>
+<li>raiseSalary应用于这个对象的引用。x和harry同时引用的那个Employee对象的salary改变</li>
+<li>方法结束后，参数x不被使用，对象变量harry继续引用salary改变的对象</li>
+</ul>
+</blockquote>
+<p>参数得到是对象引用的copy，对象引用以及他的copy同时引用同一个对象。</p>
+<p>java中的引用不是按引用调用，反例如下:</p>
+<pre><code>public staic void swap(Employee x,Employee y)
+ {
+   Employee temp = x;
+   x =  y;
+   y = temp；
+ }
+</code></pre><p>如果java对对象采用的是按引用调用，那么上面的方法就能实现交换数据的效果，但是实际上并没有改变存储在变量a和b中的的对象引用。swap方法的参数x和y被初始化为两个对象应用的copy，这个方法交换的是两个copy</p>
+<p>总结：</p>
+<blockquote>
+<ul>
+<li>一个方法不能修改一个基本数据类型的参数</li>
+<li>一个方法可以改变一个对象参数的状态</li>
+<li>一个方法不能让对象参数引用一个新的对象</li>
+</ul>
+</blockquote>
+<h3 id="重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"><a href="#重载-如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。" class="headerlink" title="重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。"></a>重载:如果有多个方法由相同的名字、不同的参数，便产生了重载。方法名以及参数类型，叫作方法的签名。<strong>返回类型不是方法签名的一部分。也就是说不能有两个名字相同，参数类型也相同，但是返回不同类型值的方法。</strong></h3><h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>静态方法是一种不能向对象实施操作的方法。静态方法不能访问成员变量，因为它不能操作对象。<br>在下面两种情况使用静态方法：</p>
+<blockquote>
+<ul>
+<li>一个方法不需要访问对象状态，其所需参数都是通过显式参数提供</li>
+<li>一个方法只需要访问类的静态域</li>
+</ul>
+</blockquote>
+<h3 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h3><p>初始化数据的方法：</p>
+<blockquote>
+<ul>
+<li>在构造器中赋值</li>
+<li>在声明中赋值</li>
+<li>初始化块：首先运行初始化块，然后才运行构造器的主体部分。</li>
+</ul>
+</blockquote>
+<p>调用构造器的处理步骤;</p>
+<blockquote>
+<ul>
+<li>所有数据被初始化默认值（0，null或false）</li>
+<li>按照在类声明中出现的次序，依次执行所有域初始化语句和初始化块</li>
+<li>如果构造器中第一行调用了第二个构造器，则执行第二个构造器主体</li>
+<li>执行这个构造器主体</li>
+</ul>
+</blockquote>
+<p>对静态变量的初始化：静态的初始化块，在类第一次加载的时候，会进行静态域的初始化，所有静态初始化语句以及静态初始化块都依照类定义的顺序执行。</p>
+<h3 id="类设计技巧"><a href="#类设计技巧" class="headerlink" title="类设计技巧"></a>类设计技巧</h3><blockquote>
+<ul>
+<li>要保证成员变量私有</li>
+<li>要对成员变量初始化</li>
+<li>不要在类中使用过多的基本类型，可用其他类代替多个相关的基本类型的使用</li>
+<li>将职责过多的类进行分解</li>
+<li>不是所有的域都需要独立的get和set方法</li>
+<li>类名和方法名要能体现他们的职责</li>
+<li>优先使用不可的类</li>
+</ul>
+</blockquote>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><blockquote>
+<ul>
+<li>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象</li>
+<li>在java中，任何对象变量的值都是对存储在另外一个地方的一个对象的引用。new 操作符的返回值也是一个引用</li>
+<li>在一个源文件中，只能有一个public类，但可以有任意数目的非公有类</li>
+</ul>
+</blockquote>
+<p>参考：《java核心技术卷一》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/14/djangosql/" itemprop="url">
                   djano执行原生sql语句
                 </a>
@@ -1965,239 +2172,6 @@ while(in.hasNext())
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/18/pythonMultithread/" itemprop="url">
-                  python多线程基础知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-08-18T14:13:12+08:00" content="2017-08-18">
-              2017-08-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
-<ul>
-<li>并行：是指在两个或多个进程同时运行，比如在每个处理器上运行一个进程</li>
-<li>并发：在同一个处理器上运行多个进程。通常使用时间片轮转的技术来实现。实际上，这种是伪并行，只是时间片很短，进程切换的非常快，看起来像是并行。<br>并发是现代操作系统常用的技术。因为这种技术与计算机的处理器个数无关，所以操作系需要同时运行多个系统任务，而且还要满足用户任何的需求。为了解决这类问题，操作系统首先要关注处理器的任务调度时间表，记录每个任务需要的运行时间，然后在不同任务之间进行上下文切换，给每个任务一个时间片</li>
-</ul>
-</blockquote>
-<h3 id="多线程的优缺点"><a href="#多线程的优缺点" class="headerlink" title="多线程的优缺点"></a>多线程的优缺点</h3><p>优点：</p>
-<blockquote>
-<ul>
-<li>持续响应：在单线程的程序中，执行一个长期运行的任务可能会导致程序冻结。多线程可以把这个长期运行的任务放在一个工作线程（worker thread）中，在程序并发地运行任务时可以持续响应客户需求。</li>
-<li>更快的响应速度：在多核或多处理器的操作系统上，多线程可以通过真正的并行提高程序运行速度</li>
-<li>较低的资源消耗：利用线程模式，程序可以利用一个进程的资源响应多个请求</li>
-<li>更简单的状态共享与进程间通信机制：由于线程都共享同一资源和内存空间，因此线程之间的通信比进程间通信更简单</li>
-<li>并行化：多核与多处理器系统可以实现多线程的每个线程独立运行。</li>
-</ul>
-</blockquote>
-<p>缺点：</p>
-<blockquote>
-<ul>
-<li>线程同步</li>
-<li>某个线程出现问题导致集体崩溃</li>
-<li>死锁</li>
-</ul>
-</blockquote>
-<h3 id="GLI与多线程的使用场景"><a href="#GLI与多线程的使用场景" class="headerlink" title="GLI与多线程的使用场景"></a>GLI与多线程的使用场景</h3><p>python的官方版本（CPython）有一个GIL限制。GIL会阻止多线程同时运行Python的字节码，所以这就不是真正的并发。CPython的GIL是有必要的，因为python的内存管理不是线程安全的。因此，为了让每个任务都按顺序进行，它需要保证运行过程中内存不受干扰。<br>（有一种说法是GIL只是CPython（python编译器）的产物，而与python语言本身没有关系）</p>
-<p>基于GIL的原因，不应该使用Python线程来处理计算密集型的任务，因为这种任务更适合在多个CPU核心上实现并行处理。python线程更适合于I/O处理以及涉及阻塞操作的并发执行任务，如等待I/O，等待从数据库取出结果等。<br><a href="http://blog.csdn.net/q_l_s/article/details/51538039" target="_blank" rel="noopener">计算密集型与I/O密集型</a></p>
-<h3 id="python中多线程的实现方式"><a href="#python中多线程的实现方式" class="headerlink" title="python中多线程的实现方式"></a>python中多线程的实现方式</h3><p>python中有两种方式实现多线程：</p>
-<blockquote>
-<ul>
-<li>thread模块：这个模块提供了有限的线程能力。它很容易使用，适合小项目，不过会增加一点额外的资源消耗</li>
-<li>threading模块：这是从Python2.4引入的新模块，提供了一些更强大、更高层次的线程支持。</li>
-</ul>
-</blockquote>
-<p><strong><em>python普遍推荐使用threading模块。</em></strong></p>
-<h3 id="单线程代码多线程化"><a href="#单线程代码多线程化" class="headerlink" title="单线程代码多线程化"></a>单线程代码多线程化</h3><p>实例：检查一组网站的请求状态码。<br>单线程代码如下：</p>
-<pre><code>import urllib3
-import time
-from threading import Thread
-
-def getResponseCode():
-    urls = [
-        &apos;http://www.appleieye.com&apos;,
-        &apos;http://www.amazon.com&apos;,
-        &apos;http://www.ebay.com&apos;,
-        # &apos;http://www.alibaba.com&apos;,
-        &apos;http://www.reddit.com&apos;
-    ]
-    start = time.time()
-    for url in  urls:
-        print(url)
-        http = urllib3.PoolManager()
-        response = http.request(&apos;GET&apos;,url)
-        print(response.status)
-    print(&quot;Elapsed time: {}&quot;.format(time.time()-start))
-    #打印的时间为Elapsed time: 33.027889251708984
-</code></pre><p>多线程：可以并发检查所有网站的状态，不需要在检查完成之后再去运行另一个检查<br>代码如下：</p>
-<pre><code>import urllib3
-import time
-from threading import Thread
-class GetUrlThread(Thread):
-
-    def __init__(self,url):
-        self.url = url
-        super(GetUrlThread, self).__init__()
-
-    def run(self):
-        http = urllib3.PoolManager()
-        response = http.request(&apos;GET&apos;,self.url)
-        print(self.url,response.status)
-
-def getResponse():
-    urls = [
-            &apos;http://www.appleieye.com&apos;,
-            &apos;http://www.amazon.com&apos;,
-            &apos;http://www.ebay.com&apos;,
-            # &apos;http://www.alibaba.com&apos;,
-            &apos;http://www.reddit.com&apos;
-        ]
-    start = time.time()
-    threads = []
-    for url in urls:
-        thread = GetUrlThread(url)
-        threads.append(thread)
-        thread.start()
-
-    for t in threads:
-        t.join()
-
-    print(&apos;time spent:{}&apos;.format(time.time()-start))
-    #所耗费的时间为7.181410789489746。
-</code></pre><p>对比两种实现，可见多线程效率几乎是单线程的4倍。</p>
-<h3 id="对临界区加锁："><a href="#对临界区加锁：" class="headerlink" title="对临界区加锁："></a>对临界区加锁：</h3><p>考虑一个例子：用多线程轮流对一个全局变量globalValue进行加一操作，直至加到200（数字越大，线程运行时的不确定性才能表现出来）</p>
-<pre><code>import threading
-
-globalValue = 0
-class ShareCounter(threading.Thread):
-
-    def __init__(self,name):
-        threading.Thread.__init__(self)
-        self.name = name
-
-    def run(self):
-        global globalValue
-        localCopy = globalValue
-        print(&quot;{} with value {}&quot;.format(self.name,localCopy))
-        globalValue = localCopy + 1
-
-if __name__ == &apos;__main__&apos;:
-    for index in range(200):
-        t = ShareCounter(&quot;thread&quot;+str(index))
-        t.start()
-</code></pre><p>部分打印结果如下：<br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multiThread1.png" alt="此处输入图片的描述"><br><img src="http://7pn53u.com1.z0.glb.clouddn.com/multithread2.png" alt="此处输入图片的描述"><br>由打印结果看出，线程126/127/128/130/134打印的结果都是一样的，并且数字输出的顺序也会有错乱，最终得到的数值也没有到达200。<br>这是由于线程执行的速度、顺序不确定造成的。所以，需要确保代码在复制数值、进行加一操作以及打印数值的时候是处于加锁状态，没有两个线程来同时访问该数值。这时候就用到了锁：加锁和释放锁。<br>代码如下：</p>
-<pre><code>_lock = threading.RLock()
-def run(self):
-    ShareCounter._lock.acquire()
-    global globalValue
-    localCopy = globalValue
-    print(&quot;{} with value {}&quot;.format(self.name,localCopy))
-    globalValue = localCopy + 1
-    ShareCounter._lock.release()
-</code></pre><p>这时候在运行这段代码，就会发现数值按顺序打印，并且没有重复值出现。</p>
-<h3 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h3><h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2243,7 +2217,7 @@ def run(self):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -2260,7 +2234,7 @@ def run(self):
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

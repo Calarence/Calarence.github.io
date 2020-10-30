@@ -271,6 +271,158 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/22/openstackAMQP2/" itemprop="url">
+                  openstack采用的消息协议机制--AMQP(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T19:35:34+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/openstack/" itemprop="url" rel="index">
+                    <span itemprop="name">openstack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>AMQP是openstack所采用的消息机制。openstack组件例如Nova、Cinder、Quantum内部间通过ANQP进行通信，它们之间通过rest调用的方式相互联系。AMQP代理–RabbitMQ，位于openstack组件内部之间，允许它们以松耦合的方式进行交互。也就是说组件的各组成部分不用知道其他部分的具体位置。更准确地说，nova组件的组成部分–nova-api、nova-scheduler和nova-compute间通过RPC的方式通信</p>
+<p>通常来讲，openstack组成部分间使用direct、fanout、topic-based类型的exchange，这个问题在上一篇博客中已经讨论过了</p>
+<hr>
+<p>openstack消息机制有两种模式：<br>rpc.cast-不用等待结果<br>rpc.call-等待结果（当有内容需要返回时）</p>
+<p>RPC是一种非常普通的模式，如果我们需要在远程计算机上运行一个程序并且等待结果怎么办？好吧，那是另一回事情。这个模式普遍成为Remote Procedure Call 或者简称为RPC</p>
+<hr>
+<p>在openstack中，Nova、Cinder 、Quantum在AMQP之上实现了RPC(request+response,或者称为rpc.call和rpc.cast)。通过提供一个适配器类来实现，该适配器类将message封装或解封成函数调用。每个nova组成部分（api、compute、scheduler）、cinder组成部分(volume、scheduler)、Quantum组成部分（quantum-server,agents,plugins）在初始化时创建了两个queue，一个用来接收带有routing keys“NODE.TYPE.NODE-ID”（例如compute.hostname）的message,另一个用来接收带有routing key“NODE-TYPE”（例如compute）的message</p>
+<p>当Nova-API需要将命令转发到指定的节点上时，如“nova delete instance”显得非常有用，只有主机上运行着hypervisor 的计算节点才可以kill掉这个instance。当RPC调用为request或response时，API表现为consumer，否则的话表现为publisher。</p>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/openstackrabbitmq.png" alt="此处输入图片的描述"><br>Fig:Messaging in Openstack using RabbitMQ ( Queue–server)</p>
+<hr>
+<p>当单个instance在openstack中部署和共享时。每个组件根据其特点（例如compute ndoe、cinder、quantum）连接到message broker，有的作为invoker（例如API、scheduler）使用queue，有的作为worker（例如compute或quantum）。Invoker和worker实际上在Nova对象模型中并不真实存在，于是我们将把他们作为抽象概念使用</p>
+<p>invoker通过两个操作rpc.call和rpc.cast在队列系统中发送message</p>
+<p>worker从队列系统中获取message并根据rpc.call操作进行响应</p>
+<hr>
+<p>如下是message broker node的元素</p>
+<ul>
+<li>Topic Publisher:处理rpc.call或rpc.cast操作，用来将message添加到队列系统。每个publisher总是连接同一个topic的exchange。生命周期限制到message的交付</li>
+<li>Direct Consumer:仅处理rpc.call操作，用来从队列系统中获取响应信息，每个consumer通过唯一专有的queue连接到唯一的direct exchange。生命周期截止到message的交付</li>
+<li>Topic Consumer：当worker实例化时被激活。在其生命周期中，用来从队列中获取message并调用worker角色定义的相应action。Topic Consumer通过共享或专一queue连接到同一个topic exchange。每一个worker有两个consumer，一个用于rpc.cast操作（通过exchange key“topic”连接到共享queue），一个用于rpc.call操作（通过exchange key“topic.host”连接到唯一的queue）</li>
+<li>Direct Publisher:在rpc.call操作时被激活，被实例化用来返回request/response操作需要的message。该对象连接到direct exchange上，传入的message携带标识符</li>
+</ul>
+<hr>
+<p>openstack中的RPC调用</p>
+<ol>
+<li>Topic Publisher被实例化来向队列系统中发送message请求，在publishing 操作之间，迅速地实例化Direct Consumer来等待响应信息</li>
+<li>一旦message被exchange分发，它通过routing key（例如topic.hsot）被Topic consumer获取到，并传递给负责该task的worker</li>
+<li>一旦task完成，Direct Publisher被分配来将响应消息发送到队列系统</li>
+<li>一旦message被exchange分发，通过routing key（例如msg_id）获取到并传递给invoker</li>
+</ol>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccall.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>Openstack中的RPC cast</p>
+<ol>
+<li>Topic Publisher被实例化来向队列系统中发送请求消息</li>
+<li>一旦消息经过exchange分发，通过routing key（例如topic）被Topic Consumer获取到，并传递给负责该task的worker</li>
+</ol>
+<p><img src="http://7pn53u.com1.z0.glb.clouddn.com/rpccast.png" alt="此处输入图片的描述"><br>publisher将message发送到一个topic exchange(compute topic);consumer（compute worker）从queue中获取message。没有任何响应信息返回，因为这是cast操作而不是call</p>
+<hr>
+<p>Exchanges and queues being created by Openstack components are:<br>Exchanges and its type:</p>
+<p>amq.direct      direct<br>cinder-scheduler_fanout fanout<br>conductor_fanout        fanout<br>amq.topic       topic<br>cinder  topic<br>amq.rabbitmq.trace      topic<br>compute_fanout  fanout<br>amq.rabbitmq.log        topic<br>amq.fanout      fanout<br>q-agent-notifier-network-delete_fanout  fanout<br>cinder-volume_fanout    fanout<br>amq.headers     headers<br>nova    topic<br>scheduler_fanout        fanout<br>quantum topic<br>amq.match       headers<br>dhcp_agent_fanout       fanout<br>q-agent-notifier-security_group-update_fanout   fanout<br>q-agent-notifier-port-update_fanout     fanout<br>Queues:<br>scheduler_fanout_300bc05b412948ca91e9c2609022d94a       0<br>compute.localhost   0<br>cinder-scheduler        0<br>notifications.info      16<br>q-agent-notifier-port-update_fanout_e84cd1190d3d4d6fab9c92b9903ad1ee    0<br>compute_fanout_ae1e11827f144d5886f96cdcaba7f90b 0<br>cinder-scheduler_fanout_ebe88ad41b7d450a95b183e6e7a404f0        0<br>conductor_fanout_d82adea2be344983bdc36756e58849f9       0<br>q-plugin        0<br>dhcp_agent      0<br>q-agent-notifier-network-delete_fanout_68eb13d73ccb4d97b84e2534f7181f02 0<br>conductor.localhost 0<br>compute 0<br>scheduler.localhost 0<br>scheduler       0<br>dhcp_agent_fanout_d00b708d17994e31bdad92876dcbafc5      0<br>q-agent-notifier-security_group-update_fanout_62f50e6f6327453ca02efb9e67212a53  0<br>conductor       0<br>cinder-scheduler.localhost    0<br>dhcp_agent.localhost  0</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/22/api/" itemprop="url">
                   前后端完全分离之API设计
                 </a>
@@ -1650,159 +1802,6 @@ public static void main(String[] args) throws Exception{
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/12/helloworld/" itemprop="url">
-                  helloworld是怎样运行的
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-09-12T21:39:56+08:00" content="2015-09-12">
-              2015-09-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/拿来主义/" itemprop="url" rel="index">
-                    <span itemprop="name">拿来主义</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>每一个Java开发者都是通过Hello World敲开面向对象世界的大门。但是在一开始，我们考虑的只是这个语言是什么样的，我们如何更好的编码，却很少有人关心他内部是怎么运行的。看下面一个简单的hello world。</p>
-<pre><code>package com.wordpress.kkarthikeyanblog;  
-
-public class HelloWorld {  
-
-public static String HELLOWORLD = &quot;Hello World&quot;;  
-
-public void print() {  
-System.out.println(HELLOWORLD);  
-}  
-
-public static void main(String[] args) {  
-HelloWorld helloWorld = new HelloWorld();  
-helloWorld.print();  
-}  
-}
-</code></pre><p>在使用javac工具编译了以上代码后，我使用下面的命令来运行这个程序。这时候JVM就启动了。</p>
-<pre><code>java com/wordpress/kkarthikeyanblog/HelloWorld
-</code></pre><p>JVM的自述</p>
-<p>Hey，Guys，我是JVM，让我来给大家说说我是如何运行这个程序的。</p>
-<p>在一开始，BoostrapperClassLoader 加载java.lang.package这个包，我内部的System Class Loader通过给定的classpath找到类”HelloWorld”。在定位到HelloWorld.class后，我将得到这个二进制流。然后我从这个class文件中提取出了一下信息。</p>
-<p>constants（例如文本、常数、类型、方法的符号引用）将被放到constant pool【在这个例子中包括HelloWorld class、方法、常量的符号】<br>包、修饰符、静态变量【在这个例子中，”HELLOWORLD”这个静态变量】<br>字段信息（名称、类型、修饰符）<br>方法信息（名称、返回值类型、方法参数、修饰符、方法的字节码）【在这个例子中是print、void、public和字节码】<br>ClassLoader的引用【装载这个类的classloader】<br>引用class的类</p>
-<p>以上信息都被存在”Method Area”中。</p>
-<p>在装载完毕以上信息后，我（JVM）试着找出”public static void main(String [] args)”方法。</p>
-<p>我（JVM）中的每一个线程，除了共享”Method area”和”Heap Space”之外，他们还拥有自己的”stack”和”pc register”。</p>
-<p>我（JVM）将从Method area中获取的main()方法信息压入栈(push)，程序计数寄存器（pc register）将会告诉我下一步该干什么。</p>
-<p>然后在程序计数器的指引下，我开始执行下面这行：</p>
-<pre><code>HelloWorld helloWorld = new HelloWorld();
-</code></pre><p>我（JVM）将从constant pool中拿到HelloWorld的符号引用。然后查找Method area，获取到class信息，然后在Heap space中创建对象。</p>
-<p>现在程序计数器将会指到</p>
-<pre><code>helloWorld.print();
-</code></pre><p>我（JVM）将从我自己的线程的stack中取出变量”helloworld”的引用，并且找到print()方法。在从Method Area中得到字节码信息后，我将方法”print()”压栈（push），现在我将开始执行print()方法。</p>
-<p>一旦print()方法执行结束，这个方法将出栈(pop up)，将继续执行main()方法。一旦main()方法结束。main()方法将出栈，整个程序的执行也就结束了。</p>
-<p>总结一下以上所说，在JVM中：</p>
-<p>Method area-存放类信息</p>
-<p>Heap Space-只存放对象</p>
-<p>针对每一个线程来讲：</p>
-<p>Stack-包含一个一个的栈帧【例如方法栈】-它也存放指定方法的局部变量</p>
-<p>程序计数寄存器-指导下一步该执行什么。</p>
-<p>另外，除了这些，还有一个”Garbage Collector”（垃圾回收器）来释放那些无用的对象。</p>
-<p>最后，希望你看了此文能对JVM有更深一步的了解。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1848,7 +1847,7 @@ helloWorld.print();
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1865,7 +1864,7 @@ helloWorld.print();
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

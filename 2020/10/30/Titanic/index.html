@@ -1,0 +1,730 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="kaggle," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Clarence's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="成绩：0.78468，排名top13% 一、数据探索 数据总体情况概览  1train_data.describe()  1train_data.info()   存活、死亡情况统计  1train_data[&apos;Survived&apos;].value_counts() 从统计结果可以看出，死亡人数为549，而生存下来的人数为342  接下来分析死亡/存活与其他特征之间的关系  相关矩阵，分析特征之间的相">
+<meta name="keywords" content="kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泰坦尼克">
+<meta property="og:url" content="http://www.appleieye.com/2020/10/30/Titanic/index.html">
+<meta property="og:site_name" content="Clarence&#39;s blog">
+<meta property="og:description" content="成绩：0.78468，排名top13% 一、数据探索 数据总体情况概览  1train_data.describe()  1train_data.info()   存活、死亡情况统计  1train_data[&apos;Survived&apos;].value_counts() 从统计结果可以看出，死亡人数为549，而生存下来的人数为342  接下来分析死亡/存活与其他特征之间的关系  相关矩阵，分析特征之间的相">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk69vieq8pj317e0hqn0x.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6a1heihqj310403waab.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aedsw2kj30ue0kijs7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aq02iwij315u04s3z1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6axc5eu9j313i05wq3k.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b4w4kebj30c207qjrq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b9fawfkj310u06474x.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bcelps3j30r00a00tq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bf3kz9tj31cc09wmyd.jpg">
+<meta property="og:updated_time" content="2020-10-30T13:11:32.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="泰坦尼克">
+<meta name="twitter:description" content="成绩：0.78468，排名top13% 一、数据探索 数据总体情况概览  1train_data.describe()  1train_data.info()   存活、死亡情况统计  1train_data[&apos;Survived&apos;].value_counts() 从统计结果可以看出，死亡人数为549，而生存下来的人数为342  接下来分析死亡/存活与其他特征之间的关系  相关矩阵，分析特征之间的相">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.appleieye.com/2020/10/30/Titanic/"/>
+
+  <title> 泰坦尼克 | Clarence's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Clarence's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Have the courage to listen to your heart</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'X-RzXzutVVHRAyGv_nHU','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                泰坦尼克
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-10-30T13:58:10+08:00" content="2020-10-30">
+              2020-10-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>成绩：0.78468，排名top13%</p>
+<h3 id="一、数据探索"><a href="#一、数据探索" class="headerlink" title="一、数据探索"></a>一、数据探索</h3><ul>
+<li>数据总体情况概览</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.describe()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.info()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk69vieq8pj317e0hqn0x.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk69vieq8pj317e0hqn0x.jpg"></p>
+<ul>
+<li>存活、死亡情况统计</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Survived'</span>].value_counts()</span><br></pre></td></tr></table></figure>
+<p>从统计结果可以看出，死亡人数为549，而生存下来的人数为342</p>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6a1heihqj310403waab.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6a1heihqj310403waab.jpg"></p>
+<p>接下来分析死亡/存活与其他特征之间的关系</p>
+<ul>
+<li>相关矩阵，分析特征之间的相互关联程度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 相关矩阵</span></span><br><span class="line">sns.heatmap(train_data.corr(),   <span class="comment">#data.corr()--&gt;correlation matrix</span></span><br><span class="line">            annot=<span class="keyword">True</span>,</span><br><span class="line">            cmap=<span class="string">'RdYlGn'</span>,</span><br><span class="line">            linewidths=<span class="number">0.2</span>)</span><br><span class="line">fig=plt.gcf()</span><br><span class="line">fig.set_size_inches(<span class="number">20</span>,<span class="number">12</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aedsw2kj30ue0kijs7.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aedsw2kj30ue0kijs7.jpg"></p>
+<p>从上图中，可以看出，与Survived关联程度较大是Pclass和Fare，且与Pclass呈负相关，与Fare呈正相关。这说明class等级越高，Fare越昂贵，存活率越高。</p>
+<ul>
+<li>存活率与性别的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Sex'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aq02iwij315u04s3z1.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aq02iwij315u04s3z1.jpg"></p>
+<p>从统计结果可以看出，女性的存活率高达74%，而男性只有19%，这说明性别是影响存活率的一个很重要因素。</p>
+<ul>
+<li>存活率与class的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Pclass'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6axc5eu9j313i05wq3k.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6axc5eu9j313i05wq3k.jpg"></p>
+<p>头等舱存活率最高，是二等舱的一倍多，是三等舱的三倍多。这说明Pclass对存活率有很大影响。</p>
+<ul>
+<li>综合看一下，存活率、Pclass、性别三者的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.pivot_table(<span class="string">'Survived'</span>,index=[<span class="string">'Pclass'</span>],columns=[<span class="string">'Sex'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b4w4kebj30c207qjrq.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b4w4kebj30c207qjrq.jpg"></p>
+<p>综合看这三个不同Pclass，女性存活率都比男性高；而无论男女，头等舱的存活率都最高，存活率随着舱等级别降低而降低</p>
+<ul>
+<li>存活率与登船港口的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Embarked'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b9fawfkj310u06474x.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b9fawfkj310u06474x.jpg"></p>
+<p>可以看出C港口登船的存活率最高，而S港口存活率最低</p>
+<ul>
+<li>是否有父母、子女同行与存活率的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Parch'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bcelps3j30r00a00tq.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bcelps3j30r00a00tq.jpg"></p>
+<ul>
+<li>是否有兄弟姐妹同行与存活率的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'SibSp'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bf3kz9tj31cc09wmyd.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bf3kz9tj31cc09wmyd.jpg"></p>
+<h3 id="二、特征工程"><a href="#二、特征工程" class="headerlink" title="二、特征工程"></a>二、特征工程</h3><ul>
+<li>将性别male、female转换为0，1</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Sex'</span>] = pd.Categorical(train_data.Sex).codes</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将登船舱口转换为0，1，2</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 填充缺失值</span></span><br><span class="line">train_data[<span class="string">'Embarked'</span>].value_counts()</span><br><span class="line"><span class="comment"># S   644  C    168 Q   77</span></span><br><span class="line"><span class="comment"># S舱口人数最多，选择用S填充缺失值 </span></span><br><span class="line"></span><br><span class="line">train_data[<span class="string">'Embarked'</span>].fillna(<span class="string">'S'</span>)</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> feature_extraction</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_hot_dataframe</span><span class="params">(data,cols,inplace=False)</span>:</span></span><br><span class="line">    vec = feature_extraction.DictVectorizer()</span><br><span class="line">    mkdict = <span class="keyword">lambda</span> row: dict((col, row[col]) <span class="keyword">for</span> col <span class="keyword">in</span> cols)</span><br><span class="line">    vecData = pd.DataFrame(vec.fit_transform(data[cols].apply(mkdict, axis=<span class="number">1</span>)).toarray())</span><br><span class="line">    vecData.columns = vec.get_feature_names()</span><br><span class="line">    vecData.index = data.index</span><br><span class="line">    <span class="keyword">if</span> inplace:</span><br><span class="line">        data = data.drop(cols, axis=<span class="number">1</span>)</span><br><span class="line">        data = data.join(vecData)</span><br><span class="line">    <span class="keyword">return</span> (data, vecData)</span><br><span class="line"></span><br><span class="line">train_data, train_data_n = one_hot_dataframe(train_data,[<span class="string">'Embarked'</span>],inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将Fare划分为几个类别</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用中位数进行填充</span></span><br><span class="line">train_data[<span class="string">'Fare'</span>] = train_data[<span class="string">'Fare'</span>].fillna(train_data[<span class="string">'Fare'</span>].median())</span><br><span class="line">train_data[<span class="string">'FareBand'</span>] = pd.qcut(train_data[<span class="string">'Fare'</span>],<span class="number">4</span>)</span><br><span class="line">train_data[[<span class="string">'FareBand'</span>, <span class="string">'Survived'</span>]].groupby([<span class="string">'FareBand'</span>], as_index=<span class="keyword">False</span>).mean()</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">FareBand  Survived</span></span><br><span class="line"><span class="string">0   (-0.001, 7.91]  0.197309</span></span><br><span class="line"><span class="string">1   (7.91, 14.454]  0.303571</span></span><br><span class="line"><span class="string">2   (14.454, 31.0]  0.454955</span></span><br><span class="line"><span class="string">3  (31.0, 512.329]  0.581081</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">train_data.loc[ train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">7.91</span>, <span class="string">'Fare'</span>] = <span class="number">0</span></span><br><span class="line">train_data.loc[(train_data[<span class="string">'Fare'</span>] &gt; <span class="number">7.91</span>) &amp; (train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">14.454</span>), <span class="string">'Fare'</span>] = <span class="number">1</span></span><br><span class="line">train_data.loc[(train_data[<span class="string">'Fare'</span>] &gt; <span class="number">14.454</span>) &amp; (train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">31</span>), <span class="string">'Fare'</span>]   = <span class="number">2</span></span><br><span class="line">train_data.loc[ train_data[<span class="string">'Fare'</span>] &gt; <span class="number">31</span>, <span class="string">'Fare'</span>] = <span class="number">3</span></span><br><span class="line">train_data[<span class="string">'Fare'</span>] = train_data[<span class="string">'Fare'</span>].astype(int)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建family列，值为Parch与SibSp之和，Alone列表示是否独自一人</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Family'</span>] = train_data[<span class="string">'Parch'</span>] + train_data[<span class="string">'SibSp'</span>] + <span class="number">1</span></span><br><span class="line">train_data[<span class="string">'Alone'</span>] = <span class="number">0</span></span><br><span class="line">train_data.loc[train_data[<span class="string">'Family'</span>]==<span class="number">1</span>,<span class="string">'Alone'</span>] = <span class="number">1</span></span><br><span class="line">test_data[<span class="string">'Family'</span>] = test_data[<span class="string">'Parch'</span>] + test_data[<span class="string">'SibSp'</span>] + <span class="number">1</span></span><br><span class="line">test_data[<span class="string">'Alone'</span>] = <span class="number">0</span></span><br><span class="line">test_data.loc[test_data[<span class="string">'Family'</span>]==<span class="number">1</span>,<span class="string">'Alone'</span>] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除不需要的列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.drop([<span class="string">'Name'</span>,<span class="string">'Survived'</span>,<span class="string">'Embarked'</span>,<span class="string">'Cabin'</span>,<span class="string">'Ticket'</span>,<span class="string">'FareBand'</span>,<span class="string">'Parch'</span>,<span class="string">'SibSp'</span>],axis=<span class="number">1</span>,inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="三、模型训练"><a href="#三、模型训练" class="headerlink" title="三、模型训练"></a>三、模型训练</h3><p>这里只用了随机森林，且没有进行挑参</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"></span><br><span class="line">model = RandomForestClassifier(n_estimators=<span class="number">100</span>, max_depth=<span class="number">5</span>, random_state=<span class="number">1</span>)</span><br><span class="line">model.fit(X, y_train)</span><br><span class="line">predictions = model.predict(X_test)</span><br></pre></td></tr></table></figure>
+<ul>
+<li style="list-style: none"><input type="checkbox"> 尝试使用其他模型</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kaggle/" rel="tag">#kaggle</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/08/通俗讲解P(查准率)，R(查全率)，F1值的副本2/" rel="next" title="朴素贝叶斯分类">
+                <i class="fa fa-chevron-left"></i> 朴素贝叶斯分类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://notes.iissnan.com/uploads/group-pics/menu-restaurant-vintage-tab.jpg"
+               alt="Clarence" />
+          <p class="site-author-name" itemprop="name">Clarence</p>
+          <p class="site-description motion-element" itemprop="description">Clarence's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">135</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分類</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/Calarence/home?leftnav=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、数据探索"><span class="nav-number">1.</span> <span class="nav-text">一、数据探索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、特征工程"><span class="nav-number">2.</span> <span class="nav-text">二、特征工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、模型训练"><span class="nav-number">3.</span> <span class="nav-text">三、模型训练</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clarence</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

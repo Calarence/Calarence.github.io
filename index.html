@@ -271,6 +271,198 @@
             
               
                 
+                <a class="post-title-link" href="/2020/10/30/Titanic/" itemprop="url">
+                  泰坦尼克
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-10-30T13:58:10+08:00" content="2020-10-30">
+              2020-10-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>成绩：0.78468，排名top13%</p>
+<h3 id="一、数据探索"><a href="#一、数据探索" class="headerlink" title="一、数据探索"></a>一、数据探索</h3><ul>
+<li>数据总体情况概览</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.describe()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk69s6la78j30wg0e6taj.jpg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.info()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk69vieq8pj317e0hqn0x.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk69vieq8pj317e0hqn0x.jpg"></p>
+<ul>
+<li>存活、死亡情况统计</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Survived'</span>].value_counts()</span><br></pre></td></tr></table></figure>
+<p>从统计结果可以看出，死亡人数为549，而生存下来的人数为342</p>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6a1heihqj310403waab.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6a1heihqj310403waab.jpg"></p>
+<p>接下来分析死亡/存活与其他特征之间的关系</p>
+<ul>
+<li>相关矩阵，分析特征之间的相互关联程度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 相关矩阵</span></span><br><span class="line">sns.heatmap(train_data.corr(),   <span class="comment">#data.corr()--&gt;correlation matrix</span></span><br><span class="line">            annot=<span class="keyword">True</span>,</span><br><span class="line">            cmap=<span class="string">'RdYlGn'</span>,</span><br><span class="line">            linewidths=<span class="number">0.2</span>)</span><br><span class="line">fig=plt.gcf()</span><br><span class="line">fig.set_size_inches(<span class="number">20</span>,<span class="number">12</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aedsw2kj30ue0kijs7.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aedsw2kj30ue0kijs7.jpg"></p>
+<p>从上图中，可以看出，与Survived关联程度较大是Pclass和Fare，且与Pclass呈负相关，与Fare呈正相关。这说明class等级越高，Fare越昂贵，存活率越高。</p>
+<ul>
+<li>存活率与性别的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Sex'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aq02iwij315u04s3z1.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6aq02iwij315u04s3z1.jpg"></p>
+<p>从统计结果可以看出，女性的存活率高达74%，而男性只有19%，这说明性别是影响存活率的一个很重要因素。</p>
+<ul>
+<li>存活率与class的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Pclass'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6axc5eu9j313i05wq3k.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6axc5eu9j313i05wq3k.jpg"></p>
+<p>头等舱存活率最高，是二等舱的一倍多，是三等舱的三倍多。这说明Pclass对存活率有很大影响。</p>
+<ul>
+<li>综合看一下，存活率、Pclass、性别三者的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.pivot_table(<span class="string">'Survived'</span>,index=[<span class="string">'Pclass'</span>],columns=[<span class="string">'Sex'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b4w4kebj30c207qjrq.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b4w4kebj30c207qjrq.jpg"></p>
+<p>综合看这三个不同Pclass，女性存活率都比男性高；而无论男女，头等舱的存活率都最高，存活率随着舱等级别降低而降低</p>
+<ul>
+<li>存活率与登船港口的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Embarked'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b9fawfkj310u06474x.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6b9fawfkj310u06474x.jpg"></p>
+<p>可以看出C港口登船的存活率最高，而S港口存活率最低</p>
+<ul>
+<li>是否有父母、子女同行与存活率的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'Parch'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bcelps3j30r00a00tq.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bcelps3j30r00a00tq.jpg"></p>
+<ul>
+<li>是否有兄弟姐妹同行与存活率的关系</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.groupby(<span class="string">'SibSp'</span>)[<span class="string">'Survived'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bf3kz9tj31cc09wmyd.jpg" alt="https://tva1.sinaimg.cn/large/0081Kckwly1gk6bf3kz9tj31cc09wmyd.jpg"></p>
+<h3 id="二、特征工程"><a href="#二、特征工程" class="headerlink" title="二、特征工程"></a>二、特征工程</h3><ul>
+<li>将性别male、female转换为0，1</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Sex'</span>] = pd.Categorical(train_data.Sex).codes</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将登船舱口转换为0，1，2</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 填充缺失值</span></span><br><span class="line">train_data[<span class="string">'Embarked'</span>].value_counts()</span><br><span class="line"><span class="comment"># S   644  C    168 Q   77</span></span><br><span class="line"><span class="comment"># S舱口人数最多，选择用S填充缺失值 </span></span><br><span class="line"></span><br><span class="line">train_data[<span class="string">'Embarked'</span>].fillna(<span class="string">'S'</span>)</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> feature_extraction</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_hot_dataframe</span><span class="params">(data,cols,inplace=False)</span>:</span></span><br><span class="line">    vec = feature_extraction.DictVectorizer()</span><br><span class="line">    mkdict = <span class="keyword">lambda</span> row: dict((col, row[col]) <span class="keyword">for</span> col <span class="keyword">in</span> cols)</span><br><span class="line">    vecData = pd.DataFrame(vec.fit_transform(data[cols].apply(mkdict, axis=<span class="number">1</span>)).toarray())</span><br><span class="line">    vecData.columns = vec.get_feature_names()</span><br><span class="line">    vecData.index = data.index</span><br><span class="line">    <span class="keyword">if</span> inplace:</span><br><span class="line">        data = data.drop(cols, axis=<span class="number">1</span>)</span><br><span class="line">        data = data.join(vecData)</span><br><span class="line">    <span class="keyword">return</span> (data, vecData)</span><br><span class="line"></span><br><span class="line">train_data, train_data_n = one_hot_dataframe(train_data,[<span class="string">'Embarked'</span>],inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将Fare划分为几个类别</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用中位数进行填充</span></span><br><span class="line">train_data[<span class="string">'Fare'</span>] = train_data[<span class="string">'Fare'</span>].fillna(train_data[<span class="string">'Fare'</span>].median())</span><br><span class="line">train_data[<span class="string">'FareBand'</span>] = pd.qcut(train_data[<span class="string">'Fare'</span>],<span class="number">4</span>)</span><br><span class="line">train_data[[<span class="string">'FareBand'</span>, <span class="string">'Survived'</span>]].groupby([<span class="string">'FareBand'</span>], as_index=<span class="keyword">False</span>).mean()</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">FareBand  Survived</span></span><br><span class="line"><span class="string">0   (-0.001, 7.91]  0.197309</span></span><br><span class="line"><span class="string">1   (7.91, 14.454]  0.303571</span></span><br><span class="line"><span class="string">2   (14.454, 31.0]  0.454955</span></span><br><span class="line"><span class="string">3  (31.0, 512.329]  0.581081</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">train_data.loc[ train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">7.91</span>, <span class="string">'Fare'</span>] = <span class="number">0</span></span><br><span class="line">train_data.loc[(train_data[<span class="string">'Fare'</span>] &gt; <span class="number">7.91</span>) &amp; (train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">14.454</span>), <span class="string">'Fare'</span>] = <span class="number">1</span></span><br><span class="line">train_data.loc[(train_data[<span class="string">'Fare'</span>] &gt; <span class="number">14.454</span>) &amp; (train_data[<span class="string">'Fare'</span>] &lt;= <span class="number">31</span>), <span class="string">'Fare'</span>]   = <span class="number">2</span></span><br><span class="line">train_data.loc[ train_data[<span class="string">'Fare'</span>] &gt; <span class="number">31</span>, <span class="string">'Fare'</span>] = <span class="number">3</span></span><br><span class="line">train_data[<span class="string">'Fare'</span>] = train_data[<span class="string">'Fare'</span>].astype(int)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建family列，值为Parch与SibSp之和，Alone列表示是否独自一人</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train_data[<span class="string">'Family'</span>] = train_data[<span class="string">'Parch'</span>] + train_data[<span class="string">'SibSp'</span>] + <span class="number">1</span></span><br><span class="line">train_data[<span class="string">'Alone'</span>] = <span class="number">0</span></span><br><span class="line">train_data.loc[train_data[<span class="string">'Family'</span>]==<span class="number">1</span>,<span class="string">'Alone'</span>] = <span class="number">1</span></span><br><span class="line">test_data[<span class="string">'Family'</span>] = test_data[<span class="string">'Parch'</span>] + test_data[<span class="string">'SibSp'</span>] + <span class="number">1</span></span><br><span class="line">test_data[<span class="string">'Alone'</span>] = <span class="number">0</span></span><br><span class="line">test_data.loc[test_data[<span class="string">'Family'</span>]==<span class="number">1</span>,<span class="string">'Alone'</span>] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除不需要的列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.drop([<span class="string">'Name'</span>,<span class="string">'Survived'</span>,<span class="string">'Embarked'</span>,<span class="string">'Cabin'</span>,<span class="string">'Ticket'</span>,<span class="string">'FareBand'</span>,<span class="string">'Parch'</span>,<span class="string">'SibSp'</span>],axis=<span class="number">1</span>,inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="三、模型训练"><a href="#三、模型训练" class="headerlink" title="三、模型训练"></a>三、模型训练</h3><p>这里只用了随机森林，且没有进行挑参</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"></span><br><span class="line">model = RandomForestClassifier(n_estimators=<span class="number">100</span>, max_depth=<span class="number">5</span>, random_state=<span class="number">1</span>)</span><br><span class="line">model.fit(X, y_train)</span><br><span class="line">predictions = model.predict(X_test)</span><br></pre></td></tr></table></figure>
+<ul>
+<li style="list-style: none"><input type="checkbox"> 尝试使用其他模型</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/10/08/通俗讲解P(查准率)，R(查全率)，F1值的副本2/" itemprop="url">
                   朴素贝叶斯分类
                 </a>
@@ -1574,156 +1766,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/08/15/机器学习系统设计/" itemprop="url">
-                  机器学习系统设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-08-15T13:58:10+08:00" content="2020-08-15">
-              2020-08-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>以垃圾邮件分类器算法为例探讨机器学习系统设计。</p>
-<p>首先做的是如何选择并表达特征向量x。例如我们可以选出100个最常出现在垃圾邮件中的词所构成的列表，然后根据这些词是否在邮件中出现，来构造特征向量(出现为1，不出现为0)，size为100X1</p>
-<p>除此之外，我们还可以做以下的事情：</p>
-<ol>
-<li>收集更多的数据，让我们有更多的垃圾邮件和非垃圾邮件的样本，比如honeypot project</li>
-<li>基于邮件的路由信息开发一系列复杂的特征</li>
-<li>基于邮件的正文信息开发一系列复杂的特征，如邮件的header</li>
-<li>为探测刻意的拼写错误，如把watch写成w4tch开发复杂的算法</li>
-</ol>
-<p>我们使用机器学习时,总是可以“头脑风暴”一下,想出一堆方法来试试。 实际上, 当你需要通过头脑风暴来想出不同方法来尝试去提高精度的时候, 你可能已经超越了很多人了。 大部分人并不尝试着列出可能的方法, 他们做的只是某天早上醒来, 因为某些原因有了一个突发奇想:”让我们来试试用 Honey Pot 项目收集大量的数据吧“。</p>
-<hr>
-<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>误差分析可以告诉我们如何使用一个更加系统性的方法，从一堆不同的方法中，选取合适的那一个。</p>
-<p>如果你准备研究机器学习的东西, 或者构造机器学习应用程序, 最好的实践方法不是建立一个非常复杂的系统, 拥有多么复杂的变量; 而是构建一个简单的算法, 这样你可以很快地实现它。</p>
-<p>每当我研究机器学习的问题时, 我最多只会花一天的时间, 就是字面意义上的 24 小时, 来试图很快的把结果搞出来,即便效果不好。坦白的说,就是根本没有用复杂的系统,但是只是很快的得到的结果。 即便运行得不完美, 但是也把它运行一遍, 最后通过交叉验证来检验数据。一旦做完,你可以画出学习曲线,通过画出学习曲线,以及检验误差,来找出你的算法是否有高偏差和高方差的问题, 或者别的问题。 在这样分析之后, 再来决定用更多的数据训练, 或者加入更多的特征变量是否有用。 这么做的原因是: 这在你刚接触机器学习问题时是一个很好的方法, 你并不能提前知道你是否需要复杂的特征变量, 或者你是否需要更多的数据,还是别的什么。提前知道你应该做什么,是非常难的,因为你缺少证据,缺少学习曲线。 因此, 你很难知道你应该把时间花在什么地方来提高算法的表现。 但是当你实践一个非常简单即便不完美的方法时, 你可以通过画出学习曲线来做出进一步的选择。 你可以用这种方式来避免一种电脑编程里的过早优化问题, 这种理念是: 我们必须用证据来领导我们的决策, 怎样分配自己的时间来优化算法, 而不是仅仅凭直觉, 凭直觉得出的东西一般总是错误的。除了画出学习曲线之外,一件非常有用的事是误差分析,我的意思是说:当我们在构造垃圾邮件分类器时, 我会看一看我的交叉验证数据集, 然后亲自看一看哪些邮件被算法错误地分类。 因此, 通过这些被算法错误分类的垃圾邮件与非垃圾邮件, 你可以发现某些系统性的规律: 什么类型的邮件总是被错误分类。 经常地这样做之后, 这个过程能启发你构造新的特征变量,或者告诉你:现在这个系统的短处,然后启发你如何去提高它。</p>
-<p><strong>构建一个学习算法的步骤如下</strong>：</p>
-<ol>
-<li>从一个简单的能快速实现的算法开始，实现该算法并用交叉验证集数据测试这个算法</li>
-<li>绘制学习曲线，决定是增加更多数据，或者添加更多特征，还是其他选择</li>
-<li>进行误差分析：人工检查交叉验证集中我们算法中产生预测误差的实例，看看这些实例是否有某种系统化的趋势</li>
-</ol>
-<p>以我们的垃圾邮件过滤器为例, 误差分析要做的既是检验交叉验证集中我们的算法产生错误预测的所有邮件,看是否能将这些邮件按照类分组。例如医药品垃圾邮件,仿冒品垃圾邮件或者密码窃取邮件等。然后看分类器对哪一组邮件的预测误差最大,并着手优化。 思考怎样能改进分类器。例如,发现是否缺少某些特征,记下这些特征出现的次数。 例如记录下错误拼写出现了多少次,异常的邮件路由情况出现了多少次等等,然后从出现次数最多的情况开始着手优化。</p>
-<p>总结一下, 当你在研究一个新的机器学习问题时, 我总是推荐你实现一个较为简单快速、即便不是那么完美的算法。 我几乎从未见过人们这样做。 大家经常干的事情是: 花费大量的时间在构造算法上,构造他们以为的简单的方法。因此,不要担心你的算法太简单,或者太不完美, 而是尽可能快地实现你的算法。 当你有了初始的实现之后, 它会变成一个非常有力的工具, 来帮助你决定下一步的做法。 因为我们可以先看看算法造成的错误, 通过误差分析, 来看看他犯了什么错, 然后来决定优化的方式。 另一件事是: 假设你有了一个快速而不完美的算法实现, 又有一个数值的评估数据, 这会帮助你尝试新的想法, 快速地发现你尝试的这些想法是否能够提高算法的表现, 从而你会更快地做出决定, 在算法中放弃什么, 吸收什么误差分析可以帮助我们系统化地选择该做什么。</p>
-<hr>
-<h3 id="查准率和查全率"><a href="#查准率和查全率" class="headerlink" title="查准率和查全率"></a>查准率和查全率</h3><p>将算法预测的结果分成四种情况：</p>
-<ol>
-<li>正确肯定(True Positive, TP): 预测为真，实际为真</li>
-<li>正确否定(True Negative, TN): 预测为假，实际为假</li>
-<li>错误肯定(False Positive): 预测为真，实际为假</li>
-<li>错误否定(False Negative)：预测为假，实际为真</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1ghrmfssm5fj30vi0bmjt0.jpg" alt="https://tva1.sinaimg.cn/large/007S8ZIlly1ghrmfssm5fj30vi0bmjt0.jpg"></p>
-<p>查准率Precision计算公式为$\frac{TP}{TP+FP}$。假设我们想告诉病人他是否患有癌症，肯定是有很大把握的情况下才能告诉对方，这就要求在所有我们预测有恶性肿瘤的病人中，实际上有恶性肿瘤的病人的百分比，越高越好。</p>
-<p>查全率Recall计算公式为$\frac{TP}{TP+FN}$。在所有实际上有恶性肿瘤的病人中，成功预测有恶性肿瘤的病人的百分比，越高越好。比如某个病人患癌症的概率为百分之三十，这时候要提醒他进行下一步的检查，否则可能会危害他的健康。</p>
-<p>如果我们希望只在非常确信的情况下预测为真(肿瘤为恶性),即我们希望更高的查准率,我们可以使用比 0.5 更大的阀值,如 0.7,0.9。这样做我们会减少错误预测病人为恶性肿瘤的情况,同时却会增加未能成功预测肿瘤为恶性的情况。 如果我们希望提高查全率,尽可能地让所有有可能是恶性肿瘤的病人都得到进一步地检查、诊断,我们可以使用比 0.5 更小的阀值,如 0.3。</p>
-<p>阈值的计算公式为$F_1 Score:2\frac{PR}{P+R}$，选择$F_1Score$值的算法</p>
-<hr>
-<h3 id="机器学习中的数据"><a href="#机器学习中的数据" class="headerlink" title="机器学习中的数据"></a>机器学习中的数据</h3><p>不要盲目地开始, 而是花大量的时间来收集大量的数据, 因为数据有时是唯一能实际起到作用的。得到大量的数据并在某种类型的学习算法中进行训练, 可以是一种有效的方法来获得一个具有良好性能的学习算法。而这种情况往往出现在这些条件对于你的问题都成立并且你能够得到大量数据的情况下。</p>
-<p>有时候，一个劣等的算法在经过大量的数据训练后，表现也会很好。所以，有这么一句话：“取得成功的人不是拥有最好算法的人,而是拥有最多数据的人”。但这句话也有适用条件。第一个是我们假设在我们的机器学习问题中, 特征值?包含了足够的信息, 这些信息可以帮助我们用来准确地预测y, 例如,如果我们采用了一些容易混淆的词,如:two、to、too,假如说它能够描述y,捕捉到需要填写的空白处周围的词语,那么特征捕捉到之后,我们就希望有对于“早饭我吃了__鸡蛋”,那么这就有大量的信息来告诉我中间我需要填的词是“两个”(two),而不是单词 to 或too,因此特征捕捉,哪怕是周围词语中的一个词,就能够给我足够的信息来确定出标签 y是什么；第二个条件就是算法参数太多，可以使用大量数据来改善过拟合问题。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1769,7 +1811,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">134</span>
+              <span class="site-state-item-count">135</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1786,7 +1828,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
