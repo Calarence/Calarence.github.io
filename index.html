@@ -56,10 +56,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
@@ -228,9 +228,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -259,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%9A%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4-%E4%BA%8C/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E4%BD%93%E7%B3%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -278,7 +312,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%9A%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4-%E4%BA%8C/" itemprop="url">数据分析：比SQL更重要的是分析思维(二)</a></h1>
+                <a class="post-title-link" href="/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E4%BD%93%E7%B3%BB/" itemprop="url">如何搭建数据指标体系</a></h1>
         
 
         <div class="post-meta">
@@ -290,7 +324,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-25T12:03:40+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-25T12:22:40+08:00">
                 2022-05-25
               </time>
             
@@ -301,6 +335,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -311,6 +367,37 @@
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
           
 
           
@@ -330,8 +417,54 @@
       
         
           
-            <p>第一部分的数据分析方法请参考：数据分析：比SQL更重要的是分析思维(一)</p>
-<p>这篇文章继续对数据分析方法进行介绍。</p>
+            <h2 id="一、指标与指标体系"><a href="#一、指标与指标体系" class="headerlink" title="一、指标与指标体系"></a>一、指标与指标体系</h2><p>德鲁克在《管理：任务、责任和实践》一书中写道：“如果没有生产率目标，企业就会失去方向；如果没有生产率的衡量，企业就会失去控制。一言以蔽之，“你无法衡量的你就无法管理”。指标是衡量目标的参数，一般用数据表示，又称为数据指标，指标可以反映事物的现状，从而为下一步的行动提供方向。</p>
+<p>以日常生活为例，通过心跳速度、低压、高压、血脂、体温、体脂率等指标来衡量一个人身体健康情况；通过身高、体重、三围衡量一个人的身体发育情况；以利率、收益率来衡量一款理财产品的前景；以温度衡量衣服的厚度，以降雨可能性衡量携带雨伞的必要。</p>
+<p>在商业活动中，指标同样用来指导决策。通过购买频率、消费金额来衡量客户的价值；通过转化率衡量获客渠道的质量；通过留存来衡量用户的忠诚程度。</p>
+<p>然而，我们无法只使用一个单一目标来衡量一个商业模式的运转情况，正如同，我们不能只通过身高这一指标来衡量一个人的身体发育。指标体系，顾名思义，是建立在单个指标之上，从不同维度梳理业务，把指标有系统地组织起来，从而形成一套能反映业务现状、并能快速做出反应的业务评价体系。</p>
+<p>指标体系的作用包含以下几个方面：</p>
+<ol>
+<li>监控业务情况：在业务出现问题时，可以较快感知到，从而及时采取措施，进行止损</li>
+<li>通过拆解指标寻找当前业务问题：比如GMV没有达到预期，到底是哪一部分出现了问题？</li>
+<li>评估业务可改进的地方，找出下一步工作的方向：针对指标表现较差的环节、流程进行改善</li>
+</ol>
+<p>二、指标体系的搭建<br>既然指标体系如此重要，那么，应该如何搭建指标体系呢？具体有以下两个步骤：</p>
+<ol>
+<li>确定核心指标(一级指标北，极星指标)</li>
+<li>将核心指标进行横和或纵向拆解<br>下面通过一个例子来理解这两个步骤。</li>
+</ol>
+<p><strong>确定核心指标(一级指标，北极星指标)</strong><br>核心指标或北极星指标，是业务在当前阶段最重要、最核心的指标，如同北极星一样，引导产品发展方向；除此之外，它还可以衡量公司运营效果，并可用来进行业务拆分和工作协调。下面通过几个例子来理解北极星指标：对于Airbnb来说，北极星指标是客房预订量(思考一下为什么不是用户活跃率)；淘宝的北极星指标可能是GMV，WhatsApp的北极星指标就是用户发送信息数。</p>
+<p>不同类型的产品，它们的北极星指标是不一样的：</p>
+<blockquote>
+<ul>
+<li>工具类产品，比如墨迹天气，它们的核心指标是使用率</li>
+<li>内容类产品，比如今日头条，它们的核心指标是浏览时长、浏览量</li>
+<li>电商类产品，比如淘宝，它们的核心指标是GMV</li>
+<li>社交类产品，比如soul，它们的核心指标是用户活跃率</li>
+<li>广告类产品，比如朋友圈广告，它们的核心指标是转化率</li>
+</ul>
+</blockquote>
+<p>核心指标是随着产品的发展而变化的，一般根据市场、产品生命周期、产品类型和商业模式确定。以Facebook为例，在产品初始阶段，核心指标是新用户在10天内迅速增加至少7个好友，这样才能尽可能留住用户；随着公司的壮大,它的关注点也发生了变化：关注点包括扩大广告客户数量以及扩大国际用户群；小红书核心指标的变化依次为发表笔记数、购买用户数、活跃用户数、成交额；YouTube前期的核心指标是点击率，后期逐渐地调整成了观看时长。因此，核心指标用于衡量一个产品的整体情况，对于一个产品来说，要找准当前阶段的核心目标。</p>
+<p>那么，如何确定当下的核心指标呢？它的衡量标准是反应公司的商业价值以及带给用户的核心价值，具体可以拆解为以下几方面：</p>
+<ol>
+<li>能否反应用户从产品中获得的核心价值</li>
+<li>能否为产品达到长期的商业价值奠定基础</li>
+<li>能否反应用户的活跃程度</li>
+<li>指标变好，是否说明公司在往好的方向发展</li>
+<li>是否简单、直观、容易获得，可拆解</li>
+<li>是否为先导指标，而非滞后指标</li>
+</ol>
+<p><strong>将核心指标进行横向和纵向拆解</strong></p>
+<p>核心指标是一个非常宏观、不可直接操作的指标，因此需要将其拆解为更细的指标，从而用于运营人员或数据人员的分析工作。拆解方式有两种，一种是横向拆解，另一种是纵向拆解。两种拆解维度没有固定的先后顺序，根据具体的业务进行选择。</p>
+<p>横向拆解是按照用户旅程(user journey)进行拆解，可以理解为是按照用户使用产品的路径或漏斗模型拆解。以购物类产品为例，可以横向拆解为：各渠道流量–下载产品–注册产品–使用产品–查看商品–加购商品–支付；</p>
+<p>纵向拆解可简单理解为是按照公式进行拆解，比如某一指标由其他两个子指标相加或相乘的到。以渠道流量为例，它可以进一步拆分成线上和线下，而线上又可以拆分成搜索引擎、应用商店、内容网站等。</p>
+<p>拆解核心指标的原则是MECE原则，也就是不重不漏，把一些事物分成互斥（ME）的类别，并且不遗漏其中任何一个（collectively exhaustive，CE）的分类方法。</p>
+<h2 id="三、示例"><a href="#三、示例" class="headerlink" title="三、示例"></a>三、示例</h2><p>Airbnb的核心指标是总预定天数，可拆解为总预定天数&#x3D;老用户预订天数+新用户预订天数，而新用户预订天数可拆解为新增用户流量x新用户首次预订比例x平均预订天数，而新增用户流量又可以继续拆解;</p>
+<p>某旅游公司，该公司在会员积分方面的开销较大，业务部门关心成本，定的核心指标是合理利用积分抵扣金额，节省成本，所以该部门核心指标为积分抵扣金额。</p>
+<p>将核心指标进行横向拆解为：会员–购买旅游产品–使用积分抵扣–支付金额。</p>
+<p>对于会员，可以按照等级进行纵向拆解，比如L1级会员数，L2级会员数，L3级会员数等等</p>
+<p>对于购买旅游产品的阶段，可按照商品类型拆解为酒店订单数、机票订单数、跟团游订单数、自由行订单数…</p>
+<p>对于拆解的维度，可参考文章《Clarence：数据分析：比SQL更重要的是分析思维(一)》中的多维度拆解法。</p>
+<h2 id="四、写在最后"><a href="#四、写在最后" class="headerlink" title="四、写在最后"></a>四、写在最后</h2><p>这篇文章梳理了指标体系建立的两个主要步骤，即确定当下产品的核心指标；将指标按照横向和纵向拆解为产品、运营可操作的指标，希望对大家有所帮助。</p>
 
           
         
@@ -340,7 +473,7 @@
     
     
     
-
+    ---------------- The End ----------------
     
 
     
@@ -380,7 +513,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4-%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E6%B3%A2%E5%8A%A8%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -399,7 +532,626 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4-%E4%B8%80/" itemprop="url">比SQL更重要的是分析思维(一)</a></h1>
+                <a class="post-title-link" href="/%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E6%B3%A2%E5%8A%A8%E5%88%86%E6%9E%90/" itemprop="url">数据指标波动分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-25T12:18:45+08:00">
+                2022-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>经常看到这样的一个面试题“某APP在一段时间内日活下降20%，请分析原因”。以小红书为例，“截止到2020年6月，小红书月活为1.38亿，日活超过5500万”，20%对应着1100万用户，这是一个非常庞大的数字，对于公司来说，这种情况是非常严重的，因此需要精确地找到原因，及时止损。</p>
+<p>无论在面试还是实际工作中，遇到这类的问题时，我们应该进行系统化、结构化的思考，从而可以快速、正确、完整地解决问题，那么要如何做呢？这篇文章将对此进行介绍。</p>
+<h2 id="分析步骤"><a href="#分析步骤" class="headerlink" title="分析步骤"></a>分析步骤</h2><p>先来整体了解一下分析步骤，如下：</p>
+<ol>
+<li>确认数据的真实性</li>
+<li>观察数据指标波动特点</li>
+<li>探索波动原因</li>
+</ol>
+<p>接下来对每个步骤进行详细介绍。</p>
+<h3 id="1-确认数据的真实性"><a href="#1-确认数据的真实性" class="headerlink" title="1. 确认数据的真实性"></a>1. 确认数据的真实性</h3><p>数据指标的真实性是指数据分析师获取到的数据是正确的，它从源头分析采集到的数据是否是正确的。</p>
+<p>曾在这篇文章《数据分析：互联网行业常用的数据指标有哪些》中介绍了常用的数据指标，下面简单介绍一下这些数据是如何获取的。</p>
+<p>想象一下你在一个充满摄像头的马路上溜达，这些摄像头会记录你的足迹，比如走进了一家商店并在店里呆了五分钟，然后在马路上跟朋友聊了10分钟的天，接着在公园边的椅子上休息了半个小时，最后乘坐公交车离开。如同摄像头会记录你在马路上的踪迹，数据埋点也会记录你在某个app上的踪迹，比如你打开了哪些页面，在每个页面上的停留时间如何，点击了哪些按钮，每个页面不同区域的停留时长如何…数据埋点是由前端工程师执行的，就像安装摄像头一样，有可能出现埋错或没埋上的情形，比如应该记录A按钮的点击情况，但却错误地记录了B，或者压根忘了记录…这种情况一般是由新版本上线，代码的变动引起。</p>
+<p>还有一种情况是数据指标的定义发生了变化。之前对活跃用户的定义是只要登陆就是用户，现在的定义可能是登陆后，停留了一定时长，才为活跃用户。很明显，第二种情况下的定义，符合的用户要少一些。</p>
+<p>除此之外，类似的情况还有服务器的异常、上游依赖表的变动等。在进行异常分析前，首先要确保数据的正确性，否则，使用错误的数据，怎么分析都是错误的。</p>
+<h3 id="2-观察数据指标波动特点"><a href="#2-观察数据指标波动特点" class="headerlink" title="2. 观察数据指标波动特点"></a>2. 观察数据指标波动特点</h3><p>数据指标波动特点大概有三类，分别是一次性波动、周期性波动和持续性波动。</p>
+<p>一次性波动是指偶然、突发性的波动，可能是由突发事件引起的，比如明星官宣或热门明星的直播带货。这样的波动持续时间短，一般几天内就会恢复</p>
+<p>周期性波动是指与时间节点相关的波动，可按照周（工作日，休息日），月（月初，月中，月末），季度（春，夏，秋，冬）进行波动。比如寒暑假时，因中、小学生放假，QQ活跃人数增多；凌晨使用app的人数最少，因为大多数人都睡觉了；春、秋季，招聘类软件使用人数增多，因为大学生面临毕业找工作</p>
+<p>持续性波动，从某一时间开始，指标一直呈现上涨或者下降的趋势。</p>
+<h3 id="3-波动原因探索"><a href="#3-波动原因探索" class="headerlink" title="3. 波动原因探索"></a>3. 波动原因探索</h3><p>在了解波动特点后，需要对波动原因进行分析，核心思路是拆解，方向是内因和外因。</p>
+<p>关于多维度拆解方法，可参考这篇文章《数据分析：比SQL更重要的是分析思维(一)》</p>
+<p>内因的多维度拆解</p>
+<ol>
+<li>根据数据指标的定义进行拆解。比如 [公式] 。用户可进一步拆分为新用户和老用户，新用户对应转化率，老用户对应复购率；转化率可结合AARRR模型进行进一步拆解，看看是哪一个环节出现了问题；除此之外，用户也可按照性别、年龄、地域、职业等进行拆分；再比如，利润&#x3D;收入-成本，收入可以进行进一步拆分，比如各部门的收入、各业务的收入…</li>
+<li>4p营销理论<br>4p代表4个以“p”开头的单词，分别是产品、价格、渠道、促销。<br>产品：产品有没有满足用户需求；是否出现了严重bug，影响用户体验，从而造成用户流失？<br>价格：产品价格有没有竞争优势？<br>渠道：某个地区的产品没货了；某个地区、或某个版本、或某个操作系统的用户出现了问题<br>促销：活动促销没有效果？竞争对手是否采取了促销？</li>
+<li>流程分析，使用漏斗模型、AARRR分析法，对各个环节进行分析</li>
+</ol>
+<p>外因的多维度拆解</p>
+<p>使用PEST分析法，PEST用于行业分析，它是以下几个单词的缩写：</p>
+<ol>
+<li>P：Political，政治。政治体制、经济体制、财政政策、税收政策、产业政策、投资政策、专利数量、国防开支水平、政府补贴水平、民众对政治的参与度等。比如相关的法律、投资政策、税收政策对产品或公司有什么影响。这里一个比较典型的例子由于双减政策的出台，新东方不得不调整公司路线</li>
+<li>E：Economy，经济。GDP及增长率、进出口总额及增长率、利率、汇率、通货膨胀率、消费价格指数、居民可支配收入、失业率、劳动生产率等。一二线城市与三四线城市居民消费水平不一样，这也就导致了京东、拼多多用户群体的不同。</li>
+<li>S：Society，社会。人口规模、性别比例、年龄结构、出生率、死亡率、种族结构、妇女生育率、生活方式、购买习惯、教育状况、城市特点、宗教信仰状况等因素。比如对于少数民族来说，要顾及他们的信仰。</li>
+<li>T：Technology，技术。新技术的发明和进展、折旧和报废速度、技术更新速度、技术传播速度、技术商品化速度、国家重点支持项目、国家投入的研发费用、专利个数、专利保护情况等因素。大数据以及推荐算法的发展，使得今日头条可以精准地将内容推送给感兴趣的用户，从而实现千人千面，提升用户满意度。</li>
+</ol>
+<p>其他常见因素</p>
+<blockquote>
+<ul>
+<li>天气异常（可能会导致一次波动）</li>
+<li>竞争对手有促销活动（可能会导致一次波动，持续波动）</li>
+<li>黑天鹅事件（可能导致持续持续波动，一次波动）</li>
+<li>特定人群节假日（可能导致周期波动）</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    ---------------- The End ----------------
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/%E4%BA%92%E8%81%94%E7%BD%91%E8%A1%8C%E4%B8%9A%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E6%9C%89%E5%93%AA%E4%BA%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clarence's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E4%BA%92%E8%81%94%E7%BD%91%E8%A1%8C%E4%B8%9A%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%87%E6%A0%87%E6%9C%89%E5%93%AA%E4%BA%9B/" itemprop="url">互联网行业常用的数据指标有哪些</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-25T12:14:51+08:00">
+                2022-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>德鲁克在《管理：任务、责任和实践》一书中写道：“如果没有生产率目标，企业就会失去方向；如果没有生产率的衡量，企业就会失去控制。一言以蔽之，“你无法衡量的你就无法管理”。指标是衡量目标的参数，一般用数据表示，又称为数据指标，指标可以反映事物的现状，从而为下一步的行动提供方向。</p>
+<p>下面通过例子来理解数据指标。假设你是一位运动达人，你想进一步改善自己的运动、健康状态，这时候你会从哪些地方开始呢？你可以去买一款运动手表，实时监测自己运动及身体的数据，比如配速、心率、血压、公里、时间、卡路里等。通过这些数据就可以了解自己的身体状况，从而作出针对性的改善，比如增加强度，减少运动时长等。</p>
+<p>不同行业有不同的数据，下面针对互联网行业，介绍常用的三类数据指标，即用户数据指标、行为数据指标、产品数据指标。</p>
+<h2 id="数据指标的应用场景"><a href="#数据指标的应用场景" class="headerlink" title="数据指标的应用场景"></a>数据指标的应用场景</h2><p>衡量需求的效果。可根据数据指标评估需求上线后的表现。比如对比拉新活动上线前后新用户的注册量，来衡量拉新活动的效果；有的产品设计团队会为产品定一个量化的数据指标来进行考核，即KPI<br>为产品迭代提供依据。产品存在优化空间的表现就是某个数据指标可以继续进行改善。搜索结果页点击转化率低可能想到要优化搜索策略；购买转化率低可能需要优化购买流程。<br>价值可视化。通过一些指标比如交易额、用户量等对产品价值进行呈现。</p>
+<h2 id="一、用户数据指标"><a href="#一、用户数据指标" class="headerlink" title="一、用户数据指标"></a>一、用户数据指标</h2><p>回想一下，用户从接触产品到离开产品大致有以下几个阶段：成为产品用户、使用产品、放弃使用。这三个阶段分别对应三种类型的用户，即新增用户、活跃用户和留存用户，而这三类用户，有着各自的数据指标。</p>
+<ol>
+<li>新增用户：对于新增用户，可以使用日新增用户数。日新增用户数可以告诉我们每天增加的用户；一个没有用户新增的产品，注定会走向灭亡，因为用户数会慢慢流失。对于日新增用户数，我们可以按照渠道来源、地区、性别、年龄等维度做进一步分析，从而可以进行有目的的宣传推广。</li>
+<li>活跃用户：可以使用活跃率这个指标。活跃率是活跃用户数占总用户数的比例，而活跃用户数又分为日活跃用户数(DAU)、周活跃用户数、月活跃用户数(MAU)。日活跃用户数的定义是一天之内至少打开app一次(不同产品有着不同的定义，有的可能是使用达到一定时长)的用户数；周、月活跃用户数以此类推。如果有有用户一个月内连续30天打开了app，那么活跃用户数记为1，而非30。</li>
+<li>留存用户：指的是一段时间内，会再次使用产品的用户，可以使用留存率这个指标。在第一天新增的用户中，在第N天还使用过产品的用户数，除以第1天新增总用户数，就是留存率。根据N取值的不同，可以有次日留存率、7日留存率、30日留存率。比如第一天新增了100个用户，第二天这100名用户中，只有30人继续使用产品，则次日留存率为30%；第七天时，这100个用户中只有10人继续使用产品，那么7日留存率为10%，以此类推…留存率可以反映出产品对于用户的粘性。“Facebook有一个著名的40-20-10法则，也就是新用户次日留存率为40%，第7日留存率为20%，第30日留存率为10%，有这个表现的产品属于数据比较好的。”对于留存率的提升，可以使用AARRR模型进行分析，AARRR模型的介绍，可以参考这篇文章数据分析：比SQL更重要的是分析思维(一)</li>
+</ol>
+<h2 id="二、用户行为数据指标"><a href="#二、用户行为数据指标" class="headerlink" title="二、用户行为数据指标"></a>二、用户行为数据指标</h2><p>用户行为，顾名思义，就是用户在使用产品时所做出的动作。</p>
+<ol>
+<li>访问：<blockquote>
+<ul>
+<li>PV(page view，访问次数)，指的是一个页面在一定时间内被浏览的次数；如果一个页面在一定时间内被打开的次数为10，那么pv就等于10；</li>
+<li>UV(unique visitor)：一定时间内访问某个页面的人数，某一个网页1天中被1个人打开过10次，那么UV是1。根据UV或PV的大小，可以判断功能或页面的受欢迎程度，一般PV或UV越大的页面，越值得关注；</li>
+<li>页面平均停留时长是指用户在应用内页面的停留时间长度。一方面是衡量当前产品、页面对用户的吸引力；另一方面是衡量该流程的效率</li>
+</ul>
+</blockquote>
+</li>
+<li>转化(率)：在不同场景有不同的称呼，比如购买转化率、点击率。购买转化率指的是购买产品的人数除以进入店铺的人数；点击率指的是点击菜单的人数除以浏览菜单的人数</li>
+<li>转发(率)：用来衡量产品的传播力度，转发率等于转发该功能的人数除以看到该功能的总用户数。还有一个K因子，指的是发起转发或推荐，可以带来的新用户的数量。</li>
+</ol>
+<h2 id="三、产品数据指标"><a href="#三、产品数据指标" class="headerlink" title="三、产品数据指标"></a>三、产品数据指标</h2><ol>
+<li>总量：成交总额(GMV)、成交数量</li>
+<li>人均：人均付费(客单价)；UV价值，用来衡量每一个独立访客能够带来的价值，UV价值等于订单金额除以曝光UV</li>
+<li>付费：付费率，指的是付费用户数除以总用户数；复购率：消费两次及以上的用户数除以总用户数。</li>
+</ol>
+<h2 id="四、如何选择合适的数据指标"><a href="#四、如何选择合适的数据指标" class="headerlink" title="四、如何选择合适的数据指标"></a>四、如何选择合适的数据指标</h2><p>截止到目前，我们梳理了三类数据指标，既然有这么多的数据指标，那么到底该如何选择呢？</p>
+<p>数据指标的选择，可以根据下面的一个思路：</p>
+<p>根据产品所处的生命周期：</p>
+<ol>
+<li>初期阶段：产品不是很完善，处于商业模式验证阶段，可以重点关注日新增用户数、留存率、活跃率</li>
+<li>发展阶段：产品较稳定，可关注各种流量转化率</li>
+<li>成熟阶段：产品、业务达到稳定，重点关注GMV、客单价、复购率等交易指标</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    ---------------- The End ----------------
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%9A%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clarence's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%9A%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E4%BA%8C/" itemprop="url">数据分析：比SQL更重要的是分析思维(二)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-25T12:03:40+08:00">
+                2022-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="写作前面"><a href="#写作前面" class="headerlink" title="写作前面"></a>写作前面</h2><p>第一部分的数据分析方法请参考：<a target="_blank" rel="noopener" href="https://calarence.github.io/%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E4%B8%80/">数据分析：比SQL更重要的是分析思维(一)</a></p>
+<p>这篇文章继续对数据分析方法进行介绍。</p>
+<h2 id="一、PEST分析法"><a href="#一、PEST分析法" class="headerlink" title="一、PEST分析法"></a>一、PEST分析法</h2><p>PEST用于行业分析，它是以下几个单词的缩写：</p>
+<p>P：Political，政治<br>E：Economy，经济<br>S：Society，社会<br>T：Technology，技术<br>在分析一个行业时，可以从这四个维度进行分析。那么，这四个维度具体包含哪些内容呢？</p>
+<blockquote>
+<ul>
+<li>政治：政治体制、经济体制、财政政策、税收政策、产业政策、投资政策、专利数量、国防开支水平、政府补贴水平、民众对政治的参与度等。比如相关的法律、投资政策、税收政策对产品或公司有什么影响。这里一个比较典型的例子由于双减政策的出台，新东方不得不调整公司路线。</li>
+<li>经济：GDP及增长率、进出口总额及增长率、利率、汇率、通货膨胀率、消费价格指数、居民可支配收入、失业率、劳动生产率等。一二线城市与三四线城市居民消费水平不一样，这也就导致了京东、拼多多用户群体的不同。</li>
+<li>社会：人口规模、性别比例、年龄结构、出生率、死亡率、种族结构、妇女生育率、生活方式、购买习惯、教育状况、城市特点、宗教信仰状况等因素。比如对于少数民族来说，要顾及他们的信仰。</li>
+<li>科技：新技术的发明和进展、折旧和报废速度、技术更新速度、技术传播速度、技术商品化速度、国家重点支持项目、国家投入的研发费用、专利个数、专利保护情况等因素。大数据以及推荐算法的发展，使得今日头条可以精准地将内容推送给感兴趣的用户，从而实现千人千面，提升用户满意度。</li>
+</ul>
+</blockquote>
+<h2 id="二、分组分析法"><a href="#二、分组分析法" class="headerlink" title="二、分组分析法"></a>二、分组分析法</h2><p>分组分析法是根据分析对象的特征，按照一定的指标，把数据对象划分成不同的对象和类型来研究，以揭示其内在的规律和联系性。</p>
+<p>分组的目的就是为了便于对比，把总体中具有不同性质的对象区分开，把性质相同的对象合并在一起，保持各组内对象属性的一致性、组与组之间属性的差异性，以便进一步运用各种数据分析方法来解构内在的数量关系，因此分组法必须与对比法结合运用。</p>
+<p>比如根据学生家庭的经济水平进行分组，以研究成绩与家庭水平的关系；根据学生性别进行分组，以研究性别与某科成绩的关系等等。</p>
+<p>在互联网中，产品可能发布了新的功能或版本，产品改版的效果如何？用户是增长了还是流失了？这时候可以使用分组分析法，将用户按时间进行分组，比较不同组用户的留存率。</p>
+<p>分组分析的意义在于规避由个体细微差异导致的杂乱无章以及巨大工作量的分析工作。根据物以类聚、人以群分的道理，够把所有个体按照其特点和属性归类，使类内的差异小，具有共性；类间的差异大，具有个性，产生少数几个类别。这样，分析工作的难度和强度都会大大降。</p>
+<p>下面通过几个例子来理解分组分析法。在《增长黑客》一书里曾提到这么一个例子“推特在创立初期时一度难以维系增长，直到它通过大量的用户数据分析发现，那些很快关注了30人以上的用户比其他用户活跃度高得多，而且更有可能留下来成为长期客户”。这里，推特将活跃用户与非活跃用户进行分组，然后对比他们在一些指标上的差异，比如关注用户的数量等，从而找到造成两组用户差异的原因。</p>
+<h2 id="三、相关分析法"><a href="#三、相关分析法" class="headerlink" title="三、相关分析法"></a>三、相关分析法</h2><p>当研究两种或两种以上的数据之间的关系时，就需要用到相关分析法。举个例子，想必大家都知道泰坦尼克的故事，如果想要研究与乘客存活情况相关的因素，比如性别、年龄、船舱等等，就可以使用相关分析法了。</p>
+<p>衡量相关程度的指标成为相关因子，它的取值范围为-1到1。-1表示两者是负相关，1是正相关，0代表不相关，数值越大，相关程度越高。如果相关系数的绝对值在0～0.3，就认为是低度相关；如果相关系数的绝对值在0.3～0.6，就认为是中度相关；如果相关系数的绝对值在0.6～1，就认为是高度相关。根据这个大致的相关系数分类，就可以知道两种数据的相关程度。</p>
+<p>相关分析法有这么几个作用：</p>
+<p>研究两种数据之间的关系，比如“子产品对整体产品有多少贡献度或者说影响度”<br>在进行数据分析时，可以帮助我们扩大思路，将视野从一种数据扩大到多种数据。在分析“为什么销量下降”的过程中，可以研究哪些因素和销售量有关系，例如产品价格、售后服务等。使用相关分析，可以知道哪些因素影响销量，哪些对销量没有影响，从而快速锁定问题的原因。</p>
+<h2 id="写在最后…"><a href="#写在最后…" class="headerlink" title="写在最后…"></a>写在最后…</h2><p>数据分析方法还有更多，后面再一一介绍…</p>
+<p>数据分析方法在实际应用时，会根据所在行业灵活应用，并结合多个方法进行分析，或许这些只有在实战中才能有所体会。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    ---------------- The End ----------------
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clarence's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/%E6%AF%94SQL%E6%9B%B4%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%AF%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E4%B8%80/" itemprop="url">比SQL更重要的是分析思维(一)</a></h1>
         
 
         <div class="post-meta">
@@ -454,6 +1206,37 @@
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
           
 
           
@@ -511,7 +1294,7 @@
     
     
     
-
+    ---------------- The End ----------------
     
 
     
@@ -626,6 +1409,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.8k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
 
           
 
@@ -712,7 +1526,7 @@
     
     
     
-
+    ---------------- The End ----------------
     
 
     
@@ -785,7 +1599,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -807,7 +1621,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -851,6 +1665,15 @@
   <span class="author" itemprop="copyrightHolder">Clarence</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">14.1k</span>
+  
 </div>
 <!--
 
@@ -889,6 +1712,12 @@
       </div>
     
 
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
     
 
   </div>
@@ -1009,6 +1838,323 @@
 
   
 
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 
@@ -1020,6 +2166,43 @@
   
 
   
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "middleRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
   
 
   
